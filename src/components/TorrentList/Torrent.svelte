@@ -1,0 +1,225 @@
+<script>
+  import { createEventDispatcher } from 'svelte';
+  import {
+    TextRenderer,
+    ProgressRenderer,
+    DateRenderer,
+    SizeRenderer,
+    ConnectionRenderer,
+    ArrivalRenderer,
+    BooleanRenderer,
+    LabelRenderer,
+  } from '~components/TorrentList/Renderers';
+  import { session, uiColumns, modals } from '~helpers/stores';
+  import { STATUSSES } from '~helpers/Transmission';
+  import {
+    UI_COLUMN,
+    TRANSMISSION_COLUMN,
+    SESSION_COLUMN_UNITS,
+    SESSION_COLUMN_UNITS_SIZE,
+    SESSION_COLUMN_UNITS_SPEED,
+  } from '~helpers/constants/columns';
+  import { generateTorrentStatusClass } from '~helpers/classHelper';
+  import { trackerStripper } from '~helpers/trackerHelper';
+
+  const dispatch = createEventDispatcher();
+
+  export let torrent = {};
+  export let selected = false;
+
+  const activeColumns = uiColumns.active;
+
+  const getModifierKey = (event) => {
+    if (event.shiftKey) {
+      return 'shift';
+    }
+
+    if (event.ctrlKey) {
+      return 'ctrl';
+    }
+  };
+
+  const dispatchClick = (event) => {
+    dispatch('click', { torrent, modifierKey: getModifierKey(event) });
+  };
+
+  const dispatchContextmenu = (event) => {
+    event.preventDefault();
+    dispatch('contextmenu', {
+      torrent,
+      pageX: event.pageX,
+      pageY: event.pageY,
+      modifierKey: getModifierKey(event),
+    });
+  };
+
+  $: rendererMap = {
+    [UI_COLUMN.NAME]: {
+      component: TextRenderer,
+      props: () => ({ value: torrent[TRANSMISSION_COLUMN.NAME], size: 'big' }),
+    },
+    [UI_COLUMN.PERCENT_COMPLETE]: {
+      component: ProgressRenderer,
+      props: () => ({
+        value: torrent[TRANSMISSION_COLUMN.DOWNLOAD_PROGRESS],
+        metadataProgress: torrent[TRANSMISSION_COLUMN.METADATA_PROGRESS],
+        checkingProgress: torrent[TRANSMISSION_COLUMN.RECHECK_PROGRESS],
+        torrentStatus: STATUSSES[torrent[TRANSMISSION_COLUMN.STATUS]],
+      }),
+    },
+    [UI_COLUMN.DOWNLOADED]: {
+      component: SizeRenderer,
+      props: () => ({
+        value: torrent[TRANSMISSION_COLUMN.DOWNLOADED],
+        perSize: $session[SESSION_COLUMN_UNITS]?.[SESSION_COLUMN_UNITS_SIZE],
+      }),
+    },
+    [UI_COLUMN.DOWNLOAD_SPEED]: {
+      component: SizeRenderer,
+      props: () => ({
+        value: torrent[TRANSMISSION_COLUMN.DOWNLOAD_RATE],
+        isSpeed: true,
+        perSize: $session[SESSION_COLUMN_UNITS]?.[SESSION_COLUMN_UNITS_SPEED],
+      }),
+    },
+    [UI_COLUMN.UPLOADED]: {
+      component: SizeRenderer,
+      props: () => ({
+        value: torrent[TRANSMISSION_COLUMN.UPLOADED],
+        perSize: $session[SESSION_COLUMN_UNITS]?.[SESSION_COLUMN_UNITS_SIZE],
+      }),
+    },
+    [UI_COLUMN.UPLOAD_SPEED]: {
+      component: SizeRenderer,
+      props: () => ({
+        value: torrent[TRANSMISSION_COLUMN.UPLOAD_RATE],
+        isSpeed: true,
+        perSize: $session[SESSION_COLUMN_UNITS]?.[SESSION_COLUMN_UNITS_SPEED],
+      }),
+    },
+    [UI_COLUMN.ETA]: {
+      component: ArrivalRenderer,
+      props: () => ({ value: torrent[TRANSMISSION_COLUMN.ETA] }),
+    },
+    [UI_COLUMN.RATIO]: {
+      component: TextRenderer,
+      props: () => ({ value: torrent[TRANSMISSION_COLUMN.RATIO].toFixed(2) }),
+    },
+    [UI_COLUMN.FILE_SIZE]: {
+      component: SizeRenderer,
+      props: () => ({
+        value: torrent[TRANSMISSION_COLUMN.SIZE],
+        perSize: $session[SESSION_COLUMN_UNITS]?.[SESSION_COLUMN_UNITS_SIZE],
+      }),
+    },
+    [UI_COLUMN.ADDED]: {
+      component: DateRenderer,
+      props: () => ({ value: torrent[TRANSMISSION_COLUMN.ADDED] }),
+    },
+    [UI_COLUMN.CREATION_DATE]: {
+      component: DateRenderer,
+      props: () => ({ value: torrent[TRANSMISSION_COLUMN.CREATED] }),
+    },
+    [UI_COLUMN.SEEDS]: {
+      component: ConnectionRenderer,
+      props: () => ({
+        value: torrent[TRANSMISSION_COLUMN.SEEDING_TO],
+        connected: torrent[TRANSMISSION_COLUMN.PEERS_CONNECTED],
+      }),
+    },
+    [UI_COLUMN.PEERS]: {
+      component: ConnectionRenderer,
+      props: () => ({
+        value: torrent[TRANSMISSION_COLUMN.DOWNLOADING_FROM],
+        connected: torrent[TRANSMISSION_COLUMN.PEERS_CONNECTED],
+      }),
+    },
+    [UI_COLUMN.BASE_PATH]: {
+      component: TextRenderer,
+      props: () => ({ value: torrent[TRANSMISSION_COLUMN.DOWNLOAD_DIR] }),
+    },
+    [UI_COLUMN.HASH]: {
+      component: TextRenderer,
+      props: () => ({ value: torrent[TRANSMISSION_COLUMN.HASH] }),
+    },
+    [UI_COLUMN.COMMENT]: {
+      component: TextRenderer,
+      props: () => ({ value: torrent[TRANSMISSION_COLUMN.COMMENT] }),
+    },
+    [UI_COLUMN.LABELS]: {
+      component: LabelRenderer,
+      props: () => ({ value: torrent[TRANSMISSION_COLUMN.LABELS] }),
+    },
+    [UI_COLUMN.ERROR]: {
+      component: TextRenderer,
+      props: () => ({ value: torrent[TRANSMISSION_COLUMN.ERROR_STRING] }),
+    },
+    [UI_COLUMN.PRIVATE]: {
+      component: BooleanRenderer,
+      props: () => ({ value: torrent[TRANSMISSION_COLUMN.PRIVATE] }),
+    },
+    [UI_COLUMN.TRACKERS]: {
+      component: TextRenderer,
+      props: () => {
+        const value = torrent[TRANSMISSION_COLUMN.TRACKERS]
+          .map((tracker) => trackerStripper(tracker.announce))
+          .sort()
+          .join(', ');
+        return { value };
+      },
+    },
+  };
+</script>
+
+<tr
+  class="{generateTorrentStatusClass(torrent, selected)}"
+  on:click="{dispatchClick}"
+  on:contextmenu="{dispatchContextmenu}"
+  on:dblclick="{modals.open.bind(null, ['torrent-detail', torrent.id])}"
+>
+  {#each $activeColumns
+    .map((column) => rendererMap[column.name])
+    .filter(Boolean) as { component, props }}
+    <td>
+      <svelte:component
+        this="{component}"
+        torrentStatusClass="{generateTorrentStatusClass(torrent, selected)}"
+        {...props()}
+      />
+    </td>
+  {/each}
+</tr>
+
+<style>
+  tr {
+    color: #8899a8;
+    font-size: 13px;
+    height: 30px;
+    cursor: pointer;
+  }
+
+  tr.stopped,
+  tr.error {
+    color: #c3ccd3;
+  }
+
+  tr.selected {
+    background-color: #1b86e0;
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  tr.selected.active {
+    color: #fff;
+  }
+
+  tr.selected.error {
+    background-color: #e7496e;
+  }
+
+  td {
+    padding: 0 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+</style>

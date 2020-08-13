@@ -1,0 +1,30 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaVersion": 2019,
+    "sourceType": "module"
+  },
+  "globals": {
+    "__TRANSMISSION_HOST__": "readonly",
+    "__TRANSMISSION_PORT__": "readonly",
+    "__TRANSMISSION_USERNAME__": "readonly",
+    "__TRANSMISSION_PATH__": "readonly",
+    "__TRANSMISSION_PASSWORD__": "readonly",
+    "__TRANSMISSION_SSL__": "readonly",
+  },
+  "plugins": ["svelte3"],
+  "extends": ["eslint:recommended"],
+  "overrides": [
+    {
+      "files": ["**/*.svelte"],
+      "processor": "svelte3/svelte3"
+    }
+  ],
+  "rules": {
+    "unused-export-let": "off"
+  }
+}

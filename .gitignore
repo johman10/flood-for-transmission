@@ -1,0 +1,9 @@
+/node_modules/
+/public/build/
+/public/sw.js*
+
+.DS_Store
+
+.env
+
+public.zip

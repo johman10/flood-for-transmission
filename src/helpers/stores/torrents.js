@@ -56,14 +56,12 @@ function getRecentlyActiveTorrents() {
             previousActiveColumns.includes(column)
           )
         ) {
-          console.debug('recently active');
           updateTorrentTimeout = setTimeout(
             getRecentlyActiveTorrents,
             TORRENT_FETCHING_TIMEOUT
           );
         } else {
           // If an ui column was added, fetch all to fill the column correctly.
-          console.debug('all');
           updateTorrentTimeout = setTimeout(
             getAllTorrents,
             TORRENT_FETCHING_TIMEOUT

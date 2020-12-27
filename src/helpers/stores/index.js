@@ -8,3 +8,4 @@ export { selectedTorrents } from './selectedTorrents';
 export { session } from './session';
 export { torrents } from './torrents';
 export { torrentDetails } from './torrentDetails';
+export { panel } from './panel';

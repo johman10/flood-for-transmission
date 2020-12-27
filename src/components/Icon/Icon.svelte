@@ -17,6 +17,7 @@
   import InfinityIcon from './InfinityIcon.svelte';
   import InformationIcon from './InformationIcon.svelte';
   import Limits from './Limits.svelte';
+  import MenuIcon from './MenuIcon.svelte';
   import RatioIcon from './RatioIcon.svelte';
   import Remove from './Remove.svelte';
   import Search from './Search.svelte';
@@ -46,6 +47,7 @@
     InfinityIcon,
     InformationIcon,
     Limits,
+    MenuIcon,
     RatioIcon,
     Remove,
     Search,

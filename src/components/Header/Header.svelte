@@ -1,6 +1,10 @@
 <script>
   import Icon from '~components/Icon';
-  import { torrents, modals, selectedTorrents } from '~helpers/stores';
+  import { torrents, modals, selectedTorrents, panel } from '~helpers/stores';
+
+  const togglePanel = () => {
+    panel.toggle();
+  }
 
   const handleStart = () => {
     torrents.start($selectedTorrents);
@@ -20,22 +24,31 @@
 </script>
 
 <nav class="header">
-  <div class="group">
-    <button class="button" on:click="{handleStart}">
-      <Icon name="StartIcon" viewBox="0 0 60 60" />
-    </button>
-    <button class="button" on:click="{handleStop}">
-      <Icon name="StopIcon" viewBox="0 0 60 60" />
-    </button>
+  <div class="left">
+    <div class="group">
+      <button class="button" on:click="{togglePanel}">
+        <Icon name="MenuIcon" viewBox="0 0 60 60" />
+      </button>
+    </div>
   </div>
-  <div class="divider"></div>
-  <div class="group">
-    <button class="button" on:click="{handleAdd}">
-      <Icon name="Add" viewBox="0 0 60 60" />
-    </button>
-    <button class="button" on:click="{handleRemove}">
-      <Icon name="Remove" viewBox="0 0 60 60" />
-    </button>
+  <div class="right">
+    <div class="group">
+      <button class="button" on:click="{handleStart}">
+        <Icon name="StartIcon" viewBox="0 0 60 60" />
+      </button>
+      <button class="button" on:click="{handleStop}">
+        <Icon name="StopIcon" viewBox="0 0 60 60" />
+      </button>
+    </div>
+    <div class="divider"></div>
+    <div class="group">
+      <button class="button" on:click="{handleAdd}">
+        <Icon name="Add" viewBox="0 0 60 60" />
+      </button>
+      <button class="button" on:click="{handleRemove}">
+        <Icon name="Remove" viewBox="0 0 60 60" />
+      </button>
+    </div>
   </div>
 </nav>
 
@@ -46,11 +59,18 @@
     color: #1b1a1c;
     display: flex;
     flex: 0 0 30px;
-    position: relative;
     height: 30px;
-    justify-content: flex-end;
+    justify-content: space-between;
     fill: #8899a8;
     transition: fill 0.25s;
+  }
+
+  .right {
+    display: flex;
+  }
+
+  .left {
+
   }
 
   .button > :global(.icon) {
@@ -61,7 +81,7 @@
   .group {
     padding: 0 10px;
     display: flex;
-    width: 112px;
+    height: 100%;
   }
 
   .button {
@@ -71,7 +91,7 @@
     align-items: center;
     justify-content: center;
     padding: 0;
-    flex: 1 0 auto;
+    width: 46px;
   }
 
   .button:hover {

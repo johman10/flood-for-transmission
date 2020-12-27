@@ -8,6 +8,10 @@ Flood for Transmission is a clone of [Flood](https://github.com/Flood-UI/flood),
 
 Curious what it looks like? Do check out the [screenshots](screenshots#readme)
 
+#### Feedback
+
+If you have a specific issue or bug, please file a [Github issue](https://github.com/johman10/flood-for-transmission/issues/new). Also feel free to bring up feature requests that way.
+
 # Getting started
 
 ### Pre-Requisites

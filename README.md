@@ -12,7 +12,7 @@ Curious what it looks like? Do check out the [screenshots](screenshots#readme)
 
 If you have a specific issue or bug, please file a [Github issue](https://github.com/johman10/flood-for-transmission/issues/new). Also feel free to bring up feature requests that way.
 
-# Other P2P clients
+#### Other P2P clients
 
 This project does not aim to support anything else than Transmission. If you're looking for other P2P client support check out [Flood by jesec](https://github.com/jesec/flood).
 

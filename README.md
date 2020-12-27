@@ -13,7 +13,7 @@ Curious what it looks like? Do check out the [screenshots](screenshots#readme)
 ### Pre-Requisites
 
 1. [Transmission](https://transmissionbt.com/) needs to be installed and running. When on Linux the transmission-daemon is enough to get this to work.
-    * As of now it's not possible to run Flood for Transmission on a seperate machine, and frankly there would be little need for it since this project doesn't require it's own process to be running.
+    * As of now it's not possible to run Flood for Transmission on a separate machine, and frankly there would be little need for it since this project doesn't require it's own process to be running.
 1. Install NodeJS (you might want to manage different Node versions with [nodenv](https://github.com/nodenv/nodenv) or [nvm](https://github.com/creationix/nvm) or [n](https://github.com/tj/n)).
 1. Usage of an evergreen browser such as [Chrome](https://www.google.com/chrome/), [Firefox](https://www.mozilla.org/en-US/firefox/new/) or [Edge](https://www.microsoft.com/en-us/edge). This project does not aim to support older browsers.
 

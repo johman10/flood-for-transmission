@@ -12,6 +12,16 @@ Curious what it looks like? Do check out the [screenshots](screenshots#readme)
 
 If you have a specific issue or bug, please file a [Github issue](https://github.com/johman10/flood-for-transmission/issues/new). Also feel free to bring up feature requests that way.
 
+# Other P2P clients
+
+This project does not aim to support anything else than Transmission. If you're looking for other P2P client support check out [Flood by jesec](https://github.com/jesec/flood).
+
+How this project is different from jesec's version:
+1. This project does not require any running process, which makes it super lightweight.
+1. It's dedicated to support Transmission as good as possible.
+1. It uses the recommended way from Transmission to load the UI, by setting an environment variable.
+1. This project can be installed as an PWA, which makes it behave like a native app.
+
 # Getting started
 
 ### Pre-Requisites

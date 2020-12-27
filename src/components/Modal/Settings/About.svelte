@@ -5,7 +5,8 @@
 <Header text="Flood Transmission" />
 <p>
   Flood for Transmission is an alternative Web UI for Transmission. It's a frontend web app that doesn't require any extra service running to communicate with Transmission. Even though it's a work-in-progress, it's definitely good enough to use.
-
+</p>
+<p>
   Flood for Transmission is a clone of <a href="https://github.com/Flood-UI/flood" target="_blank">Flood</a>, which is originally build for rTorrent. All design and feature credit goes out to the creators of that. The code however is not a copy at all, it's been build from the ground up to make it work with Transmission.
 </p>
 

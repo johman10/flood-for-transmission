@@ -6,6 +6,8 @@ Flood for Transmission is an alternative Web UI for [Transmission](https://trans
 
 Flood for Transmission is a clone of [Flood](https://github.com/Flood-UI/flood), which is originally build for rTorrent. All design and feature credit goes out to the creators of that. The code however is not a copy at all, it's been build from the ground up to make it work with Transmission.
 
+Curious what it looks like? Do check out the [screenshots](screenshots#readme)
+
 # Getting started
 
 ### Pre-Requisites

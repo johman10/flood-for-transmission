@@ -1,21 +1,43 @@
 import { writable, derived } from 'svelte/store';
 import {
-  UI_COLUMNS_STORAGE_KEY,
   DEFAULT_COLUMNS,
   TRANSMISSION_BASE_COLUMNS,
   COLUMN_MAP,
 } from '~helpers/constants/columns';
 
+const UI_COLUMNS_STORAGE_KEY = 'ui-columns';
+const UI_COLUMN_NAMES = Object.keys(COLUMN_MAP);
+
+function migrateStoredColumns(storedColumns) {
+  let storedColumnsClone = JSON.parse(JSON.stringify(storedColumns));
+  const storedColumnNames = storedColumns.map((column) => column.name);
+
+  storedColumnsClone = storedColumnsClone.filter(
+    ({ name }) => UI_COLUMN_NAMES.includes(name)
+  );
+
+  const missingColumnNamesInStorage = UI_COLUMN_NAMES.filter(
+    (column) => !storedColumnNames.includes(column)
+  );
+  const missingColumns = missingColumnNamesInStorage.map(
+    (missingColumnName) => ({
+      name: missingColumnName,
+      enabled: false,
+      width: 100,
+    })
+  );
+  storedColumnsClone = [...storedColumnsClone, ...missingColumns];
+
+  return storedColumnsClone;
+}
+
 function getUiColumns() {
   try {
-    const columns = JSON.parse(
+    let columns = JSON.parse(
       window.localStorage.getItem(UI_COLUMNS_STORAGE_KEY)
     );
     if (!columns) throw new Error('No columns stored yet');
-    if (
-      columns.some((column) => !Object.keys(COLUMN_MAP).includes(column.name))
-    )
-      throw new Error('Invalid columns found in LocalStorage');
+    columns = migrateStoredColumns(columns);
     return columns;
   } catch (e) {
     return DEFAULT_COLUMNS;

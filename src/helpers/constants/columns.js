@@ -177,7 +177,6 @@ export const UI_COLUMN = {
   UPLOADED: UI_COLUMN_UPLOADED,
 };
 
-export const UI_COLUMNS_STORAGE_KEY = 'ui-columns';
 export const DEFAULT_COLUMNS = [
   {
     name: UI_COLUMN.NAME,

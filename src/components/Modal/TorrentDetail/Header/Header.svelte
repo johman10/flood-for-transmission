@@ -80,7 +80,7 @@
   <h1>{$torrentDetails[TRANSMISSION_COLUMN.NAME]}</h1>
   <div class="subheading">
     <ul>
-      <li class:active="{!!downloadSpeed.value}">
+      <li class:active="{!!downloadSpeed.value}" title="Download speed">
         <Icon name="Download" />
         <span>
           {downloadSpeed.value}<em>{downloadSpeed.size}</em>
@@ -88,7 +88,7 @@
           {downloadSize.value}<em>{downloadSize.size}</em>
         </span>
       </li>
-      <li class:active="{!!uploadSpeed.value}" class="uploading">
+      <li class:active="{!!uploadSpeed.value}" class="uploading" title="Upload speed">
         <Icon name="Upload" />
         <span>
           {uploadSpeed.value}<em>{uploadSpeed.size}</em>
@@ -96,11 +96,11 @@
           {uploadSize.value}<em>{uploadSize.size}</em>
         </span>
       </li>
-      <li>
+      <li title="Ratio">
         <Icon name="RatioIcon" />
         {($torrentDetails[TRANSMISSION_COLUMN.RATIO] || 0).toFixed(2)}
       </li>
-      <li>
+      <li title="ETA">
         <Icon name="ETA" />
         <ArrivalRenderer value="{$torrentDetails[TRANSMISSION_COLUMN.ETA]}" />
       </li>

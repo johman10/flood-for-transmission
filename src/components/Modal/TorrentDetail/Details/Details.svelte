@@ -7,13 +7,20 @@
   } from '~helpers/constants/columns';
   import { getSize } from '~helpers/sizeHelper';
   import DateRenderer from '~components/TorrentList/Renderers/DateRenderer.svelte';
+  import BooleanRenderer from '~components/TorrentList/Renderers/BooleanRenderer.svelte';
   import Badge from '~components/Badge';
 
   $: size = getSize($torrentDetails[TRANSMISSION_COLUMN.SIZE], {
     perSize: $session[SESSION_COLUMN_UNITS]?.[SESSION_COLUMN_UNITS_SIZE],
   });
 
-  $: console.log($torrentDetails[TRANSMISSION_COLUMN.LABELS]);
+  $: downloaded = getSize($torrentDetails[TRANSMISSION_COLUMN.DOWNLOADED], {
+    perSize: $session[SESSION_COLUMN_UNITS]?.[SESSION_COLUMN_UNITS_SIZE],
+  });
+
+  $: uploaded = getSize($torrentDetails[TRANSMISSION_COLUMN.UPLOADED], {
+    perSize: $session[SESSION_COLUMN_UNITS]?.[SESSION_COLUMN_UNITS_SIZE],
+  });
 </script>
 
 <div class="content">
@@ -21,7 +28,12 @@
 
   <div class="column column--label">Added</div>
   <div class="column column--value">
-    <DateRenderer value={$torrentDetails[TRANSMISSION_COLUMN.ADDED]} />
+    <DateRenderer value="{$torrentDetails[TRANSMISSION_COLUMN.ADDED]}" />
+  </div>
+
+  <div class="column column--label">Done</div>
+  <div class="column column--value">
+    <DateRenderer value="{$torrentDetails[TRANSMISSION_COLUMN.DONE]}" />
   </div>
 
   <div class="column column--label">Location</div>
@@ -40,9 +52,19 @@
 
   <h1 class="header">Transfer</h1>
 
-  <div class="column column--label">Downloaded</div>
+  <div class="column column--label">Download progress</div>
   <div class="column column--value">
     {Math.round($torrentDetails[TRANSMISSION_COLUMN.DOWNLOAD_PROGRESS] * 10000) / 100}%
+  </div>
+
+  <div class="column column--label">Downloaded</div>
+  <div class="column column--value">
+    {downloaded.value}{downloaded.size}
+  </div>
+
+  <div class="column column--label">Uploaded</div>
+  <div class="column column--value">
+    {uploaded.value}{uploaded.size}
   </div>
 
   <div class="column column--label">Peers</div>
@@ -78,6 +100,16 @@
 
   <div class="column column--label">Size</div>
   <div class="column column--value">{size.value}{size.size}</div>
+
+  <div class="column column--label">Private</div>
+  <div class="column column--value">
+    <BooleanRenderer value="{$torrentDetails[TRANSMISSION_COLUMN.PRIVATE]}" />
+  </div>
+
+  <div class="column column--label">Error text</div>
+  <div class="column column--value">
+    {$torrentDetails[TRANSMISSION_COLUMN.ERROR_STRING]}
+  </div>
 
   <!-- TODO: Should more details be added? -->
 </div>

@@ -168,6 +168,10 @@
         return { value };
       },
     },
+    [UI_COLUMN.DONE]: {
+      component: DateRenderer,
+      props: () => ({ value: torrent[TRANSMISSION_COLUMN.DONE] }),
+    },
   };
 </script>
 

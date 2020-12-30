@@ -273,6 +273,11 @@ export const DEFAULT_COLUMNS = [
     enabled: false,
     width: 100,
   },
+  {
+    name: UI_COLUMN.RATIO,
+    enabled: false,
+    width: 100,
+  },
 ];
 export const TRANSMISSION_BASE_COLUMNS = [
   TRANSMISSION_COLUMN.ID,

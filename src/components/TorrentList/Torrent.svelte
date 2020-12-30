@@ -103,7 +103,7 @@
     },
     [UI_COLUMN.RATIO]: {
       component: TextRenderer,
-      props: () => ({ value: torrent[TRANSMISSION_COLUMN.RATIO].toFixed(2) }),
+      props: () => ({ value: torrent[TRANSMISSION_COLUMN.RATIO]?.toFixed(2) }),
     },
     [UI_COLUMN.FILE_SIZE]: {
       component: SizeRenderer,

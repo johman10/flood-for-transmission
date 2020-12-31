@@ -86,7 +86,11 @@
   <h1>{$torrentDetails[TRANSMISSION_COLUMN.NAME]}</h1>
   <div class="subheading">
     <ul>
-      <li class:active="{!!downloadSpeed.value}" title="Download speed">
+      <li
+        class:active="{!!downloadSpeed.value}"
+        title="Download speed"
+        class="downloading"
+      >
         <Icon name="Download" />
         <span>
           {downloadSpeed.value}<em>{downloadSpeed.size}</em>
@@ -94,11 +98,7 @@
           {downloadSize.value}<em>{downloadSize.size}</em>
         </span>
       </li>
-      <li
-        class:active="{!!uploadSpeed.value}"
-        class="uploading"
-        title="Upload speed"
-      >
+      <li class:active="{!!uploadSpeed.value}" title="Upload speed">
         <Icon name="Upload" />
         <span>
           {uploadSpeed.value}<em>{uploadSpeed.size}</em>
@@ -196,7 +196,7 @@
     fill: #3ea7ff;
   }
 
-  li.active.uploading {
+  li.active.downloading {
     color: #39ce83;
     fill: #39ce83;
   }

@@ -95,6 +95,7 @@
       props: () => ({
         value: torrent[TRANSMISSION_COLUMN.UPLOAD_RATE],
         isSpeed: true,
+        isUpload: true,
         perSize: $session[SESSION_COLUMN_UNITS]?.[SESSION_COLUMN_UNITS_SPEED],
       }),
     },

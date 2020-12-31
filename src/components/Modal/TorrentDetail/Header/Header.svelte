@@ -1,7 +1,11 @@
 <script>
   import Icon from '~components/Icon';
   import { torrentDetails, session, torrents } from '~helpers/stores';
-  import { STATUSES, STATUS_DOWNLOADING, STATUS_STOPPED } from '~helpers/Transmission';
+  import {
+    STATUSES,
+    STATUS_DOWNLOADING,
+    STATUS_STOPPED,
+  } from '~helpers/Transmission';
   import {
     TRANSMISSION_COLUMN,
     SESSION_COLUMN_UNITS,
@@ -58,7 +62,9 @@
 
     torrents.start([torrentId]);
     torrentDetails.update((torrent) => {
-      torrent[TRANSMISSION_COLUMN.STATUS] = STATUSES.indexOf(STATUS_DOWNLOADING);
+      torrent[TRANSMISSION_COLUMN.STATUS] = STATUSES.indexOf(
+        STATUS_DOWNLOADING
+      );
       return torrent;
     });
   };
@@ -88,7 +94,11 @@
           {downloadSize.value}<em>{downloadSize.size}</em>
         </span>
       </li>
-      <li class:active="{!!uploadSpeed.value}" class="uploading" title="Upload speed">
+      <li
+        class:active="{!!uploadSpeed.value}"
+        class="uploading"
+        title="Upload speed"
+      >
         <Icon name="Upload" />
         <span>
           {uploadSpeed.value}<em>{uploadSpeed.size}</em>

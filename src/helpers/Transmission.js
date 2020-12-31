@@ -16,33 +16,6 @@ export const STATUSES = [
   STATUS_SEED_WAITING,
   STATUS_SEEDING,
 ];
-export const ERRORS = [
-  'none',
-  'tracker-warning',
-  'tracker-error',
-  'local-error',
-];
-
-export const COLUMN_ID = 'id';
-export const COLUMN_STATUS = 'status';
-export const COLUMN_NAME = 'name';
-export const COLUMN_METADATA_PROGRESS = 'metadataPercentComplete';
-export const COLUMN_DOWNLOAD_PROGRESS = 'percentDone';
-export const COLUMN_DOWNLOADED = 'downloadedEver';
-export const COLUMN_DOWNLOAD_RATE = 'rateDownload';
-export const COLUMN_UPLOADED = 'uploadedEver';
-export const COLUMN_UPLOAD_RATE = 'rateUpload';
-export const COLUMN_ETA = 'eta';
-export const COLUMN_RATIO = 'uploadRatio';
-export const COLUMN_SIZE = 'totalSize';
-export const COLUMN_ADDED = 'addedDate';
-export const COLUMN_CREATED = 'dateCreated';
-export const COLUMN_PEERS_CONNECTED = 'peersConnected';
-export const COLUMN_SEEDING_TO = 'peersGettingFromUs';
-export const COLUMN_DOWNLOADING_FROM = 'peersSendingToUs';
-export const COLUMN_SEEDERS = 'webseeds';
-export const COLUMN_ERROR = 'error';
-export const COLUMN_ERROR_STRING = 'errorString';
 
 let transmission;
 
@@ -96,7 +69,7 @@ export default class Transmission {
     await this.setToken();
     const headers = new Headers();
     headers.append('content-type', 'application/json');
-    headers.append(TOKEN_HEADER, this._tokenHeader)
+    headers.append(TOKEN_HEADER, this._tokenHeader);
     if (this._authHeader) {
       headers.append('authorization', this._authHeader);
     }

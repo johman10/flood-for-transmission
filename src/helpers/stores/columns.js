@@ -12,8 +12,8 @@ function migrateStoredColumns(storedColumns) {
   let storedColumnsClone = JSON.parse(JSON.stringify(storedColumns));
   const storedColumnNames = storedColumns.map((column) => column.name);
 
-  storedColumnsClone = storedColumnsClone.filter(
-    ({ name }) => UI_COLUMN_NAMES.includes(name)
+  storedColumnsClone = storedColumnsClone.filter(({ name }) =>
+    UI_COLUMN_NAMES.includes(name)
   );
 
   const missingColumnNamesInStorage = UI_COLUMN_NAMES.filter(

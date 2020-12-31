@@ -58,14 +58,10 @@
   </div>
 
   <div class="column column--label">Downloaded</div>
-  <div class="column column--value">
-    {downloaded.value}{downloaded.size}
-  </div>
+  <div class="column column--value">{downloaded.value}{downloaded.size}</div>
 
   <div class="column column--label">Uploaded</div>
-  <div class="column column--value">
-    {uploaded.value}{uploaded.size}
-  </div>
+  <div class="column column--value">{uploaded.value}{uploaded.size}</div>
 
   <div class="column column--label">Peers</div>
   <div class="column column--value">

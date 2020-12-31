@@ -4,7 +4,7 @@
 
   const togglePanel = () => {
     panel.toggle();
-  }
+  };
 
   const handleStart = () => {
     torrents.start($selectedTorrents);
@@ -70,7 +70,6 @@
   }
 
   .left {
-
   }
 
   .button > :global(.icon) {

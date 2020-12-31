@@ -22,6 +22,8 @@
     "dotenv": "^8.2.0",
     "eslint": "^7.16.0",
     "eslint-plugin-svelte3": "^3.0.0",
+    "husky": "^4.3.6",
+    "lint-staged": "^10.5.3",
     "prettier": "^2.2.1",
     "prettier-plugin-svelte": "^1.4.2",
     "rollup": "^2.35.1",
@@ -36,5 +38,13 @@
     "core-js": "^3.8.1",
     "d3": "^6.3.1",
     "sirv-cli": "^1.0.10"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,svelte}": ["eslint --cache --fix", "prettier --write"]
   }
 }

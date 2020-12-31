@@ -7,3 +7,5 @@
 .env
 
 public.zip
+
+.eslintcache

@@ -1,6 +1,10 @@
 <script>
   import Icon from '~components/Icon';
-  import { STATUS_STOPPED, STATUS_DOWNLOADING, STATUS_SEEDING } from '~helpers/Transmission';
+  import {
+    STATUS_STOPPED,
+    STATUS_DOWNLOADING,
+    STATUS_SEEDING,
+  } from '~helpers/Transmission';
 
   const STATUS_ICON_MAP = {
     [STATUS_STOPPED]: 'StopIcon',

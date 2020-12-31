@@ -10,7 +10,10 @@ function createPanelStore() {
     subscribe,
     toggle: () => {
       update((currentValue) => {
-        window.localStorage.setItem(PANEL_SHOWN_STORAGE_KEY, (!currentValue).toString());
+        window.localStorage.setItem(
+          PANEL_SHOWN_STORAGE_KEY,
+          (!currentValue).toString()
+        );
         return !currentValue;
       });
     },

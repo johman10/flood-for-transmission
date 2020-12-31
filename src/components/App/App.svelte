@@ -7,7 +7,7 @@
   import { panel } from '~helpers/stores';
 </script>
 
-<main class:panel={$panel}>
+<main class:panel="{$panel}">
   <Panel />
   <div class="content">
     <Header />

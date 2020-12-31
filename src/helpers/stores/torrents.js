@@ -1,5 +1,9 @@
 import { derived, writable, get } from 'svelte/store';
-import Transmission, { STATUSES, STATUS_DOWNLOADING, STATUS_STOPPED } from '~helpers/Transmission';
+import Transmission, {
+  STATUSES,
+  STATUS_DOWNLOADING,
+  STATUS_STOPPED,
+} from '~helpers/Transmission';
 import {
   COLUMN_MAP,
   TRANSMISSION_COLUMN_STATUS,
@@ -7,7 +11,7 @@ import {
   TRANSMISSION_COLUMN_TRACKERS,
   TRANSMISSION_COLUMN_DOWNLOAD_DIR,
   TRANSMISSION_COLUMN_UPLOAD_RATE,
-  TRANSMISSION_COLUMN_DOWNLOAD_RATE
+  TRANSMISSION_COLUMN_DOWNLOAD_RATE,
 } from '~helpers/constants/columns';
 import { sorting } from '~helpers/stores/sorting';
 import { transmissionColumns, uiColumns, filters } from '~helpers/stores';
@@ -26,43 +30,48 @@ let updateTorrentTimeout;
 const store = writable([]);
 let previousActiveColumns = null;
 
-const sorted = derived([store, filters, sorting], ([$torrents, $filters, $sorting]) => {
-  let filteredTorrents = $torrents;
-  const hasFilter = !!Object.values($filters).filter(Boolean).length;
-  if (hasFilter) {
-    filteredTorrents = $torrents.filter((torrent) => {
-      const search = searchFilter($filters.search, torrent);
-      const status = statusFilter($filters.status, torrent);
-      const label = labelFilter($filters.label, torrent);
-      const tracker = trackerFilter($filters.tracker, torrent);
-      return search && status && label && tracker;
+const sorted = derived(
+  [store, filters, sorting],
+  ([$torrents, $filters, $sorting]) => {
+    let filteredTorrents = $torrents;
+    const hasFilter = !!Object.values($filters).filter(Boolean).length;
+    if (hasFilter) {
+      filteredTorrents = $torrents.filter((torrent) => {
+        const search = searchFilter($filters.search, torrent);
+        const status = statusFilter($filters.status, torrent);
+        const label = labelFilter($filters.label, torrent);
+        const tracker = trackerFilter($filters.tracker, torrent);
+        return search && status && label && tracker;
+      });
+    }
+
+    const transmissionSortingColumns = COLUMN_MAP[$sorting.column];
+    if (!transmissionSortingColumns) {
+      console.warn('Unrecognized sorting');
+      return filteredTorrents;
+    }
+
+    return filteredTorrents.sort((torrentA, torrentB) => {
+      const sortingValues = transmissionSortingColumns
+        .map((transmissionColumn) => {
+          let aValue = torrentA[transmissionColumn];
+          let bValue = torrentB[transmissionColumn];
+          if (typeof aValue === 'string') {
+            aValue = aValue.toLowerCase();
+            bValue = bValue.toLowerCase();
+          }
+
+          let returnValue = 0;
+          if (aValue < bValue) returnValue = -1;
+          if (aValue > bValue) returnValue = 1;
+          if ($sorting.direction === 'desc') returnValue *= -1;
+          return returnValue;
+        })
+        .filter(Boolean);
+      return sortingValues[0] || 0;
     });
   }
-
-  const transmissionSortingColumns = COLUMN_MAP[$sorting.column];
-  if (!transmissionSortingColumns) {
-    console.warn('Unrecognized sorting');
-    return filteredTorrents;
-  }
-
-  return filteredTorrents.sort((torrentA, torrentB) => {
-    const sortingValues = transmissionSortingColumns.map(transmissionColumn => {
-      let aValue = torrentA[transmissionColumn];
-      let bValue = torrentB[transmissionColumn];
-      if (typeof aValue === 'string') {
-        aValue = aValue.toLowerCase();
-        bValue = bValue.toLowerCase();
-      }
-
-      let returnValue = 0;
-      if (aValue < bValue) returnValue = -1;
-      if (aValue > bValue) returnValue = 1;
-      if ($sorting.direction === 'desc') returnValue *= -1;
-      return returnValue;
-    }).filter(Boolean);
-    return sortingValues[0] || 0;
-  })
-})
+);
 
 function getRecentlyActiveTorrents() {
   if (updateTorrentTimeout) {

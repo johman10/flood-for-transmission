@@ -10,7 +10,9 @@
   export let hidden = false;
 
   if (!['upload', 'download'].includes(direction)) {
-    throw new Error(`[Graph/Bytes] unrecognized direction. ${direction} not one of ['upload', 'download']`);
+    throw new Error(
+      `[Graph/Bytes] unrecognized direction. ${direction} not one of ['upload', 'download']`
+    );
   }
 
   const totalRateStore = torrents.totalRate;

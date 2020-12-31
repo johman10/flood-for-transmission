@@ -22,9 +22,9 @@
 {#if name}
   <th
     class="header"
-    class:sorting={name === $sorting.column}
-    class:asc={$sorting.column === name && $sorting.direction === 'asc'}
-    class:desc={$sorting.column === name && $sorting.direction === 'desc'}
+    class:sorting="{name === $sorting.column}"
+    class:asc="{$sorting.column === name && $sorting.direction === 'asc'}"
+    class:desc="{$sorting.column === name && $sorting.direction === 'desc'}"
     style="width: {$columnSizes[name]}px"
     on:click="{handleClick}"
   >
@@ -50,7 +50,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     padding: 0 8px;
-    transition: padding 200ms,
+    transition: padding 200ms;
   }
 
   .header.sorting {
@@ -63,7 +63,7 @@
     border-left: 4px solid transparent;
     border-right: 4px solid transparent;
     border-top: 5px solid;
-    content: "";
+    content: '';
     margin-top: -3px;
     opacity: 0;
     position: absolute;
@@ -73,7 +73,7 @@
   }
 
   .header.sorting:after {
-    opacity: .5;
+    opacity: 0.5;
   }
 
   .header.asc:after {

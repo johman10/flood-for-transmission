@@ -1,7 +1,7 @@
 <script>
   import Icon from '~components/Icon';
   import { torrentDetails, session, torrents } from '~helpers/stores';
-  import { STATUSSES } from '~helpers/Transmission';
+  import { STATUSES, STATUS_DOWNLOADING, STATUS_STOPPED } from '~helpers/Transmission';
   import {
     TRANSMISSION_COLUMN,
     SESSION_COLUMN_UNITS,
@@ -58,7 +58,7 @@
 
     torrents.start([torrentId]);
     torrentDetails.update((torrent) => {
-      torrent[TRANSMISSION_COLUMN.STATUS] = STATUSSES.indexOf('downloading');
+      torrent[TRANSMISSION_COLUMN.STATUS] = STATUSES.indexOf(STATUS_DOWNLOADING);
       return torrent;
     });
   };
@@ -70,7 +70,7 @@
 
     torrents.stop([torrentId]);
     torrentDetails.update((torrent) => {
-      torrent[TRANSMISSION_COLUMN.STATUS] = STATUSSES.indexOf('stopped');
+      torrent[TRANSMISSION_COLUMN.STATUS] = STATUSES.indexOf(STATUS_STOPPED);
       return torrent;
     });
   };
@@ -134,7 +134,7 @@
   </div>
   <ProgressRenderer
     value="{$torrentDetails[TRANSMISSION_COLUMN.DOWNLOAD_PROGRESS]}"
-    torrentStatus="{STATUSSES[$torrentDetails[TRANSMISSION_COLUMN.STATUS]]}"
+    torrentStatus="{STATUSES[$torrentDetails[TRANSMISSION_COLUMN.STATUS]]}"
     torrentStatusClass="{generateTorrentStatusClass($torrentDetails)}"
     metadataProgress="{$torrentDetails[TRANSMISSION_COLUMN.METADATA_PROGRESS]}"
     checkingProgress="{$torrentDetails[TRANSMISSION_COLUMN.RECHECK_PROGRESS]}"

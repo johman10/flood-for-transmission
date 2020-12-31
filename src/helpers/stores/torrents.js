@@ -1,6 +1,7 @@
 import { derived, writable, get } from 'svelte/store';
-import Transmission, { STATUSSES } from '~helpers/Transmission';
+import Transmission, { STATUSES, STATUS_DOWNLOADING, STATUS_STOPPED } from '~helpers/Transmission';
 import {
+  COLUMN_MAP,
   TRANSMISSION_COLUMN_STATUS,
   TRANSMISSION_COLUMN_LABELS,
   TRANSMISSION_COLUMN_TRACKERS,
@@ -157,7 +158,7 @@ function createTorrentsStore() {
 
           return {
             ...torrent,
-            [TRANSMISSION_COLUMN_STATUS]: STATUSSES.indexOf('downloading'),
+            [TRANSMISSION_COLUMN_STATUS]: STATUSES.indexOf(STATUS_DOWNLOADING),
           };
         });
       }),
@@ -169,7 +170,7 @@ function createTorrentsStore() {
 
           return {
             ...torrent,
-            [TRANSMISSION_COLUMN_STATUS]: STATUSSES.indexOf('stopped'),
+            [TRANSMISSION_COLUMN_STATUS]: STATUSES.indexOf(STATUS_STOPPED),
           };
         });
       }),

@@ -1,4 +1,13 @@
-import { STATUSSES } from '~helpers/Transmission';
+import {
+  STATUS_STOPPED,
+  STATUS_CHECK_WAITING,
+  STATUS_CHECKING,
+  STATUS_DOWNLOAD_WAITING,
+  STATUS_DOWNLOADING,
+  STATUS_SEED_WAITING,
+  STATUS_SEEDING,
+  STATUSES,
+} from '~helpers/Transmission';
 import {
   TRANSMISSION_COLUMN_DOWNLOAD_PROGRESS,
   TRANSMISSION_COLUMN_STATUS,
@@ -13,24 +22,24 @@ export function statusFilter(status, torrent) {
   switch (status) {
     case 'downloading':
       return [
-        STATUSSES.indexOf('downloading'),
-        STATUSSES.indexOf('download-waiting'),
+        STATUSES.indexOf(STATUS_DOWNLOADING),
+        STATUSES.indexOf(STATUS_DOWNLOAD_WAITING),
       ].includes(torrent[TRANSMISSION_COLUMN_STATUS]);
     case 'complete':
       return torrent[TRANSMISSION_COLUMN_DOWNLOAD_PROGRESS] === 1;
     case 'stopped':
       return (
-        torrent[TRANSMISSION_COLUMN_STATUS] === STATUSSES.indexOf('stopped')
+        torrent[TRANSMISSION_COLUMN_STATUS] === STATUSES.indexOf(STATUS_STOPPED)
       );
     case 'checking':
       return [
-        STATUSSES.indexOf('checking'),
-        STATUSSES.indexOf('check-waiting'),
+        STATUSES.indexOf(STATUS_CHECKING),
+        STATUSES.indexOf(STATUS_CHECK_WAITING),
       ].includes(torrent[TRANSMISSION_COLUMN_STATUS]);
     case 'seeding':
       return [
-        STATUSSES.indexOf('seeding'),
-        STATUSSES.indexOf('seed-waiting'),
+        STATUSES.indexOf(STATUS_SEEDING),
+        STATUSES.indexOf(STATUS_SEED_WAITING),
       ].includes(torrent[TRANSMISSION_COLUMN_STATUS]);
     case 'error':
       return torrent[TRANSMISSION_COLUMN_ERROR];

@@ -1,10 +1,11 @@
 <script>
   import Icon from '~components/Icon';
+  import { STATUS_STOPPED, STATUS_DOWNLOADING, STATUS_SEEDING } from '~helpers/Transmission';
 
   const STATUS_ICON_MAP = {
-    stopped: 'StopIcon',
-    downloading: 'StartIcon',
-    seeding: 'StartIcon',
+    [STATUS_STOPPED]: 'StopIcon',
+    [STATUS_DOWNLOADING]: 'StartIcon',
+    [STATUS_SEEDING]: 'StartIcon',
   };
 
   export let value;

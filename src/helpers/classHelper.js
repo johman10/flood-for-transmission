@@ -1,4 +1,4 @@
-import { STATUSSES } from '~helpers/Transmission';
+import { STATUSES, STATUS_STOPPED, STATUS_DOWNLOADING, STATUS_SEEDING } from '~helpers/Transmission';
 import {
   TRANSMISSION_COLUMN_DOWNLOAD_PROGRESS,
   TRANSMISSION_COLUMN_ERROR,
@@ -19,11 +19,11 @@ export function generateTorrentStatusClass(torrent, selected = false) {
 
   if (torrent[TRANSMISSION_COLUMN_ERROR] > 1) {
     statusClass = 'error';
-  } else if (STATUSSES[torrent[TRANSMISSION_COLUMN_STATUS]] === 'stopped') {
+  } else if (STATUSES[torrent[TRANSMISSION_COLUMN_STATUS]] === STATUS_STOPPED) {
     statusClass = 'stopped';
   } else if (
-    ['downloading', 'seeding'].includes(
-      STATUSSES[torrent[TRANSMISSION_COLUMN_STATUS]]
+    [STATUS_DOWNLOADING, STATUS_SEEDING].includes(
+      STATUSES[torrent[TRANSMISSION_COLUMN_STATUS]]
     )
   ) {
     statusClass = 'active';

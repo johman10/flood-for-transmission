@@ -11,7 +11,7 @@
     LabelRenderer,
   } from '~components/TorrentList/Renderers';
   import { session, uiColumns, modals } from '~helpers/stores';
-  import { STATUSSES } from '~helpers/Transmission';
+  import { STATUSES } from '~helpers/Transmission';
   import {
     UI_COLUMN,
     TRANSMISSION_COLUMN,
@@ -64,7 +64,7 @@
         value: torrent[TRANSMISSION_COLUMN.DOWNLOAD_PROGRESS],
         metadataProgress: torrent[TRANSMISSION_COLUMN.METADATA_PROGRESS],
         checkingProgress: torrent[TRANSMISSION_COLUMN.RECHECK_PROGRESS],
-        torrentStatus: STATUSSES[torrent[TRANSMISSION_COLUMN.STATUS]],
+        torrentStatus: STATUSES[torrent[TRANSMISSION_COLUMN.STATUS]],
       }),
     },
     [UI_COLUMN.DOWNLOADED]: {
@@ -171,6 +171,10 @@
     [UI_COLUMN.DONE]: {
       component: DateRenderer,
       props: () => ({ value: torrent[TRANSMISSION_COLUMN.DONE] }),
+    },
+    [UI_COLUMN.STATUS]: {
+      component: TextRenderer,
+      props: () => ({ value: STATUSES[torrent[TRANSMISSION_COLUMN.STATUS]] }),
     },
   };
 </script>

@@ -30,6 +30,7 @@
     } else {
       const prios = $selectedTorrents.map((torrentId) => {
         const torrent = $torrents.find((torrent) => torrent.id === torrentId);
+        if (!torrent) return;
         return torrent[TRANSMISSION_COLUMN_PRIORITY];
       });
       const uniquePrios = prios.filter((v, i, a) => a.indexOf(v) === i);

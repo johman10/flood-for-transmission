@@ -2,11 +2,32 @@
   import { createEventDispatcher } from 'svelte';
 
   export let value;
-  export let text = false;
+  export let showLabel = false;
   export let allowDisabled = false;
 
   let element;
+  let label;
   const dispatch = createEventDispatcher();
+
+  $: {
+    switch (value) {
+      case 0:
+        label = 'Normal';
+        break;
+      case 1:
+        label = 'High';
+        break;
+      case -1:
+        label = 'Low';
+        break;
+      case -2:
+        label = "Don't download";
+        break;
+      default:
+        label = 'Invalid';
+        break;
+    }
+  }
 
   $: {
     element
@@ -25,17 +46,14 @@
   };
 </script>
 
-<div class="priority-indicator" on:click="{handleClick}" bind:this="{element}">
+<div
+  class="priority-indicator"
+  on:click="{handleClick}"
+  bind:this="{element}"
+  title="{showLabel ? undefined : label}"
+>
   <div class="slider level-{value}"></div>
-  {#if text}
-    <span class="label">
-      {#if value === 0}
-        Normal
-      {:else if value > 0}
-        High
-      {:else if value === -1}Low{:else if value === -2}Don't download{/if}
-    </span>
-  {/if}
+  {#if showLabel}<span class="label">{label}</span>{/if}
 </div>
 
 <style>

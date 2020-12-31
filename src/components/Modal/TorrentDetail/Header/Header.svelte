@@ -110,7 +110,7 @@
       <li class="button">
         <PriorityIndicator
           value="{$torrentDetails[TRANSMISSION_COLUMN.PRIORITY]}"
-          text
+          showLabel
           on:click="{updatePriority}"
         />
       </li>

@@ -153,6 +153,7 @@ export const UI_COLUMN_PERCENT_COMPLETE = 'Percent Complete';
 export const UI_COLUMN_PRIVATE = 'Private';
 export const UI_COLUMN_RATIO = 'Ratio';
 export const UI_COLUMN_SEEDS = 'Seeds';
+export const UI_COLUMN_STATUS = 'Status';
 export const UI_COLUMN_TRACKERS = 'Trackers';
 export const UI_COLUMN_UPLOAD_SPEED = 'Upload Speed';
 export const UI_COLUMN_UPLOADED = 'Uploaded';
@@ -176,6 +177,7 @@ export const UI_COLUMN = {
   PRIVATE: UI_COLUMN_PRIVATE,
   RATIO: UI_COLUMN_RATIO,
   SEEDS: UI_COLUMN_SEEDS,
+  STATUS: UI_COLUMN_STATUS,
   TRACKERS: UI_COLUMN_TRACKERS,
   UPLOAD_SPEED: UI_COLUMN_UPLOAD_SPEED,
   UPLOADED: UI_COLUMN_UPLOADED,
@@ -287,6 +289,11 @@ export const DEFAULT_COLUMNS = [
     enabled: false,
     width: 100,
   },
+  {
+    name: UI_COLUMN.STATUS,
+    enabled: false,
+    width: 100,
+  },
 ];
 export const TRANSMISSION_BASE_COLUMNS = [
   TRANSMISSION_COLUMN.ID,
@@ -298,6 +305,7 @@ export const TRANSMISSION_BASE_COLUMNS = [
   TRANSMISSION_COLUMN.PRIORITY,
   TRANSMISSION_COLUMN.TRACKERS,
 ];
+// Order in value is important for sorting order, first item will be considered more important when sorting on the related UI column
 export const COLUMN_MAP = {
   [UI_COLUMN.ADDED]: [TRANSMISSION_COLUMN.ADDED],
   [UI_COLUMN.BASE_PATH]: [TRANSMISSION_COLUMN.DOWNLOAD_DIR],
@@ -326,6 +334,7 @@ export const COLUMN_MAP = {
     TRANSMISSION_COLUMN.SEEDING_TO,
     TRANSMISSION_COLUMN.PEERS_CONNECTED,
   ],
+  [UI_COLUMN.STATUS]: [TRANSMISSION_COLUMN.STATUS],
   [UI_COLUMN.LABELS]: [TRANSMISSION_COLUMN.LABELS],
   [UI_COLUMN.ERROR]: [TRANSMISSION_COLUMN.ERROR_STRING],
   [UI_COLUMN.TRACKERS]: [TRANSMISSION_COLUMN.TRACKERS],

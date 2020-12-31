@@ -12,7 +12,7 @@
   import { TRANSMISSION_COLUMN_PRIORITY } from '~helpers/constants/columns';
   import PriorityIndicator from '~components/PriorityIndicator';
 
-  const filteredTorrents = torrents.filtered;
+  const sortedTorrents = torrents.sorted;
   const activeColumns = uiColumns.active;
   const { totalSize } = uiColumns;
 
@@ -69,15 +69,15 @@
     } else if (modifierKey === 'ctrl') {
       selectedTorrents.add([torrent.id]);
     } else if (modifierKey === 'shift') {
-      const selectedIndex = $filteredTorrents.findIndex(
+      const selectedIndex = $sortedTorrents.findIndex(
         (t) => t.id === $selectedTorrents.slice(-1)[0]
       );
-      const clickedIndex = $filteredTorrents.findIndex(
+      const clickedIndex = $sortedTorrents.findIndex(
         (t) => t.id === torrent.id
       );
       const startIndex = Math.min(selectedIndex, clickedIndex);
       const endIndex = Math.max(selectedIndex, clickedIndex);
-      const addTorrents = $filteredTorrents
+      const addTorrents = $sortedTorrents
         .slice(startIndex, endIndex + 1)
         .map((t) => t.id);
       selectedTorrents.add(addTorrents);
@@ -124,15 +124,12 @@
 <div class="wrapper" bind:this="{wrapper}">
   <table class="table" style="width: {$totalSize}px">
     <thead class="table-header">
-      {#each $activeColumns as column, index}
-        <ColumnHeader
-          last="{index + 1 === $activeColumns.length}"
-          name="{column.name}"
-        />
+      {#each $activeColumns as column}
+        <ColumnHeader name="{column.name}" />
       {/each}
     </thead>
     <tbody>
-      {#each $filteredTorrents as torrent}
+      {#each $sortedTorrents as torrent}
         <Torrent
           torrent="{torrent}"
           on:click="{handleTorrentClick}"

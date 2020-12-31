@@ -53,6 +53,7 @@
     });
   };
 
+  // TODO: Move to constants/columns, pass torrent and session as arg to props;
   $: rendererMap = {
     [UI_COLUMN.NAME]: {
       component: TextRenderer,

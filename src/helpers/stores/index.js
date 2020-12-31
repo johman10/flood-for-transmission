@@ -6,6 +6,7 @@ export { modals } from './modals';
 export { rateData } from './rateData';
 export { selectedTorrents } from './selectedTorrents';
 export { session } from './session';
+export { sorting } from './sorting';
 export { torrents } from './torrents';
 export { torrentDetails } from './torrentDetails';
 export { panel } from './panel';

@@ -1,9 +1,8 @@
 <script>
   import { resizeableTable } from '~helpers/actions';
-  import { uiColumns } from '~helpers/stores';
+  import { uiColumns, sorting } from '~helpers/stores';
 
   export let name;
-  export let last = false;
 
   const columnSizes = uiColumns.sizes;
 
@@ -14,12 +13,23 @@
     newColumns.splice(columnIndex, 1, column);
     uiColumns.set(newColumns);
   };
+
+  const handleClick = () => {
+    sorting.updateToColumn(name);
+  };
 </script>
 
 {#if name}
-  <th class="header" style="width: {$columnSizes[name]}px">
-    <span class="name">{name}</span>
-    <span class="handle" class:last use:resizeableTable="{handleResize}"></span>
+  <th
+    class="header"
+    class:sorting={name === $sorting.column}
+    class:asc={$sorting.column === name && $sorting.direction === 'asc'}
+    class:desc={$sorting.column === name && $sorting.direction === 'desc'}
+    style="width: {$columnSizes[name]}px"
+    on:click="{handleClick}"
+  >
+    {name}
+    <span class="handle" use:resizeableTable="{handleResize}"></span>
   </th>
 {/if}
 
@@ -37,35 +47,46 @@
     position: sticky;
     top: 0;
     z-index: 1;
-  }
-
-  .header:before {
-    content: '.';
-    visibility: hidden;
-  }
-
-  .name {
-    padding: 0 8px;
-    position: absolute;
-    left: 0;
-    right: 0;
-    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    padding: 0 8px;
+    transition: padding 200ms,
+  }
+
+  .header.sorting {
+    color: #576e82;
+    font-weight: 700;
+    padding: 0 16px 0 8px;
+  }
+
+  .header:after {
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 5px solid;
+    content: "";
+    margin-top: -3px;
+    opacity: 0;
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transition: opacity 200ms, transform 200ms;
+  }
+
+  .header.sorting:after {
+    opacity: .5;
+  }
+
+  .header.asc:after {
+    transform: rotate(180deg);
   }
 
   .handle {
     top: 0;
-    right: -5px;
-    width: 10px;
+    right: 0;
+    width: 5px;
     position: absolute;
     cursor: col-resize;
     user-select: none;
     height: 100%;
-  }
-
-  .handle.last {
-    right: 0;
-    width: 5px;
   }
 </style>

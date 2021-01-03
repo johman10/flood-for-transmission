@@ -1,9 +1,12 @@
 <script>
-  import { torrents, session } from '~helpers/stores';
+  import { sessionStats, session } from '~helpers/stores';
   import { getSize } from '~helpers/sizeHelper';
   import {
     SESSION_COLUMN_UNITS,
     SESSION_COLUMN_UNITS_SIZE,
+    SESSION_STATS_CUMULATIVE_STATS,
+    SESSION_STATS_TOTAL_UPLOAD,
+    SESSION_STATS_TOTAL_DOWNLOAD,
   } from '~helpers/constants/columns';
 
   export let direction;
@@ -15,11 +18,17 @@
     );
   }
 
-  const totalRateStore = torrents.totalRate;
+  $: valueColumn =
+    direction === 'upload'
+      ? SESSION_STATS_TOTAL_UPLOAD
+      : SESSION_STATS_TOTAL_DOWNLOAD;
 
-  $: ({ value, size } = getSize($totalRateStore[direction], {
-    perSize: $session[SESSION_COLUMN_UNITS]?.[SESSION_COLUMN_UNITS_SIZE],
-  }));
+  $: ({ value, size } = getSize(
+    $sessionStats[SESSION_STATS_CUMULATIVE_STATS]?.[valueColumn],
+    {
+      perSize: $session[SESSION_COLUMN_UNITS]?.[SESSION_COLUMN_UNITS_SIZE],
+    }
+  ));
 </script>
 
 <div class="bytes" class:hidden>

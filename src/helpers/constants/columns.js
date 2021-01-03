@@ -135,6 +135,10 @@ export const SESSION_COLUMN = {
   UTP_ENABLED: SESSION_COLUMN_UTP_ENABLED,
 };
 
+export const SESSION_STATS_CUMULATIVE_STATS = 'cumulative-stats';
+export const SESSION_STATS_TOTAL_UPLOAD = 'uploadedBytes';
+export const SESSION_STATS_TOTAL_DOWNLOAD = 'downloadedBytes';
+
 export const UI_COLUMN_ADDED = 'Added';
 export const UI_COLUMN_BASE_PATH = 'Base Path';
 export const UI_COLUMN_COMMENT = 'Comment';

@@ -1,4 +1,4 @@
-const SIZES = ['B', 'kB', 'MB', 'GB', 'TB'];
+const SIZES = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB'];
 const SPEED_SIZES = SIZES.map((size) => `${size}/s`);
 
 export const getSize = (

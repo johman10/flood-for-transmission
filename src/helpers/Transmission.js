@@ -105,6 +105,10 @@ export default class Transmission {
     return this.rpcCall('session-set', data);
   }
 
+  getSessionStats() {
+    return this.rpcCall('session-stats').then((response) => response.arguments);
+  }
+
   updateBlocklist(data) {
     return this.rpcCall('blocklist-update', data).then(
       (response) => response.arguments['blocklist-size']

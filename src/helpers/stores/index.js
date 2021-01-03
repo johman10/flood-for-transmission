@@ -9,6 +9,7 @@ export { paths } from './paths';
 export { rateData } from './rateData';
 export { selectedTorrents } from './selectedTorrents';
 export { session } from './session';
+export { sessionStats } from './sessionStats';
 export { sorting } from './sorting';
 export { torrentDetails } from './torrentDetails';
 export { torrents } from './torrents';

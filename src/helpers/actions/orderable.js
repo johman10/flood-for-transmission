@@ -1,10 +1,12 @@
 let draggingElement;
 
-export default function resizeableTable(item, handleDrop) {
+export default function orderable(item, handleDrop) {
   const list = item.parentNode;
 
-  const onDrag = () => {
+  const onDragStart = (e) => {
+    e.dataTransfer.setDragImage(document.createElement('div'), 0, 0);
     draggingElement = item;
+    draggingElement.style = 'opacity: .6';
   };
 
   const onDragOver = (event) => {
@@ -21,15 +23,16 @@ export default function resizeableTable(item, handleDrop) {
     event.preventDefault();
     const data = Array.from(list.childNodes).map((node) => node.id);
     handleDrop(data);
+    draggingElement.style = 'opacity: 1';
   };
 
-  item.addEventListener('drag', onDrag);
+  item.addEventListener('dragstart', onDragStart);
   item.addEventListener('dragover', onDragOver);
   item.addEventListener('drop', onDrop);
 
   return {
     destroy() {
-      item.removeEventListener('drag', onDrag);
+      item.removeEventListener('dragstart', onDragStart);
       item.removeEventListener('dragover', onDragOver);
       item.removeEventListener('drop', onDrop);
     },

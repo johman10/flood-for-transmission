@@ -1,6 +1,8 @@
 <script>
   import Menu from './Menu.svelte';
 
+  export let activePageId = 'torrents';
+
   let torrentsComponent;
   let speedComponent;
   let peersComponent;
@@ -86,7 +88,7 @@
     },
   ];
 
-  let activePage = pages[0];
+  let activePage = pages.find((page) => page.id === activePageId);
 </script>
 
 <div class="wrapper">

@@ -3,10 +3,15 @@
 </script>
 
 <script>
+  import Icon from '~components/Icon';
+
   export let label = null;
   export let value;
   export let type = 'text';
   export let hint = null;
+  export let validationMessage = '';
+  export let addons = [];
+  export let input = null;
 
   num += 1;
   const id = `input-text-${num}`;
@@ -14,15 +19,62 @@
 
 <div class="container">
   {#if label}<label class="label" for="{id}">{label}</label>{/if}
-  {#if type === 'text'}
-    <input class="input" id="{id}" type="text" bind:value {...$$restProps} />
-  {:else if type === 'number'}
-    <input class="input" id="{id}" type="number" bind:value {...$$restProps} />
-  {:else if type === 'time'}
-    <input class="input" id="{id}" type="time" bind:value {...$$restProps} />
-  {:else if type === 'url'}
-    <input class="input" id="{id}" type="url" bind:value {...$$restProps} />
-  {/if}
+  <div class="input-wrapper" style="--addon-count: {addons.length};">
+    {#if type === 'text'}
+      <input
+        class="input"
+        id="{id}"
+        type="text"
+        bind:this="{input}"
+        on:invalid="{(e) => e.target.setCustomValidity(validationMessage)}"
+        on:input="{(e) => e.target.setCustomValidity('')}"
+        bind:value
+        {...$$restProps}
+      />
+    {:else if type === 'number'}
+      <input
+        class="input"
+        id="{id}"
+        type="number"
+        bind:this="{input}"
+        on:invalid="{(e) => e.target.setCustomValidity(validationMessage)}"
+        on:input="{(e) => e.target.setCustomValidity('')}"
+        bind:value
+        {...$$restProps}
+      />
+    {:else if type === 'time'}
+      <input
+        class="input"
+        id="{id}"
+        type="time"
+        bind:this="{input}"
+        on:invalid="{(e) => e.target.setCustomValidity(validationMessage)}"
+        on:input="{(e) => e.target.setCustomValidity('')}"
+        bind:value
+        {...$$restProps}
+      />
+    {:else if type === 'url'}
+      <input
+        class="input"
+        id="{id}"
+        type="url"
+        bind:this="{input}"
+        on:invalid="{(e) => e.target.setCustomValidity(validationMessage)}"
+        on:input="{(e) => e.target.setCustomValidity('')}"
+        bind:value
+        {...$$restProps}
+      />
+    {:else}{console.error(`Invalid type received, ${type}`)}{/if}
+    {#each addons as addon, index}
+      <div
+        class="addon"
+        on:click="{addon.onClick}"
+        style="--index: {index}; --icon-size: {addon.iconSize};"
+      >
+        <Icon name="{addon.iconName}" />
+      </div>
+    {/each}
+  </div>
   {#if hint}<span class="hint">{hint}</span>{/if}
 </div>
 
@@ -40,6 +92,38 @@
     white-space: nowrap;
   }
 
+  .input-wrapper {
+    position: relative;
+  }
+
+  .input-wrapper:focus-within .addon {
+    fill: #349cf4;
+    border-left-color: rgba(52, 156, 244, 0.15);
+  }
+
+  .input-wrapper .addon {
+    position: absolute;
+    right: calc(var(--index) * 34px);
+    top: 0;
+    height: 34px;
+    width: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-left: solid 1px #202d3c;
+    transition: fill 125ms, border 125ms;
+    cursor: pointer;
+    fill: #8899a8;
+  }
+
+  .input-wrapper .addon:hover {
+    fill: #349cf4;
+  }
+
+  .input-wrapper .addon > :global(.icon) {
+    height: var(--icon-size);
+  }
+
   input {
     background: #293341;
     border: 1px solid #202d3c;
@@ -48,7 +132,7 @@
     font-size: 14px;
     height: 34px;
     outline: none;
-    padding: 0 12px;
+    padding: 0 calc(var(--addon-count) * 32px + 12px) 0 12px;
     border-radius: 4px;
     transition-property: background-color, border-color, color;
     transition-duration: 0.25s;

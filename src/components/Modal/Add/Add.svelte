@@ -115,6 +115,8 @@
       label="Destination"
       placeholder="Destination"
       bind:value="{destination}"
+      pattern="^/.*"
+      validationMessage="Destination must be an absolute path."
       required
     />
     <div class="button-group">

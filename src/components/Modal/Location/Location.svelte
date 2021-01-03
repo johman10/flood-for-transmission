@@ -59,6 +59,9 @@
       bind:value="{location}"
       placeholder="Destination"
       label="Torrent location"
+      pattern="^/.*"
+      validationMessage="Destination must be an absolute path."
+      required
     />
     <div class="button-group">
       <Checkbox label="Move data" bind:checked="{moveData}" />

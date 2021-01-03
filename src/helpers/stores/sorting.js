@@ -17,8 +17,8 @@ function createSortingStore() {
   return {
     subscribe,
     set(value) {
-      window.localStorage.setItem(SORTING_STORAGE_KEY, JSON.stringify(value));
       set(value);
+      window.localStorage.setItem(SORTING_STORAGE_KEY, JSON.stringify(value));
     },
     update,
     updateToColumn(column) {

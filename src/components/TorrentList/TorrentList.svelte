@@ -130,7 +130,7 @@
       {/each}
     </thead>
     <tbody>
-      {#each $sortedTorrents as torrent}
+      {#each $sortedTorrents as torrent (torrent[TRANSMISSION_COLUMN_ID])}
         <Torrent
           torrent="{torrent}"
           on:click="{handleTorrentClick}"

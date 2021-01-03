@@ -23,13 +23,9 @@
     .then(($session) => {
       destination = $session[SESSION_COLUMN_DOWNLOAD_DIR];
       start = $session[SESSION_COLUMN_START_ADDED];
-      loadingInitial = false;
     })
-    .catch(() => {
-      alerts.add(
-        'Unable to fetch the data for that action right now. Try again later.',
-        'negative'
-      );
+    .finally(() => {
+      loadingInitial = false;
     });
 
   const setTab = (newTab) => {

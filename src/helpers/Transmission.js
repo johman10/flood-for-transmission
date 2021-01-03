@@ -84,7 +84,11 @@ export default class Transmission {
       if (!response.ok) {
         throw new Error(response.statusText);
       }
-      return await response.json();
+      const output = await response.json();
+      if (output.result !== 'success') {
+        throw new Error(output.result);
+      }
+      return output;
     } catch (e) {
       this._tokenHeader = null;
       throw new Error(`[Transmission] ${e.message}`);

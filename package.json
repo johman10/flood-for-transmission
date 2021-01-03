@@ -6,8 +6,9 @@
     "postbuild": "workbox generateSW workbox-config.js",
     "dev": "rollup -c -w",
     "start": "sirv public",
-    "fix": "npx eslint --fix \"./src/**/*.{js,svelte}\"",
-    "format": "npx prettier --write \"./src/**/*.{js,svelte}\""
+    "lint": "eslint \"./src/**/*.{js,svelte}\"",
+    "lint:fix": "npm run lint -- --fix",
+    "prettier": "prettier --write \"./src/**/*.{js,svelte}\""
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",

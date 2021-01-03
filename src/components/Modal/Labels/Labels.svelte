@@ -75,9 +75,6 @@
     display: flex;
     justify-content: flex-end;
     margin-top: 25px;
-  }
-
-  .button-group > :global(*) {
-    margin-left: 10px;
+    gap: 10px;
   }
 </style>

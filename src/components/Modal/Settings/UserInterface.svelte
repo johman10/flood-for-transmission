@@ -74,10 +74,7 @@
     align-items: flex-end;
     display: flex;
     justify-content: flex-end;
-  }
-
-  .buttons > :global(* + *) {
-    margin-left: 10px;
+    gap: 10px;
   }
 
   .list {

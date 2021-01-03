@@ -2,6 +2,7 @@
   import Icon from '~components/Icon';
   import Dropdown from '~components/Dropdown';
   import Switch from '~components/Switch';
+  import { Settings } from '~components/Modal';
   import { getSize } from '~helpers/sizeHelper';
   import { session, modals } from '~helpers/stores';
   import {
@@ -59,7 +60,7 @@
   }, {});
 
   const openSettings = () => {
-    modals.open('settings');
+    modals.open({ component: Settings, large: true });
   };
 
   const handleSelect = ({ detail: option }) => {

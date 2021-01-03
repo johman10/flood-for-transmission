@@ -1,5 +1,6 @@
 <script>
   import Icon from '~components/Icon';
+  import { Add, Remove } from '~components/Modal';
   import { torrents, modals, selectedTorrents, panel } from '~helpers/stores';
 
   const togglePanel = () => {
@@ -15,11 +16,11 @@
   };
 
   const handleAdd = () => {
-    modals.open('add');
+    modals.open({ component: Add });
   };
 
   const handleRemove = () => {
-    modals.open('remove');
+    modals.open({ component: Remove });
   };
 </script>
 

@@ -10,6 +10,7 @@
     BooleanRenderer,
     LabelRenderer,
   } from '~components/TorrentList/Renderers';
+  import { TorrentDetail } from '~components/Modal';
   import { session, uiColumns, modals } from '~helpers/stores';
   import { STATUSES } from '~helpers/Transmission';
   import {
@@ -185,7 +186,11 @@
   class="{generateTorrentStatusClass(torrent, selected)}"
   on:click="{dispatchClick}"
   on:contextmenu="{dispatchContextmenu}"
-  on:dblclick="{modals.open.bind(null, ['torrent-detail', torrent.id])}"
+  on:dblclick="{modals.open.bind(null, {
+    component: TorrentDetail,
+    large: true,
+    props: { torrentId: torrent.id },
+  })}"
 >
   {#each $activeColumns
     .map((column) => rendererMap[column.name])

@@ -7,8 +7,13 @@ function createModalsStore() {
     subscribe,
     set,
     update,
-    open: (modalName) => {
-      set(modalName);
+    open: ({ component, props = {}, large = false, ...rest }) => {
+      const restKeys = Object.keys(rest);
+      if (restKeys.length)
+        throw new Error(
+          `[Modals] received unrecognized parameters ${restKeys.join(',')}`
+        );
+      set({ component, props, large });
     },
     close: () => {
       set();

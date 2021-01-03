@@ -1,30 +1,17 @@
 <script>
-  import { onMount } from 'svelte';
   import { scale, fade } from 'svelte/transition';
   import { cubicInOut } from 'svelte/easing';
   import { modals } from '~helpers/stores';
-  import Add from './Add';
-  import Remove from './Remove';
-  import Settings from './Settings';
-  import Labels from './Labels';
-  import Location from './Location';
-  import TorrentDetail from './TorrentDetail';
 
   const handleKeydown = (event) => {
     if (event.keyCode !== 27) return;
     modals.close();
   };
-
-  onMount(() => {
-    document.addEventListener('keydown', handleKeydown);
-
-    return () => {
-      document.removeEventListener('keydown', handleKeydown);
-    };
-  });
 </script>
 
-{#if $modals}
+<svelte:window on:keydown="{handleKeydown}" />
+
+{#if $modals && $modals.component}
   <div class="modal">
     <div
       class="background"
@@ -33,22 +20,10 @@
     ></div>
     <div
       class="content"
-      class:large="{$modals === 'settings' || $modals[0] === 'torrent-detail'}"
+      class:large="{$modals.large}"
       transition:scale="{{ duration: 250, easing: cubicInOut }}"
     >
-      {#if $modals === 'add'}
-        <Add />
-      {:else if $modals === 'remove'}
-        <Remove />
-      {:else if $modals === 'settings'}
-        <Settings />
-      {:else if $modals === 'labels'}
-        <Labels />
-      {:else if $modals === 'location'}
-        <Location />
-      {:else if $modals[0] === 'torrent-detail'}
-        <TorrentDetail torrentId="{$modals[1]}" />
-      {/if}
+      <svelte:component this="{$modals.component}" {...$modals.props || {}} />
     </div>
   </div>
 {/if}

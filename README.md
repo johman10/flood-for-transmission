@@ -67,3 +67,28 @@ I won't be maintaining versions for this project. So to update follow the follow
 1. Copy `.env.template` to `.env` and edit the values to represent your Transmission configuration.
 1. Run `npm run dev`.
 1. Access the UI in your browser. Defaults to `localhost:5000`.
+
+If you're running Transmission on a different machine behind Nginx or similar you may have to allow for CORS request. You can do this by adding the code below to your Transmission location block.
+```
+if ($request_method = 'OPTIONS') {
+    add_header 'Access-Control-Allow-Origin' 'http://localhost:5000';
+    add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
+    #
+    # Custom headers and headers various browsers *should* be OK with but aren't
+    #
+    add_header 'Access-Control-Allow-Headers' 'Authorization,X-Transmission-Session-Id,DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range';
+    #
+    # Tell client that this pre-flight info is valid for 20 days
+    #
+    add_header 'Access-Control-Max-Age' 1728000;
+    add_header 'Content-Type' 'text/plain; charset=utf-8';
+    add_header 'Content-Length' 0;
+    return 204;
+}
+if ($request_method = 'POST') {
+    add_header 'Access-Control-Allow-Origin' 'http://localhost:5000' always;
+    add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
+    add_header 'Access-Control-Allow-Headers' 'Authorization,X-Transmission-Session-Id,DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range';
+    add_header 'Access-Control-Expose-Headers' 'Content-Length,Content-Range,X-Transmission-Session-Id' always;
+}
+```

@@ -86,40 +86,47 @@
 
 <div class="container">
   <div class="locations" class:selected="{!!selectedFiles.length}">
-    <div class="location item">
-      <div class="icon-or-checkbox" class:selected="{allSelected}">
-        <Checkbox bind:checked="{allSelected}" on:change="{selectAll}" />
-        <Icon name="Disk" />
-      </div>
-      <div class="path">
-        {$torrentDetails[TRANSMISSION_COLUMN_DOWNLOAD_DIR]}{getFolderName(files[0])}
-      </div>
-    </div>
-    {#each files as file, index}
-      <div class="file item">
-        <div
-          class="icon-or-checkbox"
-          class:selected="{selectedFiles.includes(file.name)}"
-        >
-          <Checkbox
-            group="{selectedFiles}"
-            value="{file.name}"
-            on:change="{selectFile}"
-          />
-          <Icon name="File" />
+    {#if files.length}
+      <div class="location item">
+        <div class="icon-or-checkbox" class:selected="{allSelected}">
+          <Checkbox bind:checked="{allSelected}" on:change="{selectAll}" />
+          <Icon name="Disk" />
         </div>
-        <div class="path">{getRelativePath(file)}</div>
-        <div class="details">
-          <span>{getFileSize(file).value}{getFileSize(file).size}</span>
-          <span>{Math.round((file.bytesCompleted / file.length) * 100)}%</span>
-          <PriorityIndicator
-            value="{getFilePriority($torrentDetails[TRANSMISSION_COLUMN_FILE_STATS][index])}"
-            allowDisabled="{true}"
-            on:click="{handleSingleFilePrioChange.bind(this, index)}"
-          />
+        <div class="path">
+          {$torrentDetails[TRANSMISSION_COLUMN_DOWNLOAD_DIR]}{getFolderName(files[0])}
         </div>
       </div>
-    {/each}
+      {#each files as file, index}
+        <div class="file item">
+          <div
+            class="icon-or-checkbox"
+            class:selected="{selectedFiles.includes(file.name)}"
+          >
+            <Checkbox
+              group="{selectedFiles}"
+              value="{file.name}"
+              on:change="{selectFile}"
+            />
+            <Icon name="File" />
+          </div>
+          <div class="path">{getRelativePath(file)}</div>
+          <div class="details">
+            <span>{getFileSize(file).value}{getFileSize(file).size}</span>
+            <span
+            >{Math.round((file.bytesCompleted / file.length) * 100)}%</span>
+            <PriorityIndicator
+              value="{getFilePriority($torrentDetails[TRANSMISSION_COLUMN_FILE_STATS][index])}"
+              allowDisabled="{true}"
+              on:click="{handleSingleFilePrioChange.bind(this, index)}"
+            />
+          </div>
+        </div>
+      {/each}
+    {:else}
+      <div class="empty">
+        No files to show right now. Metadata is probably missing.
+      </div>
+    {/if}
   </div>
   {#if selectedFiles.length}
     <div class="action-bar" transition:slide="{{ duration: 250 }}">
@@ -145,6 +152,11 @@
     display: flex;
     flex-direction: column;
     height: 100%;
+  }
+
+  .empty {
+    color: #7d8d9f;
+    font-size: 14px;
   }
 
   .locations {

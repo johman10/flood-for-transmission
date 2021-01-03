@@ -1,12 +1,14 @@
 export { alerts } from './alerts';
 export { columns, uiColumns, transmissionColumns } from './columns';
+export { contextMenu } from './contextMenu';
 export { filters } from './filters';
 export { ipAddress } from './ipAddress';
 export { modals } from './modals';
+export { panel } from './panel';
+export { paths } from './paths';
 export { rateData } from './rateData';
 export { selectedTorrents } from './selectedTorrents';
 export { session } from './session';
 export { sorting } from './sorting';
-export { torrents } from './torrents';
 export { torrentDetails } from './torrentDetails';
-export { panel } from './panel';
+export { torrents } from './torrents';

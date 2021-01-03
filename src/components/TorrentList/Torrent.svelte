@@ -50,6 +50,7 @@
       torrent,
       pageX: event.pageX,
       pageY: event.pageY,
+      element: event.target,
       modifierKey: getModifierKey(event),
     });
   };

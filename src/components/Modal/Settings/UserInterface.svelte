@@ -1,15 +1,18 @@
 <script>
   import Header from './Header.svelte';
   import Button from '~components/Button';
+  import InputMultiple from '~components/InputMultiple';
   import Checkbox from '~components/Checkbox';
-  import { modals, alerts, uiColumns } from '~helpers/stores';
+  import { modals, alerts, uiColumns, paths } from '~helpers/stores';
   import { orderable } from '~helpers/actions';
 
   const newColumns = JSON.parse(JSON.stringify($uiColumns));
+  let newPaths = [...$paths];
 
   const handleSubmit = () => {
     try {
       uiColumns.set(newColumns);
+      paths.set(newPaths);
       alerts.add('Succesfully saved user interface settings');
     } catch (e) {
       alerts.add(
@@ -19,7 +22,7 @@
     }
   };
 
-  const handleDrop = (sorting) => {
+  const handleColumnDrop = (sorting) => {
     newColumns.sort(
       (a, b) => sorting.indexOf(a.name) - sorting.indexOf(b.name)
     );
@@ -27,14 +30,25 @@
 </script>
 
 <form on:submit|preventDefault="{handleSubmit}">
-  <Header text="Torrent Detail Columns" />
+  <Header text="Common paths" />
+  <p class="hint">
+    These paths will be shown behind the magnifier where you can select a path.
+  </p>
+  <div class="list">
+    <InputMultiple
+      bind:values="{newPaths}"
+      pattern="^/.*"
+      validationMessage="Path must be an absolute path."
+    />
+  </div>
 
+  <Header text="Torrent Columns" />
   <div class="list">
     {#each Object.values(newColumns) as column}
       <div
         class="column"
         draggable="true"
-        use:orderable="{handleDrop}"
+        use:orderable="{handleColumnDrop}"
         id="{column.name}"
       >
         <span>{column.name}</span>
@@ -79,16 +93,8 @@
 
   .list {
     margin-bottom: 15px;
-  }
-
-  .column:first-child {
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
-  }
-
-  .column:last-child {
-    border-bottom-left-radius: 3px;
-    border-bottom-right-radius: 3px;
+    border-radius: 3px;
+    overflow: hidden;
   }
 
   .column {
@@ -101,5 +107,11 @@
     height: 30px;
     padding: 0 5px;
     font-size: 13px;
+  }
+
+  .hint {
+    font-size: 12px;
+    line-height: 1.5;
+    margin-bottom: 8px;
   }
 </style>

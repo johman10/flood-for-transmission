@@ -3,6 +3,7 @@
   import Panel from '~components/Panel';
   import TorrentList from '~components/TorrentList';
   import Modal from '~components/Modal';
+  import ContextMenu from '~components/ContextMenu';
   import Alerts from '~components/Alerts';
   import { panel } from '~helpers/stores';
 </script>
@@ -13,6 +14,7 @@
     <Header />
     <TorrentList />
     <Modal />
+    <ContextMenu />
     <Alerts />
   </div>
 </main>

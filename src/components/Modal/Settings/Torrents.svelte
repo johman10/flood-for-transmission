@@ -2,6 +2,7 @@
   import Header from './Header.svelte';
   import Icon from '~components/Icon';
   import Input from '~components/Input';
+  import InputPath from '~components/InputPath';
   import Checkbox from '~components/Checkbox';
   import Button from '~components/Button';
   import { session, modals, alerts } from '~helpers/stores';
@@ -84,7 +85,11 @@
   <Icon name="SpinnerIcon" />
   <form on:submit|preventDefault="{handleSubmit}">
     <Header text="Downloading" />
-    <Input label="Download to" bind:value="{downloadDir}" />
+    <InputPath
+      label="Download to"
+      bind:value="{downloadDir}"
+      hint="This will be used as the default location for Transmission when adding a new torrent."
+    />
     <Checkbox label="Start when added" bind:checked="{startAddedTorrents}" />
     <Checkbox
       label="{'Append ".part" to incomplete files\' names'}"

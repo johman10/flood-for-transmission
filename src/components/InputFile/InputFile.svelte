@@ -12,7 +12,7 @@
 
   if (accept.indexOf('*') > -1) {
     console.warn(
-      '<FileInput> received an non allowed wildcard in the accept value.'
+      '<InputFile> received an non allowed wildcard in the accept value.'
     );
   }
 

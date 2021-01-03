@@ -1,5 +1,5 @@
 <script>
-  import Input from '~components/Input';
+  import InputPath from '~components/InputPath';
   import Checkbox from '~components/Checkbox';
   import Button from '~components/Button';
   import Icon from '~components/Icon';
@@ -54,7 +54,7 @@
 <div class="content" class:loading-initial="{loadingInitial}">
   <Icon name="SpinnerIcon" />
   <form on:submit|preventDefault="{handleLocation}">
-    <Input
+    <InputPath
       type="text"
       bind:value="{location}"
       placeholder="Destination"

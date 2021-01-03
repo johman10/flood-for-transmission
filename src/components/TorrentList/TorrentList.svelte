@@ -1,27 +1,23 @@
 <script>
-  import { fly } from 'svelte/transition';
   import {
     uiColumns,
     selectedTorrents,
     torrents,
     modals,
+    contextMenu,
   } from '~helpers/stores';
-  import { clickOutside } from '~helpers/actions';
   import ColumnHeader from '~components/TorrentList/ColumnHeader.svelte';
   import Torrent from '~components/TorrentList/Torrent.svelte';
-  import { TRANSMISSION_COLUMN_PRIORITY } from '~helpers/constants/columns';
-  import PriorityIndicator from '~components/PriorityIndicator';
+  import { Torrent as TorrentContextMenu } from '~components/ContextMenu';
+  import { Location, Remove, Labels } from '~components/Modal';
+  import {
+    TRANSMISSION_COLUMN_PRIORITY,
+    TRANSMISSION_COLUMN_ID,
+  } from '~helpers/constants/columns';
 
   const sortedTorrents = torrents.sorted;
   const activeColumns = uiColumns.active;
   const { totalSize } = uiColumns;
-
-  let wrapper = null;
-  let contextMenu = false;
-  let contextMenuStyle = '';
-  let contextMenuHeight = 236;
-  let contextMenuBottomSpace = 0;
-  let priorityIndicator;
 
   let prio = 0;
   $: {
@@ -85,32 +81,31 @@
     }
   };
 
-  const buildActionClick = (callback, ...args) => {
-    return () => {
-      contextMenu = false;
-      callback(...args);
-    };
-  };
-
   const handleTorrentRightClick = (event) => {
     const torrent = event.detail.torrent;
-    const modifierKey = event.detail.modifierKey;
     if (!$selectedTorrents.includes(torrent.id)) {
+      const modifierKey = event.detail.modifierKey;
       handleTorrentClick({ detail: { torrent, modifierKey }, deselect: false });
     }
 
-    if (!wrapper) return;
-
-    const { x, y } = wrapper.getBoundingClientRect();
-    const top = event.detail.pageY - y + +wrapper.scrollTop;
-    const left = event.detail.pageX - x + wrapper.scrollLeft;
-    contextMenuBottomSpace = wrapper.scrollHeight - top;
-    contextMenuStyle = `left: ${left}px; top: ${top}px;`;
-    contextMenu = true;
-  };
-
-  const clickOnPriorityIndicator = () => {
-    priorityIndicator.$capture_state().element.click();
+    contextMenu.open({
+      coordinates: {
+        y: event.detail.pageY,
+        x: event.detail.pageX,
+      },
+      component: TorrentContextMenu,
+      props: {
+        prio,
+        onStart: torrents.start.bind(this, $selectedTorrents),
+        onStop: torrents.stop.bind(this, $selectedTorrents),
+        onRemove: modals.open.bind(this, { component: Remove }),
+        onVerify: torrents.verify.bind(this, $selectedTorrents),
+        onAsk: torrents.reannounce.bind(this, $selectedTorrents),
+        onLabels: modals.open.bind(this, { component: Labels }),
+        onLocation: modals.open.bind(this, { component: Location }),
+        onPrio: changePrio,
+      },
+    });
   };
 
   const changePrio = (event) => {
@@ -122,7 +117,7 @@
   };
 </script>
 
-<div class="wrapper" bind:this="{wrapper}">
+<div class="wrapper">
   <table class="table" style="width: {$totalSize}px">
     <thead class="table-header">
       {#each $activeColumns as column}
@@ -140,46 +135,6 @@
       {/each}
     </tbody>
   </table>
-
-  {#if contextMenu}
-    <ul
-      style="{contextMenuStyle}"
-      class:is-up="{contextMenuBottomSpace < contextMenuHeight}"
-      bind:offsetHeight="{contextMenuHeight}"
-      use:clickOutside="{() => {
-        contextMenu = false;
-      }}"
-      transition:fly="{{ duration: 125, y: -20 }}"
-    >
-      <li on:click="{buildActionClick(torrents.start, $selectedTorrents)}">
-        Start
-      </li>
-      <li on:click="{buildActionClick(torrents.stop, $selectedTorrents)}">
-        Stop
-      </li>
-      <li on:click="{buildActionClick(modals.open, 'remove')}">Remove</li>
-      <li on:click="{buildActionClick(torrents.verify, $selectedTorrents)}">
-        Verify local data
-      </li>
-      <li on:click="{buildActionClick(torrents.reannounce, $selectedTorrents)}">
-        Ask tracker for more peers
-      </li>
-      <hr />
-      <li on:click="{buildActionClick(modals.open, 'labels')}">Set labels</li>
-      <li on:click="{buildActionClick(modals.open, 'location')}">
-        Set location
-      </li>
-      <hr />
-      <li on:click="{clickOnPriorityIndicator}">
-        Priority
-        <PriorityIndicator
-          bind:this="{priorityIndicator}"
-          value="{prio}"
-          on:click="{changePrio}"
-        />
-      </li>
-    </ul>
-  {/if}
 </div>
 
 <style>
@@ -199,43 +154,5 @@
     font-size: 13px;
     white-space: nowrap;
     z-index: 1;
-  }
-
-  ul {
-    position: absolute;
-    padding: 0;
-    margin: 0;
-    background-color: white;
-    white-space: nowrap;
-    padding: 9px 0;
-    font-size: 12px;
-    border-radius: 4px;
-    box-shadow: 0 1px 1px rgba(40, 48, 59, 0.05),
-      0 1px 3px 1px rgba(40, 48, 59, 0.1), 0 0 0 1px rgba(40, 48, 59, 0.1);
-    color: #53718a;
-  }
-
-  li {
-    cursor: pointer;
-    padding: 5px 15px;
-    transition: background-color 250ms, color 250ms;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  li:hover {
-    background-color: rgba(233, 238, 242, 0.4);
-    color: #3e4e61;
-  }
-
-  hr {
-    border: 0;
-    border-top: solid 1px rgba(41, 51, 65, 0.075);
-    margin: 5px 0;
-  }
-
-  ul.is-up {
-    transform: translateY(-100%);
   }
 </style>

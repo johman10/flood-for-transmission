@@ -1,7 +1,8 @@
 <script>
   import Input from '~components/Input';
+  import InputPath from '~components/InputPath';
+  import InputFile from '~components/InputFile';
   import Icon from '~components/Icon';
-  import FileInput from '~components/FileInput';
   import Checkbox from '~components/Checkbox';
   import Button from '~components/Button';
   import { modals, torrents, alerts, session } from '~helpers/stores';
@@ -104,14 +105,14 @@
         required
       />
     {:else}
-      <FileInput
+      <InputFile
         label="Torrents"
         bind:files
         required
         accept=".torrent,application/x-bittorrent"
       />
     {/if}
-    <Input
+    <InputPath
       label="Destination"
       placeholder="Destination"
       bind:value="{destination}"

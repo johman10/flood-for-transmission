@@ -2,6 +2,7 @@
   import Input from '~components/Input';
   import Checkbox from '~components/Checkbox';
   import Button from '~components/Button';
+  import Icon from '~components/Icon';
   import {
     modals,
     torrents,
@@ -11,17 +12,26 @@
   } from '~helpers/stores';
   import { SESSION_COLUMN_DOWNLOAD_DIR } from '~helpers/constants/columns';
 
-  let loading = false;
-  let location = $session[SESSION_COLUMN_DOWNLOAD_DIR];
+  let loadingInitial = true;
+  let loadingSubmit = false;
+  let location = null;
   let moveData = true;
-  let basePath = false;
+
+  session
+    .addColumns([SESSION_COLUMN_DOWNLOAD_DIR])
+    .then(($session) => {
+      location = $session[SESSION_COLUMN_DOWNLOAD_DIR];
+    })
+    .finally(() => {
+      loadingInitial = false;
+    });
 
   const handleLocation = () => {
-    if (loading) return;
+    if (loadingSubmit) return;
 
-    loading = true;
+    loadingSubmit = true;
     if (!$selectedTorrents.length) {
-      loading = false;
+      loadingSubmit = false;
       alerts.add('Select at least one torrent to continue', 'negative');
       return;
     }
@@ -34,13 +44,15 @@
       })
       .catch(() => {
         alerts.add('Failed to set location', 'negative');
+        loadingSubmit = false;
       });
   };
 </script>
 
 <h1>Set torrent location</h1>
 
-<div class="content">
+<div class="content" class:loading-initial="{loadingInitial}">
+  <Icon name="SpinnerIcon" />
   <form on:submit|preventDefault="{handleLocation}">
     <Input
       type="text"
@@ -48,11 +60,10 @@
       placeholder="Destination"
       label="Torrent location"
     />
-    <Checkbox label="Use as base path" bind:checked="{basePath}" />
     <div class="button-group">
       <Checkbox label="Move data" bind:checked="{moveData}" />
       <Button priority="tertiary" on:click="{modals.close}">Cancel</Button>
-      <Button priority="primary" loading="{loading}" type="submit">
+      <Button priority="primary" loading="{loadingSubmit}" type="submit">
         Set torrent location
       </Button>
     </div>
@@ -71,6 +82,28 @@
     overflow-y: auto;
     padding: 20px 25px 20px 25px;
     color: #7d8d9f;
+  }
+
+  .content.loading-initial {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    fill: #3ea7ff;
+  }
+
+  .content > :global(.icon) {
+    position: absolute;
+    height: 30px;
+    width: 30px;
+    display: none;
+  }
+
+  .content.loading-initial > :global(.icon) {
+    display: inherit;
+  }
+
+  .content.loading-initial form {
+    visibility: hidden;
   }
 
   .button-group {

@@ -80,10 +80,63 @@
       return torrent;
     });
   };
+
+  const makeEditable = (e) => {
+    e.target.setAttribute('contenteditable', true);
+    e.target.focus();
+    document.execCommand('selectAll', false, null);
+  };
+
+  const rename = (e) => {
+    const newName = e.target.innerText.trim();
+
+    if (!newName) {
+      e.target.innerText = $torrentDetails[TRANSMISSION_COLUMN.NAME];
+      return;
+    }
+
+    torrents.rename(
+      [torrentId],
+      $torrentDetails[TRANSMISSION_COLUMN.NAME],
+      newName
+    );
+    torrentDetails.update((torrent) => {
+      torrent[TRANSMISSION_COLUMN.NAME] = newName;
+      torrent[TRANSMISSION_COLUMN.FILES] = torrent[
+        TRANSMISSION_COLUMN.FILES
+      ].map((file) => {
+        const parts = file.name.split('/');
+        parts[0] = newName;
+        return { ...file, name: parts.join('/') };
+      });
+      return torrent;
+    });
+    e.target.removeAttribute('contenteditable');
+  };
+
+  const handlePaste = (e) => {
+    e.preventDefault();
+    const text = e.clipboardData.getData('text/html');
+    const resultElement = document.createElement('div');
+    resultElement.innerHTML = text;
+    e.target.innerText = resultElement.innerText;
+  };
+
+  const handleEnter = (e) => {
+    const key = e.keyCode;
+    if (key === 13) e.target.blur();
+  };
 </script>
 
 <div class="header">
-  <h1>{$torrentDetails[TRANSMISSION_COLUMN.NAME]}</h1>
+  <h1
+    on:dblclick="{makeEditable}"
+    on:blur="{rename}"
+    on:paste="{handlePaste}"
+    on:keydown="{handleEnter}"
+  >
+    {$torrentDetails[TRANSMISSION_COLUMN.NAME]}
+  </h1>
   <div class="subheading">
     <ul>
       <li
@@ -169,6 +222,7 @@
     font-weight: 500;
     line-height: 1.25;
     word-break: break-word;
+    cursor: pointer;
   }
 
   .subheading {

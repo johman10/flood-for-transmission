@@ -12,6 +12,7 @@ import {
   TRANSMISSION_COLUMN_DOWNLOAD_DIR,
   TRANSMISSION_COLUMN_UPLOAD_RATE,
   TRANSMISSION_COLUMN_DOWNLOAD_RATE,
+  TRANSMISSION_COLUMN_NAME,
 } from '~helpers/constants/columns';
 import { sorting } from '~helpers/stores/sorting';
 import { transmissionColumns, uiColumns, filters } from '~helpers/stores';
@@ -185,6 +186,18 @@ function createTorrentsStore() {
         .filter((item, index, list) => list.indexOf(item) === index)
         .sort()
     ),
+    rename: (ids, path, name) =>
+      store.update((state) => {
+        transmission.renamePath(ids, path, name).catch(() => store.set(state));
+        return state.map((torrent) => {
+          if (!ids.includes(torrent.id)) return torrent;
+
+          return {
+            ...torrent,
+            [TRANSMISSION_COLUMN_NAME]: name,
+          };
+        });
+      }),
     start: (ids) =>
       store.update((state) => {
         transmission.startTorrents(ids).catch(() => store.set(state));

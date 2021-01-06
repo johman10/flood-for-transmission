@@ -144,6 +144,10 @@ export default class Transmission {
     return this.rpcCall('torrent-stop', { ids });
   }
 
+  renamePath(ids, path, name) {
+    return this.rpcCall('torrent-rename-path', { ids, path, name });
+  }
+
   verifyTorrents(ids) {
     return this.rpcCall('torrent-verify', { ids });
   }

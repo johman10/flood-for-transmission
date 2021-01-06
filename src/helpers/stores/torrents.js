@@ -81,10 +81,10 @@ function getRecentlyActiveTorrents() {
 
   transmission
     .getTorrents('recently-active', get(transmissionColumns))
-    .then((activeTorrents) => {
+    .then(({ torrents, removed }) => {
       store.update((currentTorrents) => {
-        const newTorrents = currentTorrents.map((torrent) => {
-          const activeTorrent = activeTorrents.find((t) => t.id === torrent.id);
+        const updatedTorrents = currentTorrents.map((torrent) => {
+          const activeTorrent = torrents.find((t) => t.id === torrent.id);
           if (!activeTorrent) return torrent;
 
           return {
@@ -92,10 +92,6 @@ function getRecentlyActiveTorrents() {
             ...activeTorrent,
           };
         });
-        // TODO: take care of removed torrents too!
-        const addedTorrents = activeTorrents.filter(
-          (at) => !currentTorrents.find((ct) => ct.id === at.id)
-        );
 
         const activeColumns = get(uiColumns.active);
         // If no column was added, just keep fetching the recently active
@@ -116,8 +112,17 @@ function getRecentlyActiveTorrents() {
             TORRENT_FETCHING_TIMEOUT
           );
         }
+
+        const addedTorrents = torrents.filter(
+          (at) => !currentTorrents.find((ct) => ct.id === at.id)
+        );
+
         previousActiveColumns = activeColumns;
-        return [...newTorrents, ...addedTorrents];
+        let newTorrents = [...updatedTorrents, ...addedTorrents];
+        newTorrents = newTorrents.filter(
+          (torrent) => !removed.includes(torrent.id)
+        );
+        return newTorrents;
       });
     })
     // TODO: Error handling

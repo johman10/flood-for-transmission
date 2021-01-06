@@ -125,7 +125,12 @@ export default class Transmission {
     return this.rpcCall('torrent-get', {
       ids,
       fields,
-    }).then((response) => response.arguments.torrents);
+    }).then((response) => {
+      if (ids === 'recently-active') {
+        return response.arguments;
+      }
+      return response.arguments.torrents;
+    });
   }
 
   setTorrents(ids, data) {

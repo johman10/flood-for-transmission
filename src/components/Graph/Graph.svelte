@@ -150,8 +150,7 @@
 <svg
   class="graph"
   on:mousemove="{handleMouseMove}"
-  on:mouseleave="{handleMouseLeave}"
->
+  on:mouseleave="{handleMouseLeave}">
   <defs>
     <linearGradient id="gradient--upload" x1="0%" y1="0%" x2="0%" y2="100%">
       <stop class="top upload" offset="0%"></stop>

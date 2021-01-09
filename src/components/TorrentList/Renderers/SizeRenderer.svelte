@@ -15,8 +15,7 @@
   class:speed="{isSpeed}"
   class:active="{value > 0}"
   class:upload="{isUpload}"
-  class="{torrentStatusClass}"
->
+  class="{torrentStatusClass}">
   {value}
   <em>{size}</em>
 </span>

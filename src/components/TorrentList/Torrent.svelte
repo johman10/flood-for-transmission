@@ -191,8 +191,7 @@
     component: TorrentDetail,
     large: true,
     props: { torrentId: torrent.id },
-  })}"
->
+  })}">
   {#each $activeColumns
     .map((column) => rendererMap[column.name])
     .filter(Boolean) as { component, props }}

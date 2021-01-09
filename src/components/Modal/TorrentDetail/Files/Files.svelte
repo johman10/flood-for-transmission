@@ -93,7 +93,9 @@
           <Icon name="Disk" />
         </div>
         <div class="path">
-          {$torrentDetails[TRANSMISSION_COLUMN_DOWNLOAD_DIR]}{getFolderName(files[0])}
+          {$torrentDetails[TRANSMISSION_COLUMN_DOWNLOAD_DIR]}{getFolderName(
+            files[0]
+          )}
         </div>
       </div>
       {#each files as file, index}
@@ -112,10 +114,12 @@
           <div class="path">{getRelativePath(file)}</div>
           <div class="details">
             <span>{getFileSize(file).value}{getFileSize(file).size}</span>
-            <span
-            >{Math.round((file.bytesCompleted / file.length) * 100)}%</span>
+            <span>{Math.round((file.bytesCompleted / file.length) * 100)}%</span
+            >
             <PriorityIndicator
-              value="{getFilePriority($torrentDetails[TRANSMISSION_COLUMN_FILE_STATS][index])}"
+              value="{getFilePriority(
+                $torrentDetails[TRANSMISSION_COLUMN_FILE_STATS][index]
+              )}"
               allowDisabled="{true}"
               on:click="{handleSingleFilePrioChange.bind(this, index)}"
             />

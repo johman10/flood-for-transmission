@@ -17,8 +17,7 @@
       y="0"
       width="128"
       height="128"
-      maskUnits="userSpaceOnUse"
-    >
+      maskUnits="userSpaceOnUse">
       <image
         width="128"
         height="128"

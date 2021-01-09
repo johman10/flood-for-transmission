@@ -99,8 +99,7 @@
   on:dragenter="{handleDragOver}"
   on:dragover="{handleDragOver}"
   on:dragleave="{handleDragLeave}"
-  on:drop="{handleDrop}"
->
+  on:drop="{handleDrop}">
   <Icon name="Files" />
   {#if invalid}
     There seems to be no torrent there, please try again.

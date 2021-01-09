@@ -22,8 +22,8 @@
   If you have a specific issue or bug, please file a
   <a
     href="https://github.com/johman10/flood-for-transmission/issues/new"
-    target="_blank"
-  >GitHub issue</a>. Also feel free to bring up feature requests that way.
+    target="_blank">GitHub issue</a
+  >. Also feel free to bring up feature requests that way.
 </p>
 
 <style>

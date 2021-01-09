@@ -101,7 +101,14 @@
 
 {#if $contextMenu?.component}
   <ul
-    style="{[getStyleDeclaration('top', top), getStyleDeclaration('bottom', bottom), getStyleDeclaration('max-height', maxHeight), getStyleDeclaration('width', width), getStyleDeclaration('left', left), getStyleDeclaration('right', right)].join(' ')}"
+    style="{[
+      getStyleDeclaration('top', top),
+      getStyleDeclaration('bottom', bottom),
+      getStyleDeclaration('max-height', maxHeight),
+      getStyleDeclaration('width', width),
+      getStyleDeclaration('left', left),
+      getStyleDeclaration('right', right),
+    ].join(' ')}"
     bind:offsetHeight="{menuHeight}"
     bind:offsetWidth="{menuWidth}"
     use:clickOutside="{contextMenu.close}"

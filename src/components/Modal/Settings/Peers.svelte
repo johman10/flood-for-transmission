@@ -144,9 +144,8 @@
         priority="tertiary"
         on:click="{updateBlocklist}"
         loading="{blocklistUpdateLoading}"
+      >Update blocklist</Button
       >
-        Update blocklist
-      </Button>
     </div>
 
     <div class="buttons">

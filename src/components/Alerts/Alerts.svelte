@@ -9,7 +9,9 @@
     {#each $alerts as alert}
       <li class="alert {alert.type}">
         <Icon
-          name="{alert.type === 'positive' ? 'CircleCheckmarkIcon' : 'CircleExclamationIcon'}"
+          name="{alert.type === 'positive'
+            ? 'CircleCheckmarkIcon'
+            : 'CircleExclamationIcon'}"
         />
         <span class="message">{alert.message}</span>
       </li>

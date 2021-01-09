@@ -26,8 +26,7 @@
     class:asc="{$sorting.column === name && $sorting.direction === 'asc'}"
     class:desc="{$sorting.column === name && $sorting.direction === 'desc'}"
     style="width: {$columnSizes[name]}px"
-    on:click="{handleClick}"
-  >
+    on:click="{handleClick}">
     {name}
     <span class="handle" use:resizeableTable="{handleResize}"></span>
   </th>

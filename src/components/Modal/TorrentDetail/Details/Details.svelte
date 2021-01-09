@@ -54,7 +54,9 @@
 
   <div class="column column--label">Download progress</div>
   <div class="column column--value">
-    {Math.round($torrentDetails[TRANSMISSION_COLUMN.DOWNLOAD_PROGRESS] * 10000) / 100}%
+    {Math.round(
+      $torrentDetails[TRANSMISSION_COLUMN.DOWNLOAD_PROGRESS] * 10000
+    ) / 100}%
   </div>
 
   <div class="column column--label">Downloaded</div>

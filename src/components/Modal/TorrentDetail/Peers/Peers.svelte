@@ -56,14 +56,14 @@
             {peer.address}
           </td>
           <td>
-            {getDownloadSpeed(peer).value}<em
-              class="unit"
-            >{getDownloadSpeed(peer).size}</em>
+            {getDownloadSpeed(peer).value}<em class="unit"
+              >{getDownloadSpeed(peer).size}</em
+            >
           </td>
           <td>
-            {getUploadSpeed(peer).value}<em
-              class="unit"
-            >{getUploadSpeed(peer).size}</em>
+            {getUploadSpeed(peer).value}<em class="unit"
+              >{getUploadSpeed(peer).size}</em
+            >
           </td>
           <td>{Math.round(peer.progress * 100)}%</td>
           <td>{peer.clientName}</td>

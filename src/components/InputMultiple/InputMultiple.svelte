@@ -3,6 +3,7 @@
 
   export let values;
   export let type = 'text';
+  export let label = null;
 
   $: {
     if (!values.length) {
@@ -44,8 +45,14 @@
 </script>
 
 <div class="list">
+  {#if label}
+    <label class="label" for="input-multiple-{values.length - 1}">
+      {label}
+    </label>
+  {/if}
   {#each values as value, index}
     <Input
+      id="input-multiple-{index}"
       type="{type}"
       bind:value
       addons="{getAddons(index)}"
@@ -55,6 +62,15 @@
 </div>
 
 <style>
+  label {
+    display: block;
+    font-size: 13px;
+    margin-bottom: 3px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   .list > :global(.container) {
     margin: 0 0 8px;
   }

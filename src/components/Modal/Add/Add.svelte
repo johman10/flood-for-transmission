@@ -1,5 +1,5 @@
 <script>
-  import Input from '~components/Input';
+  import InputMultiple from '~components/InputMultiple';
   import InputPath from '~components/InputPath';
   import InputFile from '~components/InputFile';
   import Icon from '~components/Icon';
@@ -14,10 +14,14 @@
   let loadingInitial = true;
   let loadingSubmit = false;
   let tab = 'url';
-  let filename = null;
+  let fileNames = [];
   let files = null;
   let destination = null;
   let start = null;
+
+  $: cleanFileNames = fileNames
+    .map((fileName) => fileName.trim())
+    .filter(Boolean);
 
   session
     .addColumns([SESSION_COLUMN_DOWNLOAD_DIR, SESSION_COLUMN_START_ADDED])
@@ -29,12 +33,6 @@
       loadingInitial = false;
     });
 
-  const setTab = (newTab) => {
-    filename = null;
-    files = null;
-    tab = newTab;
-  };
-
   const toBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -44,40 +42,72 @@
     });
   };
 
+  const handleFileSubmit = () => {
+    const promises = files.map((file) => toBase64(file));
+    return Promise.all(promises).then((base64Files) =>
+      base64Files.map((base64File) => ({
+        'metainfo': base64File,
+        'paused': !start,
+        'download-dir': destination,
+      }))
+    );
+  };
+
+  const handleUrlSubmit = () => {
+    const dataItems = cleanFileNames.map((filename) => ({
+      filename,
+      'paused': !start,
+      'download-dir': destination,
+    }));
+    return Promise.resolve(dataItems);
+  };
+
   const handleSubmit = () => {
     loadingSubmit = true;
 
-    let metainfoPromise = Promise.resolve();
-    if (files) {
-      metainfoPromise = toBase64(files[0]);
+    let promise;
+    if (tab === 'file') {
+      promise = handleFileSubmit();
+    } else if (tab === 'url') {
+      promise = handleUrlSubmit();
+    } else {
+      throw new Error('<Add> Unexpected tab');
     }
 
-    metainfoPromise
-      .then((metainfo) => {
-        const data = {
-          filename,
-          'paused': !start,
-          'download-dir': destination,
-        };
-        if (metainfo) {
-          delete data.filename;
-          data.metainfo = metainfo;
-        }
-        return torrents.add(data);
+    promise
+      .then((dataItems) => {
+        return Promise.all(dataItems.map((item) => torrents.add(item)));
       })
-      .then((response) => {
-        if (response.arguments['torrent-duplicate']) {
-          alerts.add('The torrent already exists', 'negative');
-          return;
+      .then((responses) => {
+        const duplicateResponses = responses
+          .map((response) => response.arguments['torrent-duplicate'])
+          .filter(Boolean);
+        const pluralize = responses.length > 1 ? 'torrents' : 'torrent';
+
+        if (!duplicateResponses.length) {
+          alerts.add(`Succesfully added ${responses.length} ${pluralize}`);
+        } else if (duplicateResponses.length === responses.length) {
+          alerts.add(`All the uploaded ${pluralize} already exist`, 'negative');
+        } else {
+          const pluralizeDuplicates =
+            duplicateResponses.length > 1 ? 'torrents' : 'torrent';
+          const successCount = responses.length - duplicateResponses.length;
+          alerts.add(
+            `Succesfully added ${successCount} ${pluralize}, the other ${duplicateResponses.length} ${pluralizeDuplicates} already exist`,
+            'negative'
+          );
         }
 
-        alerts.add('Succesfully added a torrent');
         modals.close();
       })
-      .catch(() => {
-        alerts.add('Failed to add torrent', 'negative');
-      })
-      .finally(() => {
+      .catch((e) => {
+        if (e) {
+          console.error(e);
+          alerts.add(
+            'Failed to add some torrent, please try again',
+            'negative'
+          );
+        }
         loadingSubmit = false;
       });
   };
@@ -85,10 +115,10 @@
 
 <h1>Add Torrents</h1>
 <ul class="tabs">
-  <li on:click="{setTab.bind(this, 'url')}" class:active="{tab === 'url'}">
+  <li on:click="{() => (tab = 'url')}" class:active="{tab === 'url'}">
     By URL
   </li>
-  <li on:click="{setTab.bind(this, 'file')}" class:active="{tab === 'file'}">
+  <li on:click="{() => (tab = 'file')}" class:active="{tab === 'file'}">
     By File
   </li>
 </ul>
@@ -97,17 +127,18 @@
   <Icon name="SpinnerIcon" />
   <form on:submit|preventDefault="{handleSubmit}">
     {#if tab === 'url'}
-      <Input
+      <InputMultiple
         label="Torrents"
         type="url"
         placeholder="Torrent URL or Magnet Link"
-        bind:value="{filename}"
-        required
+        bind:values="{fileNames}"
+        required="{!cleanFileNames.length}"
       />
-    {:else}
+    {:else if tab === 'file'}
       <InputFile
         label="Torrents"
         bind:files
+        multiple
         required
         accept=".torrent,application/x-bittorrent"
       />

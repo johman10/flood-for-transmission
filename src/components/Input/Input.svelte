@@ -5,6 +5,8 @@
 <script>
   import Icon from '~components/Icon';
 
+  num += 1;
+
   export let label = null;
   export let value;
   export let type = 'text';
@@ -12,9 +14,7 @@
   export let validationMessage = '';
   export let addons = [];
   export let input = null;
-
-  num += 1;
-  const id = `input-text-${num}`;
+  export let id = `input-text-${num}`;
 </script>
 
 <div class="container">

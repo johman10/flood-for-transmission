@@ -6,6 +6,7 @@
   import Chevron from './Chevron.svelte';
   import CircleCheckmarkIcon from './CircleCheckmarkIcon.svelte';
   import CircleExclamationIcon from './CircleExclamationIcon.svelte';
+  import Close from './Close.svelte';
   import Completed from './Completed.svelte';
   import Disk from './Disk.svelte';
   import Download from './Download.svelte';
@@ -36,6 +37,7 @@
     Chevron,
     CircleCheckmarkIcon,
     CircleExclamationIcon,
+    Close,
     Completed,
     Disk,
     Download,

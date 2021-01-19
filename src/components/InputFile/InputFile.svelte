@@ -9,6 +9,7 @@
   export let label;
   export let accept = null;
   export let required = false;
+  export let multiple = false;
 
   if (accept.indexOf('*') > -1) {
     console.warn(
@@ -22,7 +23,6 @@
         .filter(Boolean)
         .map((type) => type.trim())
     : null;
-  $: actualRequired = required && (!files || !files.length);
 
   let hovering = false;
   let invalid = false;
@@ -43,23 +43,28 @@
 
   const handleFiles = (newFiles) => {
     const fileList = Array.from(newFiles);
-    let file = fileList[0];
     if (acceptList) {
-      file = fileList.find((file) => {
+      const allFilesValid = fileList.every((file) => {
         const splitName = file.name.split('.');
         const extension = `.${splitName[splitName.length - 1]}`;
         return acceptList.some(
           (type) => type === file.type || type === extension
         );
       });
+
+      if (!allFilesValid) {
+        invalid = true;
+        return;
+      }
     }
-    if (!file) {
-      invalid = true;
-      return;
-    }
+
     invalid = false;
-    files = [file];
-    return file;
+    if (multiple) {
+      files = files ? [...files, ...fileList] : fileList;
+    } else {
+      files = [fileList[0]];
+    }
+    return files;
   };
 
   const handleDrop = (event) => {
@@ -68,24 +73,32 @@
 
     const { dataTransfer } = event;
     handleFiles(dataTransfer.files);
+    event.target.value = '';
   };
 
   const handleChange = (event) => {
     event.preventDefault();
-
-    const file = handleFiles(event.target.files);
-    if (file) return;
+    handleFiles(event.target.files);
     event.target.value = '';
+  };
+
+  const removeFile = (removeFile) => {
+    files = files.filter((file) => removeFile !== file);
   };
 </script>
 
 <label class="label-text" for="{id}">{label}</label>
-{#if files}
+{#if files && files.length}
   <ul class="file-list">
     {#each files as file}
       <li class="file-item">
-        <Icon name="File" />
-        {file.name}
+        <span class="file-label">
+          <Icon name="File" />
+          {file.name}
+        </span>
+        <button class="remove-file-button" on:click="{() => removeFile(file)}">
+          <Icon name="Close" />
+        </button>
       </li>
     {/each}
   </ul>
@@ -102,16 +115,18 @@
   on:drop="{handleDrop}">
   <Icon name="Files" />
   {#if invalid}
-    There seems to be no torrent there, please try again.
-  {:else}Drop some files here, or click to browse.{/if}
+    You're trying to upload a file that's not a torrent, please try again.
+  {:else}
+    Drop some files here, or click to browse.
+  {/if}
   <input
     type="file"
     id="{id}"
-    {...$$restProps}
-    bind:files
     on:input="{handleChange}"
     bind:this="{input}"
-    required="{actualRequired}"
+    required="{required && (!files || !files.length)}"
+    multiple="{multiple}"
+    {...$$restProps}
   />
 </label>
 
@@ -146,13 +161,38 @@
     white-space: nowrap;
     line-height: 1.25;
     align-items: center;
+    justify-content: space-between;
   }
 
-  .file-item > :global(.icon) {
+  .file-item:not(:last-child) {
+    border-bottom: solid 1px #202d3c;
+  }
+
+  .file-label > :global(.icon) {
     height: 14px;
     fill: currentColor;
     margin-right: 4px;
     opacity: 0.5;
+  }
+
+  .file-item:hover .remove-file-button {
+    background-color: #e95779;
+    transition: background-color 125ms;
+    fill: white;
+  }
+
+  .remove-file-button {
+    border: 0;
+    border-radius: 3px;
+    padding: 3px;
+    display: flex;
+    fill: rgba(94, 114, 140, 0.5);
+    background-color: transparent;
+    cursor: pointer;
+  }
+
+  .remove-file-button > :global(.icon) {
+    height: 12px;
   }
 
   .zone.file {

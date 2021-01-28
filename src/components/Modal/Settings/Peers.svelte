@@ -143,8 +143,7 @@
         type="button"
         priority="tertiary"
         on:click="{updateBlocklist}"
-        loading="{blocklistUpdateLoading}"
-      >Update blocklist</Button
+        loading="{blocklistUpdateLoading}">Update blocklist</Button
       >
     </div>
 

@@ -112,7 +112,8 @@
   on:dragenter="{handleDragOver}"
   on:dragover="{handleDragOver}"
   on:dragleave="{handleDragLeave}"
-  on:drop="{handleDrop}">
+  on:drop="{handleDrop}"
+>
   <Icon name="Files" />
   {#if invalid}
     You're trying to upload a file that's not a torrent, please try again.

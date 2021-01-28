@@ -150,7 +150,8 @@
 <svg
   class="graph"
   on:mousemove="{handleMouseMove}"
-  on:mouseleave="{handleMouseLeave}">
+  on:mouseleave="{handleMouseLeave}"
+>
   <defs>
     <linearGradient id="gradient--upload" x1="0%" y1="0%" x2="0%" y2="100%">
       <stop class="top upload" offset="0%"></stop>
@@ -164,27 +165,23 @@
   <path
     class="area area--download"
     fill="url(#gradient--download)"
-    d="{downloadAreaPath}"
-  ></path>
+    d="{downloadAreaPath}"></path>
   <path
     class="area area--upload"
     fill="url(#gradient--upload)"
-    d="{uploadAreaPath}"
-  ></path>
+    d="{uploadAreaPath}"></path>
   <path class="line line--download" d="{downloadLinePath}"></path>
   <path class="line line--upload" d="{uploadLinePath}"></path>
   <circle
     r="2.5"
     class="circle circle--download"
     class:circle--active="{hovering}"
-    transform="{downloadCircleTransform}"
-  ></circle>
+    transform="{downloadCircleTransform}"></circle>
   <circle
     r="2.5"
     class="circle circle--upload"
     class:circle--active="{hovering}"
-    transform="{uploadCircleTransform}"
-  ></circle>
+    transform="{uploadCircleTransform}"></circle>
 </svg>
 
 <style>

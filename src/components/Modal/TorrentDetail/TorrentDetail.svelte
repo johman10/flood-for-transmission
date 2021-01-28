@@ -50,7 +50,8 @@
         <a
           href="/{name.toLowerCase()}"
           class:active="{page.name === name}"
-          on:click|preventDefault="{() => (page = { name, component })}">
+          on:click|preventDefault="{() => (page = { name, component })}"
+        >
           {name}
         </a>
       {/each}

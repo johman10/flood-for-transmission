@@ -4,6 +4,7 @@
   "scripts": {
     "build": "rm -rf public/build && rollup -c",
     "postbuild": "workbox generateSW workbox-config.js",
+    "postinstall": "husky install",
     "dev": "rollup -c -w",
     "start": "sirv public",
     "lint": "eslint \"./src/**/*.{js,svelte}\"",
@@ -23,7 +24,7 @@
     "dotenv": "^8.2.0",
     "eslint": "^7.19.0",
     "eslint-plugin-svelte3": "^3.0.0",
-    "husky": "^4.3.8",
+    "husky": "^5.0.9",
     "lint-staged": "^10.5.4",
     "prettier": "^2.2.1",
     "prettier-plugin-svelte": "^2.1.3",
@@ -39,11 +40,6 @@
     "core-js": "^3.8.3",
     "d3": "^6.5.0",
     "sirv-cli": "^1.0.11"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   },
   "lint-staged": {
     "*.{js,svelte}": [

@@ -5,8 +5,8 @@
     "build": "rm -rf public/build public/sw* public/workbox-* && rollup -c",
     "postbuild": "workbox generateSW workbox-config.js",
     "postinstall": "husky install",
-    "dev": "rollup -c -w",
-    "start": "sirv public",
+    "start": "rollup -c -w",
+    "serve": "sirv public",
     "lint": "eslint \"./src/**/*.{js,svelte}\"",
     "lint:fix": "npm run lint -- --fix",
     "prettier": "prettier --write \"./src/**/*.{js,svelte}\""

@@ -1,3 +1,5 @@
+/* eslint-env node */
+
 import svelte from 'rollup-plugin-svelte';
 import css from 'rollup-plugin-css-only';
 import resolve from '@rollup/plugin-node-resolve';
@@ -17,24 +19,28 @@ if (!production) {
 }
 
 function serve() {
-	let server;
+  let server;
 
-	function toExit() {
-		if (server) server.kill(0);
-	}
+  function toExit() {
+    if (server) server.kill(0);
+  }
 
-	return {
-		writeBundle() {
-			if (server) return;
-			server = require('child_process').spawn('npm', ['run', 'start', '--', '--dev'], {
-				stdio: ['ignore', 'inherit', 'inherit'],
-				shell: true
-			});
+  return {
+    writeBundle() {
+      if (server) return;
+      server = require('child_process').spawn(
+        'npm',
+        ['run', 'serve', '--', '--dev'],
+        {
+          stdio: ['ignore', 'inherit', 'inherit'],
+          shell: true,
+        }
+      );
 
-			process.on('SIGTERM', toExit);
-			process.on('exit', toExit);
-		}
-	};
+      process.on('SIGTERM', toExit);
+      process.on('exit', toExit);
+    },
+  };
 }
 
 export default {
@@ -50,7 +56,7 @@ export default {
     svelte({
       compilerOptions: {
         dev: !production,
-      }
+      },
     }),
 
     css({ output: 'bundle.css' }),
@@ -69,19 +75,37 @@ export default {
 
     alias({
       entries: [
-        { find: '~components', replacement: path.join(__dirname, './src/components') },
-        { find: '~helpers', replacement: path.join(__dirname, './src/helpers') },
+        {
+          find: '~components',
+          replacement: path.join(__dirname, './src/components'),
+        },
+        {
+          find: '~helpers',
+          replacement: path.join(__dirname, './src/helpers'),
+        },
       ],
     }),
 
     replace({
       exclude: 'node_modules/**',
-      __TRANSMISSION_HOST__: process.env.TRANSMISSION_HOST ? `"${process.env.TRANSMISSION_HOST}"` : undefined,
-      __TRANSMISSION_PORT__: process.env.TRANSMISSION_PORT ? `"${process.env.TRANSMISSION_PORT}"` : undefined,
-      __TRANSMISSION_USERNAME__: process.env.TRANSMISSION_USERNAME ? `"${process.env.TRANSMISSION_USERNAME}"` : undefined,
-      __TRANSMISSION_PATH__: process.env.TRANSMISSION_PATH ? `"${process.env.TRANSMISSION_PATH}"` : undefined,
-      __TRANSMISSION_PASSWORD__: process.env.TRANSMISSION_PASSWORD ? `"${process.env.TRANSMISSION_PASSWORD}"` : undefined,
-      __TRANSMISSION_SSL__: process.env.TRANSMISSION_SSL ? !!process.env.TRANSMISSION_SSL : undefined,
+      __TRANSMISSION_HOST__: process.env.TRANSMISSION_HOST
+        ? `"${process.env.TRANSMISSION_HOST}"`
+        : undefined,
+      __TRANSMISSION_PORT__: process.env.TRANSMISSION_PORT
+        ? `"${process.env.TRANSMISSION_PORT}"`
+        : undefined,
+      __TRANSMISSION_USERNAME__: process.env.TRANSMISSION_USERNAME
+        ? `"${process.env.TRANSMISSION_USERNAME}"`
+        : undefined,
+      __TRANSMISSION_PATH__: process.env.TRANSMISSION_PATH
+        ? `"${process.env.TRANSMISSION_PATH}"`
+        : undefined,
+      __TRANSMISSION_PASSWORD__: process.env.TRANSMISSION_PASSWORD
+        ? `"${process.env.TRANSMISSION_PASSWORD}"`
+        : undefined,
+      __TRANSMISSION_SSL__: process.env.TRANSMISSION_SSL
+        ? !!process.env.TRANSMISSION_SSL
+        : undefined,
     }),
 
     // In dev mode, call `npm run start` once
@@ -92,14 +116,15 @@ export default {
     // browser on changes when not in production
     !production && livereload('public'),
 
-    production && babel({
-      babelHelpers: 'bundled',
-      extensions: ['.js', '.mjs', '.html', '.svelte'],
-      include: ['src/**', 'node_modules/svelte/**'],
-    }),
+    production &&
+      babel({
+        babelHelpers: 'bundled',
+        extensions: ['.js', '.mjs', '.html', '.svelte'],
+        include: ['src/**', 'node_modules/svelte/**'],
+      }),
 
     // If we're building for production (npm run build
-    // instead of npm run dev), minify
+    // instead of npm start), minify
     production && terser(),
   ],
   watch: {

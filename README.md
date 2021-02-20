@@ -65,7 +65,7 @@ I won't be maintaining versions for this project. So to update follow the follow
 
 1. Run `npm install`.
 1. Copy `.env.template` to `.env` and edit the values to represent your Transmission configuration.
-1. Run `npm run dev`.
+1. Run `npm start`.
 1. Access the UI in your browser. Defaults to `localhost:5000`.
 
 If you're running Transmission on a different machine behind Nginx or similar you may have to allow for CORS request. You can do this by adding the code below to your Transmission location block.

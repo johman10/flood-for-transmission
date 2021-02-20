@@ -78,7 +78,7 @@
     transform: translateY(-50%);
     transition: background-color 0.25s;
     width: 100%;
-    background-color: var(--color, rgb(37, 141, 229));
+    background-color: var(--color);
     opacity: 0.2;
     position: absolute;
   }
@@ -90,25 +90,25 @@
     transition: background-color 0.25s, left 0.25s, transform 0.25s;
     transform: translateX(-50%);
     width: 2px;
-    background-color: var(--color, rgb(37, 141, 229));
+    background-color: var(--color);
     position: absolute;
     left: 50%;
   }
 
   .slider.level-1 {
-    --color: rgb(57, 206, 131);
+    --color: var(--color-priority-high);
   }
 
   .slider.level-0 {
-    --color: rgb(57, 206, 131);
+    --color: var(--color-priority-normal);
   }
 
   .slider.level--1 {
-    --color: rgb(37, 141, 229);
+    --color: var(--color-priority-low);
   }
 
   .slider.level--2 {
-    --color: rgb(67, 96, 118);
+    --color: var(--color-priority-off);
   }
 
   .slider.level-1::after {

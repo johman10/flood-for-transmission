@@ -1,22 +1,23 @@
 :root {
-  --rgb-download: 57, 206, 131;
+  --rgb-positive: 57, 206, 131;
   --rgb-upload: 62, 167, 255;
   --rgb-active: 37, 141, 229;
   --rgb-text: 82, 103, 128;
   --rgb-background: 41, 51, 65;
 
-  --color-download: rgb(var(--rgb-download));
+  --color-positive: rgb(var(--rgb-positive));
+  --color-negative: rgb(233, 87, 121);
+
+  --color-download: rgb(var(--rgb-positive));
   --color-upload: rgb(var(--rgb-upload));
   --color-active: rgb(var(--rgb-active));
   --color-text: rgb(var(--rgb-text));
   --color-header: rgba(var(--rgb-text), 0.5);
   --color-background: rgb(var(--rgb-background));
   --color-border: rgb(32, 45, 60);
-  --color-positive: rgb(57, 206, 131);
-  --color-negative: rgb(233, 87, 121);
 
   --color-progress-bar-download: var(--color-download);
-  --color-progress-bar-download-background: rgba(var(--rgb-download), 0.15);
+  --color-progress-bar-download-background: rgba(var(--rgb-positive), 0.15);
   --color-progress-bar-upload: var(--color-upload);
   --color-progress-bar-upload-background: rgba(--rgb-upload, 0.15);
   --color-progress-bar-metadata: rgb(136, 153, 168);
@@ -161,7 +162,7 @@
   --color-column-header-text-active: rgb(88, 111, 132);
 
   --color-torrent-text: rgb(136, 153, 168);
-  --color-torrent-text-big: #4b677f;
+  --color-torrent-text-big: rgb(75, 103, 127);
   --color-torrent-text-selected: rgba(255, 255, 255, 0.5);
   --color-torrent-text-active: rgb(255, 255, 255);
   --color-torrent-text-inactive: rgb(195, 204, 211);
@@ -176,4 +177,9 @@
   --color-label-text-error: rgb(251, 232, 236);
 
   --color-size-text-selected: rgb(255, 255, 255);
+
+  --color-priority-low: var(--rgb-active);
+  --color-priority-normal: var(--color-positive);
+  --color-priority-high: var(--color-positive);
+  --color-priority-off: rgb(67, 96, 118);
 }

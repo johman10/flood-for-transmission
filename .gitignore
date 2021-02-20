@@ -1,6 +1,7 @@
 /node_modules/
 /public/build/
 /public/sw.js*
+/public/workbox-*.js*
 
 .DS_Store
 

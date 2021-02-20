@@ -2,7 +2,7 @@
   "name": "svelte-app",
   "version": "1.0.0",
   "scripts": {
-    "build": "rm -rf public/build && rollup -c",
+    "build": "rm -rf public/build public/sw* public/workbox-* && rollup -c",
     "postbuild": "workbox generateSW workbox-config.js",
     "postinstall": "husky install",
     "dev": "rollup -c -w",

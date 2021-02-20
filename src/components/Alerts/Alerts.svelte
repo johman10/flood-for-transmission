@@ -21,24 +21,20 @@
 
 <style>
   .alert-container {
-    --icon-color: #e95779;
-
-    background: rgba(41, 51, 65, 0.95);
+    background: var(--color-alert-background);
     border-radius: 3px;
     bottom: 5px;
-    color: #8fa2b2;
+    color: var(--color-alert-text);
     font-size: 0.85rem;
     padding: 10px 15px;
     position: fixed;
     right: 5px;
-    transition: opacity 0.25s;
     width: 250px;
     z-index: 20;
   }
 
   .alert {
     display: flex;
-    fill: var(--icon-color);
     margin-bottom: 10px;
   }
 
@@ -47,7 +43,11 @@
   }
 
   .alert.positive {
-    --icon-color: #39ce83;
+    fill: var(--color-alert-positive);
+  }
+
+  .alert.negative {
+    fill: var(--color-alert-negative);
   }
 
   .alert > :global(.icon) {

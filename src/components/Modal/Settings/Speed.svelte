@@ -151,7 +151,7 @@
   .wrapper.loading-initial {
     align-items: center;
     justify-content: center;
-    fill: #3ea7ff;
+    fill: var(--color-modal-loading);
   }
 
   .wrapper > :global(.icon) {
@@ -177,7 +177,7 @@
     display: flex;
     flex-direction: column;
     line-height: 1;
-    color: #7d8d9f;
+    color: var(--color-modal-text);
   }
 
   form :global(.checkbox) {

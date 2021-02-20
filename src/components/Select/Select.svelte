@@ -66,7 +66,7 @@
 
 <style>
   .select > :global(.button) {
-    fill: #8899a8;
+    fill: var(--color-select-icon);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -84,7 +84,7 @@
     justify-content: center;
     width: 34px;
     height: 100%;
-    border-left: solid 1px #202d3c;
+    border-left: solid 1px var(--color-select-border);
     transition: transform 250ms;
   }
 
@@ -96,7 +96,7 @@
     position: absolute;
     transform: translateY(-100%);
     z-index: 10;
-    background-color: #293341;
+    background-color: var(--color-select-option-background);
     color: #fff;
     padding: 9px 0;
     border-radius: 5px;
@@ -110,6 +110,6 @@
   }
 
   .option:hover {
-    background-color: #242e3c;
+    background-color: var(--color-select-option-background-hover);
   }
 </style>

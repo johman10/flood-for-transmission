@@ -36,13 +36,13 @@
   }
 
   table {
-    color: rgb(125, 141, 159);
+    color: var(--color-modal-text);
     font-size: 13px;
     width: 100%;
   }
 
   th {
-    color: rgba(125, 141, 159, 0.5);
+    color: var(--color-modal-text-light);
     font-size: 9px;
     text-align: left;
     font-weight: inherit;
@@ -56,8 +56,8 @@
   }
 
   th > :global(.badge) {
-    background: rgba(125, 141, 159, 0.2);
-    color: #7d8d9f;
+    background: var(--color-modal-badge-background);
+    color: var(--color-modal-text);
   }
 
   td {

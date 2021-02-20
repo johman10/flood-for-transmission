@@ -163,19 +163,19 @@
 
 <style>
   h1 {
-    color: #e6f0ff;
+    color: var(--color-modal-header);
     font-size: 20px;
     font-weight: 500;
     padding: 20px 25px 0;
   }
 
   ul {
-    color: #abc2e2;
+    color: var(--color-modal-tab-label);
     font-size: 13px;
     font-weight: 500;
     margin: 5px 0 0;
     padding: 0 25px;
-    box-shadow: inset 0 -1px 0 #363e48;
+    box-shadow: inset 0 -1px 0 var(--color-modal-add-tab-bar-shadow);
   }
 
   li {
@@ -187,12 +187,12 @@
   }
 
   li.active {
-    color: #3ea7ff;
+    color: var(--color-modal-tab-label-active);
     font-weight: 700;
   }
 
   li.active::after {
-    background-color: #3ea7ff;
+    background-color: var(--color-modal-tab-label-active);
     bottom: 0;
     content: '';
     height: 1px;
@@ -204,7 +204,7 @@
   .content {
     overflow-y: auto;
     padding: 20px 25px 20px 25px;
-    color: #7d8d9f;
+    color: var(--color-modal-text);
     position: relative;
   }
 
@@ -212,7 +212,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    fill: #3ea7ff;
+    fill: var(--color-modal-loading);
   }
 
   .content > :global(.icon) {

@@ -208,7 +208,7 @@
 
 <style>
   tr {
-    color: #8899a8;
+    color: var(--color-torrent-text);
     font-size: 13px;
     height: 30px;
     cursor: pointer;
@@ -216,20 +216,20 @@
 
   tr.stopped,
   tr.error {
-    color: #c3ccd3;
+    color: var(--color-torrent-text-inactive);
   }
 
   tr.selected {
-    background-color: #1b86e0;
-    color: rgba(255, 255, 255, 0.5);
+    background-color: var(--color-torrent-background-selected);
+    color: var(--color-torrent-text-selected);
   }
 
   tr.selected.active {
-    color: #fff;
+    color: var(--color-torrent-text-active);
   }
 
   tr.selected.error {
-    background-color: #e7496e;
+    background-color: var(--color-torrent-background-selected-error);
   }
 
   td {

@@ -148,11 +148,4 @@
     table-layout: fixed;
     user-select: none;
   }
-
-  .table-header {
-    color: #abbac7;
-    font-size: 13px;
-    white-space: nowrap;
-    z-index: 1;
-  }
 </style>

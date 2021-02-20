@@ -69,7 +69,7 @@
     position: absolute;
     background: rgba(255, 255, 255, 0.98);
     border-radius: 3px;
-    color: #526780;
+    color: var(--color-text);
     z-index: 1;
     min-width: 180px;
     top: 0;
@@ -80,7 +80,7 @@
     display: flex;
     align-items: center;
     line-height: 1;
-    color: rgba(82, 103, 128, 0.7);
+    opacity: 0.7;
     font-size: 13px;
     border-bottom: solid 1px rgba(41, 51, 65, 0.05);
     cursor: pointer;
@@ -88,12 +88,11 @@
   }
 
   .header:hover {
-    color: #258de5;
-    fill: #258de5;
+    color: var(--color-active);
   }
 
   .list-header {
-    color: #abbac7;
+    color: var(--color-header);
     font-size: 9px;
     font-weight: 500;
     text-transform: uppercase;
@@ -113,7 +112,6 @@
 
   li {
     padding: 5px 15px;
-    color: #526780;
     font-size: 13px;
     cursor: pointer;
     transition: background-color 0.25s, color 0.25s;
@@ -124,6 +122,6 @@
   }
 
   .selected {
-    color: #258de5;
+    color: var(--color-active);
   }
 </style>

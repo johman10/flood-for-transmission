@@ -206,13 +206,15 @@
 <style>
   .wrapper {
     margin: 30px 20px 0;
+    color: var(--color-panel-text);
+    fill: currentColor;
   }
 
   h2 {
     font-size: 11px;
     font-weight: 500;
     text-transform: uppercase;
-    color: rgba(82, 103, 128, 0.5);
+    color: var(--color-header);
   }
 
   ul {
@@ -221,25 +223,25 @@
   }
 
   li {
-    color: #526780;
     cursor: pointer;
     font-weight: 400;
     padding: 3px 0;
     display: flex;
     align-items: center;
-    fill: #526780;
     transition: fill 0.25s, color 0.25s;
     font-size: 13px;
   }
 
   li:hover {
-    fill: #778da8;
-    color: #778da8;
+    color: var(--color-panel-hover);
+  }
+
+  li:hover > :global(.badge) {
+    background-color: var(--color-panel-hover);
   }
 
   li.active {
-    fill: #258de5;
-    color: #258de5;
+    color: var(--color-panel-active);
     font-weight: 700;
   }
 
@@ -249,6 +251,6 @@
   }
 
   li.active > :global(.badge) {
-    background-color: #258de5;
+    background-color: var(--color-panel-active);
   }
 </style>

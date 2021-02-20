@@ -1,5 +1,5 @@
 <script>
-  import Header from '~components/Header';
+  import TopBar from '~components/TopBar';
   import Panel from '~components/Panel';
   import TorrentList from '~components/TorrentList';
   import Modal from '~components/Modal';
@@ -11,7 +11,7 @@
 <main class:panel="{$panel}">
   <Panel />
   <div class="content">
-    <Header />
+    <TopBar />
     <TorrentList />
     <Modal />
     <ContextMenu />

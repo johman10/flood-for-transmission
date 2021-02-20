@@ -206,8 +206,8 @@
 
 <style>
   .header {
-    color: #e6f0ff;
-    box-shadow: inset 0 -1px 0 #363e48;
+    color: var(--color-modal-header);
+    box-shadow: inset 0 -1px 0 var(--color-modal-torrent-details-shadow);
     flex: 0 0 auto;
     overflow: hidden;
     padding: 20px 25px;
@@ -218,7 +218,7 @@
 
   h1 {
     font-size: 20px;
-    color: #ffffff;
+    color: var(--color-modal-header);
     font-weight: 500;
     line-height: 1.25;
     word-break: break-word;
@@ -229,8 +229,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    color: #7d8d9f;
-    fill: rgba(77, 111, 135, 0.5);
+    color: var(--color-modal-text);
+    fill: var(--color-modal-torrent-details-header-icon);
   }
 
   ul {
@@ -246,17 +246,17 @@
   }
 
   li.active {
-    color: #3ea7ff;
-    fill: #3ea7ff;
+    color: var(--color-upload);
+    fill: var(--color-upload);
   }
 
   li.active.downloading {
-    color: #39ce83;
-    fill: #39ce83;
+    color: var(--color-download);
+    fill: var(--color-download);
   }
 
   li > :global(.icon) {
-    min-width: 12px;
+    width: 12px;
     margin-right: 3px;
   }
 

@@ -4,8 +4,8 @@
 
 <style>
   .badge {
-    color: #1f2731;
-    background-color: #506480;
+    color: var(--color-badge-text);
+    background-color: var(--color-badge-background);
     border-radius: 100px;
     font-size: 12px;
     font-weight: 700;

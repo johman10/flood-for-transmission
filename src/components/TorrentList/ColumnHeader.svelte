@@ -35,15 +35,18 @@
 
 <style>
   .header {
-    border-right: 1px solid rgba(29, 41, 56, 0.08);
+    font-size: 13px;
+    white-space: nowrap;
+    border-right: 1px solid var(--color-column-header-border);
     cursor: pointer;
     flex: 0 0 auto;
     transition: color 0.15s;
     font-weight: 400;
     text-align: left;
     height: 24px;
-    background-color: #f9fbfc;
-    box-shadow: 0 1px 0 rgba(29, 41, 56, 0.1);
+    background-color: var(--color-column-header-background);
+    box-shadow: 0 1px 0 var(--color-column-header-shadow);
+    color: var(--color-column-header-text);
     position: sticky;
     top: 0;
     z-index: 1;
@@ -54,7 +57,7 @@
   }
 
   .header.sorting {
-    color: #576e82;
+    color: var(--color-column-header-text-active);
     font-weight: 700;
     padding: 0 16px 0 8px;
   }

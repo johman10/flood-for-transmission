@@ -15,7 +15,7 @@
 
 <style>
   div {
-    background-color: #abbac7;
+    background-color: var(--color-switch-inactive);
     width: 32px;
     height: 20px;
     border-radius: 10px;
@@ -37,13 +37,13 @@
     left: 3px;
     top: 3px;
     border-radius: 50%;
-    background-color: #fff;
+    background-color: var(--color-switch-handle);
     transition: transform 0.3s cubic-bezier(0.35, 0, 0.25, 1);
     transform: 0;
   }
 
   .checked {
-    background-color: #258de5;
+    background-color: var(--color-switch-active);
   }
 
   .checked::after {

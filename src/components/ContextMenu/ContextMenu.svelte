@@ -127,14 +127,15 @@
     position: absolute;
     padding: 0;
     margin: 0;
-    background-color: white;
+    background-color: var(--color-context-menu-background);
     white-space: nowrap;
     padding: 9px 0;
     font-size: 12px;
     border-radius: 4px;
-    box-shadow: 0 1px 1px rgba(40, 48, 59, 0.05),
-      0 1px 3px 1px rgba(40, 48, 59, 0.1), 0 0 0 1px rgba(40, 48, 59, 0.1);
-    color: #53718a;
+    box-shadow: 0 1px 1px var(--color-context-menu-shadow-1),
+      0 1px 3px 1px var(--color-context-menu-shadow-2),
+      0 0 0 1px var(--color-context-menu-shadow-3);
+    color: var(--color-context-menu-text);
     z-index: 15;
     overflow-y: auto;
   }
@@ -149,13 +150,13 @@
   }
 
   ul > :global(li:hover) {
-    background-color: rgba(233, 238, 242, 0.4);
-    color: #3e4e61;
+    background-color: var(--color-context-menu-background-hover);
+    color: var(--color-context-menu-text-hover);
   }
 
   ul > :global(hr) {
     border: 0;
-    border-top: solid 1px rgba(41, 51, 65, 0.075);
+    border-top: solid 1px var(--color-context-menu-separator);
     margin: 5px 0;
   }
 </style>

@@ -31,14 +31,14 @@
 
   .speed.active {
     font-weight: 500;
-    color: #39ce83;
+    color: var(--color-download);
   }
 
   .speed.active.upload {
-    color: #349cf4;
+    color: var(--color-upload);
   }
 
   .selected.speed.active {
-    color: #fff;
+    color: var(--color-size-text-selected);
   }
 </style>

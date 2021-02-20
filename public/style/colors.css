@@ -1,0 +1,179 @@
+:root {
+  --rgb-download: 57, 206, 131;
+  --rgb-upload: 62, 167, 255;
+  --rgb-active: 37, 141, 229;
+  --rgb-text: 82, 103, 128;
+  --rgb-background: 41, 51, 65;
+
+  --color-download: rgb(var(--rgb-download));
+  --color-upload: rgb(var(--rgb-upload));
+  --color-active: rgb(var(--rgb-active));
+  --color-text: rgb(var(--rgb-text));
+  --color-header: rgba(var(--rgb-text), 0.5);
+  --color-background: rgb(var(--rgb-background));
+  --color-border: rgb(32, 45, 60);
+  --color-positive: rgb(57, 206, 131);
+  --color-negative: rgb(233, 87, 121);
+
+  --color-progress-bar-download: var(--color-download);
+  --color-progress-bar-download-background: rgba(var(--rgb-download), 0.15);
+  --color-progress-bar-upload: var(--color-upload);
+  --color-progress-bar-upload-background: rgba(--rgb-upload, 0.15);
+  --color-progress-bar-metadata: rgb(136, 153, 168);
+  --color-progress-bar-metadata-background:  rgba(136, 153, 168, 0.15);
+  --color-progress-bar-error: rgb(242, 172, 188);
+  --color-progress-bar-error-background: rgba(242, 172, 188, 0.15);
+  --color-progress-bar-stopped: rgb(231, 235, 238);
+  --color-progress-bar-stopped-background: rgba(231, 235, 238, 0.15);
+  --color-progress-bar-selected-download: rgb(255, 255, 255);
+  --color-progress-bar-selected-download-background: rgba(255, 255, 255, 0.15);
+  --color-progress-bar-selected-stopped: rgb(93, 170, 235);
+  --color-progress-bar-selected-stopped-background: rgba(255, 255, 255, 0.15);
+  --color-progress-bar-selected-completed: rgb(255, 255, 255);
+  --color-progress-bar-selected-completed-background: rgba(255, 255, 255, 0.15);
+
+  --color-panel-text: var(--color-text);
+  --color-panel-hover: rgb(119, 141, 168);
+  --color-panel-active: var(--color-active);
+
+  --color-switch-inactive: rgb(171, 186, 199);
+  --color-switch-active: var(--color-active);
+  --color-switch-handle: rgb(255, 255, 255);
+
+  --color-top-bar-inactive: var(--color-header);
+  --color-top-bar-background: rgb(233, 238, 242);
+  --color-top-bar-active: var(--color-active);
+  --color-top-bar-text: rgb(27, 26, 28);
+  --color-top-bar-border: rgba(41, 51, 65, 0.15);
+
+  --color-search-text: var(--color-active);
+  --color-search-placeholder: rgba(var(--rgb-text), 0.4);
+  --color-search-icon: var(--color-search-placeholder);
+  --color-search-icon-active: var(--color-active);
+  --color-search-background: rgba(9, 24, 36, 0.3);
+  --color-search-background-active: rgba(var(--rgb-active), 0.25);
+  --color-search-border: rgba(9, 24, 36, 0.4);
+  --color-search-border-active: rgba(var(--rgb-active), 0.3);
+
+  --color-alert-positive: var(--color-positive);
+  --color-alert-negative: var(--color-negative);
+  --color-alert-text: var(--color-text);
+  --color-alert-background: rgba(var(--rgb-background), 0.95);
+
+  --color-badge-text: var(--color-background);
+  --color-badge-background: var(--color-text);
+
+  --color-button-text: rgb(255, 255, 255);
+  --color-button-primary-background: var(--color-active);
+  --color-button-primary-border: var(--color-active);
+  --color-button-primary-shadow-1: rgb(12, 121, 213);
+  --color-button-primary-shadow-2: rgba(10, 107, 189, 0.8);
+  --color-button-secondary-background: var(--color-positive);
+  --color-button-secondary-border: var(--color-positive);
+  --color-button-secondary-shadow-1: rgb(39, 158, 98);
+  --color-button-secondary-shadow-2: rgba(34, 138, 86, 0.8);
+  --color-button-tertiary-background: rgb(136, 153, 168);
+  --color-button-tertiary-border: rgb(136, 153, 168);
+  --color-button-tertiary-shadow-1: rgb(95, 114, 130);
+  --color-button-tertiary-shadow-2: rgba(84, 101, 115, 0.8);
+  --color-button-quaternary-background: var(--color-background);
+  --color-button-quaternary-border: var(--color-border);
+  --color-button-quaternary-text: rgb(136, 153, 168);
+
+  --color-checkbox-background: var(--color-background);
+  --color-checkbox-background-dark: rgb(31, 39, 49);
+  --color-checkbox-border: var(--color-border);
+  --color-checkbox-border-dark: rgb(25, 31, 40);
+  --color-checkbox-mark: rgb(136, 153, 168);
+  --color-checkbox-background-active: rgba(var(--rgb-active), 0.1);
+  --color-checkbox-text-active: var(--color-active);
+  --color-checkbox-border-active: var(--color-active);
+  --color-checkbox-mark-active: var(--color-active);
+
+  --color-context-menu-text: var(--color-text);
+  --color-context-menu-background: rgb(255, 255, 255);
+  --color-context-menu-background-hover: rgba(233, 238, 242, 0.4);
+  --color-context-menu-text-hover: rgb(62, 78, 97);
+  --color-context-menu-separator: rgba(41, 51, 65, 0.075);
+  --color-context-menu-shadow-1: rgba(40, 48, 59, 0.05);
+  --color-context-menu-shadow-2: rgba(40, 48, 59, 0.1);
+  --color-context-menu-shadow-3: rgba(40, 48, 59, 0.1);
+
+  --color-graph-text: var(--color-text);
+
+  --color-input-background: var(--color-background);
+  --color-input-border: var(--color-border);
+  --color-input-text: rgb(136, 153, 168);
+  --color-input-placeholder: rgba(171, 186, 199, 0.25);
+  --color-input-border-hover: rgb(23, 33, 43);
+  --color-input-text-hover: rgb(210, 216, 222);
+  --color-input-background-active: rgba(var(--rgb-active), 0.15);
+  --color-input-border-active: var(--color-active);
+  --color-input-text-active: rgb(246, 250, 254);
+  --color-input-addon-icon: rgb(136, 153, 168);
+  --color-input-addon-border: var(--color-border);
+  --color-input-addon-icon-active: var(--color-active);
+  --color-input-addon-border-active: rgba(var(--rgb-active), 0.15);
+
+  --color-input-file-background: var(--color-background);
+  --color-input-file-border: var(--color-border);
+  --color-input-file-border-active: rgb(23, 33, 43);
+  --color-input-file-text: var(--color-text);
+  --color-input-file-icon: rgba(94, 114, 140, 0.5);
+  --color-input-file-icon-active: var(--color-active);
+  --color-input-file-icon-invalid: var(--color-negative);
+  --color-input-file-remove-icon: rgba(94, 114, 140, 0.5);
+  --color-input-file-remove-background: transparent;
+  --color-input-file-remove-icon-active: rgb(255, 255, 255);
+  --color-input-file-remove-background-active: var(--color-negative);
+
+  --color-modal-backdrop: rgba(11, 16, 20, 0.95);
+  --color-modal-background: rgb(58, 69, 83);
+  --color-modal-header: rgb(229, 240, 255);
+  --color-modal-text: rgb(125, 141, 159);
+  --color-modal-text-light: rgba(125, 141, 159, 0.6);
+  --color-modal-loading: var(--color-active);
+  --color-modal-link: var(--color-active);
+  --color-modal-tab-label: rgb(171, 194, 226);
+  --color-modal-tab-label-active: var(--color-active);
+  --color-modal-badge-background: rgba(125, 141, 159, 0.2);
+
+  --color-modal-menu-border: rgb(54, 62, 72);
+  --color-modal-add-tab-bar-shadow: rgb(54, 62, 72);
+  --color-modal-user-interface-column-background: rgb(41, 51, 65);
+  --color-modal-user-interface-column-border: rgb(31, 41, 55);
+  --color-modal-details-header: rgb(184, 193, 203);
+  --color-modal-files-icon: rgba(125, 141, 159, 0.4);
+  --color-modal-files-folder: rgba(125, 141, 159, 0.6);
+  --color-modal-files-count: var(--color-active);
+  --color-modal-torrent-details-shadow: rgb(54, 62, 72);
+  --color-modal-torrent-details-header-icon: rgba(77, 111, 135, 0.5);
+
+  --color-select-icon: rgb(136, 153, 168);
+  --color-select-border: rgb(32, 45, 60);
+  --color-select-option-background: rgb(41, 51, 65);
+  --color-select-option-background-hover: rgb(36, 46, 60);
+
+  --color-column-header-background: rgb(249, 251, 252);
+  --color-column-header-border: rgba(29, 41, 56, 0.08);
+  --color-column-header-shadow: rgba(29, 41, 56, 0.1);
+  --color-column-header-text: rgb(171, 186, 199);
+  --color-column-header-text-active: rgb(88, 111, 132);
+
+  --color-torrent-text: rgb(136, 153, 168);
+  --color-torrent-text-big: #4b677f;
+  --color-torrent-text-selected: rgba(255, 255, 255, 0.5);
+  --color-torrent-text-active: rgb(255, 255, 255);
+  --color-torrent-text-inactive: rgb(195, 204, 211);
+  --color-torrent-background-selected: rgb(27, 134, 224);
+  --color-torrent-background-selected-error: var(--color-negative);
+
+  --color-label-background: rgb(220, 226, 230);
+  --color-label-text: rgb(111, 125, 135);
+  --color-label-background-selected: rgb(78, 163, 234);
+  --color-label-text-selected: rgb(255, 255, 255);
+  --color-label-background-error: rgb(237, 121, 148);
+  --color-label-text-error: rgb(251, 232, 236);
+
+  --color-size-text-selected: rgb(255, 255, 255);
+}

@@ -169,6 +169,8 @@
   --color-torrent-background-selected: rgb(27, 134, 224);
   --color-torrent-background-selected-error: var(--color-negative);
 
+  --color-torrent-list-background: rgb(255, 255, 255);
+
   --color-label-background: rgb(220, 226, 230);
   --color-label-text: rgb(111, 125, 135);
   --color-label-background-selected: rgb(78, 163, 234);
@@ -182,4 +184,22 @@
   --color-priority-normal: var(--color-positive);
   --color-priority-high: var(--color-positive);
   --color-priority-off: rgb(67, 96, 118);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-torrent-list-background: rgb(31, 41, 55);
+
+    --color-top-bar-inactive: var(--color-text);
+    --color-top-bar-background: var(--color-background);
+    --color-top-bar-active: var(--color-active);
+    --color-top-bar-text: var(--color-text);
+    --color-top-bar-border: rgba(214, 204, 190, 0.15);
+
+    --color-column-header-background: rgb(25, 37, 52);
+    --color-column-header-border: rgba(226, 214, 199, 0.08);
+    --color-column-header-shadow: rgba(226, 214, 109, 0.1);
+    --color-column-header-text: rgb(171, 186, 199);
+    --color-column-header-text-active: rgb(171, 186, 199);
+  }
 }

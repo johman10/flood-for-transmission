@@ -141,6 +141,7 @@
   .wrapper {
     overflow: auto;
     position: relative;
+    background-color: var(--color-torrent-list-background);
   }
 
   .table {

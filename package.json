@@ -12,7 +12,7 @@
     "prettier": "prettier --write \"./src/**/*.{js,svelte}\""
   },
   "devDependencies": {
-    "@babel/core": "^7.12.17",
+    "@babel/core": "^7.13.8",
     "@babel/plugin-proposal-class-properties": "^7.13.0",
     "@babel/preset-env": "^7.13.9",
     "@rollup/plugin-alias": "^3.1.2",

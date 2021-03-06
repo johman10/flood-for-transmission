@@ -48,14 +48,13 @@
 
   .indicator {
     border-radius: 4px;
-    background: #293341;
-    border: 1px solid #202d3c;
+    background: var(--color-checkbox-background);
+    border: 1px solid var(--color-checkbox-border);
     height: 18px;
     width: 18px;
     margin-right: 6px;
-    fill: #8899a8;
-    transition-property: color, background-color, border-color, border-width,
-      fill;
+    fill: var(--color-checkbox-mark);
+    transition-property: color, background-color, border-color, fill;
     transition-duration: 0.25s;
     transition-timing-function: ease-in-out;
   }
@@ -75,15 +74,13 @@
 
   label:focus,
   label:active {
-    color: #349cf4;
+    color: var(--color-checkbox-text-active);
   }
 
   label:active .indicator,
   label:focus .indicator {
-    background-color: rgba(52, 156, 244, 0.1);
-    color: rgba(52, 156, 244, 0.8);
-    border-color: #349cf4;
-    border-width: 2px;
-    fill: #349cf4;
+    background-color: var(--color-checkbox-background-active);
+    border-color: var(--color-checkbox-border-active);
+    fill: var(--color-checkbox-mark-active);
   }
 </style>

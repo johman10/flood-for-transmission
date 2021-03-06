@@ -75,7 +75,7 @@
 
 <style>
   h1 {
-    color: #e6f0ff;
+    color: var(--color-modal-header);
     font-size: 20px;
     font-weight: 500;
     padding: 20px 25px 0;
@@ -84,14 +84,14 @@
   .content {
     overflow-y: auto;
     padding: 20px 25px 20px 25px;
-    color: #7d8d9f;
+    color: var(--color-modal-text);
   }
 
   .content.loading-initial {
     display: flex;
     align-items: center;
     justify-content: center;
-    fill: #3ea7ff;
+    fill: var(--color-modal-loading);
   }
 
   .content > :global(.icon) {

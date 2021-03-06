@@ -123,7 +123,7 @@
   <div class="rate rate--download">
     <Icon name="Download" />
     <div class="data">
-      <div class="speed">
+      <div class="speed speed--download">
         {displayDownloadSpeed}
         <span class="speed__size">{displayDownloadSize}</span>
       </div>
@@ -134,7 +134,7 @@
   <div class="rate rate--upload">
     <Icon name="Upload" />
     <div class="data">
-      <div class="speed">
+      <div class="speed speed--upload">
         {displayUploadSpeed}
         <span class="speed__size">{displayUploadSize}</span>
       </div>
@@ -197,12 +197,10 @@
 
   .rate--download {
     grid-area: rate-download;
-    --color: #39ce83;
   }
 
   .rate--upload {
     grid-area: rate-upload;
-    --color: #349cf4;
   }
 
   .rate {
@@ -215,8 +213,15 @@
     display: block;
     opacity: 0.375;
     min-width: 20px;
-    fill: var(--color);
     height: 20px;
+  }
+
+  .rate--download > :global(.icon) {
+    fill: var(--color-download);
+  }
+
+  .rate--upload > :global(.icon) {
+    fill: var(--color-upload);
   }
 
   .data {
@@ -231,8 +236,15 @@
   .speed {
     grid-area: speed;
     font-size: 24px;
-    color: var(--color);
     letter-spacing: -0.5px;
+  }
+
+  .speed--download {
+    color: var(--color-download);
+  }
+
+  .speed--upload {
+    color: var(--color-upload);
   }
 
   .speed__size {
@@ -242,7 +254,7 @@
 
   .timestamp {
     grid-area: timestamp;
-    color: #526780;
+    color: var(--color-graph-text);
     font-style: italic;
     text-align: center;
     width: 100%;
@@ -259,11 +271,11 @@
   }
 
   stop.download {
-    stop-color: #2bae6c;
+    stop-color: var(--color-download);
   }
 
   stop.upload {
-    stop-color: #2387d9;
+    stop-color: var(--color-upload);
   }
 
   stop.top {
@@ -281,19 +293,19 @@
   }
 
   .line--upload {
-    stroke: #2387d9;
+    stroke: var(--color-upload);
   }
 
   .line--download {
-    stroke: #2bae6c;
+    stroke: var(--color-download);
   }
 
   .circle--download {
-    fill: #39ce83;
+    fill: var(--color-download);
   }
 
   .circle--upload {
-    fill: #2387d9;
+    fill: var(--color-upload);
   }
 
   .circle {

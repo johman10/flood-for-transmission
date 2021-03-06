@@ -35,7 +35,7 @@
     padding: 0 12px;
     position: relative;
     user-select: none;
-    fill: #fff;
+    fill: currentColor;
   }
 
   button :global(.icon) {
@@ -44,26 +44,30 @@
   }
 
   button.primary {
-    background: #349cf4;
-    border-color: #349cf4;
-    text-shadow: 0 1px 0 #0c79d5, 0 1px 2px rgba(10, 107, 189, 0.8);
+    background: var(--color-button-primary-background);
+    border-color: var(--color-button-primary-border);
+    text-shadow: 0 1px 0 var(--color-button-primary-shadow-1),
+      0 1px 2px var(--color-button-primary-shadow-2);
   }
 
   button.secondary {
-    background: #39ce83;
-    border-color: #39ce83;
-    text-shadow: 0 1px 0 #279e62, 0 1px 2px rgba(34, 138, 86, 0.8);
+    background: var(--color-button-secondary-background);
+    border-color: var(--color-button-secondary-border);
+    text-shadow: 0 1px 0 var(--color-button-secondary-shadow-1),
+      0 1px 2px var(--color-button-secondary-shadow-2);
   }
 
   button.tertiary {
-    background: #8899a8;
-    border-color: #8899a8;
-    text-shadow: 0 1px 0 #5f7282, 0 1px 2px rgba(84, 101, 115, 0.8);
+    background: var(--color-button-tertiary-background);
+    border-color: var(--color-button-tertiary-border);
+    text-shadow: 0 1px 0 var(--color-button-tertiary-shadow-1),
+      0 1px 2px var(--color-button-tertiary-shadow-2);
   }
 
+  /* TODO: consider removing this, only used in select can be put there instead? */
   button.quaternary {
-    background: #293341;
-    border-color: #202d3c;
-    color: #8899a8;
+    background: var(--color-button-quaternary-background);
+    border-color: var(--color-button-quaternary-border);
+    color: var(--color-button-quaternary-text);
   }
 </style>

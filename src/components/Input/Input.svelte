@@ -97,8 +97,8 @@
   }
 
   .input-wrapper:focus-within .addon {
-    fill: #349cf4;
-    border-left-color: rgba(52, 156, 244, 0.15);
+    fill: var(--color-input-addon-icon-active);
+    border-left-color: var(--color-input-addon-border-active);
   }
 
   .input-wrapper .addon {
@@ -110,14 +110,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border-left: solid 1px #202d3c;
+    border-left: solid 1px var(--color-input-addon-border);
     transition: fill 125ms, border 125ms;
     cursor: pointer;
-    fill: #8899a8;
+    fill: var(--color-input-addon-icon);
   }
 
   .input-wrapper .addon:hover {
-    fill: #349cf4;
+    fill: var(--color-input-addon-icon-active);
   }
 
   .input-wrapper .addon > :global(.icon) {
@@ -125,9 +125,9 @@
   }
 
   input {
-    background: #293341;
-    border: 1px solid #202d3c;
-    color: #8899a8;
+    background: var(--color-input-background);
+    border: 1px solid var(--color-input-border);
+    color: var(--color-input-text);
     width: 100%;
     font-size: 14px;
     height: 34px;
@@ -140,19 +140,19 @@
   }
 
   input::placeholder {
-    color: rgba(171, 186, 199, 0.25);
+    color: var(--color-input-placeholder);
   }
 
   input:hover {
-    border-color: #17212b;
-    color: #d2d8de;
+    border-color: var(--color-input-border-hover);
+    color: var(--color-input-text-hover);
   }
 
   input:active,
   input:focus {
-    background-color: rgba(52, 156, 244, 0.15);
-    color: #f6fafe;
-    border-color: #349cf4;
+    background-color: var(--color-input-background-active);
+    border-color: var(--color-input-border-active);
+    color: var(--color-input-text-active);
   }
 
   input::-webkit-outer-spin-button,

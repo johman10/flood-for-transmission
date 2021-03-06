@@ -4,7 +4,7 @@
   import { filters } from '~helpers/stores';
 </script>
 
-<div class="wrapper" class:in-use="{$filters.search}">
+<div class="wrapper" class:active="{$filters.search}">
   <Icon name="Search" />
   <Input placeholder="Search torrents" bind:value="{$filters.search}" />
 </div>
@@ -14,51 +14,51 @@
     position: relative;
   }
 
-  .wrapper.in-use :global(.input) {
-    background: rgba(37, 141, 229, 0.25);
-    border-bottom: 1px solid rgba(37, 141, 229, 0.3);
-    border-top: 1px solid rgba(37, 141, 229, 0.3);
-    color: #258de5;
-    padding-right: 45px;
-  }
-
-  .wrapper.in-use > :global(.icon) {
-    fill: #258de5;
-    opacity: 1;
-  }
-
   .wrapper > :global(.icon) {
-    fill: #53718a;
+    fill: var(--color-search-icon);
     height: 22px;
     left: 17px;
-    opacity: 0.5;
     pointer-events: none;
     position: absolute;
     top: 50%;
-    transition: fill 0.25s, opacity 0.25s;
+    transition: fill 0.25s;
     transform: translateY(-50%);
     width: 22px;
   }
 
   .wrapper :global(.input) {
-    border: 1px solid rgba(9, 24, 36, 0.4);
+    border: 1px solid var(--color-search-border);
     border-left: none;
     border-right: none;
     border-radius: 0;
-    background-color: rgba(9, 24, 36, 0.3);
-    color: #53718a;
+    background-color: var(--color-search-background);
     display: block;
     font-size: 16px;
     outline: none;
     padding: 12px 0 12px 45px;
-    transition: background-color 0.25s, border 0.25s, color 0.25s;
+    transition: background-color 0.25s, border 0.25s;
     width: 100%;
     height: auto;
   }
 
   .wrapper :global(.input::placeholder) {
-    color: rgba(83, 113, 138, 0.4);
+    color: var(--color-search-placeholder);
     font-style: italic;
     transition: color 0.25s;
+  }
+
+  .wrapper.active :global(.input),
+  .wrapper:focus-within :global(.input) {
+    color: var(--color-search-text);
+    background: var(--color-search-background-active);
+    border-bottom: 1px solid var(--color-search-border-active);
+    border-top: 1px solid var(--color-search-border-active);
+    padding-right: 45px;
+  }
+
+  .wrapper.active > :global(.icon),
+  .wrapper:focus-within > :global(.icon) {
+    fill: var(--color-search-icon-active);
+    opacity: 1;
   }
 </style>

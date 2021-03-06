@@ -144,12 +144,12 @@
   .file-list {
     list-style: none;
     outline: none;
-    background-color: #293341;
-    border: 1px solid #202d3c;
+    background-color: var(--color-input-file-background);
+    border: 1px solid var(--color-input-file-border);
     border-bottom: 0;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
-    color: #8899a8;
+    color: var(--color-input-file-text);
     font-size: 14px;
   }
 
@@ -166,7 +166,7 @@
   }
 
   .file-item:not(:last-child) {
-    border-bottom: solid 1px #202d3c;
+    border-bottom: solid 1px var(--color-input-file-border);
   }
 
   .file-label > :global(.icon) {
@@ -177,9 +177,9 @@
   }
 
   .file-item:hover .remove-file-button {
-    background-color: #e95779;
+    background-color: var(--color-input-file-remove-background-active);
     transition: background-color 125ms;
-    fill: white;
+    fill: var(--color-input-file-remove-icon-active);
   }
 
   .remove-file-button {
@@ -187,8 +187,8 @@
     border-radius: 3px;
     padding: 3px;
     display: flex;
-    fill: rgba(94, 114, 140, 0.5);
-    background-color: transparent;
+    fill: var(--color-input-file-remove-icon);
+    background-color: var(--color-input-file-remove-background);
     cursor: pointer;
   }
 
@@ -209,23 +209,23 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: #8899a8;
+    color: var(--color-input-file-text);
     outline: none;
-    background-color: #293341;
-    border: 1px solid #202d3c;
+    background-color: var(--color-input-file-background);
+    border: 1px solid var(--color-input-file-border);
     border-radius: 4px;
-    fill: rgba(94, 114, 140, 0.5);
+    fill: var(--color-input-file-icon);
     position: relative;
   }
 
   .zone.hovering,
   .zone:hover {
-    border-color: #17212b;
-    fill: #258de5;
+    border-color: var(--color-input-file-border-active);
+    fill: var(--color-input-file-icon-active);
   }
 
   .zone.invalid {
-    fill: #e95779;
+    fill: var(--color-input-file-icon-invalid);
   }
 
   .zone > :global(.icon) {

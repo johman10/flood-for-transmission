@@ -1,17 +1,17 @@
 <script>
-  import Header from '~components/Header';
+  import TopBar from '~components/TopBar';
   import Panel from '~components/Panel';
   import TorrentList from '~components/TorrentList';
   import Modal from '~components/Modal';
   import ContextMenu from '~components/ContextMenu';
   import Alerts from '~components/Alerts';
-  import { panel } from '~helpers/stores';
+  import { panel, darkMode } from '~helpers/stores';
 </script>
 
-<main class:panel="{$panel}">
+<main class:panel="{$panel}" class:dark-mode="{$darkMode}">
   <Panel />
   <div class="content">
-    <Header />
+    <TopBar />
     <TorrentList />
     <Modal />
     <ContextMenu />

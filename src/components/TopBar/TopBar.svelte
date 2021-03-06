@@ -55,22 +55,19 @@
 
 <style>
   .header {
-    background: #e9eef2;
-    border-bottom: 1px solid rgba(41, 51, 65, 0.15);
-    color: #1b1a1c;
+    background: var(--color-top-bar-background);
+    border-bottom: 1px solid var(--color-top-bar-border);
+    color: var(--color-top-bar-text);
     display: flex;
     flex: 0 0 30px;
     height: 30px;
     justify-content: space-between;
-    fill: #8899a8;
+    fill: var(--color-top-bar-inactive);
     transition: fill 0.25s;
   }
 
   .right {
     display: flex;
-  }
-
-  .left {
   }
 
   .button > :global(.icon) {
@@ -97,7 +94,7 @@
   .button:hover {
     background: rgba(51, 62, 74, 0.05);
     box-shadow: 1px 0 rgba(51, 62, 74, 0.15), -1px 0 rgba(51, 62, 74, 0.15);
-    fill: #258de5;
+    fill: var(--color-top-bar-active);
   }
 
   .divider {

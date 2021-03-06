@@ -100,7 +100,7 @@
 
 <style>
   .actions {
-    fill: #526780;
+    fill: var(--color-text);
     display: flex;
     justify-content: flex-start;
     padding: 5px;
@@ -116,7 +116,7 @@
   }
 
   .actions :global(.icon):hover {
-    fill: #258de5;
+    fill: var(--color-active);
   }
 
   .alt-speed-row {

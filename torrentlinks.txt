@@ -1,0 +1,2 @@
+http://ftp.funet.fi/pub/mirrors/centos.org/8.3.2011/isos/x86_64/CentOS-8.3.2011-x86_64-boot.torrent
+https://releases.ubuntu.com/20.10/ubuntu-20.10-desktop-amd64.iso.torrent

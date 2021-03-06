@@ -72,7 +72,7 @@
   .container.loading-initial {
     align-items: center;
     justify-content: center;
-    fill: #3ea7ff;
+    fill: var(--color-modal-loading);
     height: 100%;
   }
 
@@ -108,7 +108,7 @@
     flex-direction: column;
     padding: 20px 0 0 0;
     flex-basis: 135px;
-    box-shadow: inset -1px 0 #363e48;
+    box-shadow: inset -1px 0 var(--color-modal-torrent-details-shadow);
   }
 
   a {
@@ -116,13 +116,13 @@
     font-size: 13px;
     line-height: 1.25;
     font-weight: 500;
-    color: #abc2e2;
+    color: var(--color-modal-tab-label);
     text-decoration: none;
   }
 
   a.active {
-    border-right: solid 1px #3ea7ff;
-    color: #3ea7ff;
+    border-right: solid 1px var(--color-modal-tab-label-active);
+    color: var(--color-modal-tab-label-active);
     font-weight: 700;
   }
 

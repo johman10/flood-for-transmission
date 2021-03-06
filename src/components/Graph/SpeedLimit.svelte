@@ -18,7 +18,12 @@
   }));
 </script>
 
-<div class="limit" class:hidden>
+<div
+  class="limit"
+  class:upload="{direction === 'upload'}"
+  class:download="{direction === 'download'}"
+  class:hidden
+>
   {#if limit}
     {limit}
     <span class="speed__size">{limitSize}</span>
@@ -30,8 +35,7 @@
 <style>
   .limit {
     grid-area: limit;
-    background-color: var(--color);
-    color: #293341;
+    color: var(--color-background);
     border-radius: 2px;
     font-size: 10px;
     font-style: normal;
@@ -41,6 +45,14 @@
     align-items: center;
     justify-content: flex-start;
     transition: opacity 0.25s;
+  }
+
+  .limit.upload {
+    background-color: var(--color-upload);
+  }
+
+  .limit.download {
+    background-color: var(--color-download);
   }
 
   .limit > :global(.icon) {

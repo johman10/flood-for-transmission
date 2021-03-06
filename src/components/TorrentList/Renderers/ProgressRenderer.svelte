@@ -41,18 +41,18 @@
 
 <style>
   .progress-bar {
-    --solid-color: #39ce83;
-    --transparent-color: rgba(57, 206, 131, 0.15);
+    --progess-color: var(--color-progress-bar-download);
+    --background-color: var(--color-progress-bar-download-background);
 
     align-items: center;
     display: flex;
     width: 100%;
     z-index: 1;
-    fill: var(--solid-color);
+    fill: var(--progess-color);
   }
 
   .fill {
-    background: var(--solid-color);
+    background: var(--progess-color);
     display: block;
     height: 3px;
     width: 100%;
@@ -60,7 +60,7 @@
   }
 
   .fill-wrapper {
-    background: var(--transparent-color);
+    background: var(--background-color);
     flex: 1 1 auto;
     position: relative;
     height: 3px;
@@ -75,39 +75,45 @@
     width: 12px;
   }
 
-  .selected {
-    --solid-color: #fff;
-    --transparent-color: rgba(255, 255, 255, 0.15);
+  /*
+  1: unselected downloading - green - default
+  2: unselected uploading - blue
+  3: unselected stopped - grey
+  4: unselected error - red
+  5: unselected checking/metadata - dark grey
+  6: selected active - white
+  7: selected inactive - opacite white
+  */
+
+  .completed {
+    --progess-color: var(--color-progress-bar-upload);
+    --background-color: var(--color-progress-bar-upload-background);
   }
 
   .stopped {
-    --solid-color: #e7ebee;
-    --transparent-color: rgba(231, 235, 238, 0.15);
-  }
-
-  .selected.stopped {
-    --solid-color: #5daaeb;
-    --transparent-color: rgba(255, 255, 255, 0.15);
-  }
-
-  .completed {
-    --solid-color: #258de5;
-    --transparent-color: rgba(37, 141, 229, 0.15);
-  }
-
-  .selected.completed {
-    --solid-color: #fff;
-    --transparent-color: rgba(255, 255, 255, 0.15);
-  }
-
-  .checking,
-  .metadata {
-    --solid-color: #8899a8;
-    --transparent-color: rgba(136, 153, 168, 0.15);
+    --progess-color: var(--color-progress-bar-stopped);
+    --background-color: var(--color-progress-bar-stopped-background);
   }
 
   .error {
-    --solid-color: #f2acbc;
-    --transparent-color: rgba(242, 172, 188, 0.15);
+    --progess-color: var(--color-progress-bar-error);
+    --background-color: var(--color-progress-bar-error-background);
+  }
+
+  .checking {
+    --progess-color: var(--color-progress-bar-metadata);
+    --background-color: var(--color-progress-bar-metadata-background);
+  }
+
+  .selected.active,
+  .selected.checking {
+    --progess-color: var(--color-progress-bar-selected-active);
+    --background-color: var(--color-progress-bar-selected-active-background);
+  }
+
+  .selected.error,
+  .selected.stopped {
+    --progess-color: var(--color-progress-bar-selected-inactive);
+    --background-color: var(--color-progress-bar-selected-inactive-background);
   }
 </style>

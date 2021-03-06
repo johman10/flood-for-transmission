@@ -3,11 +3,20 @@
   import Button from '~components/Button';
   import InputMultiple from '~components/InputMultiple';
   import Checkbox from '~components/Checkbox';
-  import { modals, alerts, uiColumns, paths } from '~helpers/stores';
+  import Select from '~components/Select';
+  import { modals, alerts, uiColumns, paths, darkMode } from '~helpers/stores';
   import { orderable } from '~helpers/actions';
+
+  const darkModeConfiguredValue = darkMode.configuredValue;
 
   const newColumns = JSON.parse(JSON.stringify($uiColumns));
   let newPaths = [...$paths];
+
+  const darkModeOptions = [
+    { label: 'Auto', value: 'auto' },
+    { label: 'Enabled', value: 'enabled' },
+    { label: 'Disabled', value: 'disabled' },
+  ];
 
   const handleSubmit = () => {
     try {
@@ -30,6 +39,16 @@
 </script>
 
 <form on:submit|preventDefault="{handleSubmit}">
+  <Header text="Dark mode" />
+  <div class="list">
+    <Select
+      options="{darkModeOptions}"
+      on:change="{(event) => darkMode.set(event.detail)}"
+      value="{$darkModeConfiguredValue}"
+      direction="below"
+    />
+  </div>
+
   <Header text="Common paths" />
   <p class="hint">
     These paths will be shown behind the magnifier where you can select a path.
@@ -71,7 +90,7 @@
     display: flex;
     flex-direction: column;
     line-height: 1;
-    color: #7d8d9f;
+    color: var(--color-modal-text);
   }
 
   form :global(.checkbox) {
@@ -79,8 +98,8 @@
   }
 
   form :global(.checkbox) :global(.indicator) {
-    background: #1f2731;
-    border-color: #191f28;
+    background: var(--color-checkbox-background-dark);
+    border-color: var(--color-checkbox-border-dark);
   }
 
   .buttons {
@@ -101,8 +120,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #293341;
-    border: 1px solid #1f2937;
+    background: var(--color-modal-user-interface-column-background);
+    border: 1px solid var(--color-modal-user-interface-column-border);
     cursor: move;
     height: 30px;
     padding: 0 5px;

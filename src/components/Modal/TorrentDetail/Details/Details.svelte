@@ -108,14 +108,12 @@
   <div class="column column--value">
     {$torrentDetails[TRANSMISSION_COLUMN.ERROR_STRING]}
   </div>
-
-  <!-- TODO: Should more details be added? -->
 </div>
 
 <style>
   .content {
     font-size: 13px;
-    color: #7d8d9f;
+    color: var(--color-modal-text);
     line-height: 16px;
     display: grid;
     grid-gap: 1px 0;
@@ -134,7 +132,7 @@
 
   .header {
     font-size: inherit;
-    color: #b8c1cb;
+    color: var(--color-modal-details-header);
     font-weight: 700;
     grid-column: 1 / 3;
     padding-top: 10px;
@@ -147,7 +145,6 @@
   .column.column--label {
     padding-right: 15px;
     font-weight: 500;
-    color: #8393a3;
     white-space: nowrap;
     grid-column: 1;
   }

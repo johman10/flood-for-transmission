@@ -17,17 +17,17 @@
   }
 
   .labels > :global(.badge) {
-    background-color: #dce2e6;
-    color: #6f7d87;
+    background-color: var(--color-label-background);
+    color: var(--color-label-text);
   }
 
   .labels.selected > :global(.badge) {
-    background-color: #4ea3ea;
-    color: #ffffff;
+    background-color: var(--color-label-background-selected);
+    color: var(--color-label-text-selected);
   }
 
   .labels.selected.error > :global(.badge) {
-    background-color: #ed7994;
-    color: #fbe8ec;
+    background-color: var(--color-label-background-error);
+    color: var(--color-label-text-error);
   }
 </style>

@@ -159,7 +159,7 @@
   }
 
   .empty {
-    color: #7d8d9f;
+    color: var(--color-modal-text);
     font-size: 14px;
   }
 
@@ -176,8 +176,8 @@
 
   .location {
     display: flex;
-    fill: rgba(125, 141, 159, 0.4);
-    color: rgba(125, 141, 159, 0.6);
+    fill: var(--color-modal-files-icon);
+    color: var(--color-modal-text-light);
     align-items: center;
     margin-bottom: 4px;
     line-height: 18px;
@@ -186,8 +186,8 @@
 
   .file {
     display: grid;
-    fill: rgba(125, 141, 159, 0.4);
-    color: #7d8d9f;
+    fill: var(--color-modal-files-icon);
+    color: var(--color-modal-text);
     font-size: 13px;
     margin-bottom: 3px;
     grid-template-columns: auto 1fr auto;
@@ -250,13 +250,13 @@
   }
 
   .text {
-    color: #7d8d9f;
+    color: var(--color-modal-text);
     font-size: 14px;
     flex-grow: 1;
   }
 
   .focus {
-    color: #258de5;
+    color: var(--color-active);
     font-weight: 700;
   }
 

@@ -28,13 +28,13 @@
 
 <style>
   p {
-    color: #7d8d9f;
+    color: var(--color-modal-text);
     font-size: 14px;
     margin-bottom: 15px;
   }
 
   a {
-    color: #3ea7ff;
+    color: var(--color-modal-link);
     text-decoration: none;
   }
 </style>

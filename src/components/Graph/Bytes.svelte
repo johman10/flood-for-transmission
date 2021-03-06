@@ -31,7 +31,12 @@
   ));
 </script>
 
-<div class="bytes" class:hidden>
+<div
+  class="bytes"
+  class:upload="{direction === 'upload'}"
+  class:download="{direction === 'download'}"
+  class:hidden
+>
   {value}
   <span class="bytes__size">{size}</span>
 </div>
@@ -39,10 +44,17 @@
 <style>
   .bytes {
     grid-area: bytes;
-    color: var(--color);
     font-size: 12px;
     transition: opacity 0.25s;
     white-space: nowrap;
+  }
+
+  .bytes.upload {
+    color: var(--color-upload);
+  }
+
+  .bytes.download {
+    color: var(--color-download);
   }
 
   .bytes__size {

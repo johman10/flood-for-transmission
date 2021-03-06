@@ -22,7 +22,6 @@
 
 <style>
   .menu {
-    color: #e6f0ff;
     overflow: hidden;
     padding: 20px 0;
     display: flex;
@@ -30,10 +29,11 @@
     flex-basis: 175px;
     flex-shrink: 0;
     line-height: 1.25;
-    border-right: solid 1px #363e48;
+    border-right: solid 1px var(--color-modal-menu-border);
   }
 
   h1 {
+    color: var(--color-modal-header);
     font-weight: 500;
     font-size: 20px;
     padding: 0 25px 5px;
@@ -42,7 +42,7 @@
   ul {
     font-weight: 500;
     font-size: 13px;
-    color: #abc2e2;
+    color: var(--color-modal-tab-label);
   }
 
   li {
@@ -55,8 +55,8 @@
   }
 
   li.active {
-    color: #3ea7ff;
+    color: var(--color-modal-tab-label-active);
     font-weight: 700;
-    border-color: #3ea7ff;
+    border-color: var(--color-modal-tab-label-active);
   }
 </style>

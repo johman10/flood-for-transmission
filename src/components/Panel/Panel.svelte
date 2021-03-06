@@ -10,14 +10,12 @@
   <Graph />
   <Search />
   <Filters />
-  <!-- TODO: Add free space for download directories based on configuration (how expensive will it be to make that request every x seconds?) -->
 </div>
 
 <style>
   div {
     grid-area: panel;
-    background: #293341;
-    color: #526780;
+    background: var(--color-background);
     overflow-y: auto;
     height: 100vh;
     -ms-overflow-style: none; /* IE and Edge */

@@ -141,18 +141,12 @@
   .wrapper {
     overflow: auto;
     position: relative;
+    background-color: var(--color-torrent-list-background);
   }
 
   .table {
     border-spacing: 0;
     table-layout: fixed;
     user-select: none;
-  }
-
-  .table-header {
-    color: #abbac7;
-    font-size: 13px;
-    white-space: nowrap;
-    z-index: 1;
   }
 </style>

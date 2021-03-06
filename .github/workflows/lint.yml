@@ -10,9 +10,9 @@ on:
 jobs:
   # Set the job key. The key is displayed as the job name
   # when a job name is not provided
-  lint:
+  setup:
     # Name the Job
-    name: Lint code base
+    name: Setup
     # Set the type of machine to run on
     runs-on: ubuntu-latest
 
@@ -20,12 +20,41 @@ jobs:
       # Checks out a copy of your repository on the ubuntu-latest machine
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          # Make sure the actual branch is checked out when running on pull requests
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
 
       - name: Install modules
         run: npm install
 
+  prettier:
+    name: Prettier
+    needs: setup
+    steps:
+      - name: Prettify code
+        uses: creyD/prettier_action@v3.1
+        with:
+          prettier_options: --write ./src/**/*.{js,svelte}
+          same_commit: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  lint:
+    name: Lint
+    needs: prettier
+    steps:
       - name: Run ESLint
         run: npm run lint
-
-      - name: Run Prettier
-        run: npm run prettier

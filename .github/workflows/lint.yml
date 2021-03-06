@@ -12,7 +12,7 @@ jobs:
   # when a job name is not provided
   format:
     # Name the Job
-    name: prettier
+    name: Format
     # Set the type of machine to run on
     runs-on: ubuntu-latest
 
@@ -30,11 +30,13 @@ jobs:
         env:
           cache-name: cache-node-modules
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          path: |
+            ~/.npm
+            ./node_modules
+          key: ${{ runner.os }}-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
+            ${{ runner.os }}-${{ env.cache-name }}-
+            ${{ runner.os }}-
             ${{ runner.os }}-
 
       - name: Install modules

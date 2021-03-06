@@ -2,7 +2,7 @@
   --rgb-positive: 57, 206, 131;
   --rgb-upload: 62, 167, 255;
   --rgb-active: 37, 141, 229;
-  --rgb-text: 82, 103, 128;
+  --rgb-text: 112, 133, 158;
   --rgb-background: 41, 51, 65;
 
   --color-positive: rgb(var(--rgb-positive));
@@ -15,6 +15,8 @@
   --color-header: rgba(var(--rgb-text), 0.5);
   --color-background: rgb(var(--rgb-background));
   --color-border: rgb(32, 45, 60);
+
+  --color-dropdown-header: rgba(var(--rgb-text), 0.5);
 
   --color-progress-bar-download: var(--color-download);
   --color-progress-bar-download-background: rgba(var(--rgb-positive), 0.15);
@@ -31,6 +33,7 @@
   --color-progress-bar-selected-inactive: rgb(255, 255, 255, 0.35);
   --color-progress-bar-selected-inactive-background: rgba(255, 255, 255, 0.15);
 
+  --color-panel-header: rgba(var(--rgb-text), 0.9);
   --color-panel-text: var(--color-text);
   --color-panel-hover: rgb(119, 141, 168);
   --color-panel-active: var(--color-active);
@@ -194,9 +197,9 @@
   --color-column-header-background: rgb(25, 37, 52);
   --color-column-header-border: rgba(226, 214, 199, 0.08);
   --color-column-header-shadow: rgba(226, 214, 109, 0.1);
-  --color-column-header-text: rgb(171, 186, 199);
+  --color-column-header-text: var(--color-text);
   --color-column-header-text-active: rgb(171, 186, 199);
 
-  --color-torrent-text: rgb(195, 204, 211);
-  --color-torrent-text-inactive: rgb(75, 103, 127);
+  --color-torrent-text: rgb(171, 186, 199);
+  --color-torrent-text-inactive: var(--color-text);
 }

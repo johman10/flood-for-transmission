@@ -92,7 +92,7 @@
   }
 
   .list-header {
-    color: var(--color-header);
+    color: var(--color-dropdown-header);
     font-size: 9px;
     font-weight: 500;
     text-transform: uppercase;

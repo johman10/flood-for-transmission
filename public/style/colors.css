@@ -24,14 +24,12 @@
   --color-progress-bar-metadata-background:  rgba(136, 153, 168, 0.15);
   --color-progress-bar-error: rgb(242, 172, 188);
   --color-progress-bar-error-background: rgba(242, 172, 188, 0.15);
-  --color-progress-bar-stopped: rgb(231, 235, 238);
-  --color-progress-bar-stopped-background: rgba(231, 235, 238, 0.15);
-  --color-progress-bar-selected-download: rgb(255, 255, 255);
-  --color-progress-bar-selected-download-background: rgba(255, 255, 255, 0.15);
-  --color-progress-bar-selected-stopped: rgb(93, 170, 235);
-  --color-progress-bar-selected-stopped-background: rgba(255, 255, 255, 0.15);
-  --color-progress-bar-selected-completed: rgb(255, 255, 255);
-  --color-progress-bar-selected-completed-background: rgba(255, 255, 255, 0.15);
+  --color-progress-bar-stopped: rgb(195, 204, 211);
+  --color-progress-bar-stopped-background: rgba(195, 204, 211, 0.15);
+  --color-progress-bar-selected-active: rgb(255, 255, 255);
+  --color-progress-bar-selected-active-background: rgba(255, 255, 255, 0.15);
+  --color-progress-bar-selected-inactive: rgb(255, 255, 255, 0.35);
+  --color-progress-bar-selected-inactive-background: rgba(255, 255, 255, 0.15);
 
   --color-panel-text: var(--color-text);
   --color-panel-hover: rgb(119, 141, 168);
@@ -161,11 +159,9 @@
   --color-column-header-text: rgb(171, 186, 199);
   --color-column-header-text-active: rgb(88, 111, 132);
 
-  --color-torrent-text: rgb(136, 153, 168);
-  --color-torrent-text-big: rgb(75, 103, 127);
-  --color-torrent-text-selected: rgba(255, 255, 255, 0.5);
-  --color-torrent-text-active: rgb(255, 255, 255);
+  --color-torrent-text: rgb(75, 103, 127);
   --color-torrent-text-inactive: rgb(195, 204, 211);
+  --color-torrent-text-selected: rgb(255, 255, 255);
   --color-torrent-background-selected: rgb(27, 134, 224);
   --color-torrent-background-selected-error: var(--color-negative);
 
@@ -201,5 +197,8 @@
     --color-column-header-shadow: rgba(226, 214, 109, 0.1);
     --color-column-header-text: rgb(171, 186, 199);
     --color-column-header-text-active: rgb(171, 186, 199);
+
+    --color-torrent-text: rgb(195, 204, 211);
+    --color-torrent-text-inactive: rgb(75, 103, 127);
   }
 }

@@ -11,6 +11,34 @@ import {
   TRANSMISSION_COLUMN_STATUS,
 } from '~helpers/constants/columns';
 
+// Some of these may not happen since Transmission would perhaps not have metadata and checking at the same time
+// However, there is no documentation available for what statuses are relevant together and which are not
+// Full list of possible combinations:
+// error
+// stopped
+// active
+// checking
+// completed error
+// completed stopped
+// completed active
+// completed checking
+// metadata error
+// metadata stopped
+// metadata active
+// metadata checking
+// selected error
+// selected stopped
+// selected active
+// selected checking
+// selected completed error
+// selected completed stopped
+// selected completed active
+// selected completed checking
+// selected metadata error
+// selected metadata stopped
+// selected metadata active
+// selected metadata checking
+
 export function generateTorrentStatusClass(torrent, selected = false) {
   let progressClass = '';
   let statusClass = '';
@@ -40,8 +68,5 @@ export function generateTorrentStatusClass(torrent, selected = false) {
     selectedClass = 'selected';
   }
 
-  return `${progressClass} ${statusClass} ${selectedClass}`
-    .split('  ')
-    .join(' ')
-    .trim();
+  return [progressClass, statusClass, selectedClass].filter(Boolean).join(' ');
 }

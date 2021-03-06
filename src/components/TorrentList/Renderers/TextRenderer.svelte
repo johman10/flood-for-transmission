@@ -14,10 +14,5 @@
   .active.big,
   .seeding.big {
     font-weight: 500;
-    color: var(--color-torrent-text-big);
-  }
-
-  .big.selected.active {
-    color: inherit;
   }
 </style>

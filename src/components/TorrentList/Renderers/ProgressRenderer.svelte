@@ -75,40 +75,45 @@
     width: 12px;
   }
 
-  .selected {
-    --progess-color: var(--color-progress-bar-selected-download);
-    --background-color: var(--color-progress-bar-selected-download-background);
-  }
-
-  .stopped,
-  .completed.stopped {
-    --progess-color: var(--color-progress-bar-stopped);
-    --background-color: var(--color-progress-bar-stopped-background);
-  }
-
-  .selected.stopped {
-    --progess-color: var(--color-progress-bar-selected-stopped);
-    --background-color: var(--color-progress-bar-selected-stopped-background);
-  }
+  /*
+  1: unselected downloading - green - default
+  2: unselected uploading - blue
+  3: unselected stopped - grey
+  4: unselected error - red
+  5: unselected checking/metadata - dark grey
+  6: selected active - white
+  7: selected inactive - opacite white
+  */
 
   .completed {
     --progess-color: var(--color-progress-bar-upload);
     --background-color: var(--color-progress-bar-upload-background);
   }
 
-  .selected.completed {
-    --progess-color: var(--color-progress-bar-selected-completed);
-    --background-color: var(--color-progress-bar-selected-completed-background);
-  }
-
-  .checking,
-  .metadata {
-    --progess-color: var(--color-progress-bar-metadata);
-    --background-color: var(--color-progress-bar-metadata-background);
+  .stopped {
+    --progess-color: var(--color-progress-bar-stopped);
+    --background-color: var(--color-progress-bar-stopped-background);
   }
 
   .error {
     --progess-color: var(--color-progress-bar-error);
     --background-color: var(--color-progress-bar-error-background);
+  }
+
+  .checking {
+    --progess-color: var(--color-progress-bar-metadata);
+    --background-color: var(--color-progress-bar-metadata-background);
+  }
+
+  .selected.active,
+  .selected.checking {
+    --progess-color: var(--color-progress-bar-selected-active);
+    --background-color: var(--color-progress-bar-selected-active-background);
+  }
+
+  .selected.error,
+  .selected.stopped {
+    --progess-color: var(--color-progress-bar-selected-inactive);
+    --background-color: var(--color-progress-bar-selected-inactive-background);
   }
 </style>

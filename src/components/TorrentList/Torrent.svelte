@@ -224,10 +224,6 @@
     color: var(--color-torrent-text-selected);
   }
 
-  tr.selected.active {
-    color: var(--color-torrent-text-active);
-  }
-
   tr.selected.error {
     background-color: var(--color-torrent-background-selected-error);
   }

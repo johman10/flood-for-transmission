@@ -10,9 +10,9 @@ on:
 jobs:
   # Set the job key. The key is displayed as the job name
   # when a job name is not provided
-  setup:
+  format:
     # Name the Job
-    name: Setup
+    name: prettier
     # Set the type of machine to run on
     runs-on: ubuntu-latest
 
@@ -40,12 +40,6 @@ jobs:
       - name: Install modules
         run: npm install
 
-  prettier:
-    name: Prettier
-    needs: setup
-    runs-on: ubuntu-latest
-
-    steps:
       - name: Prettify code
         uses: creyD/prettier_action@v3.1
         with:
@@ -54,11 +48,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  lint:
-    name: Lint
-    needs: prettier
-    runs-on: ubuntu-latest
-
-    steps:
       - name: Run ESLint
         run: npm run lint

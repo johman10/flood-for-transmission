@@ -23,7 +23,6 @@ jobs:
         with:
           # Make sure the actual branch is checked out when running on pull requests
           ref: ${{ github.head_ref }}
-          fetch-depth: 0
 
       - name: Cache node modules
         uses: actions/cache@v2
@@ -44,7 +43,6 @@ jobs:
         uses: creyD/prettier_action@v3.1
         with:
           prettier_options: --write ./src/**/*.{js,svelte}
-          same_commit: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

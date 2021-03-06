@@ -43,6 +43,8 @@ jobs:
   prettier:
     name: Prettier
     needs: setup
+    runs-on: ubuntu-latest
+
     steps:
       - name: Prettify code
         uses: creyD/prettier_action@v3.1
@@ -55,6 +57,8 @@ jobs:
   lint:
     name: Lint
     needs: prettier
+    runs-on: ubuntu-latest
+
     steps:
       - name: Run ESLint
         run: npm run lint

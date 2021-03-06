@@ -10,7 +10,6 @@
   <Graph />
   <Search />
   <Filters />
-
 </div>
 
 <style>

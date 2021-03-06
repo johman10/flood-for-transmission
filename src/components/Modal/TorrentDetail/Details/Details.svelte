@@ -108,8 +108,6 @@
   <div class="column column--value">
     {$torrentDetails[TRANSMISSION_COLUMN.ERROR_STRING]}
   </div>
-
-
 </div>
 
 <style>

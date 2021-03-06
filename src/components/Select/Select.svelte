@@ -7,6 +7,8 @@
 
   export let options;
   export let placeholder = '';
+  export let direction = 'above';
+  export let value = undefined;
 
   let open = false;
   let optionsStyle;
@@ -22,8 +24,12 @@
 
   $: {
     if (open && selectElement) {
-      const { x, y, width } = selectElement.getBoundingClientRect();
-      optionsStyle = `left: ${x}px; top: ${y - 5}px; width: ${width}px;`;
+      const { x, y, width, height } = selectElement.getBoundingClientRect();
+      if (direction === 'above') {
+        optionsStyle = `left: ${x}px; top: ${y}px; width: ${width}px; transform: translateY(calc(-100% - 5px));`;
+      } else if (direction === 'below') {
+        optionsStyle = `left: ${x}px; top: ${y + height}px; width: ${width}px;`;
+      }
     }
   }
 
@@ -42,7 +48,9 @@
   }}"
 >
   <Button on:click="{() => (open = !open)}" priority="quaternary">
-    <div class="content">{placeholder}</div>
+    <div class="content">
+      {options.find((option) => option.value === value)?.label || placeholder}
+    </div>
     <div class="arrow" class:open>
       <Icon name="Chevron" />
     </div>
@@ -52,6 +60,8 @@
     <div
       bind:this="{optionsElement}"
       class="options"
+      class:above="{direction === 'above'}"
+      class:below="{direction === 'below'}"
       style="{optionsStyle}"
       transition:fly="{{ duration: 125, y: -20 }}"
     >
@@ -65,6 +75,10 @@
 </div>
 
 <style>
+  .select {
+    position: relative;
+  }
+
   .select > :global(.button) {
     fill: var(--color-select-icon);
     display: flex;
@@ -94,12 +108,19 @@
 
   .options {
     position: absolute;
-    transform: translateY(-100%);
     z-index: 10;
     background-color: var(--color-select-option-background);
     color: #fff;
     padding: 9px 0;
     border-radius: 5px;
+  }
+
+  .options.above {
+    transform: translateY(calc(-100% - 5px));
+  }
+
+  .options.below {
+    transform: translateY(5px);
   }
 
   .option {

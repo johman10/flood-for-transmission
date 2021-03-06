@@ -176,29 +176,27 @@
 
   --color-size-text-selected: rgb(255, 255, 255);
 
-  --color-priority-low: var(--rgb-active);
+  --color-priority-low: var(--color-active);
   --color-priority-normal: var(--color-positive);
   --color-priority-high: var(--color-positive);
   --color-priority-off: rgb(67, 96, 118);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-torrent-list-background: rgb(31, 41, 55);
+.dark-mode {
+  --color-torrent-list-background: rgb(31, 41, 55);
 
-    --color-top-bar-inactive: var(--color-text);
-    --color-top-bar-background: var(--color-background);
-    --color-top-bar-active: var(--color-active);
-    --color-top-bar-text: var(--color-text);
-    --color-top-bar-border: rgba(214, 204, 190, 0.15);
+  --color-top-bar-inactive: var(--color-text);
+  --color-top-bar-background: var(--color-background);
+  --color-top-bar-active: var(--color-active);
+  --color-top-bar-text: var(--color-text);
+  --color-top-bar-border: rgba(214, 204, 190, 0.15);
 
-    --color-column-header-background: rgb(25, 37, 52);
-    --color-column-header-border: rgba(226, 214, 199, 0.08);
-    --color-column-header-shadow: rgba(226, 214, 109, 0.1);
-    --color-column-header-text: rgb(171, 186, 199);
-    --color-column-header-text-active: rgb(171, 186, 199);
+  --color-column-header-background: rgb(25, 37, 52);
+  --color-column-header-border: rgba(226, 214, 199, 0.08);
+  --color-column-header-shadow: rgba(226, 214, 109, 0.1);
+  --color-column-header-text: rgb(171, 186, 199);
+  --color-column-header-text-active: rgb(171, 186, 199);
 
-    --color-torrent-text: rgb(195, 204, 211);
-    --color-torrent-text-inactive: rgb(75, 103, 127);
-  }
+  --color-torrent-text: rgb(195, 204, 211);
+  --color-torrent-text-inactive: rgb(75, 103, 127);
 }

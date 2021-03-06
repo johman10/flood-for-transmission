@@ -3,11 +3,20 @@
   import Button from '~components/Button';
   import InputMultiple from '~components/InputMultiple';
   import Checkbox from '~components/Checkbox';
-  import { modals, alerts, uiColumns, paths } from '~helpers/stores';
+  import Select from '~components/Select';
+  import { modals, alerts, uiColumns, paths, darkMode } from '~helpers/stores';
   import { orderable } from '~helpers/actions';
+
+  const darkModeConfiguredValue = darkMode.configuredValue;
 
   const newColumns = JSON.parse(JSON.stringify($uiColumns));
   let newPaths = [...$paths];
+
+  const darkModeOptions = [
+    { label: 'Auto', value: 'auto' },
+    { label: 'Enabled', value: 'enabled' },
+    { label: 'Disabled', value: 'disabled' },
+  ];
 
   const handleSubmit = () => {
     try {
@@ -30,6 +39,16 @@
 </script>
 
 <form on:submit|preventDefault="{handleSubmit}">
+  <Header text="Dark mode" />
+  <div class="list">
+    <Select
+      options="{darkModeOptions}"
+      on:change="{(event) => darkMode.set(event.detail)}"
+      value="{$darkModeConfiguredValue}"
+      direction="below"
+    />
+  </div>
+
   <Header text="Common paths" />
   <p class="hint">
     These paths will be shown behind the magnifier where you can select a path.

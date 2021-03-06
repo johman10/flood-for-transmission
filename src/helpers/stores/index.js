@@ -1,6 +1,7 @@
 export { alerts } from './alerts';
 export { columns, uiColumns, transmissionColumns } from './columns';
 export { contextMenu } from './contextMenu';
+export { darkMode } from './darkMode';
 export { filters } from './filters';
 export { ipAddress } from './ipAddress';
 export { modals } from './modals';

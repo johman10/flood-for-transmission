@@ -21,21 +21,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-      - run: npm install
+      - name: Install modules
+        run: npm install
 
-      - name: Run eslint
-        uses: github/super-linter@v3
-        env:
-          DEFAULT_BRANCH: main
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          JAVASCRIPT_ES_CONFIG_FILE: .eslintrc
+      - name: Run ESLint
+        run: npm run lint
 
-      - name: Prettify code
-        uses: creyD/prettier_action@v3.1
-        with:
-          prettier_options: --write **/*.{js,svelte}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Run Prettier
+        run: npm run prettier

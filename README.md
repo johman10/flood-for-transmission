@@ -20,7 +20,6 @@ How this project is different from jesec's version:
 1. This project does not require any running process, which makes it super lightweight.
 1. It's dedicated to support Transmission as good as possible.
 1. It uses the recommended way from Transmission to load the UI, by setting an environment variable.
-1. This project can be installed as an PWA, which makes it behave like a native app.
 
 # Getting started
 
@@ -28,25 +27,22 @@ How this project is different from jesec's version:
 
 1. [Transmission](https://transmissionbt.com/) needs to be installed and running. When on Linux the transmission-daemon is enough to get this to work.
     * As of now it's not possible to run Flood for Transmission on a separate machine, and frankly there would be little need for it since this project doesn't require it's own process to be running.
-1. Install NodeJS (you might want to manage different Node versions with [nodenv](https://github.com/nodenv/nodenv) or [nvm](https://github.com/creationix/nvm) or [n](https://github.com/tj/n)).
 1. Usage of an evergreen browser such as [Chrome](https://www.google.com/chrome/), [Firefox](https://www.mozilla.org/en-US/firefox/new/) or [Edge](https://www.microsoft.com/en-us/edge). This project does not aim to support older browsers.
 
 ### Installation
 
-1. Figure out where you want to keep the files, and clone this repo with `git clone git@github.com:johman10/flood-for-transmission.git`.
-1. change to the project folder by running `cd flood-for-transmission`.
-1. Run `npm install`.
-1. Run `npm run build`.
+1. Download the latest release with: `curl -OL https://github.com/johman10/flood-for-transmission/releases/download/latest/flood-for-transmission.zip`
+1. Unpack with: `unzip flood-for-transmission.zip`. This should end up with a folder called `flood-for-transmission` in the current working directory.
+1. Remove the now redundant zip file: `rm flood-for-transmission.zip`
 1. Now tell Transmission where you put the new UI, on all environments this can by done by using an environment variable.
     * On **Linux** you can set the environment for systemd by running: `systemctl edit transmission-daemon.service`. In the opened file ensure it contains at least:
         ```
         [Service]
-        Environment=TRANSMISSION_WEB_HOME=/path/to/flood-for-transmission/public
+        Environment=TRANSMISSION_WEB_HOME=/path/to/flood-for-transmission
         ```
         Any other configuration can be added as you wish.
-    * On **Windows** (untested) you have to set an environment variable to do this, open the start menu and type "environment". Click on "Edit this system environment variables". In the newly opened window choose "new" and fill in the "Variable name" `TRANSMISSION_WEB_HOME` and the "Variable value" to `C:\path\to\flood-for-transmission/public`.
-    * On **Mac** (untested) open the file `~/.zprofile` in your favorite text editor and add `export TRANSMISSION_WEB_HOME=/path/to/flood-for-transmission/public`.
-    * **In all cases** ensure that the configured path always ends with `/public`. It has to point to the folder where Transmission can find the `index.html` file.
+    * On **Windows** (untested) you have to set an environment variable to do this, open the start menu and type "environment". Click on "Edit this system environment variables". In the newly opened window choose "new" and fill in the "Variable name" `TRANSMISSION_WEB_HOME` and the "Variable value" to `C:\path\to\flood-for-transmission`.
+    * On **Mac** (untested) open the file `~/.zprofile` in your favorite text editor and add `export TRANSMISSION_WEB_HOME=/path/to/flood-for-transmission`.
 1. Restart Transmission
 1. Access transmission as you usually do, By default this would be by opening `http://localhost:9091`.
 
@@ -54,11 +50,12 @@ _Note:_ If you run Flood for Transmission behind SSL and in Chrome you can also 
 
 ### Updating
 
-I won't be maintaining versions for this project. So to update follow the following steps (feel free to write a cron job script for this):
+To update follow the following steps (feel free to write a cron job script for this):
 
-1. Run `git pull` in this repository's directory.
-1. Run `npm install` to update dependencies.
-1. Run `npm run build` to transpile and bundle static assets.
+1. Remove the last version: `rm -r flood-for-transmission`
+1. Download the latest release with: `curl -OL https://github.com/johman10/flood-for-transmission/releases/download/latest/flood-for-transmission.zip`
+1. Unpack with: `unzip flood-for-transmission.zip`. This should end up with a folder called `flood-for-transmission` in the current working directory.
+1. Remove the now redundant zip file: `rm flood-for-transmission.zip`
 1. Restart Transmission.
 
 ### Local Development

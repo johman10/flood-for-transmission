@@ -12,6 +12,8 @@ jobs:
     runs-on: "ubuntu-latest"
 
     steps:
+      - name: Set TIME var
+        run: echo "TIME=$(date +'%Y-%m-%dT%H:%M:%S')" >> $GITHUB_ENV
       # Checks out a copy of your repository on the ubuntu-latest machine
       - name: Checkout code
         uses: actions/checkout@v2
@@ -51,7 +53,8 @@ jobs:
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: "latest"
-          title: "Release"
+          prerelease: false
+          title: "$TIME"
           files: |
             flood-for-transmission.zip
             flood-for-transmission.tar.gz

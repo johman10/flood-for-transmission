@@ -2,7 +2,7 @@
   "name": "svelte-app",
   "version": "1.0.0",
   "scripts": {
-    "build": "rm -r public/build public/sw* public/workbox-* && rollup -c --silent",
+    "build": "rm -rf public/build public/sw* public/workbox-* && rollup -c --silent",
     "postbuild": "workbox generateSW workbox-config.js",
     "start": "rollup -c -w",
     "serve": "sirv public",

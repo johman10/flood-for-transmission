@@ -3,6 +3,7 @@ name: "release"
 on:
   push:
     branches:
+      # TODO: change to master
       - "auto-release"
 
 jobs:
@@ -36,10 +37,18 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Zip release
+        run: zip -r release.zip public
+
+      - name: Tar release
+        run: tar -czvf release.tar.gz public
+
       - name: Relesae
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: "latest"
           title: "Release"
-          files: public
+          files: |
+            release.zip
+            release.tar.gz

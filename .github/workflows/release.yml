@@ -37,11 +37,14 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Copy public
+        run: cp -r public flood-for-transmission
+
       - name: Zip release
-        run: zip -r release.zip public
+        run: zip -r flood-for-transmission.zip flood-for-transmission
 
       - name: Tar release
-        run: tar -czvf release.tar.gz public
+        run: tar -czvf flood-for-transmission.tar.gz flood-for-transmission
 
       - name: Relesae
         uses: "marvinpinto/action-automatic-releases@latest"
@@ -50,5 +53,5 @@ jobs:
           automatic_release_tag: "latest"
           title: "Release"
           files: |
-            release.zip
-            release.tar.gz
+            flood-for-transmission.zip
+            flood-for-transmission.tar.gz

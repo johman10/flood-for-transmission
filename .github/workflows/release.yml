@@ -48,11 +48,22 @@ jobs:
       - name: Tar release
         run: tar -czvf flood-for-transmission.tar.gz flood-for-transmission
 
-      - name: Relesae
+      - name: Release latest
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: "latest"
+          prerelease: false
+          title: "Latest"
+          files: |
+            flood-for-transmission.zip
+            flood-for-transmission.tar.gz
+
+      - name: Release time based version
+        uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "${{ env.time }}"
           prerelease: false
           title: "${{ env.time }}"
           files: |

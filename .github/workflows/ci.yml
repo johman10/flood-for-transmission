@@ -1,4 +1,4 @@
-name: Format
+name: CI
 
 # Run this workflow every time a new commit pushed to your repository
 on:
@@ -38,6 +38,9 @@ jobs:
 
       - name: Install modules
         run: npm ci
+
+      - name: Build
+        run: npm run build
 
       - name: Prettify code
         uses: creyD/prettier_action@v3.1

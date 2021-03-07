@@ -3,8 +3,7 @@ name: "Release"
 on:
   push:
     branches:
-      # TODO: change to master
-      - "auto-release"
+      - "master"
 
 jobs:
   release:

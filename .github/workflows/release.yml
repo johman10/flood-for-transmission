@@ -54,7 +54,7 @@ jobs:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           automatic_release_tag: "latest"
           prerelease: false
-          title: "$TIME"
+          title: "${{ TIME }}"
           files: |
             flood-for-transmission.zip
             flood-for-transmission.tar.gz

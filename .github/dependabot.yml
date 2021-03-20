@@ -10,3 +10,7 @@ updates:
     target_branch: 'dependency_updates'
     schedule:
       interval: 'daily'
+    automerged_updates:
+      - match:
+          dependency_type: 'all'
+          update_type: 'all'

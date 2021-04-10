@@ -6,10 +6,13 @@
   import Checkbox from '~components/Checkbox';
   import Button from '~components/Button';
   import { modals, torrents, alerts, session } from '~helpers/stores';
+  import { isValidUrl } from '~helpers/urlHelper';
   import {
     SESSION_COLUMN_DOWNLOAD_DIR,
     SESSION_COLUMN_START_ADDED,
   } from '~helpers/constants/columns';
+
+  const TORRENT_HASH_REGEX = /^[\da-f]{40}$/i;
 
   let loadingInitial = true;
   let loadingSubmit = false;
@@ -53,23 +56,53 @@
     );
   };
 
-  const handleUrlSubmit = () => {
-    const dataItems = cleanFileNames.map((filename) => ({
-      filename,
-      'paused': !start,
-      'download-dir': destination,
-    }));
+  const validateInputs = (formElement) => {
+    const inputs = Array.from(
+      formElement.querySelectorAll('.torrent-url-hash-input')
+    );
+    const validity = inputs.map(
+      (input) => TORRENT_HASH_REGEX.test(input.value) || isValidUrl(input.value)
+    );
+    const invalidIndex = validity.indexOf(false);
+
+    if (invalidIndex === -1) return false;
+
+    // Set errors for the first invalid input
+    inputs[invalidIndex].setCustomValidity(
+      'Invalid URL, magnet or torrent hash'
+    );
+    formElement.reportValidity();
+    return true;
+  };
+
+  const handleUrlSubmit = (event) => {
+    if (validateInputs(event.target)) {
+      return Promise.reject();
+    }
+
+    const dataItems = cleanFileNames.map((filename) => {
+      let hashUrl;
+      if (TORRENT_HASH_REGEX.test(filename)) {
+        hashUrl = `magnet:?xt=urn:btih:${filename}`;
+      }
+
+      return {
+        'filename': hashUrl || filename,
+        'paused': !start,
+        'download-dir': destination,
+      };
+    });
     return Promise.resolve(dataItems);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (event) => {
     loadingSubmit = true;
 
     let promise;
     if (tab === 'file') {
       promise = handleFileSubmit();
     } else if (tab === 'url') {
-      promise = handleUrlSubmit();
+      promise = handleUrlSubmit(event);
     } else {
       throw new Error('<Add> Unexpected tab');
     }
@@ -116,7 +149,7 @@
 <h1>Add Torrents</h1>
 <ul class="tabs">
   <li on:click="{() => (tab = 'url')}" class:active="{tab === 'url'}">
-    By URL
+    By URL or hash
   </li>
   <li on:click="{() => (tab = 'file')}" class:active="{tab === 'file'}">
     By File
@@ -129,8 +162,8 @@
     {#if tab === 'url'}
       <InputMultiple
         label="Torrents"
-        type="url"
-        placeholder="Torrent URL or Magnet Link"
+        class="torrent-url-hash-input"
+        placeholder="Torrent URL, Magnet Link or hash"
         bind:values="{fileNames}"
         required="{!cleanFileNames.length}"
       />
@@ -147,7 +180,7 @@
       label="Destination"
       placeholder="Destination"
       bind:value="{destination}"
-      pattern="^/.*"
+      pattern="^/.*$"
       validationMessage="Destination must be an absolute path."
       required
     />

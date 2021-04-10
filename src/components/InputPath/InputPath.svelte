@@ -7,6 +7,10 @@
 
   let input;
 
+  function onPathSelect(path) {
+    value = path;
+  }
+
   function togglePopup() {
     contextMenu.open({
       element: input,
@@ -16,11 +20,6 @@
         onPathSelect,
       },
     });
-  }
-
-  function onPathSelect(path) {
-    value = path;
-    contextMenu.close();
   }
 </script>
 

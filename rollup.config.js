@@ -106,6 +106,7 @@ export default {
       __TRANSMISSION_SSL__: process.env.TRANSMISSION_SSL
         ? !!process.env.TRANSMISSION_SSL
         : undefined,
+      __ENV__: production ? '"production"' : '"development"',
     }),
 
     // In dev mode, call `npm run start` once

@@ -100,12 +100,14 @@
     --background-color: var(--color-progress-bar-error-background);
   }
 
-  .checking {
+  .checking,
+  .metadata {
     --progess-color: var(--color-progress-bar-metadata);
     --background-color: var(--color-progress-bar-metadata-background);
   }
 
   .selected.active,
+  .selected.metadata,
   .selected.checking {
     --progess-color: var(--color-progress-bar-selected-active);
     --background-color: var(--color-progress-bar-selected-active-background);

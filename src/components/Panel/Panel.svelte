@@ -36,8 +36,7 @@
 
   @media (max-width: 550px) {
     div {
-      /* TODO: color variable creation */
-      border-right: 1px solid var(--color-top-bar-border);
+      border-right: 1px solid var(--color-panel-border);
     }
   }
 </style>

@@ -37,6 +37,7 @@
   --color-panel-text: var(--color-text);
   --color-panel-hover: rgb(119, 141, 168);
   --color-panel-active: var(--color-active);
+  --color-panel-border: rgba(41, 51, 65, 0.15);
 
   --color-switch-inactive: rgb(171, 186, 199);
   --color-switch-active: var(--color-active);

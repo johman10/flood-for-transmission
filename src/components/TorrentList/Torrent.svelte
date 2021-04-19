@@ -55,6 +55,20 @@
     });
   };
 
+  let lastClick = 0;
+  const handleClick = () => {
+    const currentTime = new Date().getTime();
+    const clickLength = currentTime - lastClick;
+    if (clickLength > 0 && clickLength < 500) {
+      modals.open({
+        component: TorrentDetail,
+        large: true,
+        props: { torrentId: torrent.id },
+      });
+    }
+    lastClick = currentTime;
+  };
+
   // TODO: Move to constants/columns, pass torrent and session as arg to props;
   $: rendererMap = {
     [UI_COLUMN.NAME]: {
@@ -187,11 +201,7 @@
   class="{generateTorrentStatusClass(torrent, selected)}"
   on:click="{dispatchClick}"
   on:contextmenu="{dispatchContextmenu}"
-  on:dblclick="{modals.open.bind(null, {
-    component: TorrentDetail,
-    large: true,
-    props: { torrentId: torrent.id },
-  })}"
+  on:click="{handleClick}"
 >
   {#each $activeColumns
     .map((column) => rendererMap[column.name])

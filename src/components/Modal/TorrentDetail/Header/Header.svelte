@@ -227,7 +227,9 @@
 
   .subheading {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
+    row-gap: 4px;
     justify-content: space-between;
     color: var(--color-modal-text);
     fill: var(--color-modal-torrent-details-header-icon);
@@ -272,5 +274,12 @@
 
   li.button {
     cursor: pointer;
+  }
+
+  @media (max-width: 700px) {
+    .header {
+      box-shadow: none;
+      padding: 20px 25px 10px;
+    }
   }
 </style>

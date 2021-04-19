@@ -36,6 +36,7 @@
     position: relative;
     user-select: none;
     fill: currentColor;
+    white-space: nowrap;
   }
 
   button :global(.icon) {

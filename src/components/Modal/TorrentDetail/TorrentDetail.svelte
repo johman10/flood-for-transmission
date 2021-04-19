@@ -118,10 +118,11 @@
     font-weight: 500;
     color: var(--color-modal-tab-label);
     text-decoration: none;
+    border-right: solid 1px transparent;
   }
 
   a.active {
-    border-right: solid 1px var(--color-modal-tab-label-active);
+    border-color: var(--color-modal-tab-label-active);
     color: var(--color-modal-tab-label-active);
     font-weight: 700;
   }
@@ -130,5 +131,25 @@
     flex-shrink: 1;
     flex-grow: 1;
     min-width: 0;
+    min-height: 0;
+  }
+
+  @media (max-width: 700px) {
+    .content {
+      flex-direction: column;
+    }
+
+    nav {
+      flex-direction: row;
+      flex-basis: auto;
+      padding: 0 20px;
+      box-shadow: inset 0 -1px 0 var(--color-modal-torrent-details-shadow);
+    }
+
+    a {
+      border-right: 0;
+      border-bottom: solid 1px transparent;
+      padding: 5px;
+    }
   }
 </style>

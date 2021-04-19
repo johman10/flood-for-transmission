@@ -112,6 +112,7 @@
   .button-group {
     display: flex;
     justify-content: flex-end;
+    flex-wrap: wrap;
     margin-top: 25px;
     gap: 10px;
   }

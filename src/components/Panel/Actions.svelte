@@ -4,7 +4,7 @@
   import Switch from '~components/Switch';
   import { Settings } from '~components/Modal';
   import { getSize } from '~helpers/sizeHelper';
-  import { session, modals, panel } from '~helpers/stores';
+  import { session, modals } from '~helpers/stores';
   import {
     SESSION_COLUMN_UNITS,
     SESSION_COLUMN_UNITS_SPEED,

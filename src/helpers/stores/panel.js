@@ -4,7 +4,9 @@ const PANEL_SHOWN_STORAGE_KEY = 'panel-shown';
 
 function createPanelStore() {
   const value = window.localStorage.getItem(PANEL_SHOWN_STORAGE_KEY);
-  const { subscribe, update, set } = writable(value === 'true' || value === null);
+  const { subscribe, update, set } = writable(
+    value === 'true' || value === null
+  );
 
   return {
     subscribe,
@@ -18,12 +20,9 @@ function createPanelStore() {
       });
     },
     close: () => {
-      window.localStorage.setItem(
-        PANEL_SHOWN_STORAGE_KEY,
-        'false'
-      );
+      window.localStorage.setItem(PANEL_SHOWN_STORAGE_KEY, 'false');
       set(false);
-    }
+    },
   };
 }
 export const panel = createPanelStore();

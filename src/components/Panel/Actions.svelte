@@ -84,7 +84,7 @@
     on:select="{handleSelect}"
     lists="{speedLimitLists}"
   >
-    <div slot="trigger">
+    <div slot="trigger" class="trigger">
       <Icon name="Limits" />
     </div>
     <div slot="bottom" class="alt-speed-row" on:click|stopPropagation>
@@ -102,9 +102,12 @@
   .actions {
     fill: var(--color-text);
     display: flex;
-    justify-content: flex-start;
     padding: 5px;
     margin-bottom: 5px;
+  }
+
+  .trigger {
+    display: flex;
   }
 
   .actions :global(.icon) {

@@ -63,4 +63,15 @@
     width: 700px;
     height: 80%;
   }
+
+  @media (max-width: 700px) {
+    .content,
+    .content.large {
+      width: 100vw;
+      max-width: 100%;
+      transform: translate(-50%, 0);
+      bottom: 0;
+      top: auto;
+    }
+  }
 </style>

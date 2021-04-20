@@ -3,9 +3,17 @@
   import Actions from '~components/Panel/Actions.svelte';
   import Search from '~components/Search';
   import Filters from '~components/Filters';
+  import clickOutside from '~helpers/actions/clickOutside';
+  import { panel } from '~helpers/stores';
+
+  const hidePanelOnMobile = () => {
+    if (window.outerWidth > 550) return;
+
+    panel.close();
+  };
 </script>
 
-<div>
+<div class="panel" use:clickOutside="{hidePanelOnMobile}">
   <Actions />
   <Graph />
   <Search />
@@ -24,5 +32,11 @@
 
   div::-webkit-scrollbar {
     display: none;
+  }
+
+  @media (max-width: 550px) {
+    div {
+      border-right: 1px solid var(--color-panel-border);
+    }
   }
 </style>

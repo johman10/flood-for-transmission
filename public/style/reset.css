@@ -11,11 +11,6 @@ ol[class] {
   padding: 0;
 }
 
-/* Set default font */
-body {
-  font-family: 'Roboto', sans-serif;
-}
-
 /* Remove default margin */
 body,
 h1,
@@ -34,9 +29,14 @@ dd {
   margin: 0;
 }
 
+html,
+body {
+  overflow: hidden;
+}
+
 /* Set core body defaults */
 body {
-  min-height: 100vh;
+  font-family: 'Roboto', sans-serif;
   scroll-behavior: smooth;
   text-rendering: optimizeSpeed;
   line-height: 1.5;

@@ -1,6 +1,6 @@
 import App from '~components/App';
 
-if ('serviceWorker' in navigator) {
+if (__ENV__ === 'production' && 'serviceWorker' in navigator) {
   navigator.serviceWorker.register('./sw.js', {
     scope: window.location.pathname,
   });

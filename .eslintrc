@@ -15,6 +15,7 @@
     "__TRANSMISSION_PATH__": "readonly",
     "__TRANSMISSION_PASSWORD__": "readonly",
     "__TRANSMISSION_SSL__": "readonly",
+    "__ENV__": "readonly"
   },
   "plugins": ["svelte3"],
   "extends": ["eslint:recommended"],

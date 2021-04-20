@@ -34,7 +34,7 @@
     "workbox-cli": "^6.1.2"
   },
   "dependencies": {
-    "core-js": "^3.10.1",
+    "core-js": "^3.10.2",
     "d3": "^6.6.2",
     "sirv-cli": "^1.0.11"
   }

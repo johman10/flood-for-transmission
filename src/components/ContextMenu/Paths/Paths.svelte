@@ -3,6 +3,7 @@
   import { Settings } from '~components/Modal';
 
   export let onPathSelect;
+  export let onItemClick;
 
   function onFallbackClick() {
     modals.open({
@@ -16,7 +17,7 @@
 
 {#if $paths.length}
   {#each $paths as path}
-    <li on:click="{onPathSelect.bind(this, path)}">{path}</li>
+    <li on:click="{onItemClick(onPathSelect, [path])}">{path}</li>
   {/each}
 {:else}
   <li on:click="{onFallbackClick}">

@@ -15,6 +15,11 @@
   export let addons = [];
   export let input = null;
   export let id = `input-text-${num}`;
+
+  const handleInvalid = (e) => {
+    if (!validationMessage) return;
+    e.target.setCustomValidity(validationMessage);
+  };
 </script>
 
 <div class="container">
@@ -26,7 +31,7 @@
         id="{id}"
         type="text"
         bind:this="{input}"
-        on:invalid="{(e) => e.target.setCustomValidity(validationMessage)}"
+        on:invalid="{handleInvalid}"
         on:input="{(e) => e.target.setCustomValidity('')}"
         bind:value
         {...$$restProps}
@@ -37,7 +42,7 @@
         id="{id}"
         type="number"
         bind:this="{input}"
-        on:invalid="{(e) => e.target.setCustomValidity(validationMessage)}"
+        on:invalid="{handleInvalid}"
         on:input="{(e) => e.target.setCustomValidity('')}"
         bind:value
         {...$$restProps}
@@ -48,7 +53,7 @@
         id="{id}"
         type="time"
         bind:this="{input}"
-        on:invalid="{(e) => e.target.setCustomValidity(validationMessage)}"
+        on:invalid="{handleInvalid}"
         on:input="{(e) => e.target.setCustomValidity('')}"
         bind:value
         {...$$restProps}
@@ -59,7 +64,7 @@
         id="{id}"
         type="url"
         bind:this="{input}"
-        on:invalid="{(e) => e.target.setCustomValidity(validationMessage)}"
+        on:invalid="{handleInvalid}"
         on:input="{(e) => e.target.setCustomValidity('')}"
         bind:value
         {...$$restProps}

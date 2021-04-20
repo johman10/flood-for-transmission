@@ -34,7 +34,7 @@ export default function resizeableTable(handle, onChange) {
   handle.addEventListener('mousedown', handleMousedown);
   document.addEventListener('mouseup', handleMouseup);
   document.addEventListener('mousemove', handleMousemove);
-  
+
   handle.addEventListener('touchstart', handleMousedown);
   document.addEventListener('touchend', handleMouseup);
   document.addEventListener('touchmove', handleMousemove);

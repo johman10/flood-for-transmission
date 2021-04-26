@@ -35,19 +35,19 @@
   <div class="right">
     <div class="group">
       <button class="button" on:click="{handleStart}">
-        <Icon name="StartIcon" viewBox="0 0 60 60" />
+        <Icon name="StartIcon" />
       </button>
       <button class="button" on:click="{handleStop}">
-        <Icon name="StopIcon" viewBox="0 0 60 60" />
+        <Icon name="StopIcon" />
       </button>
     </div>
     <div class="divider"></div>
     <div class="group">
       <button class="button" on:click="{handleAdd}">
-        <Icon name="Add" viewBox="0 0 60 60" />
+        <Icon name="Add" />
       </button>
       <button class="button" on:click="{handleRemove}">
-        <Icon name="Remove" viewBox="0 0 60 60" />
+        <Icon name="Remove" />
       </button>
     </div>
   </div>
@@ -71,8 +71,8 @@
   }
 
   .button > :global(.icon) {
-    height: 18px;
-    width: 18px;
+    height: 16px;
+    width: 16px;
   }
 
   .group {

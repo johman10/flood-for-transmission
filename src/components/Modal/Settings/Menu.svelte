@@ -23,20 +23,19 @@
 <style>
   .menu {
     overflow: hidden;
-    padding: 20px 0;
+    padding: 20px 0 0 20px;
     display: flex;
     flex-direction: column;
-    flex-basis: 175px;
-    flex-shrink: 0;
     line-height: 1.25;
     border-right: solid 1px var(--color-modal-menu-border);
+    grid-area: menu;
   }
 
   h1 {
     color: var(--color-modal-header);
     font-weight: 500;
     font-size: 20px;
-    padding: 0 25px 5px;
+    padding: 0 5px 5px;
   }
 
   ul {
@@ -48,7 +47,7 @@
   li {
     display: block;
     margin-right: 0;
-    padding: 5px 10px 5px 25px;
+    padding: 5px;
     border-right: solid 1px transparent;
     transition: border-color 0.25s, color 0.25s;
     cursor: pointer;
@@ -58,5 +57,21 @@
     color: var(--color-modal-tab-label-active);
     font-weight: 700;
     border-color: var(--color-modal-tab-label-active);
+  }
+
+  @media (max-width: 700px) {
+    .menu {
+      padding: 20px 20px 0 20px;
+    }
+
+    ul {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    li {
+      border-right: 0;
+      border-bottom: solid 1px transparent;
+    }
   }
 </style>

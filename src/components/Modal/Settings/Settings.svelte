@@ -102,7 +102,8 @@
 
 <style>
   .wrapper {
-    display: flex;
+    display: grid;
+    grid-template: 'menu content' 100% / 175px 1fr;
     overflow: hidden;
     height: 100%;
   }
@@ -112,5 +113,16 @@
     overflow-y: auto;
     flex-grow: 1;
     position: relative;
+    grid-area: 'content';
+  }
+
+  @media (max-width: 700px) {
+    .wrapper {
+      grid-template: 'menu' auto 'content' 1fr / 1fr;
+    }
+
+    .content {
+      padding: 10px 25px;
+    }
   }
 </style>

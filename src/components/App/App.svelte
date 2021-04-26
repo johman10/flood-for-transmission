@@ -37,4 +37,19 @@
       'header' auto
       'torrentlist' 1fr / 1fr;
   }
+
+  @media (max-width: 550px) {
+    main,
+    main.panel {
+      grid-template: 'content' 1fr / 100vw;
+    }
+
+    main.panel > :global(.panel) {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 240px;
+      z-index: 2;
+    }
+  }
 </style>

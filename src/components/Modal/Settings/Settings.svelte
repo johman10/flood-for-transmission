@@ -12,11 +12,6 @@
 
   // Not taken care of
   // "cache-size-mb"                  | number     | maximum size of the disk cache (MB)
-  // "queue-stalled-enabled"          | boolean    | whether or not to consider idle torrents as stalled
-  // "queue-stalled-minutes"          | number     | torrents that are idle for N minuets aren't counted toward seed-queue-size or download-queue-size
-  // "script-torrent-done-filename"   | string     | filename of the script to run
-  // "script-torrent-done-enabled"    | boolean    | whether or not to call the "done" script
-  // "trash-original-torrent-files"   | boolean    | true means the .torrent file of added torrents will be deleted
   // "units"                          | object     | see below
 
   const pages = [

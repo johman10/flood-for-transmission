@@ -204,9 +204,6 @@
 
   .hint {
     font-size: 12px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
     display: block;
     margin-top: 5px;
   }

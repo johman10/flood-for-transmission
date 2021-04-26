@@ -20,6 +20,11 @@
     SESSION_COLUMN_SEED_QUEUE_ENABLED,
     SESSION_COLUMN_INCOMPLETE_DIR,
     SESSION_COLUMN_INCOMPLETE_DIR_ENABLED,
+    SESSION_COLUMN_QUEUE_STALLED_MINUTES,
+    SESSION_COLUMN_QUEUE_STALLED_ENABLED,
+    SESSION_COLUMN_REMOVE_ADDED,
+    SESSION_COLUMN_SCRIPT_DONE_ENABLED,
+    SESSION_COLUMN_SCRIPT_DONE,
   } from '~helpers/constants/columns';
 
   let loadingInitial = true;
@@ -37,6 +42,11 @@
   let seedQueueEnabled = null;
   let incompleteDir = null;
   let incompleteDirEnabled = null;
+  let queueStalledEnabled = null;
+  let queueStalledMinutes = null;
+  let removeTorrentFile = null;
+  let scriptDoneEnabled = null;
+  let scriptDone = null;
 
   session
     .addColumns([
@@ -53,6 +63,11 @@
       SESSION_COLUMN_SEED_QUEUE_ENABLED,
       SESSION_COLUMN_INCOMPLETE_DIR,
       SESSION_COLUMN_INCOMPLETE_DIR_ENABLED,
+      SESSION_COLUMN_QUEUE_STALLED_MINUTES,
+      SESSION_COLUMN_QUEUE_STALLED_ENABLED,
+      SESSION_COLUMN_REMOVE_ADDED,
+      SESSION_COLUMN_SCRIPT_DONE_ENABLED,
+      SESSION_COLUMN_SCRIPT_DONE,
     ])
     .then(($session) => {
       downloadDir = $session[SESSION_COLUMN_DOWNLOAD_DIR];
@@ -68,6 +83,11 @@
       seedQueueEnabled = $session[SESSION_COLUMN_SEED_QUEUE_ENABLED];
       incompleteDir = $session[SESSION_COLUMN_INCOMPLETE_DIR];
       incompleteDirEnabled = $session[SESSION_COLUMN_INCOMPLETE_DIR_ENABLED];
+      queueStalledMinutes = $session[SESSION_COLUMN_QUEUE_STALLED_MINUTES];
+      queueStalledEnabled = $session[SESSION_COLUMN_QUEUE_STALLED_ENABLED];
+      removeTorrentFile = $session[SESSION_COLUMN_REMOVE_ADDED];
+      scriptDoneEnabled = $session[SESSION_COLUMN_SCRIPT_DONE_ENABLED];
+      scriptDone = $session[SESSION_COLUMN_SCRIPT_DONE];
       loadingInitial = false;
     })
     .catch(() => {
@@ -95,6 +115,14 @@
         [SESSION_COLUMN_SEED_QUEUE_ENABLED]: seedQueueEnabled,
         [SESSION_COLUMN_INCOMPLETE_DIR]: incompleteDir,
         [SESSION_COLUMN_INCOMPLETE_DIR_ENABLED]: incompleteDirEnabled,
+<<<<<<< HEAD
+=======
+        [SESSION_COLUMN_QUEUE_STALLED_MINUTES]: queueStalledMinutes,
+        [SESSION_COLUMN_QUEUE_STALLED_ENABLED]: queueStalledEnabled,
+        [SESSION_COLUMN_REMOVE_ADDED]: removeTorrentFile,
+        [SESSION_COLUMN_SCRIPT_DONE_ENABLED]: scriptDoneEnabled,
+        [SESSION_COLUMN_SCRIPT_DONE]: scriptDone,
+>>>>>>> More configuration
       })
       .then(() => {
         alerts.add('Succesfully saved torrent settings');
@@ -122,18 +150,21 @@
     />
     <Checkbox label="Start when added" bind:checked="{startAddedTorrents}" />
     <Checkbox
+      label="Remove torrent file when added"
+      bind:checked="{removeTorrentFile}"
+    />
+    <Checkbox
       label="{'Append ".part" to incomplete files\' names'}"
       bind:checked="{renamePartialFiles}"
     />
-    <Checkbox
-      label="Custom download queue size:"
-      bind:checked="{downloadQueueEnabled}"
-    />
+<<<<<<< HEAD
     <Input
       bind:value="{downloadQueueSize}"
       type="number"
       hint="Will default to 5 when not enabled"
     />
+=======
+>>>>>>> More configuration
     <Checkbox
       label="Incomplete directory:"
       bind:checked="{incompleteDirEnabled}"
@@ -142,6 +173,14 @@
       bind:value="{incompleteDir}"
       hint="Will default to the download directory when not enabled"
     />
+<<<<<<< HEAD
+=======
+    <Checkbox
+      label="Run script when complete:"
+      bind:checked="{scriptDoneEnabled}"
+    />
+    <InputPath bind:value="{scriptDone}" />
+>>>>>>> More configuration
 
     <Header text="Seeding" />
     <Checkbox
@@ -154,14 +193,26 @@
       bind:checked="{idleSeedingLimited}"
     />
     <Input bind:value="{idleSeedingLimit}" type="number" />
+
+    <Header text="Queue" />
     <Checkbox
-      label="Custom seed queue size:"
+      label="Limit concurrent downloads:"
+      bind:checked="{downloadQueueEnabled}"
+    />
+    <Input bind:value="{downloadQueueSize}" type="number" />
+    <Checkbox
+      label="Limit concurrent seeding:"
       bind:checked="{seedQueueEnabled}"
     />
+    <Input bind:value="{seedQueueSize}" type="number" />
+    <Checkbox
+      label="Consider inactive after (minutes):"
+      bind:checked="{queueStalledEnabled}"
+    />
     <Input
-      bind:value="{seedQueueSize}"
+      bind:value="{queueStalledMinutes}"
       type="number"
-      hint="Will default to 5 if not enabled"
+      hint="Torrents that are inactive for this amount of minutes will not be considered as a concurrent download/seed."
     />
 
     <div class="buttons">

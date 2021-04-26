@@ -23,7 +23,7 @@
   --color-progress-bar-upload: var(--color-upload);
   --color-progress-bar-upload-background: rgba(--rgb-upload, 0.15);
   --color-progress-bar-metadata: rgb(136, 153, 168);
-  --color-progress-bar-metadata-background:  rgba(136, 153, 168, 0.15);
+  --color-progress-bar-metadata-background: rgba(136, 153, 168, 0.15);
   --color-progress-bar-error: rgb(242, 172, 188);
   --color-progress-bar-error-background: rgba(242, 172, 188, 0.15);
   --color-progress-bar-stopped: rgb(195, 204, 211);

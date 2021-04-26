@@ -1,18 +1,17 @@
 <script>
-  import { torrentDetails, session } from '~helpers/stores';
-  import { getSize } from '~helpers/sizeHelper';
+  import { torrentDetails } from '~helpers/stores';
   import {
     TRANSMISSION_COLUMN_DOWNLOAD_DIR,
     TRANSMISSION_COLUMN_FILES,
-    TRANSMISSION_COLUMN_FILE_STATS,
-    SESSION_COLUMN_UNITS,
-    SESSION_COLUMN_UNITS_SIZE,
   } from '~helpers/constants/columns';
-  import Icon from '~components/Icon';
-  import Checkbox from '~components/Checkbox';
-  import PriorityIndicator from '~components/PriorityIndicator';
+
   import Select from '~components/Select';
+  import Folder from './Folder';
   import { slide } from 'svelte/transition';
+  import {
+    getFolderStructure,
+    getMainFolder,
+  } from '~helpers/folderStructureHelper';
 
   let selectedFiles = [];
   const prioOptions = [
@@ -23,109 +22,27 @@
   ];
 
   $: files = $torrentDetails[TRANSMISSION_COLUMN_FILES];
-  $: allSelected = files.length === selectedFiles.length;
-
-  const selectAll = () => {
-    if (allSelected) {
-      selectedFiles = [];
-      return;
-    }
-    selectedFiles = files.map((file) => file.name);
-  };
-
-  const selectFile = (event) => {
-    if (event.target.checked) {
-      selectedFiles = [...selectedFiles, event.target.value];
-      return;
-    }
-
-    selectedFiles = selectedFiles.filter((file) => file !== event.target.value);
-  };
-
-  const getFolderName = (file) => {
-    const filePathParts = file.name.split('/');
-    if (filePathParts.length > 1) {
-      return `/${filePathParts[0]}`;
-    }
-
-    return '';
-  };
-
-  const getRelativePath = (file) => {
-    const filePathParts = file.name.split('/');
-    if (filePathParts.length > 1) {
-      filePathParts.shift();
-      return filePathParts.join('/');
-    }
-
-    return file.name;
-  };
-
-  const getFileSize = (file) => {
-    return getSize(file.length, {
-      perSize: $session[SESSION_COLUMN_UNITS][SESSION_COLUMN_UNITS_SIZE],
-    });
-  };
+  $: structure = getFolderStructure(files);
 
   const handleSelectedFilePrioChange = (event) => {
     torrentDetails.setPriority($torrentDetails, selectedFiles, event.detail);
-  };
-
-  const handleSingleFilePrioChange = (fileIndex, event) => {
-    const fileName = files[fileIndex].name;
-    torrentDetails.setPriority($torrentDetails, [fileName], event.detail);
-  };
-
-  const getFilePriority = (fileStats) => {
-    if (!fileStats.wanted) {
-      return -2;
-    }
-    return fileStats.priority;
   };
 </script>
 
 <div class="container">
   <div class="locations" class:selected="{!!selectedFiles.length}">
     {#if files.length}
-      <div class="location item">
-        <div class="icon-or-checkbox" class:selected="{allSelected}">
-          <Checkbox bind:checked="{allSelected}" on:change="{selectAll}" />
-          <Icon name="Disk" />
-        </div>
-        <div class="path">
-          {$torrentDetails[TRANSMISSION_COLUMN_DOWNLOAD_DIR]}{getFolderName(
-            files[0]
-          )}
-        </div>
-      </div>
-      {#each files as file, index}
-        <div class="file item">
-          <div
-            class="icon-or-checkbox"
-            class:selected="{selectedFiles.includes(file.name)}"
-          >
-            <Checkbox
-              group="{selectedFiles}"
-              value="{file.name}"
-              on:change="{selectFile}"
-            />
-            <Icon name="File" />
-          </div>
-          <div class="path">{getRelativePath(file)}</div>
-          <div class="details">
-            <span>{getFileSize(file).value}{getFileSize(file).size}</span>
-            <span>{Math.round((file.bytesCompleted / file.length) * 100)}%</span
-            >
-            <PriorityIndicator
-              value="{getFilePriority(
-                $torrentDetails[TRANSMISSION_COLUMN_FILE_STATS][index]
-              )}"
-              allowDisabled="{true}"
-              on:click="{handleSingleFilePrioChange.bind(this, index)}"
-            />
-          </div>
-        </div>
-      {/each}
+      <Folder
+        structure="{structure}"
+        bind:selectedFiles
+        iconName="Disk"
+        folderName="{getMainFolder(
+          $torrentDetails[TRANSMISSION_COLUMN_DOWNLOAD_DIR],
+          files[0]
+        )}"
+        collapsible="{false}"
+        strong="{true}"
+      />
     {:else}
       <div class="empty">
         No files to show right now. Metadata is probably missing.
@@ -172,16 +89,6 @@
 
   .locations.selected {
     padding: 20px 25px 5px;
-  }
-
-  .location {
-    display: flex;
-    fill: var(--color-modal-files-icon);
-    color: var(--color-modal-text-light);
-    align-items: center;
-    margin-bottom: 4px;
-    line-height: 18px;
-    font-size: 14px;
   }
 
   .file {

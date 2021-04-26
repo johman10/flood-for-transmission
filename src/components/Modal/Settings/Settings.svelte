@@ -86,7 +86,9 @@
 <div class="wrapper">
   <Menu bind:activePageId pages="{pages}" />
   <div class="content">
-    {#await pages.find((page) => page.id === activePageId).component() then component}
+    {#await pages
+      .find((page) => page.id === activePageId)
+      .component() then component}
       <svelte:component this="{component}" />
     {/await}
   </div>

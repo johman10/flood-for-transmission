@@ -94,7 +94,7 @@
         [SESSION_COLUMN_SEED_QUEUE_SIZE]: seedQueueSize,
         [SESSION_COLUMN_SEED_QUEUE_ENABLED]: seedQueueEnabled,
         [SESSION_COLUMN_INCOMPLETE_DIR]: incompleteDir,
-        [SESSION_COLUMN_INCOMPLETE_DIR_ENABLED]: incompleteDirEnabled
+        [SESSION_COLUMN_INCOMPLETE_DIR_ENABLED]: incompleteDirEnabled,
       })
       .then(() => {
         alerts.add('Succesfully saved torrent settings');
@@ -129,12 +129,19 @@
       label="Custom download queue size:"
       bind:checked="{downloadQueueEnabled}"
     />
-    <Input bind:value="{downloadQueueSize}" type="number" hint="Will default to 5 when not enabled" />
+    <Input
+      bind:value="{downloadQueueSize}"
+      type="number"
+      hint="Will default to 5 when not enabled"
+    />
     <Checkbox
       label="Incomplete directory:"
       bind:checked="{incompleteDirEnabled}"
     />
-    <InputPath bind:value="{incompleteDir}" hint="Will default to the download directory when not enabled" />
+    <InputPath
+      bind:value="{incompleteDir}"
+      hint="Will default to the download directory when not enabled"
+    />
 
     <Header text="Seeding" />
     <Checkbox
@@ -151,7 +158,11 @@
       label="Custom seed queue size:"
       bind:checked="{seedQueueEnabled}"
     />
-    <Input bind:value="{seedQueueSize}" type="number" hint="Will default to 5 if not enabled" />
+    <Input
+      bind:value="{seedQueueSize}"
+      type="number"
+      hint="Will default to 5 if not enabled"
+    />
 
     <div class="buttons">
       <Button type="button" priority="tertiary" on:click="{modals.close}">

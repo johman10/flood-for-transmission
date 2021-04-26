@@ -12,17 +12,6 @@
 
   // Not taken care of
   // "cache-size-mb"                  | number     | maximum size of the disk cache (MB)
-  // "download-queue-size"            | number     | max number of torrents to download at once (see download-queue-enabled)
-  // "download-queue-enabled"         | boolean    | if true, limit how many torrents can be downloaded at once
-  // "incomplete-dir"                 | string     | path for incomplete torrents, when enabled
-  // "incomplete-dir-enabled"         | boolean    | true means keep torrents in incomplete-dir until done
-  // "queue-stalled-enabled"          | boolean    | whether or not to consider idle torrents as stalled
-  // "queue-stalled-minutes"          | number     | torrents that are idle for N minuets aren't counted toward seed-queue-size or download-queue-size
-  // "script-torrent-done-filename"   | string     | filename of the script to run
-  // "script-torrent-done-enabled"    | boolean    | whether or not to call the "done" script
-  // "seed-queue-size"                | number     | max number of torrents to uploaded at once (see seed-queue-enabled)
-  // "seed-queue-enabled"             | boolean    | if true, limit how many torrents can be uploaded at once
-  // "trash-original-torrent-files"   | boolean    | true means the .torrent file of added torrents will be deleted
   // "units"                          | object     | see below
 
   const pages = [
@@ -87,14 +76,14 @@
       name: 'About',
     },
   ];
-
-  let activePage = pages.find((page) => page.id === activePageId);
 </script>
 
 <div class="wrapper">
-  <Menu bind:activePage pages="{pages}" />
+  <Menu bind:activePageId pages="{pages}" />
   <div class="content">
-    {#await activePage.component() then component}
+    {#await pages
+      .find((page) => page.id === activePageId)
+      .component() then component}
       <svelte:component this="{component}" />
     {/await}
   </div>

@@ -1,5 +1,5 @@
 <script>
-  export let activePage;
+  export let activePageId;
   export let pages;
 </script>
 
@@ -9,9 +9,9 @@
   <ul class="items">
     {#each pages as page}
       <li
-        class:active="{page.id === activePage.id}"
+        class:active="{page.id === activePageId}"
         on:click="{() => {
-          activePage = page;
+          activePageId = page.id;
         }}"
       >
         {page.name}

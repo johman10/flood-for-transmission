@@ -15,6 +15,8 @@
   import ETA from './ETA.svelte';
   import File from './File.svelte';
   import Files from './Files.svelte';
+  import FolderClosed from './FolderClosed.svelte';
+  import FolderOpen from './FolderOpen.svelte';
   import InfinityIcon from './InfinityIcon.svelte';
   import InformationIcon from './InformationIcon.svelte';
   import Limits from './Limits.svelte';
@@ -46,6 +48,8 @@
     ETA,
     File,
     Files,
+    FolderClosed,
+    FolderOpen,
     InfinityIcon,
     InformationIcon,
     Limits,

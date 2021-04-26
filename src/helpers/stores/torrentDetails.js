@@ -1,7 +1,7 @@
 import { TRANSMISSION_COLUMN } from '~helpers/constants/columns';
 import { writable } from 'svelte/store';
 import Transmission from '~helpers/Transmission';
-import { cloneObject } from '../objectHelper';
+import { cloneObject } from '~helpers/objectHelper';
 
 const TORRENT_REQUEST_INTERVAL = 1000;
 const transmission = new Transmission();
@@ -14,18 +14,14 @@ function getTorrent(torrentId, setTorrent) {
 
   transmission
     .getTorrents(torrentId, Object.values(TRANSMISSION_COLUMN))
-    .then((value) => {
-      setTorrent(value[0]);
-      updateTorrentTimeout = setTimeout(
-        getTorrent,
-        TORRENT_REQUEST_INTERVAL,
-        torrentId,
-        setTorrent
-      );
+    .then((torrents) => {
+      setTorrent(torrents[0]);
     })
     // TODO: Error handling
     .catch((e) => {
       console.error(e);
+    })
+    .finally(() => {
       updateTorrentTimeout = setTimeout(
         getTorrent,
         TORRENT_REQUEST_INTERVAL,

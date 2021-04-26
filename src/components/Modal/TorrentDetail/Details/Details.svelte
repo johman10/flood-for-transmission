@@ -117,10 +117,10 @@
     line-height: 16px;
     display: grid;
     grid-gap: 1px 0;
-    grid-auto-rows: auto;
+    grid-auto-rows: min-content;
     grid-template-columns: repeat(2, minmax(136px, max-content));
     padding: 20px 25px;
-    max-height: 100%;
+    height: 100%;
     overflow-y: auto;
   }
 

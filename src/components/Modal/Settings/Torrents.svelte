@@ -157,14 +157,6 @@
       label="{'Append ".part" to incomplete files\' names'}"
       bind:checked="{renamePartialFiles}"
     />
-<<<<<<< HEAD
-    <Input
-      bind:value="{downloadQueueSize}"
-      type="number"
-      hint="Will default to 5 when not enabled"
-    />
-=======
->>>>>>> More configuration
     <Checkbox
       label="Incomplete directory:"
       bind:checked="{incompleteDirEnabled}"
@@ -173,14 +165,11 @@
       bind:value="{incompleteDir}"
       hint="Will default to the download directory when not enabled"
     />
-<<<<<<< HEAD
-=======
     <Checkbox
       label="Run script when complete:"
       bind:checked="{scriptDoneEnabled}"
     />
     <InputPath bind:value="{scriptDone}" />
->>>>>>> More configuration
 
     <Header text="Seeding" />
     <Checkbox

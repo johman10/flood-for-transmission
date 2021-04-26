@@ -20,6 +20,15 @@ import { trackerStripper } from '~helpers/trackerHelper';
 
 export function statusFilter(status, torrent) {
   switch (status) {
+    case 'active':
+      return [
+        STATUSES.indexOf(STATUS_DOWNLOADING),
+        STATUSES.indexOf(STATUS_DOWNLOAD_WAITING),
+        STATUSES.indexOf(STATUS_SEEDING),
+        STATUSES.indexOf(STATUS_SEED_WAITING),
+        STATUSES.indexOf(STATUS_CHECKING),
+        STATUSES.indexOf(STATUS_CHECK_WAITING),
+      ].includes(torrent[TRANSMISSION_COLUMN_STATUS]);
     case 'downloading':
       return [
         STATUSES.indexOf(STATUS_DOWNLOADING),

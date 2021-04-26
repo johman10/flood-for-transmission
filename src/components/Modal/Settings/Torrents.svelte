@@ -115,14 +115,11 @@
         [SESSION_COLUMN_SEED_QUEUE_ENABLED]: seedQueueEnabled,
         [SESSION_COLUMN_INCOMPLETE_DIR]: incompleteDir,
         [SESSION_COLUMN_INCOMPLETE_DIR_ENABLED]: incompleteDirEnabled,
-<<<<<<< HEAD
-=======
         [SESSION_COLUMN_QUEUE_STALLED_MINUTES]: queueStalledMinutes,
         [SESSION_COLUMN_QUEUE_STALLED_ENABLED]: queueStalledEnabled,
         [SESSION_COLUMN_REMOVE_ADDED]: removeTorrentFile,
         [SESSION_COLUMN_SCRIPT_DONE_ENABLED]: scriptDoneEnabled,
         [SESSION_COLUMN_SCRIPT_DONE]: scriptDone,
->>>>>>> More configuration
       })
       .then(() => {
         alerts.add('Succesfully saved torrent settings');

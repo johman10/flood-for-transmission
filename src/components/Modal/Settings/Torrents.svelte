@@ -14,6 +14,12 @@
     SESSION_COLUMN_IDLE_SEEDING_LIMIT,
     SESSION_COLUMN_SEED_RATIO_LIMITED,
     SESSION_COLUMN_SEED_RATIO_LIMIT,
+    SESSION_COLUMN_DOWNLOAD_QUEUE_SIZE,
+    SESSION_COLUMN_DOWNLOAD_QUEUE_ENABLED,
+    SESSION_COLUMN_SEED_QUEUE_SIZE,
+    SESSION_COLUMN_SEED_QUEUE_ENABLED,
+    SESSION_COLUMN_INCOMPLETE_DIR,
+    SESSION_COLUMN_INCOMPLETE_DIR_ENABLED,
   } from '~helpers/constants/columns';
 
   let loadingInitial = true;
@@ -25,6 +31,12 @@
   let seedRatioLimit = null;
   let idleSeedingLimited = null;
   let idleSeedingLimit = null;
+  let downloadQueueSize = null;
+  let downloadQueueEnabled = null;
+  let seedQueueSize = null;
+  let seedQueueEnabled = null;
+  let incompleteDir = null;
+  let incompleteDirEnabled = null;
 
   session
     .addColumns([
@@ -35,6 +47,12 @@
       SESSION_COLUMN_SEED_RATIO_LIMIT,
       SESSION_COLUMN_IDLE_SEEDING_LIMIT_ENABLED,
       SESSION_COLUMN_IDLE_SEEDING_LIMIT,
+      SESSION_COLUMN_DOWNLOAD_QUEUE_SIZE,
+      SESSION_COLUMN_DOWNLOAD_QUEUE_ENABLED,
+      SESSION_COLUMN_SEED_QUEUE_SIZE,
+      SESSION_COLUMN_SEED_QUEUE_ENABLED,
+      SESSION_COLUMN_INCOMPLETE_DIR,
+      SESSION_COLUMN_INCOMPLETE_DIR_ENABLED,
     ])
     .then(($session) => {
       downloadDir = $session[SESSION_COLUMN_DOWNLOAD_DIR];
@@ -44,6 +62,12 @@
       seedRatioLimit = $session[SESSION_COLUMN_SEED_RATIO_LIMIT];
       idleSeedingLimited = $session[SESSION_COLUMN_IDLE_SEEDING_LIMIT_ENABLED];
       idleSeedingLimit = $session[SESSION_COLUMN_IDLE_SEEDING_LIMIT];
+      downloadQueueSize = $session[SESSION_COLUMN_DOWNLOAD_QUEUE_SIZE];
+      downloadQueueEnabled = $session[SESSION_COLUMN_DOWNLOAD_QUEUE_ENABLED];
+      seedQueueSize = $session[SESSION_COLUMN_SEED_QUEUE_SIZE];
+      seedQueueEnabled = $session[SESSION_COLUMN_SEED_QUEUE_ENABLED];
+      incompleteDir = $session[SESSION_COLUMN_INCOMPLETE_DIR];
+      incompleteDirEnabled = $session[SESSION_COLUMN_INCOMPLETE_DIR_ENABLED];
       loadingInitial = false;
     })
     .catch(() => {
@@ -58,13 +82,19 @@
 
     session
       .update({
-        'download-dir': downloadDir,
-        'start-added-torrents': startAddedTorrents,
-        'rename-partial-files': renamePartialFiles,
-        seedRatioLimited,
-        seedRatioLimit,
-        'idle-seeding-limit-enabled': idleSeedingLimited,
-        'idle-seeding-limit': idleSeedingLimit,
+        [SESSION_COLUMN_DOWNLOAD_DIR]: downloadDir,
+        [SESSION_COLUMN_START_ADDED]: startAddedTorrents,
+        [SESSION_COLUMN_RENAME_PARTIAL_FILES]: renamePartialFiles,
+        [SESSION_COLUMN_SEED_RATIO_LIMITED]: seedRatioLimited,
+        [SESSION_COLUMN_SEED_RATIO_LIMIT]: seedRatioLimit,
+        [SESSION_COLUMN_IDLE_SEEDING_LIMIT_ENABLED]: idleSeedingLimited,
+        [SESSION_COLUMN_IDLE_SEEDING_LIMIT]: idleSeedingLimit,
+        [SESSION_COLUMN_DOWNLOAD_QUEUE_SIZE]: downloadQueueSize,
+        [SESSION_COLUMN_DOWNLOAD_QUEUE_ENABLED]: downloadQueueEnabled,
+        [SESSION_COLUMN_SEED_QUEUE_SIZE]: seedQueueSize,
+        [SESSION_COLUMN_SEED_QUEUE_ENABLED]: seedQueueEnabled,
+        [SESSION_COLUMN_INCOMPLETE_DIR]: incompleteDir,
+        [SESSION_COLUMN_INCOMPLETE_DIR_ENABLED]: incompleteDirEnabled
       })
       .then(() => {
         alerts.add('Succesfully saved torrent settings');
@@ -95,6 +125,16 @@
       label="{'Append ".part" to incomplete files\' names'}"
       bind:checked="{renamePartialFiles}"
     />
+    <Checkbox
+      label="Custom download queue size:"
+      bind:checked="{downloadQueueEnabled}"
+    />
+    <Input bind:value="{downloadQueueSize}" type="number" hint="Will default to 5 when not enabled" />
+    <Checkbox
+      label="Incomplete directory:"
+      bind:checked="{incompleteDirEnabled}"
+    />
+    <InputPath bind:value="{incompleteDir}" hint="Will default to the download directory when not enabled" />
 
     <Header text="Seeding" />
     <Checkbox
@@ -107,6 +147,11 @@
       bind:checked="{idleSeedingLimited}"
     />
     <Input bind:value="{idleSeedingLimit}" type="number" />
+    <Checkbox
+      label="Custom seed queue size:"
+      bind:checked="{seedQueueEnabled}"
+    />
+    <Input bind:value="{seedQueueSize}" type="number" hint="Will default to 5 if not enabled" />
 
     <div class="buttons">
       <Button type="button" priority="tertiary" on:click="{modals.close}">

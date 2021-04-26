@@ -99,6 +99,18 @@ export const SESSION_COLUMN_UNITS = 'units';
 export const SESSION_COLUMN_UNITS_SIZE = 'size-bytes';
 export const SESSION_COLUMN_UNITS_SPEED = 'speed-bytes';
 export const SESSION_COLUMN_UTP_ENABLED = 'utp-enabled';
+export const SESSION_COLUMN_CACHE_SIZE = "cache-size-mb"
+export const SESSION_COLUMN_DOWNLOAD_QUEUE_SIZE = "download-queue-size"
+export const SESSION_COLUMN_DOWNLOAD_QUEUE_ENABLED = "download-queue-enabled"
+export const SESSION_COLUMN_INCOMPLETE_DIR = "incomplete-dir"
+export const SESSION_COLUMN_INCOMPLETE_DIR_ENABLED = "incomplete-dir-enabled"
+export const SESSION_COLUMN_QUEUE_STALLED_ENABLED = "queue-stalled-enabled"
+export const SESSION_COLUMN_QUEUE_STALLED_MINUTES = "queue-stalled-minutes"
+export const SESSION_COLUMN_SCRIPT_TORRENT_DONE_FILENAME = "script-torrent-done-filename"
+export const SESSION_COLUMN_SCRIPT_TORRENT_DONE_ENABLED = "script-torrent-done-enabled"
+export const SESSION_COLUMN_SEED_QUEUE_SIZE = "seed-queue-size"
+export const SESSION_COLUMN_SEED_QUEUE_ENABLED = "seed-queue-enabled"
+export const SESSION_COLUMN_TRASH_ORIGINAL_TORRENT_FILES = "trash-original-torrent-files"
 
 export const SESSION_COLUMN = {
   ALT_SPEED_DOWN: SESSION_COLUMN_ALT_SPEED_DOWN,

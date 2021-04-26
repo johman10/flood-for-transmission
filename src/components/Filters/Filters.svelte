@@ -24,6 +24,12 @@
       count: $torrents.length,
     },
     {
+      label: 'Active',
+      value: 'active',
+      iconName: 'Active',
+      count: $torrents.filter(statusFilter.bind(null, 'active')).length,
+    },
+    {
       label: 'Downloading',
       value: 'downloading',
       iconName: 'DownloadSmall',

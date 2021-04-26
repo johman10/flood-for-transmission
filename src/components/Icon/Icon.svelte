@@ -1,4 +1,5 @@
 <script>
+  import Active from './Active.svelte';
   import Add from './Add.svelte';
   import All from './All.svelte';
   import CheckboxCheckmark from './CheckboxCheckmark.svelte';
@@ -32,6 +33,7 @@
   import Upload from './Upload.svelte';
 
   const iconMap = {
+    Active,
     Add,
     All,
     CheckboxCheckmark,

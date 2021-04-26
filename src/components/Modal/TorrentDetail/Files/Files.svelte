@@ -27,6 +27,11 @@
   const handleSelectedFilePrioChange = (event) => {
     torrentDetails.setPriority($torrentDetails, selectedFiles, event.detail);
   };
+
+  const handleSingleFilePrioChange = (fileIndex, event) => {
+    const fileName = files[fileIndex].name;
+    torrentDetails.setPriority($torrentDetails, [fileName], event.detail);
+  };
 </script>
 
 <div class="container">
@@ -42,6 +47,7 @@
         )}"
         collapsible="{false}"
         strong="{true}"
+        onSingleFilePrioChange="{handleSingleFilePrioChange}"
       />
     {:else}
       <div class="empty">
@@ -89,64 +95,6 @@
 
   .locations.selected {
     padding: 20px 25px 5px;
-  }
-
-  .file {
-    display: grid;
-    fill: var(--color-modal-files-icon);
-    color: var(--color-modal-text);
-    font-size: 13px;
-    margin-bottom: 3px;
-    grid-template-columns: auto 1fr auto;
-  }
-
-  .details {
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
-    font-size: 11px;
-    gap: 6px;
-    line-height: 19px;
-  }
-
-  .item:hover :global(.icon),
-  .icon-or-checkbox.selected :global(.icon) {
-    opacity: 0;
-  }
-
-  .item:hover :global(.checkbox),
-  .icon-or-checkbox.selected :global(.checkbox) {
-    opacity: 1;
-  }
-
-  .icon-or-checkbox {
-    position: relative;
-    width: 18px;
-    height: 18px;
-    margin-right: 5px;
-    flex-shrink: 0;
-  }
-
-  .icon-or-checkbox > :global(.icon) {
-    position: absolute;
-    height: 14px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-    transition: opacity 0.2s ease-in-out;
-  }
-
-  .icon-or-checkbox > :global(.checkbox) {
-    position: absolute;
-    opacity: 0;
-    transition: opacity 0.2s ease-in-out;
-  }
-
-  .path {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
   }
 
   .action-bar {

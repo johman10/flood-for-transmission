@@ -17,17 +17,9 @@
   export let iconName = null;
   export let collapsible = true;
   export let strong = false;
+  export let onSingleFilePrioChange;
 
   let open = true;
-
-  const getCheckedState = (structure, selectedFiles) => {
-    return [
-      ...structure.files.map((file) => selectedFiles.includes(file.name)),
-      ...Object.keys(structure.folders).flatMap((folderName) =>
-        getCheckedState(structure.folders[folderName], selectedFiles)
-      ),
-    ];
-  };
 
   $: allChecked = getAllFiles(structure).every((file) =>
     selectedFiles.includes(file.name)
@@ -37,11 +29,6 @@
     return getSize(file.length, {
       perSize: $session[SESSION_COLUMN_UNITS][SESSION_COLUMN_UNITS_SIZE],
     });
-  };
-
-  const handleSingleFilePrioChange = (fileIndex, event) => {
-    const fileName = files[fileIndex].name;
-    torrentDetails.setPriority($torrentDetails, [fileName], event.detail);
   };
 
   const getFilePriority = (fileStats) => {
@@ -105,6 +92,7 @@
       structure="{structure.folders[nestedFolder]}"
       bind:selectedFiles
       level="{level + 1}"
+      onSingleFilePrioChange="{onSingleFilePrioChange}"
     />
   {/each}
   {#each structure.files as file}
@@ -137,7 +125,7 @@
             $torrentDetails[TRANSMISSION_COLUMN_FILE_STATS][file.index]
           )}"
           allowDisabled="{true}"
-          on:click="{handleSingleFilePrioChange.bind(this, file.index)}"
+          on:click="{onSingleFilePrioChange.bind(this, file.index)}"
         />
       </div>
     </div>

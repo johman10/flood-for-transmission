@@ -165,6 +165,12 @@ export default class Transmission {
     return this.rpcCall('session-stats').then((response) => response.arguments);
   }
 
+  getFreeSpace(path) {
+    return this.rpcCall('free-space', { path }).then(
+      (response) => response.arguments
+    );
+  }
+
   addTorrent({ filename, metainfo, ...other }) {
     if (!filename && !metainfo) {
       throw new Error('Filename or metainfo is required.');

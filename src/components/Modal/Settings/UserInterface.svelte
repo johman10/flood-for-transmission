@@ -6,12 +6,16 @@
   import Select from '~components/Select';
   import { modals, alerts, uiColumns, paths, darkMode } from '~helpers/stores';
   import { orderable } from '~helpers/actions';
-
-  const darkModeConfiguredValue = darkMode.configuredValue;
+  import { freeSpace } from '../../../helpers/stores';
 
   const newColumns = JSON.parse(JSON.stringify($uiColumns));
   let newPaths = [...$paths];
 
+  const freeSpaceConfigStore = freeSpace.configStore;
+  let newFreeSpaceEnabled = $freeSpaceConfigStore;
+
+  const darkModeConfigStore = darkMode.configuredValue;
+  let newDarkMode = $darkModeConfigStore;
   const darkModeOptions = [
     { label: 'Auto', value: 'auto' },
     { label: 'Enabled', value: 'enabled' },
@@ -20,8 +24,10 @@
 
   const handleSubmit = () => {
     try {
-      uiColumns.set(newColumns);
+      darkMode.set(newDarkMode);
       paths.set(newPaths);
+      freeSpace.setConfig(newFreeSpaceEnabled);
+      uiColumns.set(newColumns);
       alerts.add('Succesfully saved user interface settings');
     } catch (e) {
       alerts.add(
@@ -43,8 +49,8 @@
   <div class="list">
     <Select
       options="{darkModeOptions}"
-      on:change="{(event) => darkMode.set(event.detail)}"
-      value="{$darkModeConfiguredValue}"
+      on:change="{(event) => (newDarkMode = event.detail)}"
+      value="{newDarkMode}"
       direction="below"
     />
   </div>
@@ -58,6 +64,10 @@
       bind:values="{newPaths}"
       pattern="^/.*"
       validationMessage="Path must be an absolute path."
+    />
+    <Checkbox
+      bind:checked="{newFreeSpaceEnabled}"
+      label="Show free space in the side panel"
     />
   </div>
 

@@ -3,6 +3,7 @@
   import Actions from '~components/Panel/Actions.svelte';
   import Search from '~components/Search';
   import Filters from '~components/Filters';
+  import FreeSpace from '~components/FreeSpace';
   import clickOutside from '~helpers/actions/clickOutside';
   import { panel } from '~helpers/stores';
 
@@ -18,6 +19,7 @@
   <Graph />
   <Search />
   <Filters />
+  <FreeSpace />
 </div>
 
 <style>

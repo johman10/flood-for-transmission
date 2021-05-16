@@ -7,7 +7,7 @@ import {
   STATUS_SEED_WAITING,
   STATUS_SEEDING,
   STATUSES,
-} from '~helpers/Transmission';
+} from '~helpers/constants/statuses';
 import {
   TRANSMISSION_COLUMN_DOWNLOAD_PROGRESS,
   TRANSMISSION_COLUMN_STATUS,
@@ -15,20 +15,20 @@ import {
   TRANSMISSION_COLUMN_NAME,
   TRANSMISSION_COLUMN_LABELS,
   TRANSMISSION_COLUMN_TRACKERS,
+  TRANSMISSION_COLUMN_DOWNLOAD_RATE,
+  TRANSMISSION_COLUMN_UPLOAD_RATE,
 } from '~helpers/constants/columns';
 import { trackerStripper } from '~helpers/trackerHelper';
 
 export function statusFilter(status, torrent) {
+  const isDownloading = torrent[TRANSMISSION_COLUMN_DOWNLOAD_RATE] > 0;
+  const isUploading = torrent[TRANSMISSION_COLUMN_UPLOAD_RATE] > 0;
+  const isChecking =
+    torrent[TRANSMISSION_COLUMN_STATUS] === STATUSES.indexOf(STATUS_CHECKING);
+
   switch (status) {
     case 'active':
-      return [
-        STATUSES.indexOf(STATUS_DOWNLOADING),
-        STATUSES.indexOf(STATUS_DOWNLOAD_WAITING),
-        STATUSES.indexOf(STATUS_SEEDING),
-        STATUSES.indexOf(STATUS_SEED_WAITING),
-        STATUSES.indexOf(STATUS_CHECKING),
-        STATUSES.indexOf(STATUS_CHECK_WAITING),
-      ].includes(torrent[TRANSMISSION_COLUMN_STATUS]);
+      return isDownloading || isUploading || isChecking;
     case 'downloading':
       return [
         STATUSES.indexOf(STATUS_DOWNLOADING),

@@ -3,7 +3,7 @@ import {
   STATUS_STOPPED,
   STATUS_DOWNLOADING,
   STATUS_SEEDING,
-} from '~helpers/Transmission';
+} from '~helpers/constants/statuses';
 import {
   TRANSMISSION_COLUMN_DOWNLOAD_PROGRESS,
   TRANSMISSION_COLUMN_ERROR,

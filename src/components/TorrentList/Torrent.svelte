@@ -12,7 +12,7 @@
   } from '~components/TorrentList/Renderers';
   import { TorrentDetail } from '~components/Modal';
   import { session, uiColumns, modals } from '~helpers/stores';
-  import { STATUSES } from '~helpers/Transmission';
+  import { STATUSES } from '~helpers/constants/statuses';
   import {
     UI_COLUMN,
     TRANSMISSION_COLUMN,

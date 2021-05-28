@@ -51,10 +51,8 @@
     speed: uploadSpeed,
     timestamp,
   } = setInspectorCoordinates($rateData.upload, uploadCircleTransform));
-  $: ({
-    circleTransform: downloadCircleTransform,
-    speed: downloadSpeed,
-  } = setInspectorCoordinates($rateData.download, downloadCircleTransform));
+  $: ({ circleTransform: downloadCircleTransform, speed: downloadSpeed } =
+    setInspectorCoordinates($rateData.download, downloadCircleTransform));
 
   $: ({ value: displayUploadSpeed, size: displayUploadSize } = getSize(
     uploadSpeed !== null ? uploadSpeed : $totalRateStore.upload,
@@ -104,10 +102,8 @@
       speed: uploadSpeed,
       timestamp,
     } = setInspectorCoordinates($rateData.upload));
-    ({
-      circleTransform: downloadCircleTransform,
-      speed: downloadSpeed,
-    } = setInspectorCoordinates($rateData.download));
+    ({ circleTransform: downloadCircleTransform, speed: downloadSpeed } =
+      setInspectorCoordinates($rateData.download));
   };
 
   const handleMouseLeave = () => {

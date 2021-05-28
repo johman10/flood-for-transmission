@@ -87,12 +87,10 @@ function createTorrentDetailsStore() {
         });
       const newTorrent = cloneObject(torrent);
       fileIndices.forEach((fileIndex) => {
-        newTorrent[TRANSMISSION_COLUMN.FILE_STATS][
-          fileIndex
-        ].priority = priority;
-        newTorrent[TRANSMISSION_COLUMN.FILE_STATS][fileIndex].wanted = !!params[
-          'files-wanted'
-        ];
+        newTorrent[TRANSMISSION_COLUMN.FILE_STATS][fileIndex].priority =
+          priority;
+        newTorrent[TRANSMISSION_COLUMN.FILE_STATS][fileIndex].wanted =
+          !!params['files-wanted'];
       });
       set(newTorrent);
     },

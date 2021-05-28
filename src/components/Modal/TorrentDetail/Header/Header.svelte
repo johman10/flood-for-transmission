@@ -62,9 +62,8 @@
 
     torrents.start([torrentId]);
     torrentDetails.update((torrent) => {
-      torrent[TRANSMISSION_COLUMN.STATUS] = STATUSES.indexOf(
-        STATUS_DOWNLOADING
-      );
+      torrent[TRANSMISSION_COLUMN.STATUS] =
+        STATUSES.indexOf(STATUS_DOWNLOADING);
       return torrent;
     });
   };

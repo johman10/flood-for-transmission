@@ -4,7 +4,7 @@
     STATUS_STOPPED,
     STATUS_DOWNLOADING,
     STATUS_SEEDING,
-  } from '~helpers/Transmission';
+  } from '~helpers/constants/statuses';
 
   const STATUS_ICON_MAP = {
     [STATUS_STOPPED]: 'StopIcon',

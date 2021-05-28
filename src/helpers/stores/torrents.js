@@ -1,9 +1,10 @@
 import { derived, writable, get } from 'svelte/store';
-import Transmission, {
+import Transmission from '~helpers/Transmission';
+import {
   STATUSES,
   STATUS_DOWNLOADING,
   STATUS_STOPPED,
-} from '~helpers/Transmission';
+} from '~helpers/constants/statuses';
 import {
   COLUMN_MAP,
   TRANSMISSION_COLUMN_STATUS,

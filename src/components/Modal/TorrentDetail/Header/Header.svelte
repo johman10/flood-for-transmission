@@ -5,7 +5,7 @@
     STATUSES,
     STATUS_DOWNLOADING,
     STATUS_STOPPED,
-  } from '~helpers/Transmission';
+  } from '~helpers/constants/statuses';
   import {
     TRANSMISSION_COLUMN,
     SESSION_COLUMN_UNITS,

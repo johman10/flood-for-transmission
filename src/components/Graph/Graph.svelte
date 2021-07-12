@@ -1,5 +1,7 @@
 <script>
-  import { scaleLinear, line, area, max, curveMonotoneX } from 'd3';
+  import { scaleLinear } from 'd3-scale';
+  import { line, area, curveMonotoneX } from 'd3-shape';
+  import { max } from 'd3-array';
   import { rateData, session, torrents } from '~helpers/stores';
   import Icon from '~components/Icon';
   import Bytes from '~components/Graph/Bytes.svelte';

@@ -87,6 +87,7 @@ export default {
     }),
 
     replace({
+      preventAssignment: true,
       exclude: 'node_modules/**',
       __TRANSMISSION_HOST__: process.env.TRANSMISSION_HOST
         ? `"${process.env.TRANSMISSION_HOST}"`

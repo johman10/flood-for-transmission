@@ -85,6 +85,7 @@ function createTorrentDetailsStore() {
         .catch(() => {
           set(torrent);
         });
+
       const newTorrent = cloneObject(torrent);
       fileIndices.forEach((fileIndex) => {
         newTorrent[TRANSMISSION_COLUMN.FILE_STATS][fileIndex].priority =
@@ -92,6 +93,40 @@ function createTorrentDetailsStore() {
         newTorrent[TRANSMISSION_COLUMN.FILE_STATS][fileIndex].wanted =
           !!params['files-wanted'];
       });
+      set(newTorrent);
+    },
+    removeTrackers: (torrent, trackers) => {
+      transmission
+        .setTorrents([torrent[TRANSMISSION_COLUMN.ID]], {
+          trackerRemove: trackers,
+        })
+        .catch(() => set(torrent));
+
+      const newTorrent = cloneObject(torrent);
+      const newTrackers = newTorrent[TRANSMISSION_COLUMN.TRACKERS].filter(
+        (tracker) => !trackers.includes(tracker.id)
+      );
+      newTorrent[TRANSMISSION_COLUMN.TRACKERS] = newTrackers;
+      set(newTorrent);
+    },
+    addTrackers: (torrent, trackers) => {
+      transmission
+        .setTorrents([torrent[TRANSMISSION_COLUMN.ID]], {
+          trackerAdd: trackers,
+        })
+        .catch(() => set(torrent));
+
+      const newTorrent = cloneObject(torrent);
+      const trackerLength = newTorrent[TRANSMISSION_COLUMN.TRACKERS].length;
+      const newTrackers = trackers.map((t, i) => ({
+        announce: t,
+        id: i + trackerLength,
+        tier: i + trackerLength,
+      }));
+      newTorrent[TRANSMISSION_COLUMN.TRACKERS] = [
+        ...newTorrent[TRANSMISSION_COLUMN.TRACKERS],
+        ...newTrackers,
+      ];
       set(newTorrent);
     },
   };

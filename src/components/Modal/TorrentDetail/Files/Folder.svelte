@@ -102,7 +102,6 @@
       title="{file.fileName}"
     >
       <IconCheckbox
-        checked="{selectedFiles.includes(file.name)}"
         on:change="{handleFileCheckbox}"
         group="{selectedFiles}"
         value="{file.name}"

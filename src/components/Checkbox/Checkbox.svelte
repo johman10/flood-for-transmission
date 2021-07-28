@@ -26,7 +26,7 @@
       <Icon name="CheckboxCheckmark" viewBox="0 0 18 18" />
     </div>
   {/if}
-  {#if label}{label}{/if}
+  {#if label}<div class="label">{label}</div>{/if}
 </label>
 
 <style>
@@ -52,7 +52,6 @@
     border: 1px solid var(--color-checkbox-border);
     height: 18px;
     width: 18px;
-    margin-right: 6px;
     fill: var(--color-checkbox-mark);
     transition-property: color, background-color, border-color, fill;
     transition-duration: 0.25s;
@@ -62,6 +61,10 @@
   .indicator > :global(.icon) {
     opacity: 0;
     transition: opacity 0.25s ease-in-out;
+  }
+
+  .label {
+    margin-left: 6px;
   }
 
   label:active .indicator > :global(.icon) {

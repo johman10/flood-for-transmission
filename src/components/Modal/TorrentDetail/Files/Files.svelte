@@ -6,8 +6,8 @@
   } from '~helpers/constants/columns';
 
   import Select from '~components/Select';
+  import ActionBarView from '~components/Modal/TorrentDetail/ActionBarView';
   import Folder from './Folder';
-  import { slide } from 'svelte/transition';
   import {
     getFolderStructure,
     getMainFolder,
@@ -35,7 +35,7 @@
 </script>
 
 <div class="container">
-  <div class="locations" class:selected="{!!selectedFiles.length}">
+  <ActionBarView items="{selectedFiles}" itemName="file" itemNamePlural="files">
     {#if files.length}
       <Folder
         structure="{structure}"
@@ -54,24 +54,15 @@
         No files to show right now. Metadata is probably missing.
       </div>
     {/if}
-  </div>
-  {#if selectedFiles.length}
-    <div class="action-bar" transition:slide="{{ duration: 250 }}">
-      <div class="text">
-        <span class="focus">{selectedFiles.length}</span>
-        selected
-        {selectedFiles.length > 1 ? 'files' : 'file'}
-      </div>
 
-      <div class="select-container">
-        <Select
-          options="{prioOptions}"
-          placeholder="Set priority"
-          on:change="{handleSelectedFilePrioChange}"
-        />
-      </div>
+    <div slot="actions" class="select-container">
+      <Select
+        options="{prioOptions}"
+        placeholder="Set priority"
+        on:change="{handleSelectedFilePrioChange}"
+      />
     </div>
-  {/if}
+  </ActionBarView>
 </div>
 
 <style>

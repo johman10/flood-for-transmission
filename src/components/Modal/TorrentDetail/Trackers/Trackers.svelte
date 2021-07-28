@@ -2,37 +2,96 @@
   import { torrentDetails } from '~helpers/stores';
   import { TRANSMISSION_COLUMN_TRACKERS } from '~helpers/constants/columns';
   import Badge from '~components/Badge';
+  import Input from '~components/Input';
+  import ActionBarView from '~components/Modal/TorrentDetail/ActionBarView';
+  import Checkbox from '~components/Checkbox';
+  import Button from '~components/Button';
 
   $: trackers = $torrentDetails[TRANSMISSION_COLUMN_TRACKERS];
+  let selectedTrackers = [];
+  let newTracker = null;
+
+  const toggleSelectedTracker = (event) => {
+    if (!selectedTrackers.includes(event.target.value)) {
+      selectedTrackers = [...selectedTrackers, event.target.value];
+      return;
+    }
+
+    selectedTrackers = selectedTrackers.filter((t) => t !== event.target.value);
+  };
+
+  const removeTrackers = () => {
+    torrentDetails.removeTrackers(
+      $torrentDetails,
+      selectedTrackers.map((i) => parseInt(i))
+    );
+    selectedTrackers = [];
+  };
+
+  const addTracker = (event) => {
+    event.preventDefault();
+    torrentDetails.addTrackers($torrentDetails, [newTracker]);
+    newTracker = null;
+  };
 </script>
 
 <div class="container">
-  <table>
-    <thead>
-      <tr>
-        <th class="main">
-          <span>Trackers</span>
-          <Badge>{trackers.length}</Badge>
-        </th>
-        <th>TIER</th>
-      </tr>
-    </thead>
-    <tbody>
-      {#each trackers as tracker}
+  <ActionBarView
+    items="{selectedTrackers}"
+    itemName="tracker"
+    itemNamePlural="trackers"
+  >
+    <table>
+      <thead>
         <tr>
-          <td>{tracker.announce}</td>
-          <td>{tracker.tier}</td>
+          <th class="main">
+            <span>Trackers</span>
+            <Badge>{trackers.length}</Badge>
+          </th>
+          <th>TIER</th>
         </tr>
-      {/each}
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        {#each trackers as tracker}
+          <tr>
+            <td class="tracker-name">
+              <Checkbox
+                on:change="{toggleSelectedTracker}"
+                group="{selectedTrackers}"
+                value="{tracker.id.toString()}"
+              />
+              {tracker.announce}
+            </td>
+            <td>{tracker.tier}</td>
+          </tr>
+        {/each}
+      </tbody>
+    </table>
+
+    <form class="new-tracker-form" slot="form" on:submit="{addTracker}">
+      <Input
+        bind:value="{newTracker}"
+        class="new-tracker-input"
+        name="tracker"
+        type="url"
+        placeholder="Tracker announce URL"
+      />
+      <Button type="submit">Add tracker</Button>
+    </form>
+
+    <div slot="actions">
+      <Button priority="tertiary" on:click="{removeTrackers}">
+        Remove selected
+      </Button>
+    </div>
+  </ActionBarView>
 </div>
 
 <style>
   .container {
-    padding: 20px 25px;
-    max-height: 100%;
-    overflow-y: auto;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
   }
 
   table {
@@ -63,5 +122,24 @@
   td {
     padding: 0;
     line-height: 16px;
+  }
+
+  td.tracker-name {
+    display: flex;
+    gap: 8px;
+  }
+
+  td > :global(.checkbox.label) {
+    margin-left: 0;
+  }
+
+  .new-tracker-form {
+    display: flex;
+    gap: 8px;
+  }
+
+  .new-tracker-form > :global(.container) {
+    margin: 0;
+    flex-grow: 1;
   }
 </style>

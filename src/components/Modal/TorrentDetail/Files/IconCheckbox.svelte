@@ -2,12 +2,14 @@
   import Icon from '~components/Icon';
   import Checkbox from '~components/Checkbox';
 
-  export let checked;
+  export let checked = false;
+  export let group = null;
+  export let value = null;
   export let iconName;
 </script>
 
-<div class="icon-checkbox" class:selected="{checked}">
-  <Checkbox bind:checked on:change {...$$restProps} />
+<div class="icon-checkbox" class:selected="{group?.includes(value) || checked}">
+  <Checkbox on:change group="{group}" value="{value}" bind:checked />
   <Icon name="{iconName}" />
 </div>
 
@@ -44,5 +46,6 @@
     position: absolute;
     opacity: 0;
     transition: opacity 0.2s ease-in-out;
+    right: 0;
   }
 </style>

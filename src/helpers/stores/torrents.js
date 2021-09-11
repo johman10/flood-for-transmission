@@ -14,6 +14,7 @@ import {
   TRANSMISSION_COLUMN_UPLOAD_RATE,
   TRANSMISSION_COLUMN_DOWNLOAD_RATE,
   TRANSMISSION_COLUMN_NAME,
+  TRANSMISSION_COLUMN_ETA,
 } from '~helpers/constants/columns';
 import { sorting } from '~helpers/stores/sorting';
 import { transmissionColumns, uiColumns, filters } from '~helpers/stores';
@@ -61,6 +62,12 @@ const sorted = derived(
           if (typeof aValue === 'string') {
             aValue = aValue.toLowerCase();
             bValue = bValue.toLowerCase();
+          }
+
+          // Transmission ETA -1, is infinity so mimic that behaviour
+          if (transmissionColumn === TRANSMISSION_COLUMN_ETA) {
+            if (aValue === -1) aValue = Number.MAX_SAFE_INTEGER;
+            if (bValue === -1) bValue = Number.MAX_SAFE_INTEGER;
           }
 
           let returnValue = 0;

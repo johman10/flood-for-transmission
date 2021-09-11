@@ -37,6 +37,8 @@
       }
     }
   }
+  // If the prio changes while the contextMenu is open, update the prio in the context menu
+  $: contextMenu.updateProps({ prio });
 
   const handleTorrentClick = ({
     detail: { torrent, modifierKey },

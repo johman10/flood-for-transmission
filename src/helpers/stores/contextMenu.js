@@ -7,6 +7,17 @@ function createContextMenuStore() {
     subscribe,
     set,
     update,
+    updateProps: (partialProps) =>
+      update(($contextMenu) => {
+        if (!$contextMenu) return $contextMenu;
+        return {
+          ...$contextMenu,
+          props: {
+            ...$contextMenu.props,
+            ...partialProps,
+          },
+        };
+      }),
     open: ({
       component,
       props = {},

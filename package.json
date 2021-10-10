@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "core-js": "^3.18.2",
-    "d3-array": "^3.0.2",
+    "d3-array": "^3.1.1",
     "d3-scale": "^4.0.0",
     "d3-shape": "^3.0.1",
     "sirv-cli": "^1.0.14"

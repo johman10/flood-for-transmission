@@ -33,7 +33,7 @@ const fireLongPressEvent = (originalEvent) => {
     node.addEventListener(
       'touchend',
       function clearMouseUp(e) {
-        node.removeEventListener('touchend', clearMouseUp, true);
+        node.removeEventListener('touchend', clearMouseUp);
         cancelEvent(e);
       },
       true
@@ -48,13 +48,14 @@ const cancelEvent = (e) => {
 };
 
 export default function contextmenu(node) {
-  if ('oncontextmenu' in node) return;
+  const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  if (!isIos) return;
 
   // hook events that clear a pending long press event
-  node.addEventListener('touchcancel', clearLongPressTimer, true);
-  node.addEventListener('touchend', clearLongPressTimer, true);
-  node.addEventListener('touchmove', clearLongPressTimer, true);
+  node.addEventListener('touchcancel', clearLongPressTimer);
+  node.addEventListener('touchend', clearLongPressTimer);
+  node.addEventListener('touchmove', clearLongPressTimer);
 
   // hook events that can trigger a long press event
-  node.addEventListener('touchstart', startLongPressTimer, true); // <- start
+  node.addEventListener('touchstart', startLongPressTimer);
 }

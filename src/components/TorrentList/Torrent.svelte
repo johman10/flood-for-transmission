@@ -230,8 +230,6 @@
     font-size: 13px;
     height: 30px;
     cursor: pointer;
-    -webkit-user-select: none;
-    -webkit-touch-callout: none;
   }
 
   tr.stopped,

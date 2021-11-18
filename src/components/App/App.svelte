@@ -11,7 +11,7 @@
 <main
   class:panel="{$panel}"
   class:dark-mode="{$darkMode}"
-  class:inverse-upload-download="{$switchSpeedColors}"
+  class:switch-speed-colors="{$switchSpeedColors}"
 >
   <Panel />
   <div class="content">

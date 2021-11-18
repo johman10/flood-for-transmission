@@ -52,6 +52,8 @@
                 src="images/flags/{$ipAddress[peer.address].toLowerCase()}.png"
                 alt="{$ipAddress[peer.address]}"
               />
+            {:else}
+              <img class="flag" src="images/flags/_unknown.png" alt="Unknown" />
             {/if}
             {peer.address}
           </td>
@@ -112,7 +114,7 @@
 
   td {
     padding: 0;
-    line-height: 16px;
+    line-height: 14px;
   }
 
   td > :global(.icon) {
@@ -122,7 +124,7 @@
 
   .flag {
     width: 16px;
-    height: 10px;
+    vertical-align: middle;
     display: inline-block;
     margin-right: 5px;
   }

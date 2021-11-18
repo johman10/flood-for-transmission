@@ -8,7 +8,8 @@
   export let options;
   export let placeholder = '';
   export let direction = 'above';
-  export let value = undefined;
+  export let value = null;
+  export let label = null;
 
   let open = false;
   let optionsStyle;
@@ -47,6 +48,10 @@
     open = false;
   }}"
 >
+  {#if label}
+    <div class="label" on:click="{() => (open = !open)}">{label}</div>
+  {/if}
+
   <Button on:click="{() => (open = !open)}" priority="quaternary">
     <div class="content">
       {options.find((option) => option.value === value)?.label || placeholder}
@@ -86,6 +91,16 @@
     align-items: center;
     padding: 0;
     width: 100%;
+  }
+
+  .label {
+    display: block;
+    font-size: 13px;
+    margin-bottom: 3px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
   }
 
   .content {

@@ -9,6 +9,7 @@
   export let checked = false;
   export let group = null;
   export let value = null;
+  export let hint = null;
 
   num += 1;
   const id = `input-checkbox-${num}`;
@@ -28,6 +29,7 @@
   {/if}
   {#if label}<div class="label">{label}</div>{/if}
 </label>
+{#if hint}<div class="hint">{hint}</div>{/if}
 
 <style>
   label {
@@ -67,23 +69,29 @@
     margin-left: 6px;
   }
 
-  label:active .indicator > :global(.icon) {
+  .label:active .indicator > :global(.icon) {
     opacity: 0.25;
   }
 
-  label .indicator.checked > :global(.icon) {
+  .label .indicator.checked > :global(.icon) {
     opacity: 1;
   }
 
-  label:focus,
-  label:active {
+  .label:focus,
+  .label:active {
     color: var(--color-checkbox-text-active);
   }
 
-  label:active .indicator,
-  label:focus .indicator {
+  .label:active .indicator,
+  .label:focus .indicator {
     background-color: var(--color-checkbox-background-active);
     border-color: var(--color-checkbox-border-active);
     fill: var(--color-checkbox-mark-active);
+  }
+
+  .hint {
+    font-size: 12px;
+    display: block;
+    margin-top: 5px;
   }
 </style>

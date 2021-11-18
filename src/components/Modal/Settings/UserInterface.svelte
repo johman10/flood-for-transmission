@@ -4,13 +4,21 @@
   import InputMultiple from '~components/InputMultiple';
   import Checkbox from '~components/Checkbox';
   import Select from '~components/Select';
-  import { modals, alerts, uiColumns, paths, darkMode } from '~helpers/stores';
+  import {
+    modals,
+    alerts,
+    uiColumns,
+    paths,
+    darkMode,
+    switchSpeedColors,
+  } from '~helpers/stores';
   import { orderable } from '~helpers/actions';
-
-  const darkModeConfiguredValue = darkMode.configuredValue;
 
   const newColumns = JSON.parse(JSON.stringify($uiColumns));
   let newPaths = [...$paths];
+  let newSwitchSpeedColors = $switchSpeedColors;
+  const configuredDarkMode = darkMode.configuredValue;
+  let newDarkMode = $configuredDarkMode;
 
   const darkModeOptions = [
     { label: 'Auto', value: 'auto' },
@@ -22,6 +30,8 @@
     try {
       uiColumns.set(newColumns);
       paths.set(newPaths);
+      switchSpeedColors.set(newSwitchSpeedColors);
+      darkMode.set(newDarkMode);
       alerts.add('Succesfully saved user interface settings');
     } catch (e) {
       alerts.add(
@@ -39,13 +49,22 @@
 </script>
 
 <form on:submit|preventDefault="{handleSubmit}">
-  <Header text="Dark mode" />
+  <Header text="Color scheme" />
   <div class="list">
     <Select
       options="{darkModeOptions}"
-      on:change="{(event) => darkMode.set(event.detail)}"
-      value="{$darkModeConfiguredValue}"
+      on:change="{(event) => (newDarkMode = event.detail)}"
+      value="{newDarkMode}"
       direction="below"
+      label="Dark mode"
+    />
+  </div>
+
+  <div class="list">
+    <Checkbox
+      label="Switch speed colors"
+      hint="This will switch the upload and download colors. Originally green for download and blue for upload."
+      bind:checked="{newSwitchSpeedColors}"
     />
   </div>
 
@@ -53,13 +72,11 @@
   <p class="hint">
     These paths will be shown behind the magnifier where you can select a path.
   </p>
-  <div class="list">
-    <InputMultiple
-      bind:values="{newPaths}"
-      pattern="^/.*"
-      validationMessage="Path must be an absolute path."
-    />
-  </div>
+  <InputMultiple
+    bind:values="{newPaths}"
+    pattern="^/.*"
+    validationMessage="Path must be an absolute path."
+  />
 
   <Header text="Torrent Columns" />
   <div class="list">

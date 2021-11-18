@@ -5,10 +5,14 @@
   import Modal from '~components/Modal';
   import ContextMenu from '~components/ContextMenu';
   import Alerts from '~components/Alerts';
-  import { panel, darkMode } from '~helpers/stores';
+  import { panel, darkMode, switchSpeedColors } from '~helpers/stores';
 </script>
 
-<main class:panel="{$panel}" class:dark-mode="{$darkMode}">
+<main
+  class:panel="{$panel}"
+  class:dark-mode="{$darkMode}"
+  class:inverse-upload-download="{$switchSpeedColors}"
+>
   <Panel />
   <div class="content">
     <TopBar />

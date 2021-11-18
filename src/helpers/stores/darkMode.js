@@ -1,5 +1,7 @@
 import { get, readable, writable } from 'svelte/store';
 
+const LOCAL_STORAGE_KEY = 'darkMode';
+
 const darkModeMediaQueryList =
   window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
 const browserPrefersDarkModeStore = readable(
@@ -22,7 +24,7 @@ const browserPrefersDarkModeStore = readable(
 
 // Returns the value from the storage or 'auto' if no storage value is found
 function getConfiguredValue() {
-  return window.localStorage.getItem('darkMode') || 'auto';
+  return window.localStorage.getItem(LOCAL_STORAGE_KEY) || 'auto';
 }
 
 // Returns whether darkMode is enabled
@@ -56,7 +58,7 @@ function createDarkModeStore() {
           `Invalid darkMode configuration received: ${newValue}. Should be one of enabled, disabled or auto`
         );
       }
-      window.localStorage.setItem('darkMode', newValue);
+      window.localStorage.setItem(LOCAL_STORAGE_KEY, newValue);
       configuredValue.set(newValue);
       set(getDarkModeEnabled(newValue));
     },

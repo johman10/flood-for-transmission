@@ -1,5 +1,6 @@
 :root {
   --rgb-positive: 57, 206, 131;
+  --rgb-download: var(--rgb-positive);
   --rgb-upload: 62, 167, 255;
   --rgb-active: 37, 141, 229;
   --rgb-text: 112, 133, 158;
@@ -8,7 +9,7 @@
   --color-positive: rgb(var(--rgb-positive));
   --color-negative: rgb(233, 87, 121);
 
-  --color-download: rgb(var(--rgb-positive));
+  --color-download: rgb(var(--rgb-download));
   --color-upload: rgb(var(--rgb-upload));
   --color-active: rgb(var(--rgb-active));
   --color-text: rgb(var(--rgb-text));
@@ -19,9 +20,9 @@
   --color-dropdown-header: rgba(var(--rgb-text), 0.5);
 
   --color-progress-bar-download: var(--color-download);
-  --color-progress-bar-download-background: rgba(var(--rgb-positive), 0.15);
+  --color-progress-bar-download-background: rgba(var(--rgb-download), 0.15);
   --color-progress-bar-upload: var(--color-upload);
-  --color-progress-bar-upload-background: rgba(--rgb-upload, 0.15);
+  --color-progress-bar-upload-background: rgba(var(--rgb-upload), 0.15);
   --color-progress-bar-metadata: rgb(136, 153, 168);
   --color-progress-bar-metadata-background: rgba(136, 153, 168, 0.15);
   --color-progress-bar-error: rgb(242, 172, 188);
@@ -203,4 +204,14 @@
 
   --color-torrent-text: rgb(171, 186, 199);
   --color-torrent-text-inactive: var(--color-text);
+}
+
+.switch-speed-colors {
+  --color-download: rgb(var(--rgb-upload));
+  --color-upload: rgb(var(--rgb-download));
+
+  --color-progress-bar-download: rgb(var(--rgb-upload));
+  --color-progress-bar-download-background: rgba(var(--rgb-upload), 0.15);
+  --color-progress-bar-upload: rgb(var(--rgb-download));
+  --color-progress-bar-upload-background: rgba(var(--rgb-download), 0.15);
 }

@@ -3,6 +3,7 @@ export { columns, uiColumns, transmissionColumns } from './columns';
 export { contextMenu } from './contextMenu';
 export { darkMode } from './darkMode';
 export { filters } from './filters';
+export { switchSpeedColors } from './switchSpeedColors';
 export { ipAddress } from './ipAddress';
 export { modals } from './modals';
 export { panel } from './panel';

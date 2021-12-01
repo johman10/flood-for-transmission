@@ -128,6 +128,10 @@ export default class Transmission {
     return this.rpcCall('torrent-start', { ids });
   }
 
+  startNowTorrents(ids = []) {
+    return this.rpcCall('torrent-start-now', { ids });
+  }
+
   stopTorrents(ids) {
     return this.rpcCall('torrent-stop', { ids });
   }

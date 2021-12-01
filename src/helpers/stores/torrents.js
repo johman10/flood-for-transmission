@@ -223,6 +223,18 @@ function createTorrentsStore() {
           };
         });
       }),
+    startNow: (ids) =>
+      store.update((state) => {
+        transmission.startNowTorrents(ids).catch(() => store.set(state));
+        return state.map((torrent) => {
+          if (!ids.includes(torrent.id)) return torrent;
+
+          return {
+            ...torrent,
+            [TRANSMISSION_COLUMN_STATUS]: STATUSES.indexOf(STATUS_DOWNLOADING),
+          };
+        });
+      }),
     stop: (ids) =>
       store.update((state) => {
         transmission.stopTorrents(ids).catch(() => store.set(state));

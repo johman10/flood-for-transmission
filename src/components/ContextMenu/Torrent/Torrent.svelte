@@ -4,6 +4,7 @@
   export let onItemClick;
   export let prio;
   export let onStart;
+  export let onStartNow;
   export let onStop;
   export let onRemove;
   export let onVerify;
@@ -20,6 +21,7 @@
 </script>
 
 <li on:click="{(...args) => onItemClick(onStart, args)}">Start</li>
+<li on:click="{(...args) => onItemClick(onStartNow, args)}">Start now</li>
 <li on:click="{(...args) => onItemClick(onStop, args)}">Stop</li>
 <li on:click="{(...args) => onItemClick(onRemove, args)}">Remove</li>
 <li on:click="{(...args) => onItemClick(onVerify, args)}">Verify local data</li>

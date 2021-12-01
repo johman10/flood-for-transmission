@@ -99,6 +99,7 @@
       props: {
         prio,
         onStart: torrents.start.bind(this, $selectedTorrents),
+        onStartNow: torrents.startNow.bind(this, $selectedTorrents),
         onStop: torrents.stop.bind(this, $selectedTorrents),
         onRemove: modals.open.bind(this, { component: Remove }),
         onVerify: torrents.verify.bind(this, $selectedTorrents),

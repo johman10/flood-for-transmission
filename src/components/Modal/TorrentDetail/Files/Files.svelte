@@ -77,35 +77,6 @@
     font-size: 14px;
   }
 
-  .locations {
-    flex-grow: 1;
-    padding: 20px 25px;
-    overflow-y: auto;
-    transition: padding 0.25s;
-  }
-
-  .locations.selected {
-    padding: 20px 25px 5px;
-  }
-
-  .action-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 9px 25px;
-  }
-
-  .text {
-    color: var(--color-modal-text);
-    font-size: 14px;
-    flex-grow: 1;
-  }
-
-  .focus {
-    color: var(--color-active);
-    font-weight: 700;
-  }
-
   .select-container {
     flex-grow: 1;
   }

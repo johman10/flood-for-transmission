@@ -194,6 +194,12 @@
       component: TextRenderer,
       props: () => ({ value: STATUSES[torrent[TRANSMISSION_COLUMN.STATUS]] }),
     },
+    [UI_COLUMN.QUEUE_POSITION]: {
+      component: TextRenderer,
+      props: () => ({
+        value: torrent[TRANSMISSION_COLUMN.QUEUE_POSITION],
+      }),
+    },
   };
 </script>
 

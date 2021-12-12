@@ -51,6 +51,8 @@ export default function contextmenu(node) {
   const isIos = /(iPad|iPhone|iPod)/g.test(navigator.userAgent);
   if (!isIos) return;
 
+  alert('onIos!');
+
   // hook events that clear a pending long press event
   node.addEventListener('touchcancel', clearLongPressTimer);
   node.addEventListener('touchend', clearLongPressTimer);

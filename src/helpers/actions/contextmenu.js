@@ -48,7 +48,7 @@ const cancelEvent = (e) => {
 };
 
 export default function contextmenu(node) {
-  const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  const isIos = /(iPad|iPhone|iPod)/g.test(navigator.userAgent);
   if (!isIos) return;
 
   // hook events that clear a pending long press event

@@ -1,4 +1,4 @@
-const CONTEXT_MENU_TIMEOUT = 500;
+const CONTEXT_MENU_TIMEOUT = 700;
 
 let timer = null;
 

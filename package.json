@@ -11,33 +11,33 @@
     "prettier": "prettier --write \"./src/**/*.{js,svelte}\""
   },
   "devDependencies": {
-    "@babel/core": "^7.15.5",
-    "@babel/plugin-proposal-class-properties": "^7.13.0",
-    "@babel/preset-env": "^7.15.6",
-    "@rollup/plugin-alias": "^3.1.5",
+    "@babel/core": "^7.16.7",
+    "@babel/plugin-proposal-class-properties": "^7.16.7",
+    "@babel/preset-env": "^7.16.8",
+    "@rollup/plugin-alias": "^3.1.9",
     "@rollup/plugin-babel": "^5.3.0",
-    "@rollup/plugin-commonjs": "^20.0.0",
-    "@rollup/plugin-node-resolve": "^13.0.4",
-    "@rollup/plugin-replace": "^3.0.0",
+    "@rollup/plugin-commonjs": "^21.0.1",
+    "@rollup/plugin-node-resolve": "^13.1.3",
+    "@rollup/plugin-replace": "^3.0.1",
     "babel-eslint": "^10.1.0",
-    "dotenv": "^10.0.0",
+    "dotenv": "^14.1.0",
     "eslint": "^7.32.0",
-    "eslint-plugin-svelte3": "^3.2.0",
-    "prettier": "^2.3.2",
-    "prettier-plugin-svelte": "^2.3.1",
-    "rollup": "^2.56.2",
+    "eslint-plugin-svelte3": "^3.4.0",
+    "prettier": "^2.5.1",
+    "prettier-plugin-svelte": "^2.6.0",
+    "rollup": "^2.64.0",
     "rollup-plugin-css-only": "^3.1.0",
     "rollup-plugin-livereload": "^2.0.5",
     "rollup-plugin-svelte": "^7.1.0",
     "rollup-plugin-terser": "^7.0.2",
-    "svelte": "^3.42.5",
-    "workbox-cli": "^6.3.0"
+    "svelte": "^3.46.2",
+    "workbox-cli": "^6.4.2"
   },
   "dependencies": {
-    "core-js": "^3.16.2",
-    "d3-array": "^3.0.2",
-    "d3-scale": "^4.0.0",
-    "d3-shape": "^3.0.1",
-    "sirv-cli": "^1.0.11"
+    "core-js": "^3.20.3",
+    "d3-array": "^3.1.1",
+    "d3-scale": "^4.0.2",
+    "d3-shape": "^3.1.0",
+    "sirv-cli": "^2.0.1"
   }
 }

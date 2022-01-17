@@ -31,7 +31,7 @@
     "rollup-plugin-svelte": "^7.1.0",
     "rollup-plugin-terser": "^7.0.2",
     "svelte": "^3.42.5",
-    "workbox-cli": "^6.3.0"
+    "workbox-cli": "^6.4.2"
   },
   "dependencies": {
     "core-js": "^3.16.2",

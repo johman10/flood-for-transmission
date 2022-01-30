@@ -22,6 +22,7 @@
   } from '~helpers/constants/columns';
   import { generateTorrentStatusClass } from '~helpers/classHelper';
   import { trackerStripper } from '~helpers/trackerHelper';
+  import { contextmenu } from '~helpers/actions';
 
   const dispatch = createEventDispatcher();
 
@@ -205,8 +206,9 @@
 
 <tr
   class="{generateTorrentStatusClass(torrent, selected)}"
-  on:click="{dispatchClick}"
+  use:contextmenu
   on:contextmenu="{dispatchContextmenu}"
+  on:click="{dispatchClick}"
   on:click="{handleClick}"
 >
   {#each $activeColumns
@@ -228,6 +230,8 @@
     font-size: 13px;
     height: 30px;
     cursor: pointer;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
   }
 
   tr.stopped,

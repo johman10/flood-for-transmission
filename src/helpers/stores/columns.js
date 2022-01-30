@@ -3,32 +3,66 @@ import {
   DEFAULT_COLUMNS,
   TRANSMISSION_BASE_COLUMNS,
   COLUMN_MAP,
+  UI_COLUMN,
 } from '~helpers/constants/columns';
 
 const UI_COLUMNS_STORAGE_KEY = 'ui-columns';
-const UI_COLUMN_NAMES = Object.keys(COLUMN_MAP);
+const UI_COLUMN_VALUES = Object.values(UI_COLUMN);
+const UI_COLUMN_IDS = UI_COLUMN_VALUES.map((column) => column.id);
+
+function storeColumns(columns) {
+  const columnIds = Object.keys(COLUMN_MAP).map((column) =>
+    parseInt(column, 10)
+  );
+  const columnsInvalid = columns.some(
+    (column) => !columnIds.includes(column.id)
+  );
+  if (columnsInvalid) {
+    throw new Error('Invalid column passed for storing');
+  }
+
+  const data = JSON.stringify(columns);
+  window.localStorage.setItem(UI_COLUMNS_STORAGE_KEY, data);
+}
+
+function getColumnId(name) {
+  return UI_COLUMN_VALUES.find(
+    (column) => column.label === name || column.oldLabels?.includes(name)
+  )?.id;
+}
 
 function migrateStoredColumns(storedColumns) {
-  let storedColumnsClone = JSON.parse(JSON.stringify(storedColumns));
-  const storedColumnNames = storedColumns.map((column) => column.name);
+  const storedColumnsClone = JSON.parse(JSON.stringify(storedColumns));
 
-  storedColumnsClone = storedColumnsClone.filter(({ name }) =>
-    UI_COLUMN_NAMES.includes(name)
+  // Migrate stored columns by name to stored columns by id
+  const storedColumnsWithId = storedColumnsClone.map((storedColumn) => {
+    if (storedColumn.id) return storedColumn;
+
+    const columnId = getColumnId(storedColumn.name);
+    // TODO: this would cause weird issues if it happens (shouldn't)
+    if (!columnId) return storedColumn;
+
+    return {
+      id: columnId,
+      enabled: storedColumn.enabled,
+      width: storedColumn.width,
+    };
+  });
+
+  // Find all the columns that are still supported, remove any ones that have been removed
+  const cleanedStoredColumns = storedColumnsWithId.filter(({ id }) =>
+    UI_COLUMN_IDS.includes(id)
   );
 
-  const missingColumnNamesInStorage = UI_COLUMN_NAMES.filter(
-    (column) => !storedColumnNames.includes(column)
-  );
-  const missingColumns = missingColumnNamesInStorage.map(
-    (missingColumnName) => ({
-      name: missingColumnName,
-      enabled: false,
-      width: 100,
-    })
-  );
-  storedColumnsClone = [...storedColumnsClone, ...missingColumns];
+  // Find all columns that aren't included in the stored version
+  const storedColumnIds = storedColumnsWithId.map((column) => column.id);
+  const missingColumns = DEFAULT_COLUMNS.filter(({ id }) => {
+    return !storedColumnIds.includes(id);
+  });
 
-  return storedColumnsClone;
+  const newColumns = [...cleanedStoredColumns, ...missingColumns];
+  storeColumns(newColumns);
+  return newColumns;
 }
 
 function getUiColumns() {
@@ -37,15 +71,14 @@ function getUiColumns() {
       window.localStorage.getItem(UI_COLUMNS_STORAGE_KEY)
     );
     if (!columns) throw new Error('No columns stored yet');
-    columns = migrateStoredColumns(columns);
-    return columns;
+    return migrateStoredColumns(columns);
   } catch (e) {
     return DEFAULT_COLUMNS;
   }
 }
 
 function uiColumnToTransmissionColumns(column) {
-  return COLUMN_MAP[column.name];
+  return COLUMN_MAP[column.id];
 }
 
 function uiColumnsToTransmissionColumns(columns) {
@@ -59,12 +92,7 @@ function uiColumnStore() {
     subscribe,
     update,
     set: (columns) => {
-      if (
-        columns.some((column) => !Object.keys(COLUMN_MAP).includes(column.name))
-      )
-        throw new Error('Invalid column passed for storing');
-      const data = JSON.stringify(columns);
-      window.localStorage.setItem(UI_COLUMNS_STORAGE_KEY, data);
+      storeColumns(columns);
       set(columns);
     },
     active: derived({ subscribe, update, set }, ($columns) =>
@@ -72,7 +100,7 @@ function uiColumnStore() {
     ),
     sizes: derived({ subscribe, update, set }, ($columns) =>
       $columns.reduce((acc, column) => {
-        acc[column.name] = column.width;
+        acc[column.id] = column.width;
         return acc;
       }, {})
     ),
@@ -81,6 +109,10 @@ function uiColumnStore() {
         .filter((column) => column.enabled)
         .reduce((acc, column) => acc + column.width, 0)
     ),
+    getColumnLabel: (id) => {
+      return UI_COLUMN_VALUES.find((column) => column.id === id)?.label;
+    },
+    getColumnId,
   };
 }
 export const uiColumns = uiColumnStore();

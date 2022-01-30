@@ -15,6 +15,8 @@ import {
   TRANSMISSION_COLUMN_DOWNLOAD_RATE,
   TRANSMISSION_COLUMN_NAME,
   TRANSMISSION_COLUMN_ETA,
+  UI_COLUMN_TOTAL_SEEDERS,
+  UI_COLUMN_TOTAL_LEECHERS,
 } from '~helpers/constants/columns';
 import { sorting } from '~helpers/stores/sorting';
 import { transmissionColumns, uiColumns, filters } from '~helpers/stores';
@@ -48,7 +50,7 @@ const sorted = derived(
       });
     }
 
-    const transmissionSortingColumns = COLUMN_MAP[$sorting.column];
+    const transmissionSortingColumns = COLUMN_MAP[$sorting.id];
     if (!transmissionSortingColumns) {
       console.warn('Unrecognized sorting');
       return filteredTorrents;
@@ -68,6 +70,17 @@ const sorted = derived(
           if (transmissionColumn === TRANSMISSION_COLUMN_ETA) {
             if (aValue === -1) aValue = Number.MAX_SAFE_INTEGER;
             if (bValue === -1) bValue = Number.MAX_SAFE_INTEGER;
+          }
+
+          // TODO: consider some way of setting a sorting value/key per column so that this can be abstracted
+          if ($sorting.id === UI_COLUMN_TOTAL_SEEDERS.id) {
+            aValue = Math.max(...aValue.map((a) => a.seederCount));
+            bValue = Math.max(...bValue.map((b) => b.seederCount));
+          }
+
+          if ($sorting.id === UI_COLUMN_TOTAL_LEECHERS.id) {
+            aValue = Math.max(...aValue.map((a) => a.leecherCount));
+            bValue = Math.max(...bValue.map((b) => b.leecherCount));
           }
 
           let returnValue = 0;

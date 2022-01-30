@@ -71,11 +71,11 @@
 
   // TODO: Move to constants/columns, pass torrent and session as arg to props;
   $: rendererMap = {
-    [UI_COLUMN.NAME]: {
+    [UI_COLUMN.NAME.id]: {
       component: TextRenderer,
       props: () => ({ value: torrent[TRANSMISSION_COLUMN.NAME], size: 'big' }),
     },
-    [UI_COLUMN.PERCENT_COMPLETE]: {
+    [UI_COLUMN.PERCENT_COMPLETE.id]: {
       component: ProgressRenderer,
       props: () => ({
         value: torrent[TRANSMISSION_COLUMN.DOWNLOAD_PROGRESS],
@@ -84,14 +84,14 @@
         torrentStatus: STATUSES[torrent[TRANSMISSION_COLUMN.STATUS]],
       }),
     },
-    [UI_COLUMN.DOWNLOADED]: {
+    [UI_COLUMN.DOWNLOADED.id]: {
       component: SizeRenderer,
       props: () => ({
         value: torrent[TRANSMISSION_COLUMN.DOWNLOADED],
         perSize: $session[SESSION_COLUMN_UNITS]?.[SESSION_COLUMN_UNITS_SIZE],
       }),
     },
-    [UI_COLUMN.DOWNLOAD_SPEED]: {
+    [UI_COLUMN.DOWNLOAD_SPEED.id]: {
       component: SizeRenderer,
       props: () => ({
         value: torrent[TRANSMISSION_COLUMN.DOWNLOAD_RATE],
@@ -99,14 +99,14 @@
         perSize: $session[SESSION_COLUMN_UNITS]?.[SESSION_COLUMN_UNITS_SPEED],
       }),
     },
-    [UI_COLUMN.UPLOADED]: {
+    [UI_COLUMN.UPLOADED.id]: {
       component: SizeRenderer,
       props: () => ({
         value: torrent[TRANSMISSION_COLUMN.UPLOADED],
         perSize: $session[SESSION_COLUMN_UNITS]?.[SESSION_COLUMN_UNITS_SIZE],
       }),
     },
-    [UI_COLUMN.UPLOAD_SPEED]: {
+    [UI_COLUMN.UPLOAD_SPEED.id]: {
       component: SizeRenderer,
       props: () => ({
         value: torrent[TRANSMISSION_COLUMN.UPLOAD_RATE],
@@ -115,68 +115,68 @@
         perSize: $session[SESSION_COLUMN_UNITS]?.[SESSION_COLUMN_UNITS_SPEED],
       }),
     },
-    [UI_COLUMN.ETA]: {
+    [UI_COLUMN.ETA.id]: {
       component: ArrivalRenderer,
       props: () => ({ value: torrent[TRANSMISSION_COLUMN.ETA] }),
     },
-    [UI_COLUMN.RATIO]: {
+    [UI_COLUMN.RATIO.id]: {
       component: TextRenderer,
       props: () => ({ value: torrent[TRANSMISSION_COLUMN.RATIO]?.toFixed(2) }),
     },
-    [UI_COLUMN.FILE_SIZE]: {
+    [UI_COLUMN.FILE_SIZE.id]: {
       component: SizeRenderer,
       props: () => ({
         value: torrent[TRANSMISSION_COLUMN.SIZE],
         perSize: $session[SESSION_COLUMN_UNITS]?.[SESSION_COLUMN_UNITS_SIZE],
       }),
     },
-    [UI_COLUMN.ADDED]: {
+    [UI_COLUMN.ADDED.id]: {
       component: DateRenderer,
       props: () => ({ value: torrent[TRANSMISSION_COLUMN.ADDED] }),
     },
-    [UI_COLUMN.CREATION_DATE]: {
+    [UI_COLUMN.CREATION_DATE.id]: {
       component: DateRenderer,
       props: () => ({ value: torrent[TRANSMISSION_COLUMN.CREATED] }),
     },
-    [UI_COLUMN.SEEDS]: {
+    [UI_COLUMN.SEEDS.id]: {
       component: ConnectionRenderer,
       props: () => ({
         value: torrent[TRANSMISSION_COLUMN.SEEDING_TO],
         connected: torrent[TRANSMISSION_COLUMN.PEERS_CONNECTED],
       }),
     },
-    [UI_COLUMN.PEERS]: {
+    [UI_COLUMN.PEERS.id]: {
       component: ConnectionRenderer,
       props: () => ({
         value: torrent[TRANSMISSION_COLUMN.DOWNLOADING_FROM],
         connected: torrent[TRANSMISSION_COLUMN.PEERS_CONNECTED],
       }),
     },
-    [UI_COLUMN.BASE_PATH]: {
+    [UI_COLUMN.BASE_PATH.id]: {
       component: TextRenderer,
       props: () => ({ value: torrent[TRANSMISSION_COLUMN.DOWNLOAD_DIR] }),
     },
-    [UI_COLUMN.HASH]: {
+    [UI_COLUMN.HASH.id]: {
       component: TextRenderer,
       props: () => ({ value: torrent[TRANSMISSION_COLUMN.HASH] }),
     },
-    [UI_COLUMN.COMMENT]: {
+    [UI_COLUMN.COMMENT.id]: {
       component: TextRenderer,
       props: () => ({ value: torrent[TRANSMISSION_COLUMN.COMMENT] }),
     },
-    [UI_COLUMN.LABELS]: {
+    [UI_COLUMN.LABELS.id]: {
       component: LabelRenderer,
       props: () => ({ value: torrent[TRANSMISSION_COLUMN.LABELS] }),
     },
-    [UI_COLUMN.ERROR]: {
+    [UI_COLUMN.ERROR.id]: {
       component: TextRenderer,
       props: () => ({ value: torrent[TRANSMISSION_COLUMN.ERROR_STRING] }),
     },
-    [UI_COLUMN.PRIVATE]: {
+    [UI_COLUMN.PRIVATE.id]: {
       component: BooleanRenderer,
       props: () => ({ value: torrent[TRANSMISSION_COLUMN.PRIVATE] }),
     },
-    [UI_COLUMN.TRACKERS]: {
+    [UI_COLUMN.TRACKERS.id]: {
       component: TextRenderer,
       props: () => {
         const value = torrent[TRANSMISSION_COLUMN.TRACKERS]
@@ -186,19 +186,51 @@
         return { value };
       },
     },
-    [UI_COLUMN.DONE]: {
+    [UI_COLUMN.DONE.id]: {
       component: DateRenderer,
       props: () => ({ value: torrent[TRANSMISSION_COLUMN.DONE] }),
     },
-    [UI_COLUMN.STATUS]: {
+    [UI_COLUMN.STATUS.id]: {
       component: TextRenderer,
       props: () => ({ value: STATUSES[torrent[TRANSMISSION_COLUMN.STATUS]] }),
     },
-    [UI_COLUMN.QUEUE_POSITION]: {
+    [UI_COLUMN.QUEUE_POSITION.id]: {
       component: TextRenderer,
       props: () => ({
         value: torrent[TRANSMISSION_COLUMN.QUEUE_POSITION],
       }),
+    },
+    [UI_COLUMN.TOTAL_LEECHERS.id]: {
+      component: TextRenderer,
+      props: () => {
+        const leecherCounts = torrent[TRANSMISSION_COLUMN.TRACKER_STATS].map(
+          ({ leecherCount }) => leecherCount
+        );
+        const filteredLeecherCounts = leecherCounts.filter(
+          (count) => count !== -1
+        );
+        const value = filteredLeecherCounts.length
+          ? Math.max(...filteredLeecherCounts)
+          : '-';
+
+        return { value };
+      },
+    },
+    [UI_COLUMN.TOTAL_SEEDERS.id]: {
+      component: TextRenderer,
+      props: () => {
+        const seederCounts = torrent[TRANSMISSION_COLUMN.TRACKER_STATS].map(
+          ({ seederCount }) => seederCount
+        );
+        const filteredSeederCounts = seederCounts.filter(
+          (count) => count !== -1
+        );
+        const value = filteredSeederCounts.length
+          ? Math.max(...filteredSeederCounts)
+          : '-';
+
+        return { value };
+      },
     },
   };
 </script>
@@ -210,7 +242,7 @@
   on:click="{handleClick}"
 >
   {#each $activeColumns
-    .map((column) => rendererMap[column.name])
+    .map((column) => rendererMap[column.id])
     .filter(Boolean) as { component, props }}
     <td>
       <svelte:component

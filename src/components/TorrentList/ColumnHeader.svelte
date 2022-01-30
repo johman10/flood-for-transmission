@@ -1,34 +1,37 @@
 <script>
   import { resizeableTable } from '~helpers/actions';
   import { uiColumns, sorting } from '~helpers/stores';
+  import { UI_COLUMN } from '~helpers/constants/columns';
 
-  export let name;
+  export let id;
 
   const columnSizes = uiColumns.sizes;
+  $: label = Object.values(UI_COLUMN).find((column) => column.id === id)?.label;
 
   const handleResize = (newWidth) => {
-    const columnIndex = $uiColumns.findIndex((column) => column.name === name);
+    const columnIndex = $uiColumns.findIndex((column) => column.id === id);
     const column = { ...$uiColumns[columnIndex], width: newWidth };
     const newColumns = [...$uiColumns];
     newColumns.splice(columnIndex, 1, column);
+    console.log(newColumns);
     uiColumns.set(newColumns);
   };
 
   const handleClick = () => {
-    sorting.updateToColumn(name);
+    sorting.updateToColumn(id);
   };
 </script>
 
-{#if name}
+{#if id && label}
   <th
     class="header"
-    class:sorting="{name === $sorting.column}"
-    class:asc="{$sorting.column === name && $sorting.direction === 'asc'}"
-    class:desc="{$sorting.column === name && $sorting.direction === 'desc'}"
-    style="width: {$columnSizes[name]}px"
+    class:sorting="{id === $sorting.id}"
+    class:asc="{$sorting.id === id && $sorting.direction === 'asc'}"
+    class:desc="{$sorting.id === id && $sorting.direction === 'desc'}"
+    style="width: {$columnSizes[id]}px"
     on:click="{handleClick}"
   >
-    {name}
+    {label}
     <span class="handle" use:resizeableTable="{handleResize}"></span>
   </th>
 {/if}

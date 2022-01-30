@@ -42,9 +42,7 @@
   };
 
   const handleColumnDrop = (sorting) => {
-    newColumns.sort(
-      (a, b) => sorting.indexOf(a.name) - sorting.indexOf(b.name)
-    );
+    newColumns.sort((a, b) => sorting.indexOf(a.id) - sorting.indexOf(b.id));
   };
 </script>
 
@@ -85,9 +83,9 @@
         class="column"
         draggable="true"
         use:orderable="{handleColumnDrop}"
-        id="{column.name}"
+        id="{column.id}"
       >
-        <span>{column.name}</span>
+        <span>{uiColumns.getColumnLabel(column.id)}</span>
         <Checkbox bind:checked="{column.enabled}" label="Enabled" />
       </div>
     {/each}

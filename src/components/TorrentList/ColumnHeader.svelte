@@ -1,12 +1,10 @@
 <script>
   import { resizeableTable } from '~helpers/actions';
   import { uiColumns, sorting } from '~helpers/stores';
-  import { UI_COLUMN } from '~helpers/constants/columns';
 
   export let id;
 
   const columnSizes = uiColumns.sizes;
-  $: label = Object.values(UI_COLUMN).find((column) => column.id === id)?.label;
 
   const handleResize = (newWidth) => {
     const columnIndex = $uiColumns.findIndex((column) => column.id === id);
@@ -22,7 +20,7 @@
   };
 </script>
 
-{#if id && label}
+{#if id}
   <th
     class="header"
     class:sorting="{id === $sorting.id}"
@@ -31,7 +29,7 @@
     style="width: {$columnSizes[id]}px"
     on:click="{handleClick}"
   >
-    {label}
+    {uiColumns.getColumnLabel(id)}
     <span class="handle" use:resizeableTable="{handleResize}"></span>
   </th>
 {/if}

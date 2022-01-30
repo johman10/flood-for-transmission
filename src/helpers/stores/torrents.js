@@ -15,9 +15,15 @@ import {
   TRANSMISSION_COLUMN_DOWNLOAD_RATE,
   TRANSMISSION_COLUMN_NAME,
   TRANSMISSION_COLUMN_ETA,
+  TRANSMISSION_COLUMN_MAGNET_LINK,
 } from '~helpers/constants/columns';
 import { sorting } from '~helpers/stores/sorting';
-import { transmissionColumns, uiColumns, filters } from '~helpers/stores';
+import {
+  transmissionColumns,
+  uiColumns,
+  filters,
+  alerts,
+} from '~helpers/stores';
 import {
   searchFilter,
   statusFilter,
@@ -268,6 +274,23 @@ function createTorrentsStore() {
       });
     },
     verify: (ids) => transmission.verifyTorrents(ids),
+    copyMagnetLinks: (ids) => {
+      const torrents = get(store);
+      const selectedTorrents = torrents.filter((torrent) =>
+        ids.includes(torrent.id)
+      );
+      const magnetLinks = selectedTorrents.map(
+        (torrent) => torrent[TRANSMISSION_COLUMN_MAGNET_LINK]
+      );
+      return navigator.clipboard
+        .writeText(magnetLinks.join(', '))
+        .then(() => {
+          alerts.add('Magnet links copied');
+        })
+        .catch(() => {
+          alerts.add('Magnet links copy failed', 'negative');
+        });
+    },
     reannounce: (ids) => transmission.reannounceTorrents(ids),
     remove: (ids, deleteLocalData) =>
       transmission.removeTorrents({ ids, deleteLocalData }),

@@ -103,6 +103,10 @@
         onStop: torrents.stop.bind(this, $selectedTorrents),
         onRemove: modals.open.bind(this, { component: Remove }),
         onVerify: torrents.verify.bind(this, $selectedTorrents),
+        onCopyMagnetLink: torrents.copyMagnetLinks.bind(
+          this,
+          $selectedTorrents
+        ),
         onAsk: torrents.reannounce.bind(this, $selectedTorrents),
         onLabels: modals.open.bind(this, { component: Labels }),
         onLocation: modals.open.bind(this, { component: Location }),

@@ -11,7 +11,6 @@
     const column = { ...$uiColumns[columnIndex], width: newWidth };
     const newColumns = [...$uiColumns];
     newColumns.splice(columnIndex, 1, column);
-    console.log(newColumns);
     uiColumns.set(newColumns);
   };
 

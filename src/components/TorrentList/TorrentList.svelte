@@ -128,7 +128,7 @@
   <table class="table" style="width: {$totalSize}px">
     <thead class="table-header">
       {#each $activeColumns as column}
-        <ColumnHeader name="{column.name}" />
+        <ColumnHeader id="{column.id}" />
       {/each}
     </thead>
     <tbody>

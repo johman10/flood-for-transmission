@@ -30,6 +30,7 @@ export const TRANSMISSION_COLUMN_UPLOADED = 'uploadedEver';
 export const TRANSMISSION_COLUMN_FILES = 'files';
 export const TRANSMISSION_COLUMN_FILE_STATS = 'fileStats';
 export const TRANSMISSION_COLUMN_QUEUE_POSITION = 'queuePosition';
+export const TRANSMISSION_COLUMN_TRACKER_STATS = 'trackerStats';
 export const TRANSMISSION_COLUMN_MAGNET_LINK = 'magnetLink';
 
 export const TRANSMISSION_COLUMN = {
@@ -64,6 +65,7 @@ export const TRANSMISSION_COLUMN = {
   SIZE: TRANSMISSION_COLUMN_SIZE,
   STATUS: TRANSMISSION_COLUMN_STATUS,
   TRACKERS: TRANSMISSION_COLUMN_TRACKERS,
+  TRACKER_STATS: TRANSMISSION_COLUMN_TRACKER_STATS,
   UPLOAD_RATE: TRANSMISSION_COLUMN_UPLOAD_RATE,
   UPLOADED: TRANSMISSION_COLUMN_UPLOADED,
 };
@@ -167,29 +169,108 @@ export const SESSION_STATS_CUMULATIVE_STATS = 'cumulative-stats';
 export const SESSION_STATS_TOTAL_UPLOAD = 'uploadedBytes';
 export const SESSION_STATS_TOTAL_DOWNLOAD = 'downloadedBytes';
 
-export const UI_COLUMN_ADDED = 'Added';
-export const UI_COLUMN_BASE_PATH = 'Base Path';
-export const UI_COLUMN_COMMENT = 'Comment';
-export const UI_COLUMN_CREATION_DATE = 'Creation Date';
-export const UI_COLUMN_DONE = 'Done';
-export const UI_COLUMN_DOWNLOAD_SPEED = 'Download Speed';
-export const UI_COLUMN_DOWNLOADED = 'Downloaded';
-export const UI_COLUMN_ERROR = 'Error';
-export const UI_COLUMN_ETA = 'ETA';
-export const UI_COLUMN_FILE_SIZE = 'File Size';
-export const UI_COLUMN_HASH = 'Hash';
-export const UI_COLUMN_LABELS = 'Labels';
-export const UI_COLUMN_NAME = 'Name';
-export const UI_COLUMN_PEERS = 'Peers';
-export const UI_COLUMN_PERCENT_COMPLETE = 'Percent Complete';
-export const UI_COLUMN_PRIVATE = 'Private';
-export const UI_COLUMN_QUEUE_POSITION = 'Queue Position';
-export const UI_COLUMN_RATIO = 'Ratio';
-export const UI_COLUMN_SEEDS = 'Seeds';
-export const UI_COLUMN_STATUS = 'Status';
-export const UI_COLUMN_TRACKERS = 'Trackers';
-export const UI_COLUMN_UPLOAD_SPEED = 'Upload Speed';
-export const UI_COLUMN_UPLOADED = 'Uploaded';
+export const UI_COLUMN_ADDED = {
+  label: 'Added',
+  id: 1,
+};
+export const UI_COLUMN_BASE_PATH = {
+  label: 'Base Path',
+  id: 2,
+};
+export const UI_COLUMN_COMMENT = {
+  label: 'Comment',
+  id: 3,
+};
+export const UI_COLUMN_CREATION_DATE = {
+  label: 'Creation Date',
+  id: 4,
+};
+export const UI_COLUMN_DONE = {
+  label: 'Done',
+  id: 5,
+};
+export const UI_COLUMN_DOWNLOAD_SPEED = {
+  label: 'Download Speed',
+  id: 6,
+};
+export const UI_COLUMN_DOWNLOADED = {
+  label: 'Downloaded',
+  id: 7,
+};
+export const UI_COLUMN_ERROR = {
+  label: 'Error',
+  id: 8,
+};
+export const UI_COLUMN_ETA = {
+  label: 'ETA',
+  id: 9,
+};
+export const UI_COLUMN_FILE_SIZE = {
+  label: 'File Size',
+  id: 10,
+};
+export const UI_COLUMN_HASH = {
+  label: 'Hash',
+  id: 11,
+};
+export const UI_COLUMN_LABELS = {
+  label: 'Labels',
+  id: 12,
+};
+export const UI_COLUMN_NAME = {
+  label: 'Name',
+  id: 13,
+};
+export const UI_COLUMN_PEERS = {
+  label: 'Downloading from',
+  oldLabels: ['Peers'],
+  id: 14,
+};
+export const UI_COLUMN_PERCENT_COMPLETE = {
+  label: 'Percent Complete',
+  id: 15,
+};
+export const UI_COLUMN_PRIVATE = {
+  label: 'Private',
+  id: 16,
+};
+export const UI_COLUMN_QUEUE_POSITION = {
+  label: 'Queue Position',
+  id: 17,
+};
+export const UI_COLUMN_RATIO = {
+  label: 'Ratio',
+  id: 18,
+};
+export const UI_COLUMN_SEEDS = {
+  label: 'Seeding to',
+  oldLabels: ['Seeds'],
+  id: 19,
+};
+export const UI_COLUMN_STATUS = {
+  label: 'Status',
+  id: 20,
+};
+export const UI_COLUMN_TRACKERS = {
+  label: 'Trackers',
+  id: 21,
+};
+export const UI_COLUMN_UPLOAD_SPEED = {
+  label: 'Upload Speed',
+  id: 22,
+};
+export const UI_COLUMN_UPLOADED = {
+  label: 'Uploaded',
+  id: 23,
+};
+export const UI_COLUMN_TOTAL_LEECHERS = {
+  label: 'Total Leechers',
+  id: 24,
+};
+export const UI_COLUMN_TOTAL_SEEDERS = {
+  label: 'Total Seeders',
+  id: 25,
+};
 
 export const UI_COLUMN = {
   ADDED: UI_COLUMN_ADDED,
@@ -215,121 +296,133 @@ export const UI_COLUMN = {
   TRACKERS: UI_COLUMN_TRACKERS,
   UPLOAD_SPEED: UI_COLUMN_UPLOAD_SPEED,
   UPLOADED: UI_COLUMN_UPLOADED,
+  TOTAL_LEECHERS: UI_COLUMN_TOTAL_LEECHERS,
+  TOTAL_SEEDERS: UI_COLUMN_TOTAL_SEEDERS,
 };
 
 export const DEFAULT_COLUMNS = [
   {
-    name: UI_COLUMN.NAME,
+    id: UI_COLUMN.NAME.id,
     enabled: true,
     width: 600,
   },
   {
-    name: UI_COLUMN.PERCENT_COMPLETE,
+    id: UI_COLUMN.PERCENT_COMPLETE.id,
     enabled: true,
     width: 300,
   },
   {
-    name: UI_COLUMN.ETA,
+    id: UI_COLUMN.ETA.id,
     enabled: true,
     width: 100,
   },
   {
-    name: UI_COLUMN.DOWNLOAD_SPEED,
+    id: UI_COLUMN.DOWNLOAD_SPEED.id,
     enabled: true,
     width: 100,
   },
   {
-    name: UI_COLUMN.UPLOAD_SPEED,
+    id: UI_COLUMN.UPLOAD_SPEED.id,
     enabled: true,
     width: 100,
   },
   {
-    name: UI_COLUMN.FILE_SIZE,
+    id: UI_COLUMN.FILE_SIZE.id,
     enabled: true,
     width: 100,
   },
   {
-    name: UI_COLUMN.DOWNLOADED,
+    id: UI_COLUMN.DOWNLOADED.id,
     enabled: true,
     width: 100,
   },
   {
-    name: UI_COLUMN.UPLOADED,
+    id: UI_COLUMN.UPLOADED.id,
     enabled: true,
     width: 100,
   },
   {
-    name: UI_COLUMN.PEERS,
+    id: UI_COLUMN.PEERS.id,
     enabled: true,
     width: 100,
   },
   {
-    name: UI_COLUMN.SEEDS,
+    id: UI_COLUMN.SEEDS.id,
     enabled: true,
     width: 100,
   },
   {
-    name: UI_COLUMN.ADDED,
+    id: UI_COLUMN.ADDED.id,
     enabled: false,
     width: 100,
   },
   {
-    name: UI_COLUMN.BASE_PATH,
+    id: UI_COLUMN.BASE_PATH.id,
     enabled: false,
     width: 100,
   },
   {
-    name: UI_COLUMN.COMMENT,
+    id: UI_COLUMN.COMMENT.id,
     enabled: false,
     width: 100,
   },
   {
-    name: UI_COLUMN.CREATION_DATE,
+    id: UI_COLUMN.CREATION_DATE.id,
     enabled: false,
     width: 100,
   },
   {
-    name: UI_COLUMN.HASH,
+    id: UI_COLUMN.HASH.id,
     enabled: false,
     width: 100,
   },
   {
-    name: UI_COLUMN.PRIVATE,
+    id: UI_COLUMN.PRIVATE.id,
     enabled: false,
     width: 100,
   },
   {
-    name: UI_COLUMN.LABELS,
+    id: UI_COLUMN.LABELS.id,
     enabled: false,
     width: 100,
   },
   {
-    name: UI_COLUMN.ERROR,
+    id: UI_COLUMN.ERROR.id,
     enabled: false,
     width: 100,
   },
   {
-    name: UI_COLUMN.TRACKERS,
+    id: UI_COLUMN.TRACKERS.id,
     enabled: false,
     width: 100,
   },
   {
-    name: UI_COLUMN.RATIO,
+    id: UI_COLUMN.RATIO.id,
     enabled: false,
     width: 100,
   },
   {
-    name: UI_COLUMN.DONE,
+    id: UI_COLUMN.DONE.id,
     enabled: false,
     width: 100,
   },
   {
-    name: UI_COLUMN.STATUS,
+    id: UI_COLUMN.STATUS.id,
     enabled: false,
     width: 100,
   },
   {
-    name: UI_COLUMN.QUEUE_POSITION,
+    id: UI_COLUMN.QUEUE_POSITION.id,
+    enabled: false,
+    width: 100,
+  },
+  {
+    id: UI_COLUMN.TOTAL_LEECHERS.id,
+    enabled: false,
+    width: 100,
+  },
+  {
+    id: UI_COLUMN.TOTAL_SEEDERS.id,
     enabled: false,
     width: 100,
   },
@@ -348,40 +441,43 @@ export const TRANSMISSION_BASE_COLUMNS = [
   TRANSMISSION_COLUMN.UPLOAD_RATE,
   TRANSMISSION_COLUMN.MAGNET_LINK,
 ];
+
 // Order in value is important for sorting order, first item will be considered more important when sorting on the related UI column
 export const COLUMN_MAP = {
-  [UI_COLUMN.ADDED]: [TRANSMISSION_COLUMN.ADDED],
-  [UI_COLUMN.BASE_PATH]: [TRANSMISSION_COLUMN.DOWNLOAD_DIR],
-  [UI_COLUMN.COMMENT]: [TRANSMISSION_COLUMN.COMMENT],
-  [UI_COLUMN.CREATION_DATE]: [TRANSMISSION_COLUMN.CREATED],
-  [UI_COLUMN.DONE]: [TRANSMISSION_COLUMN.DONE],
-  [UI_COLUMN.DOWNLOAD_SPEED]: [TRANSMISSION_COLUMN.DOWNLOAD_RATE],
-  [UI_COLUMN.DOWNLOADED]: [TRANSMISSION_COLUMN.DOWNLOADED],
-  [UI_COLUMN.ETA]: [TRANSMISSION_COLUMN.ETA],
-  [UI_COLUMN.FILE_SIZE]: [TRANSMISSION_COLUMN.SIZE],
-  [UI_COLUMN.HASH]: [TRANSMISSION_COLUMN.HASH],
-  [UI_COLUMN.NAME]: [TRANSMISSION_COLUMN.NAME],
-  [UI_COLUMN.PEERS]: [
+  [UI_COLUMN.ADDED.id]: [TRANSMISSION_COLUMN.ADDED],
+  [UI_COLUMN.BASE_PATH.id]: [TRANSMISSION_COLUMN.DOWNLOAD_DIR],
+  [UI_COLUMN.COMMENT.id]: [TRANSMISSION_COLUMN.COMMENT],
+  [UI_COLUMN.CREATION_DATE.id]: [TRANSMISSION_COLUMN.CREATED],
+  [UI_COLUMN.DONE.id]: [TRANSMISSION_COLUMN.DONE],
+  [UI_COLUMN.DOWNLOAD_SPEED.id]: [TRANSMISSION_COLUMN.DOWNLOAD_RATE],
+  [UI_COLUMN.DOWNLOADED.id]: [TRANSMISSION_COLUMN.DOWNLOADED],
+  [UI_COLUMN.ETA.id]: [TRANSMISSION_COLUMN.ETA],
+  [UI_COLUMN.FILE_SIZE.id]: [TRANSMISSION_COLUMN.SIZE],
+  [UI_COLUMN.HASH.id]: [TRANSMISSION_COLUMN.HASH],
+  [UI_COLUMN.NAME.id]: [TRANSMISSION_COLUMN.NAME],
+  [UI_COLUMN.PEERS.id]: [
     TRANSMISSION_COLUMN.DOWNLOADING_FROM,
     TRANSMISSION_COLUMN.PEERS_CONNECTED,
   ],
-  [UI_COLUMN.PERCENT_COMPLETE]: [
+  [UI_COLUMN.PERCENT_COMPLETE.id]: [
     TRANSMISSION_COLUMN.DOWNLOAD_PROGRESS,
     TRANSMISSION_COLUMN.METADATA_PROGRESS,
     TRANSMISSION_COLUMN.RECHECK_PROGRESS,
     TRANSMISSION_COLUMN.STATUS,
   ],
-  [UI_COLUMN.PRIVATE]: [TRANSMISSION_COLUMN.PRIVATE],
-  [UI_COLUMN.QUEUE_POSITION]: [TRANSMISSION_COLUMN.QUEUE_POSITION],
-  [UI_COLUMN.RATIO]: [TRANSMISSION_COLUMN.RATIO],
-  [UI_COLUMN.SEEDS]: [
+  [UI_COLUMN.PRIVATE.id]: [TRANSMISSION_COLUMN.PRIVATE],
+  [UI_COLUMN.QUEUE_POSITION.id]: [TRANSMISSION_COLUMN.QUEUE_POSITION],
+  [UI_COLUMN.RATIO.id]: [TRANSMISSION_COLUMN.RATIO],
+  [UI_COLUMN.SEEDS.id]: [
     TRANSMISSION_COLUMN.SEEDING_TO,
     TRANSMISSION_COLUMN.PEERS_CONNECTED,
   ],
-  [UI_COLUMN.STATUS]: [TRANSMISSION_COLUMN.STATUS],
-  [UI_COLUMN.LABELS]: [TRANSMISSION_COLUMN.LABELS],
-  [UI_COLUMN.ERROR]: [TRANSMISSION_COLUMN.ERROR_STRING],
-  [UI_COLUMN.TRACKERS]: [TRANSMISSION_COLUMN.TRACKERS],
-  [UI_COLUMN.UPLOAD_SPEED]: [TRANSMISSION_COLUMN.UPLOAD_RATE],
-  [UI_COLUMN.UPLOADED]: [TRANSMISSION_COLUMN.UPLOADED],
+  [UI_COLUMN.STATUS.id]: [TRANSMISSION_COLUMN.STATUS],
+  [UI_COLUMN.LABELS.id]: [TRANSMISSION_COLUMN.LABELS],
+  [UI_COLUMN.ERROR.id]: [TRANSMISSION_COLUMN.ERROR_STRING],
+  [UI_COLUMN.TRACKERS.id]: [TRANSMISSION_COLUMN.TRACKERS],
+  [UI_COLUMN.UPLOAD_SPEED.id]: [TRANSMISSION_COLUMN.UPLOAD_RATE],
+  [UI_COLUMN.UPLOADED.id]: [TRANSMISSION_COLUMN.UPLOADED],
+  [UI_COLUMN.TOTAL_LEECHERS.id]: [TRANSMISSION_COLUMN.TRACKER_STATS],
+  [UI_COLUMN.TOTAL_SEEDERS.id]: [TRANSMISSION_COLUMN.TRACKER_STATS],
 };

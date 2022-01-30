@@ -21,7 +21,13 @@ export default function orderable(item, handleDrop) {
 
   const onDrop = (event) => {
     event.preventDefault();
-    const data = Array.from(list.childNodes).map((node) => node.id);
+    const data = Array.from(list.childNodes).map((node) => {
+      if (isNaN(node.id)) {
+        return node.id;
+      }
+
+      return parseInt(node.id, 10);
+    });
     handleDrop(data);
     draggingElement.style = 'opacity: 1';
   };

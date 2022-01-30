@@ -33,14 +33,17 @@ function getColumnId(name) {
 
 function migrateStoredColumns(storedColumns) {
   const storedColumnsClone = JSON.parse(JSON.stringify(storedColumns));
+  let invalid = false;
 
   // Migrate stored columns by name to stored columns by id
   const storedColumnsWithId = storedColumnsClone.map((storedColumn) => {
     if (storedColumn.id) return storedColumn;
 
     const columnId = getColumnId(storedColumn.name);
-    // TODO: this would cause weird issues if it happens (shouldn't)
-    if (!columnId) return storedColumn;
+    if (!columnId) {
+      invalid = true;
+      return storedColumn;
+    }
 
     return {
       id: columnId,
@@ -48,6 +51,8 @@ function migrateStoredColumns(storedColumns) {
       width: storedColumn.width,
     };
   });
+
+  if (invalid) return DEFAULT_COLUMNS;
 
   // Find all the columns that are still supported, remove any ones that have been removed
   const cleanedStoredColumns = storedColumnsWithId.filter(({ id }) =>

@@ -6,8 +6,6 @@ Flood for Transmission is an alternative Web UI for [Transmission](https://trans
 
 Flood for Transmission is a clone of [Flood](https://github.com/Flood-UI/flood), which is originally build for rTorrent. All design and feature credit goes out to the creators of that. The code however is not a copy at all, it's been build from the ground up to make it work with Transmission.
 
-Curious what it looks like? Do check out the [screenshots](screenshots#readme)
-
 #### Feedback
 
 If you have a specific issue or bug, please file a [Github issue](https://github.com/johman10/flood-for-transmission/issues/new). Also feel free to bring up feature requests that way.
@@ -21,6 +19,12 @@ How this project is different from jesec's version:
 1. This project does not require any running process, which makes it super lightweight.
 1. It's dedicated to support Transmission as good as possible.
 1. It uses the recommended way from Transmission to load the UI, by setting an environment variable.
+
+#### Screenshots
+
+Curious what it looks like? Do check out the [screenshots folder](screenshots#readme) but here is also a small sneak peak:
+
+![Main](screenshots/Main.png)
 
 # Getting started
 
@@ -64,13 +68,13 @@ To update follow the following steps (feel free to write a cron job script for t
 1. Run `npm install`.
 1. Copy `.env.template` to `.env` and edit the values to represent your Transmission configuration.
 1. Run `npm start`.
-1. Access the UI in your browser. Defaults to `localhost:5000`.
+1. Access the UI in your browser. Defaults to `localhost:8080`.
 
 If you're running Transmission on a different machine behind Nginx or similar you may have to allow for CORS request. You can do this by adding the code below to your Transmission location block.
 
 ```
 if ($request_method = 'OPTIONS') {
-    add_header 'Access-Control-Allow-Origin' 'http://localhost:5000';
+    add_header 'Access-Control-Allow-Origin' 'http://localhost:8080';
     add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
     #
     # Custom headers and headers various browsers *should* be OK with but aren't
@@ -85,7 +89,7 @@ if ($request_method = 'OPTIONS') {
     return 204;
 }
 if ($request_method = 'POST') {
-    add_header 'Access-Control-Allow-Origin' 'http://localhost:5000' always;
+    add_header 'Access-Control-Allow-Origin' 'http://localhost:8080' always;
     add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS';
     add_header 'Access-Control-Allow-Headers' 'Authorization,X-Transmission-Session-Id,DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range';
     add_header 'Access-Control-Expose-Headers' 'Content-Length,Content-Range,X-Transmission-Session-Id' always;

@@ -233,6 +233,10 @@
         return { value };
       },
     },
+    [UI_COLUMN.ACTIVITY.id]: {
+      component: DateRenderer,
+      props: () => ({ value: torrent[TRANSMISSION_COLUMN.ACTIVITY_DATE] }),
+    },
   };
 </script>
 

@@ -51,7 +51,6 @@ function migrateStoredColumns(storedColumns) {
       width: storedColumn.width,
     };
   });
-
   if (invalid) return DEFAULT_COLUMNS;
 
   // Find all the columns that are still supported, remove any ones that have been removed
@@ -67,6 +66,7 @@ function migrateStoredColumns(storedColumns) {
 
   const newColumns = [...cleanedStoredColumns, ...missingColumns];
   storeColumns(newColumns);
+  console.log(newColumns);
   return newColumns;
 }
 

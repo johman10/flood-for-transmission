@@ -4,16 +4,18 @@
   import Input from '~components/Input';
   import Icon from '~components/Icon';
   import Button from '~components/Button';
+  import Select from '~components/Select';
   import { session, modals, alerts } from '~helpers/stores';
   import {
-    SESSION_COLUMN_PEER_LIMIT_PER_TORRENT,
-    SESSION_COLUMN_PEER_LIMIT_GLOBAL,
-    SESSION_COLUMN_PEX_ENABLED,
-    SESSION_COLUMN_DHT_ENABLED,
-    SESSION_COLUMN_LPD_ENABLED,
-    SESSION_COLUMN_BLOCKLIST_URL,
     SESSION_COLUMN_BLOCKLIST_ENABLED,
     SESSION_COLUMN_BLOCKLIST_SIZE,
+    SESSION_COLUMN_BLOCKLIST_URL,
+    SESSION_COLUMN_DHT_ENABLED,
+    SESSION_COLUMN_ENCRYPTION,
+    SESSION_COLUMN_LPD_ENABLED,
+    SESSION_COLUMN_PEER_LIMIT_GLOBAL,
+    SESSION_COLUMN_PEER_LIMIT_PER_TORRENT,
+    SESSION_COLUMN_PEX_ENABLED,
   } from '~helpers/constants/columns';
 
   let loadingInitial = true;
@@ -28,19 +30,26 @@
   let blocklistUrl = null;
   let blocklistEnabled = null;
   let blocklistSize = 0;
+  let encryption = null;
 
   const numberFormatter = new Intl.NumberFormat();
+  const encryptionOptions = [
+    { label: 'Required', value: 'required' },
+    { label: 'Preferred', value: 'preferred' },
+    { label: 'Tolerated', value: 'tolerated' },
+  ];
 
   session
     .addColumns([
-      SESSION_COLUMN_PEER_LIMIT_PER_TORRENT,
-      SESSION_COLUMN_PEER_LIMIT_GLOBAL,
-      SESSION_COLUMN_PEX_ENABLED,
-      SESSION_COLUMN_DHT_ENABLED,
-      SESSION_COLUMN_LPD_ENABLED,
-      SESSION_COLUMN_BLOCKLIST_URL,
       SESSION_COLUMN_BLOCKLIST_ENABLED,
       SESSION_COLUMN_BLOCKLIST_SIZE,
+      SESSION_COLUMN_BLOCKLIST_URL,
+      SESSION_COLUMN_DHT_ENABLED,
+      SESSION_COLUMN_ENCRYPTION,
+      SESSION_COLUMN_LPD_ENABLED,
+      SESSION_COLUMN_PEER_LIMIT_GLOBAL,
+      SESSION_COLUMN_PEER_LIMIT_PER_TORRENT,
+      SESSION_COLUMN_PEX_ENABLED,
     ])
     .then(($session) => {
       maxPeersPerTorrent = $session[SESSION_COLUMN_PEER_LIMIT_PER_TORRENT];
@@ -51,6 +60,7 @@
       blocklistUrl = $session[SESSION_COLUMN_BLOCKLIST_URL];
       blocklistEnabled = $session[SESSION_COLUMN_BLOCKLIST_ENABLED];
       blocklistSize = $session[SESSION_COLUMN_BLOCKLIST_SIZE];
+      encryption = $session[SESSION_COLUMN_ENCRYPTION];
       loadingInitial = false;
     })
     .catch(() => {
@@ -95,6 +105,7 @@
         'lpd-enabled': lpdEnabled,
         'blocklist-url': blocklistUrl,
         'blocklist-enabled': blocklistEnabled,
+        'encryption': encryption,
       })
       .then(() => {
         alerts.add('Succesfully saved peers settings');
@@ -130,6 +141,15 @@
     <Checkbox bind:checked="{pexEnabled}" label="Use PEX to find more peers" />
     <Checkbox bind:checked="{dhtEnabled}" label="Use DHT to find more peers" />
     <Checkbox bind:checked="{lpdEnabled}" label="Use LPD to find more peers" />
+
+    <Header text="Privacy" />
+    <Select
+      options="{encryptionOptions}"
+      on:change="{(event) => (encryption = event.detail)}"
+      value="{encryption}"
+      direction="below"
+      label="Encryption"
+    />
 
     <Header text="Blocklist" />
     <Checkbox bind:checked="{blocklistEnabled}" label="Enable blocklist" />
@@ -196,7 +216,8 @@
     color: var(--color-modal-text);
   }
 
-  form :global(.checkbox) {
+  form :global(.checkbox),
+  form :global(.select) {
     margin-bottom: 15px;
   }
 

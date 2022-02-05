@@ -11,12 +11,14 @@
     paths,
     darkMode,
     switchSpeedColors,
+    timeConfig,
   } from '~helpers/stores';
   import { orderable } from '~helpers/actions';
 
   const newColumns = JSON.parse(JSON.stringify($uiColumns));
   let newPaths = [...$paths];
   let newSwitchSpeedColors = $switchSpeedColors;
+  let newTimeConfig = $timeConfig;
   const configuredDarkMode = darkMode.configuredValue;
   let newDarkMode = $configuredDarkMode;
 
@@ -31,9 +33,11 @@
       uiColumns.set(newColumns);
       paths.set(newPaths);
       switchSpeedColors.set(newSwitchSpeedColors);
+      timeConfig.set(newTimeConfig);
       darkMode.set(newDarkMode);
       alerts.add('Succesfully saved user interface settings');
     } catch (e) {
+      console.error(e);
       alerts.add(
         'Failed saving user interface settings, please try again',
         'negative'
@@ -63,6 +67,14 @@
       label="Switch speed colors"
       hint="This will switch the upload and download colors. Originally green for download and blue for upload."
       bind:checked="{newSwitchSpeedColors}"
+    />
+  </div>
+
+  <div class="list">
+    <Checkbox
+      label="24-hour notation"
+      hint="Will represent time with 24 hours if enabled and 12 hours if disabled"
+      bind:checked="{newTimeConfig}"
     />
   </div>
 

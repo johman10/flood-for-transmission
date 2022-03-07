@@ -25,7 +25,7 @@
     "eslint-plugin-svelte3": "^3.4.0",
     "prettier": "^2.5.1",
     "prettier-plugin-svelte": "^2.6.0",
-    "rollup": "^2.67.0",
+    "rollup": "^2.69.2",
     "rollup-plugin-css-only": "^3.1.0",
     "rollup-plugin-livereload": "^2.0.5",
     "rollup-plugin-svelte": "^7.1.0",

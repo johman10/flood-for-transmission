@@ -76,7 +76,7 @@
       component: TextRenderer,
       props: () => ({ value: torrent[TRANSMISSION_COLUMN.NAME], size: 'big' }),
     },
-    [UI_COLUMN.PERCENT_COMPLETE.id]: {
+    [UI_COLUMN.PROGRESS_BAR.id]: {
       component: ProgressRenderer,
       props: () => ({
         value: torrent[TRANSMISSION_COLUMN.DOWNLOAD_PROGRESS],
@@ -236,6 +236,28 @@
     [UI_COLUMN.ACTIVITY.id]: {
       component: DateRenderer,
       props: () => ({ value: torrent[TRANSMISSION_COLUMN.ACTIVITY_DATE] }),
+    },
+    [UI_COLUMN.PERCENT_COMPLETE.id]: {
+      component: TextRenderer,
+      props: () => {
+        let number = torrent[TRANSMISSION_COLUMN.DOWNLOAD_PROGRESS];
+
+        if (
+          torrent[TRANSMISSION_COLUMN.RECHECK_PROGRESS] > 0 &&
+          torrent[TRANSMISSION_COLUMN.RECHECK_PROGRESS] < 1
+        ) {
+          number = torrent[TRANSMISSION_COLUMN.RECHECK_PROGRESS];
+        }
+
+        if (
+          torrent[TRANSMISSION_COLUMN.METADATA_PROGRESS] > 0 &&
+          torrent[TRANSMISSION_COLUMN.METADATA_PROGRESS] < 1
+        ) {
+          number = torrent[TRANSMISSION_COLUMN.METADATA_PROGRESS];
+        }
+
+        return { value: `${Math.round(number * 10_000) / 100}%` };
+      },
     },
   };
 </script>

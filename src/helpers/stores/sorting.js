@@ -1,10 +1,10 @@
 import { writable } from 'svelte/store';
-import { UI_COLUMN_PERCENT_COMPLETE } from '~helpers/constants/columns';
+import { UI_COLUMN_PROGRESS_BAR } from '~helpers/constants/columns';
 import { uiColumns } from '~helpers/stores';
 
 const SORTING_STORAGE_KEY = 'torrent-sorting';
 const DEFAULT_SORTING = {
-  id: UI_COLUMN_PERCENT_COMPLETE.id,
+  id: UI_COLUMN_PROGRESS_BAR.id,
   direction: 'desc',
 };
 

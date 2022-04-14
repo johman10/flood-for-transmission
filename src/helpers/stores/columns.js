@@ -66,7 +66,6 @@ function migrateStoredColumns(storedColumns) {
 
   const newColumns = [...cleanedStoredColumns, ...missingColumns];
   storeColumns(newColumns);
-  console.log(newColumns);
   return newColumns;
 }
 

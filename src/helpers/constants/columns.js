@@ -230,8 +230,8 @@ export const UI_COLUMN_PEERS = {
   oldLabels: ['Peers'],
   id: 14,
 };
-export const UI_COLUMN_PERCENT_COMPLETE = {
-  label: 'Percent Complete',
+export const UI_COLUMN_PROGRESS_BAR = {
+  label: 'Progress',
   id: 15,
 };
 export const UI_COLUMN_PRIVATE = {
@@ -279,6 +279,10 @@ export const UI_COLUMN_ACTIVITY = {
   label: 'Activity',
   id: 26,
 };
+export const UI_COLUMN_PERCENT_COMPLETE = {
+  label: 'Percent Complete',
+  id: 27,
+};
 
 export const UI_COLUMN = {
   ACTIVITY: UI_COLUMN_ACTIVITY,
@@ -297,6 +301,7 @@ export const UI_COLUMN = {
   NAME: UI_COLUMN_NAME,
   PEERS: UI_COLUMN_PEERS,
   PERCENT_COMPLETE: UI_COLUMN_PERCENT_COMPLETE,
+  PROGRESS_BAR: UI_COLUMN_PROGRESS_BAR,
   PRIVATE: UI_COLUMN_PRIVATE,
   QUEUE_POSITION: UI_COLUMN_QUEUE_POSITION,
   RATIO: UI_COLUMN_RATIO,
@@ -316,7 +321,7 @@ export const DEFAULT_COLUMNS = [
     width: 600,
   },
   {
-    id: UI_COLUMN.PERCENT_COMPLETE.id,
+    id: UI_COLUMN.PROGRESS_BAR.id,
     enabled: true,
     width: 300,
   },
@@ -440,6 +445,11 @@ export const DEFAULT_COLUMNS = [
     enabled: false,
     width: 100,
   },
+  {
+    id: UI_COLUMN.PERCENT_COMPLETE.id,
+    enabled: false,
+    width: 100,
+  },
 ];
 export const TRANSMISSION_BASE_COLUMNS = [
   TRANSMISSION_COLUMN.DOWNLOAD_PROGRESS,
@@ -495,4 +505,9 @@ export const COLUMN_MAP = {
   [UI_COLUMN.TRACKERS.id]: [TRANSMISSION_COLUMN.TRACKERS],
   [UI_COLUMN.UPLOAD_SPEED.id]: [TRANSMISSION_COLUMN.UPLOAD_RATE],
   [UI_COLUMN.UPLOADED.id]: [TRANSMISSION_COLUMN.UPLOADED],
+  [UI_COLUMN.PROGRESS_BAR.id]: [
+    TRANSMISSION_COLUMN.DOWNLOAD_PROGRESS,
+    TRANSMISSION_COLUMN.METADATA_PROGRESS,
+    TRANSMISSION_COLUMN.RECHECK_PROGRESS,
+  ],
 };

@@ -32,6 +32,7 @@
         type="text"
         bind:this="{input}"
         on:invalid="{handleInvalid}"
+        on:input
         on:input="{(e) => e.target.setCustomValidity('')}"
         bind:value
         {...$$restProps}
@@ -43,6 +44,7 @@
         type="number"
         bind:this="{input}"
         on:invalid="{handleInvalid}"
+        on:input
         on:input="{(e) => e.target.setCustomValidity('')}"
         bind:value
         {...$$restProps}
@@ -54,6 +56,7 @@
         type="time"
         bind:this="{input}"
         on:invalid="{handleInvalid}"
+        on:input
         on:input="{(e) => e.target.setCustomValidity('')}"
         bind:value
         {...$$restProps}
@@ -65,6 +68,7 @@
         type="url"
         bind:this="{input}"
         on:invalid="{handleInvalid}"
+        on:input
         on:input="{(e) => e.target.setCustomValidity('')}"
         bind:value
         {...$$restProps}

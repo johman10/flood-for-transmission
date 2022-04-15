@@ -11,6 +11,12 @@ export default function resizeableTable(handle, onChange) {
     handleStartX = e.pageX ?? e.touches[0].pageX;
     columnStartWidth = column.getBoundingClientRect().width;
     tableStartWidth = table.getBoundingClientRect().width;
+
+    document.addEventListener('mousemove', handleMousemove);
+    document.addEventListener('mouseup', handleMouseup);
+
+    document.addEventListener('touchend', handleMouseup);
+    document.addEventListener('touchmove', handleMousemove);
   };
 
   const handleMouseup = () => {
@@ -20,6 +26,12 @@ export default function resizeableTable(handle, onChange) {
     onChange(columnWidth);
 
     dragging = false;
+
+    document.removeEventListener('mousemove', handleMousemove);
+    document.removeEventListener('mouseup', handleMouseup);
+
+    document.removeEventListener('touchend', handleMouseup);
+    document.removeEventListener('touchmove', handleMousemove);
   };
 
   const handleMousemove = (e) => {
@@ -32,12 +44,7 @@ export default function resizeableTable(handle, onChange) {
   };
 
   handle.addEventListener('mousedown', handleMousedown);
-  document.addEventListener('mouseup', handleMouseup);
-  document.addEventListener('mousemove', handleMousemove);
-
   handle.addEventListener('touchstart', handleMousedown);
-  document.addEventListener('touchend', handleMouseup);
-  document.addEventListener('touchmove', handleMousemove);
 
   return {
     destroy() {

@@ -43,6 +43,11 @@ export function generateTorrentStatusClass(torrent, selected = false) {
   let progressClass = '';
   let statusClass = '';
   let selectedClass = '';
+  let visibleClass = '';
+
+  // if (!torrent.visible) {
+  //   visibleClass = 'hidden';
+  // }
 
   if (torrent[TRANSMISSION_COLUMN_DOWNLOAD_PROGRESS] === 1) {
     progressClass = 'completed';
@@ -68,5 +73,7 @@ export function generateTorrentStatusClass(torrent, selected = false) {
     selectedClass = 'selected';
   }
 
-  return [progressClass, statusClass, selectedClass].filter(Boolean).join(' ');
+  return [progressClass, statusClass, selectedClass, visibleClass]
+    .filter(Boolean)
+    .join(' ');
 }

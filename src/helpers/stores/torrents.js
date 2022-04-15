@@ -171,7 +171,99 @@ function getAllTorrents() {
   transmission
     .getTorrents(undefined, get(transmissionColumns))
     .then((value) => {
-      store.set(value);
+      const abc = [
+        ...value,
+        ...value.map((x) => ({
+          ...x,
+          id: x.id + value.length * (1 + 1),
+        })),
+        ...value.map((x) => ({
+          ...x,
+          id: x.id + value.length * (2 + 2),
+        })),
+        ...value.map((x) => ({
+          ...x,
+          id: x.id + value.length * (3 + 3),
+        })),
+        ...value.map((x) => ({
+          ...x,
+          id: x.id + value.length * (4 + 4),
+        })),
+        ...value.map((x) => ({
+          ...x,
+          id: x.id + value.length * (5 + 5),
+        })),
+        ...value.map((x) => ({
+          ...x,
+          id: x.id + value.length * (6 + 6),
+        })),
+        ...value.map((x) => ({
+          ...x,
+          id: x.id + value.length * (7 + 7),
+        })),
+        ...value.map((x) => ({
+          ...x,
+          id: x.id + value.length * (8 + 8),
+        })),
+        ...value.map((x) => ({
+          ...x,
+          id: x.id + value.length * (9 + 9),
+        })),
+        ...value.map((x) => ({
+          ...x,
+          id: x.id + value.length * (10 + 10),
+        })),
+        ...value.map((x) => ({
+          ...x,
+          id: x.id + value.length * (11 + 11),
+        })),
+        ...value.map((x) => ({
+          ...x,
+          id: x.id + value.length * (12 + 12),
+        })),
+        ...value.map((x) => ({
+          ...x,
+          id: x.id + value.length * (13 + 13),
+        })),
+        ...value.map((x) => ({
+          ...x,
+          id: x.id + value.length * (14 + 14),
+        })),
+        ...value.map((x) => ({
+          ...x,
+          id: x.id + value.length * (15 + 15),
+        })),
+        ...value.map((x) => ({
+          ...x,
+          id: x.id + value.length * (16 + 16),
+        })),
+        ...value.map((x) => ({
+          ...x,
+          id: x.id + value.length * (17 + 17),
+        })),
+        ...value.map((x) => ({
+          ...x,
+          id: x.id + value.length * (18 + 18),
+        })),
+        ...value.map((x) => ({
+          ...x,
+          id: x.id + value.length * (19 + 19),
+        })),
+        ...value.map((x) => ({
+          ...x,
+          id: x.id + value.length * (20 + 20),
+        })),
+        ...value.map((x) => ({
+          ...x,
+          id: x.id + value.length * (21 + 21),
+        })),
+        ...value.map((x) => ({
+          ...x,
+          id: x.id + value.length * (22 + 22),
+        })),
+      ];
+      // console.log(abc.map((x) => x.id).sort((a, b) => a - b));
+      store.set(abc);
       updateTorrentTimeout = setTimeout(
         getRecentlyActiveTorrents,
         TORRENT_FETCHING_TIMEOUT

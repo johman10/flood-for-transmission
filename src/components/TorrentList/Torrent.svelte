@@ -306,6 +306,10 @@
     background-color: var(--color-torrent-background-selected-error);
   }
 
+  tr.hidden {
+    display: none;
+  }
+
   td {
     padding: 0 10px;
     overflow: hidden;

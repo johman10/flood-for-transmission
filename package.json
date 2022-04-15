@@ -23,7 +23,7 @@
     "dotenv": "^16.0.0",
     "eslint": "^8.13.0",
     "eslint-plugin-svelte3": "^3.4.1",
-    "prettier": "^2.5.1",
+    "prettier": "^2.6.2",
     "prettier-plugin-svelte": "^2.7.0",
     "rollup": "^2.70.2",
     "rollup-plugin-css-only": "^3.1.0",

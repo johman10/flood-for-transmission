@@ -309,6 +309,10 @@ function createTorrentsStore() {
     remove: (ids, deleteLocalData) =>
       transmission.removeTorrents({ ids, deleteLocalData }),
     add: (data) => transmission.addTorrent(data),
+    queueMoveTop: (ids) => transmission.queueMoveTop(ids),
+    queueMoveUp: (ids) => transmission.queueMoveUp(ids),
+    queueMoveDown: (ids) => transmission.queueMoveDown(ids),
+    queueMoveBottom: (ids) => transmission.queueMoveBottom(ids),
   };
 }
 export const torrents = createTorrentsStore();

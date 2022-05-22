@@ -111,6 +111,10 @@
         onLabels: modals.open.bind(this, { component: Labels }),
         onLocation: modals.open.bind(this, { component: Location }),
         onPrio: changePrio,
+        onQueueTop: torrents.queueMoveTop.bind(this, $selectedTorrents),
+        onQueueUp: torrents.queueMoveUp.bind(this, $selectedTorrents),
+        onQueueDown: torrents.queueMoveDown.bind(this, $selectedTorrents),
+        onQueueBottom: torrents.queueMoveBottom.bind(this, $selectedTorrents),
       },
     });
   };

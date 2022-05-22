@@ -13,6 +13,10 @@
   export let onLabels;
   export let onLocation;
   export let onPrio;
+  export let onQueueTop;
+  export let onQueueUp;
+  export let onQueueDown;
+  export let onQueueBottom;
 
   let priorityIndicator;
 
@@ -31,6 +35,19 @@
 </li>
 <li on:click="{(...args) => onItemClick(onAsk, args)}">
   Ask tracker for more peers
+</li>
+<hr />
+<li on:click="{(...args) => onItemClick(onQueueTop, args)}">
+  Move to top of the queue
+</li>
+<li on:click="{(...args) => onItemClick(onQueueUp, args)}">
+  Move up in the queue
+</li>
+<li on:click="{(...args) => onItemClick(onQueueDown, args)}">
+  Move down in the queue
+</li>
+<li on:click="{(...args) => onItemClick(onQueueBottom, args)}">
+  Move to bottom of the queue
 </li>
 <hr />
 <li on:click="{(...args) => onItemClick(onLabels, args)}">Set labels</li>

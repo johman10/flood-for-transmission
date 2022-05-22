@@ -168,4 +168,40 @@ export default class Transmission {
       'delete-local-data': deleteLocalData,
     });
   }
+
+  queueMoveTop(ids) {
+    if (!ids || !ids.length) {
+      throw new Error('At least one id is required.');
+    }
+    return this.rpcCall('queue-move-top', {
+      ids,
+    });
+  }
+
+  queueMoveUp(ids) {
+    if (!ids || !ids.length) {
+      throw new Error('At least one id is required.');
+    }
+    return this.rpcCall('queue-move-up', {
+      ids,
+    });
+  }
+
+  queueMoveDown(ids) {
+    if (!ids || !ids.length) {
+      throw new Error('At least one id is required.');
+    }
+    return this.rpcCall('queue-move-down', {
+      ids,
+    });
+  }
+
+  queueMoveBottom(ids) {
+    if (!ids || !ids.length) {
+      throw new Error('At least one id is required.');
+    }
+    return this.rpcCall('queue-move-bottom', {
+      ids,
+    });
+  }
 }

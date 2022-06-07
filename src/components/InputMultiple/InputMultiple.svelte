@@ -8,6 +8,7 @@
   $: {
     if (!values.length) {
       values = [''];
+      forceFocus('input-multiple-0');
     }
   }
 
@@ -35,12 +36,31 @@
     const clonedValues = [...values];
     clonedValues.splice(index + 1, 0, '');
     values = clonedValues;
+    forceFocus('input-multiple-' + (index + 1));
   }
 
   function removeItem(index) {
     const clonedValues = [...values];
     clonedValues.splice(index, 1);
     values = clonedValues;
+    forceFocus('input-multiple-' + (index - 1));
+  }
+
+  var activeInterval;
+
+  function forceFocus(targetString) {
+    clearInterval(activeInterval);
+    document.activeElement.blur();
+    activeInterval = setInterval(() => {
+      let targetElement = document.getElementById(targetString);
+      if (document.activeElement !== targetElement) {
+        if (targetElement !== null) {
+          targetElement.focus();
+        }
+      } else {
+        clearInterval(activeInterval);
+      }
+    }, 10);
   }
 </script>
 

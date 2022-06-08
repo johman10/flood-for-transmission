@@ -166,6 +166,7 @@
         placeholder="Torrent URL, Magnet Link or hash"
         bind:values="{fileNames}"
         required="{!cleanFileNames.length}"
+        autofocus="true"
       />
     {:else if tab === 'file'}
       <InputFile
@@ -260,7 +261,7 @@
   }
 
   .content.loading-initial form {
-    visibility: hidden;
+    opacity: 0;
   }
 
   .button-group {

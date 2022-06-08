@@ -15,6 +15,7 @@
   export let addons = [];
   export let input = null;
   export let id = `input-text-${num}`;
+  export let autofocus = false;
 
   const handleInvalid = (e) => {
     if (!validationMessage) return;
@@ -34,6 +35,7 @@
         on:invalid="{handleInvalid}"
         on:input="{(e) => e.target.setCustomValidity('')}"
         bind:value
+        autofocus="{autofocus}"
         {...$$restProps}
       />
     {:else if type === 'number'}
@@ -45,6 +47,7 @@
         on:invalid="{handleInvalid}"
         on:input="{(e) => e.target.setCustomValidity('')}"
         bind:value
+        autofocus="{autofocus}"
         {...$$restProps}
       />
     {:else if type === 'time'}
@@ -56,6 +59,7 @@
         on:invalid="{handleInvalid}"
         on:input="{(e) => e.target.setCustomValidity('')}"
         bind:value
+        autofocus="{autofocus}"
         {...$$restProps}
       />
     {:else if type === 'url'}
@@ -67,6 +71,7 @@
         on:invalid="{handleInvalid}"
         on:input="{(e) => e.target.setCustomValidity('')}"
         bind:value
+        autofocus="{autofocus}"
         {...$$restProps}
       />
     {:else}{console.error(`Invalid type received, ${type}`)}{/if}

@@ -260,6 +260,10 @@
     display: inherit;
   }
 
+  .content form {
+    transition: opacity 500ms;
+  }
+
   .content.loading-initial form {
     opacity: 0;
   }

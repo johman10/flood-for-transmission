@@ -4,7 +4,6 @@
   export let values;
   export let type = 'text';
   export let label = null;
-  export let autofocus = false;
 
   $: {
     if (!values.length) {
@@ -56,7 +55,6 @@
       id="input-multiple-{index}"
       type="{type}"
       bind:value
-      autofocus="{autofocus}"
       addons="{getAddons(index)}"
       {...$$restProps}
     />

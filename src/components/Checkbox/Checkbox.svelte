@@ -15,7 +15,7 @@
   const id = `input-checkbox-${num}`;
 </script>
 
-<label for="{id}" tabindex="0" class="checkbox label">
+<label for="{id}" tabindex="0" class="checkbox">
   {#if group && value}
     <input type="checkbox" bind:group value="{value}" id="{id}" on:change />
     <div class="indicator" class:checked="{group.includes(value)}">
@@ -69,21 +69,21 @@
     margin-left: 6px;
   }
 
-  .label:active .indicator > :global(.icon) {
+  .checkbox:active .indicator > :global(.icon) {
     opacity: 0.25;
   }
 
-  .label .indicator.checked > :global(.icon) {
+  .checkbox .indicator.checked > :global(.icon) {
     opacity: 1;
   }
 
-  .label:focus,
-  .label:active {
+  .checkbox:focus,
+  .checkbox:active {
     color: var(--color-checkbox-text-active);
   }
 
-  .label:active .indicator,
-  .label:focus .indicator {
+  .checkbox:active .indicator,
+  .checkbox:focus .indicator {
     background-color: var(--color-checkbox-background-active);
     border-color: var(--color-checkbox-border-active);
     fill: var(--color-checkbox-mark-active);

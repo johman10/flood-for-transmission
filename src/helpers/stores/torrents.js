@@ -33,6 +33,7 @@ import {
   labelFilter,
 } from '~helpers/filterHelper';
 import { trackerStripper } from '~helpers/trackerHelper';
+import { copyToClipboard } from '../copyHelper';
 
 const TORRENT_FETCHING_TIMEOUT = 1000;
 
@@ -295,8 +296,8 @@ function createTorrentsStore() {
       const magnetLinks = selectedTorrents.map(
         (torrent) => torrent[TRANSMISSION_COLUMN_MAGNET_LINK]
       );
-      return navigator.clipboard
-        .writeText(magnetLinks.join(', '))
+
+      return copyToClipboard(magnetLinks.join(', '))
         .then(() => {
           alerts.add('Magnet links copied');
         })

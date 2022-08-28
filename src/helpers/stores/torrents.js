@@ -31,6 +31,7 @@ import {
   statusFilter,
   trackerFilter,
   labelFilter,
+  priorityFilter,
 } from '~helpers/filterHelper';
 import { trackerStripper } from '~helpers/trackerHelper';
 import { copyToClipboard } from '../copyHelper';
@@ -53,7 +54,8 @@ const sorted = derived(
         const status = statusFilter($filters.status, torrent);
         const label = labelFilter($filters.label, torrent);
         const tracker = trackerFilter($filters.tracker, torrent);
-        return search && status && label && tracker;
+        const priority = priorityFilter($filters.priority, torrent);
+        return search && status && label && tracker && priority;
       });
     }
 

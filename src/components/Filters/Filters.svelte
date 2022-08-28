@@ -5,6 +5,7 @@
     labelFilter,
     statusFilter,
     trackerFilter,
+    priorityFilter,
   } from '~helpers/filterHelper';
   import Icon from '~components/Icon';
   import Badge from '~components/Badge';
@@ -64,6 +65,29 @@
       value: 'error',
       iconName: 'ErrorIcon',
       count: $torrents.filter(statusFilter.bind(null, 'error')).length,
+    },
+  ];
+
+  $: priorityFilters = [
+    {
+      label: 'All',
+      value: null,
+      count: $torrents.length,
+    },
+    {
+      label: 'High',
+      value: 1,
+      count: $torrents.filter(priorityFilter.bind(null, 1)).length,
+    },
+    {
+      label: 'Normal',
+      value: 0,
+      count: $torrents.filter(priorityFilter.bind(null, 0)).length,
+    },
+    {
+      label: 'Low',
+      value: -1,
+      count: $torrents.filter(priorityFilter.bind(null, -1)).length,
     },
   ];
 
@@ -138,6 +162,11 @@
     $filters.tracker = filter;
   };
 
+  const setPriorityFilter = (filter) => {
+    selectedTorrents.clear();
+    $filters.priority = filter;
+  };
+
   const getTransitionConfig = (direction, listLength, index) => {
     const duration = 250 / listLength;
     const delayMultiplier = direction === 'in' ? index : listLength - index;
@@ -154,6 +183,19 @@
         on:click="{setStatusFilter.bind(null, filter.value)}"
       >
         <Icon name="{filter.iconName}" />
+        {filter.label}
+        <Badge>{filter.count || 0}</Badge>
+      </li>
+    {/each}
+  </ul>
+
+  <h2>Filter by priority</h2>
+  <ul>
+    {#each priorityFilters as filter}
+      <li
+        class:active="{$filters.priority === filter.value}"
+        on:click="{setPriorityFilter.bind(null, filter.value)}"
+      >
         {filter.label}
         <Badge>{filter.count || 0}</Badge>
       </li>

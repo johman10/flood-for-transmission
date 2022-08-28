@@ -1,6 +1,6 @@
 <script>
   import { resizeableTable } from '~helpers/actions';
-  import { uiColumns, sorting } from '~helpers/stores';
+  import { uiColumns, sorting, tableHeaderConfig } from '~helpers/stores';
 
   export let id;
 
@@ -25,6 +25,7 @@
     class:sorting="{id === $sorting.id}"
     class:asc="{$sorting.id === id && $sorting.direction === 'asc'}"
     class:desc="{$sorting.id === id && $sorting.direction === 'desc'}"
+    class:wrap="{$tableHeaderConfig}"
     style="width: {$columnSizes[id]}px"
     on:click="{handleClick}"
   >
@@ -60,6 +61,10 @@
     color: var(--color-column-header-text-active);
     font-weight: 700;
     padding: 0 16px 0 8px;
+  }
+
+  .header.wrap {
+    white-space: normal;
   }
 
   .header:after {

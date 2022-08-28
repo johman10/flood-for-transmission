@@ -1,7 +1,10 @@
 <script>
   import { scale, fade } from 'svelte/transition';
   import { cubicInOut } from 'svelte/easing';
+  import { captureFocus } from '~helpers/actions';
   import { modals } from '~helpers/stores';
+
+  let introDone = 0;
 
   const handleKeydown = (event) => {
     if (event.keyCode !== 27) return;
@@ -22,6 +25,9 @@
       class="content"
       class:large="{$modals.large}"
       transition:scale="{{ duration: 250, easing: cubicInOut }}"
+      use:captureFocus="{introDone}"
+      on:introend="{() => (introDone += 1)}"
+      on:outroend="{() => (introDone = 0)}"
     >
       <svelte:component this="{$modals.component}" {...$modals.props || {}} />
     </div>

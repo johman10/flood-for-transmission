@@ -166,6 +166,7 @@
         placeholder="Torrent URL, Magnet Link or hash"
         bind:values="{fileNames}"
         required="{!cleanFileNames.length}"
+        autofocus
       />
     {:else if tab === 'file'}
       <InputFile

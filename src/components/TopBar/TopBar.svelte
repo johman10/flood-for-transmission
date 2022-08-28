@@ -15,7 +15,9 @@
     torrents.stop($selectedTorrents);
   };
 
-  const handleAdd = () => {
+  const handleAdd = (event) => {
+    console.log('blur', event.currentTarget);
+    event.currentTarget.blur();
     modals.open({ component: Add });
   };
 

@@ -14,7 +14,7 @@
   // "cache-size-mb"                  | number     | maximum size of the disk cache (MB)
   // "units"                          | object     | see below
 
-  const pages = [
+  $: pages = [
     {
       id: 'torrents',
       component: () =>
@@ -76,14 +76,14 @@
       name: 'About',
     },
   ];
+
+  $: activePage = pages.find((page) => page.id === activePageId);
 </script>
 
 <div class="wrapper">
   <Menu bind:activePageId pages="{pages}" />
   <div class="content">
-    {#await pages
-      .find((page) => page.id === activePageId)
-      .component() then component}
+    {#await activePage.component() then component}
       <svelte:component this="{component}" />
     {/await}
   </div>

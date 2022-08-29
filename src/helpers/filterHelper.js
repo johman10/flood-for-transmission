@@ -92,7 +92,7 @@ export function trackerFilter(tracker, torrent) {
 }
 
 export function priorityFilter(priority, torrent) {
-  if (!priority === null) return true;
+  if (priority === null) return true;
 
   return torrent[TRANSMISSION_COLUMN_PRIORITY] === priority;
 }

@@ -47,7 +47,7 @@ const sorted = derived(
   [store, filters, sorting],
   ([$torrents, $filters, $sorting]) => {
     let filteredTorrents = $torrents;
-    const hasFilter = !!Object.values($filters).filter(Boolean).length;
+    const hasFilter = !!Object.values($filters).filter(Boolean).length || $filters.priority !== null;
     if (hasFilter) {
       filteredTorrents = $torrents.filter((torrent) => {
         const search = searchFilter($filters.search, torrent);

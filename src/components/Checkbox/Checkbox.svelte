@@ -10,6 +10,7 @@
   export let group = null;
   export let value = null;
   export let hint = null;
+  export let toggleLabel = false;
 
   num += 1;
   const id = `input-checkbox-${num}`;
@@ -25,6 +26,11 @@
     <input type="checkbox" bind:checked id="{id}" on:change />
     <div class="indicator" class:checked>
       <Icon name="CheckboxCheckmark" viewBox="0 0 18 18" />
+    </div>
+  {/if}
+  {#if toggleLabel}
+    <div class="label" style="width: 54px; text-align: center;">
+      {checked ? 'Enabled' : 'Disabled'}
     </div>
   {/if}
   {#if label}<div class="label">{label}</div>{/if}

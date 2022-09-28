@@ -21,8 +21,7 @@ const popup = writable({ element: null, shown: false });
 
 function createPathStore() {
   const { subscribe, set, update } = writable(getPaths());
-
-  return {
+  const paths = {
     subscribe,
     set(value) {
       set(value);
@@ -33,7 +32,10 @@ function createPathStore() {
     add(path) {
       let newValue;
       update((value) => {
-        newValue = [...value, path];
+        newValue = value
+        if (!value.includes(path)) {
+          newValue = [...value, path];
+        }
         return newValue;
       });
       storeValue(newValue);
@@ -47,5 +49,17 @@ function createPathStore() {
       storeValue(newValue);
     },
   };
+
+  // Fetch preconfigured data and set common path from it
+  fetch('./preconf.json')
+    .then(res => res.json())
+    .then(json => {
+      let predPaths = json.COMMON_PATH.split(';');
+      predPaths.forEach(elem => {
+        paths.add(elem);
+      });
+    });
+
+  return paths;
 }
 export const paths = createPathStore();

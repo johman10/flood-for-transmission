@@ -53,6 +53,10 @@ Curious what it looks like? Do check out the [screenshots folder](screenshots#re
 
 _Note:_ If you run Flood for Transmission behind SSL and in Chrome you can also run this interface like any other app by installing it as a PWA. For more instructions on that see the [Chrome docs](https://support.google.com/chrome/answer/9658361).
 
+### Customization
+
+1. You can configure the common download path by setting the appropriate value in the pre-config file: `flood-for-transmission/public/preconfig.json`. You can open it with your favourite editor or write config with the next command: `echo '{"COMMON_PATH":"/downloads/expeliarmus;/downloads/lumos"}' > flood-for-transmission/public/preconf.json`
+
 ### Updating
 
 To update follow the following steps (feel free to write a cron job script for this):

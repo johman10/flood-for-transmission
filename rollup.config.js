@@ -11,6 +11,7 @@ import path from 'path';
 import replace from '@rollup/plugin-replace';
 import dotenv from 'dotenv';
 import babel from '@rollup/plugin-babel';
+import { reactivePreprocess } from 'svelte-reactive-preprocessor';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -57,6 +58,9 @@ export default {
       compilerOptions: {
         dev: !production,
       },
+      // preprocess: reactivePreprocess({
+      //   enabled: !production,
+      // }),
     }),
 
     css({ output: 'bundle.css' }),

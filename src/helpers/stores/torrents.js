@@ -45,6 +45,7 @@ let previousActiveColumns = null;
 const sorted = derived(
   [store, filters, sorting],
   ([$torrents, $filters, $sorting]) => {
+    // performance.mark('start');
     let filteredTorrents = $torrents;
     const hasFilter = !!Object.values($filters).filter(Boolean).length;
     if (hasFilter) {
@@ -63,7 +64,7 @@ const sorted = derived(
       return filteredTorrents;
     }
 
-    return filteredTorrents.sort((torrentA, torrentB) => {
+    const output = filteredTorrents.sort((torrentA, torrentB) => {
       const sortingValues = transmissionSortingColumns
         .map((transmissionColumn) => {
           let aValue = torrentA[transmissionColumn];
@@ -99,6 +100,17 @@ const sorted = derived(
         .filter(Boolean);
       return sortingValues[0] || 0;
     });
+
+    // performance.mark('end');
+
+    // performance.measure('measure a to b', 'start', 'end');
+    // console.log(performance.getEntriesByType('measure')[0].duration);
+
+    // // Finally, clean up the entries.
+    // performance.clearMarks();
+    // performance.clearMeasures();
+
+    return output;
   }
 );
 

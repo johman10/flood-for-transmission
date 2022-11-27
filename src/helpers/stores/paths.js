@@ -6,14 +6,14 @@ function getPaths() {
   const storedPaths = window.localStorage.getItem(PATHS_STORAGE_KEY);
   if (storedPaths) return JSON.parse(storedPaths);
 
-  return fetch('./preconf.json')
+  return fetch('./config.json')
     .then((res) => res.json())
     .then((json) => {
       let commonPaths = json.COMMON_PATH.split(',');
       return commonPaths.map((path) => path.trim()).filter(Boolean);
     })
     .catch((e) => {
-      console.error('Something went wrong while fetching preconf.json', e);
+      console.error('Something went wrong while fetching config.json', e);
       return [];
     });
 }

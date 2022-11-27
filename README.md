@@ -55,7 +55,7 @@ _Note:_ If you run Flood for Transmission behind SSL and in Chrome you can also 
 
 ### [BETA] Customization
 
-1. You can configure the common download path by setting the appropriate value in the pre-config file: `flood-for-transmission/public/preconfig.json`. You can open it with your favourite editor or write config with the next command: `echo '{"COMMON_PATH":"/downloads/expeliarmus,/downloads/lumos"}' > flood-for-transmission/public/preconf.json`
+1. You can configure the common download path by setting the appropriate value in the pre-config file: `flood-for-transmission/public/config.json`. You can open it with your favourite editor or write config with the next command: `echo '{"COMMON_PATH":"/downloads/expeliarmus,/downloads/lumos"}' > flood-for-transmission/public/config.json`
 
 ### Updating
 

@@ -204,7 +204,8 @@
     [UI_COLUMN.TOTAL_LEECHERS.id]: {
       component: TextRenderer,
       props: () => {
-        const leecherCounts = torrent[TRANSMISSION_COLUMN.TRACKER_STATS].map(
+        const trackerStats = torrent[TRANSMISSION_COLUMN.TRACKER_STATS] || [];
+        const leecherCounts = trackerStats.map(
           ({ leecherCount }) => leecherCount
         );
         const filteredLeecherCounts = leecherCounts.filter(
@@ -220,9 +221,8 @@
     [UI_COLUMN.TOTAL_SEEDERS.id]: {
       component: TextRenderer,
       props: () => {
-        const seederCounts = torrent[TRANSMISSION_COLUMN.TRACKER_STATS].map(
-          ({ seederCount }) => seederCount
-        );
+        const trackerStats = torrent[TRANSMISSION_COLUMN.TRACKER_STATS] || [];
+        const seederCounts = trackerStats.map(({ seederCount }) => seederCount);
         const filteredSeederCounts = seederCounts.filter(
           (count) => count !== -1
         );

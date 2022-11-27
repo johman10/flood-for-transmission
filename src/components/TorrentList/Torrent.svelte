@@ -1,5 +1,5 @@
 <script>
-  import { createEventDispatcher } from 'svelte';
+  import { createEventDispatcher, beforeUpdate, afterUpdate } from 'svelte';
   import {
     TextRenderer,
     ProgressRenderer,
@@ -25,6 +25,22 @@
   import { contextmenu } from '~helpers/actions';
 
   const dispatch = createEventDispatcher();
+
+  beforeUpdate(() => {
+    performance.mark(`updateStart${torrent.id}`);
+  });
+
+  afterUpdate(() => {
+    performance.mark(`updateEnd${torrent.id}`);
+
+    performance.measure(
+      torrent.id,
+      `updateStart${torrent.id}`,
+      `updateEnd${torrent.id}`
+    );
+    const entries = performance.getEntriesByName(torrent.id);
+    console.log(torrent.id, entries[entries.length - 1].duration);
+  });
 
   export let torrent = {};
   export let selected = false;
@@ -76,189 +92,189 @@
       component: TextRenderer,
       props: () => ({ value: torrent[TRANSMISSION_COLUMN.NAME], size: 'big' }),
     },
-    [UI_COLUMN.PROGRESS_BAR.id]: {
-      component: ProgressRenderer,
-      props: () => ({
-        value: torrent[TRANSMISSION_COLUMN.DOWNLOAD_PROGRESS],
-        metadataProgress: torrent[TRANSMISSION_COLUMN.METADATA_PROGRESS],
-        checkingProgress: torrent[TRANSMISSION_COLUMN.RECHECK_PROGRESS],
-        torrentStatus: STATUSES[torrent[TRANSMISSION_COLUMN.STATUS]],
-      }),
-    },
-    [UI_COLUMN.DOWNLOADED.id]: {
-      component: SizeRenderer,
-      props: () => ({
-        value: torrent[TRANSMISSION_COLUMN.DOWNLOADED],
-        perSize: $session[SESSION_COLUMN_UNITS]?.[SESSION_COLUMN_UNITS_SIZE],
-      }),
-    },
-    [UI_COLUMN.DOWNLOAD_SPEED.id]: {
-      component: SizeRenderer,
-      props: () => ({
-        value: torrent[TRANSMISSION_COLUMN.DOWNLOAD_RATE],
-        isSpeed: true,
-        perSize: $session[SESSION_COLUMN_UNITS]?.[SESSION_COLUMN_UNITS_SPEED],
-      }),
-    },
-    [UI_COLUMN.UPLOADED.id]: {
-      component: SizeRenderer,
-      props: () => ({
-        value: torrent[TRANSMISSION_COLUMN.UPLOADED],
-        perSize: $session[SESSION_COLUMN_UNITS]?.[SESSION_COLUMN_UNITS_SIZE],
-      }),
-    },
-    [UI_COLUMN.UPLOAD_SPEED.id]: {
-      component: SizeRenderer,
-      props: () => ({
-        value: torrent[TRANSMISSION_COLUMN.UPLOAD_RATE],
-        isSpeed: true,
-        isUpload: true,
-        perSize: $session[SESSION_COLUMN_UNITS]?.[SESSION_COLUMN_UNITS_SPEED],
-      }),
-    },
-    [UI_COLUMN.ETA.id]: {
-      component: ArrivalRenderer,
-      props: () => ({ value: torrent[TRANSMISSION_COLUMN.ETA] }),
-    },
-    [UI_COLUMN.RATIO.id]: {
-      component: TextRenderer,
-      props: () => ({ value: torrent[TRANSMISSION_COLUMN.RATIO]?.toFixed(2) }),
-    },
-    [UI_COLUMN.FILE_SIZE.id]: {
-      component: SizeRenderer,
-      props: () => ({
-        value: torrent[TRANSMISSION_COLUMN.SIZE],
-        perSize: $session[SESSION_COLUMN_UNITS]?.[SESSION_COLUMN_UNITS_SIZE],
-      }),
-    },
-    [UI_COLUMN.ADDED.id]: {
-      component: DateRenderer,
-      props: () => ({ value: torrent[TRANSMISSION_COLUMN.ADDED] }),
-    },
-    [UI_COLUMN.CREATION_DATE.id]: {
-      component: DateRenderer,
-      props: () => ({ value: torrent[TRANSMISSION_COLUMN.CREATED] }),
-    },
-    [UI_COLUMN.SEEDS.id]: {
-      component: ConnectionRenderer,
-      props: () => ({
-        value: torrent[TRANSMISSION_COLUMN.SEEDING_TO],
-        connected: torrent[TRANSMISSION_COLUMN.PEERS_CONNECTED],
-      }),
-    },
-    [UI_COLUMN.PEERS.id]: {
-      component: ConnectionRenderer,
-      props: () => ({
-        value: torrent[TRANSMISSION_COLUMN.DOWNLOADING_FROM],
-        connected: torrent[TRANSMISSION_COLUMN.PEERS_CONNECTED],
-      }),
-    },
-    [UI_COLUMN.BASE_PATH.id]: {
-      component: TextRenderer,
-      props: () => ({ value: torrent[TRANSMISSION_COLUMN.DOWNLOAD_DIR] }),
-    },
-    [UI_COLUMN.HASH.id]: {
-      component: TextRenderer,
-      props: () => ({ value: torrent[TRANSMISSION_COLUMN.HASH] }),
-    },
-    [UI_COLUMN.COMMENT.id]: {
-      component: TextRenderer,
-      props: () => ({ value: torrent[TRANSMISSION_COLUMN.COMMENT] }),
-    },
-    [UI_COLUMN.LABELS.id]: {
-      component: LabelRenderer,
-      props: () => ({ value: torrent[TRANSMISSION_COLUMN.LABELS] }),
-    },
-    [UI_COLUMN.ERROR.id]: {
-      component: TextRenderer,
-      props: () => ({ value: torrent[TRANSMISSION_COLUMN.ERROR_STRING] }),
-    },
-    [UI_COLUMN.PRIVATE.id]: {
-      component: BooleanRenderer,
-      props: () => ({ value: torrent[TRANSMISSION_COLUMN.PRIVATE] }),
-    },
-    [UI_COLUMN.TRACKERS.id]: {
-      component: TextRenderer,
-      props: () => {
-        const value = torrent[TRANSMISSION_COLUMN.TRACKERS]
-          .map((tracker) => trackerStripper(tracker.announce))
-          .sort()
-          .join(', ');
-        return { value };
-      },
-    },
-    [UI_COLUMN.DONE.id]: {
-      component: DateRenderer,
-      props: () => ({ value: torrent[TRANSMISSION_COLUMN.DONE] }),
-    },
-    [UI_COLUMN.STATUS.id]: {
-      component: TextRenderer,
-      props: () => ({ value: STATUSES[torrent[TRANSMISSION_COLUMN.STATUS]] }),
-    },
-    [UI_COLUMN.QUEUE_POSITION.id]: {
-      component: TextRenderer,
-      props: () => ({
-        value: torrent[TRANSMISSION_COLUMN.QUEUE_POSITION],
-      }),
-    },
-    [UI_COLUMN.TOTAL_LEECHERS.id]: {
-      component: TextRenderer,
-      props: () => {
-        const leecherCounts = torrent[TRANSMISSION_COLUMN.TRACKER_STATS].map(
-          ({ leecherCount }) => leecherCount
-        );
-        const filteredLeecherCounts = leecherCounts.filter(
-          (count) => count !== -1
-        );
-        const value = filteredLeecherCounts.length
-          ? Math.max(...filteredLeecherCounts)
-          : '-';
+    // [UI_COLUMN.PROGRESS_BAR.id]: {
+    //   component: ProgressRenderer,
+    //   props: () => ({
+    //     value: torrent[TRANSMISSION_COLUMN.DOWNLOAD_PROGRESS],
+    //     metadataProgress: torrent[TRANSMISSION_COLUMN.METADATA_PROGRESS],
+    //     checkingProgress: torrent[TRANSMISSION_COLUMN.RECHECK_PROGRESS],
+    //     torrentStatus: STATUSES[torrent[TRANSMISSION_COLUMN.STATUS]],
+    //   }),
+    // },
+    // [UI_COLUMN.DOWNLOADED.id]: {
+    //   component: SizeRenderer,
+    //   props: () => ({
+    //     value: torrent[TRANSMISSION_COLUMN.DOWNLOADED],
+    //     perSize: $session[SESSION_COLUMN_UNITS]?.[SESSION_COLUMN_UNITS_SIZE],
+    //   }),
+    // },
+    // [UI_COLUMN.DOWNLOAD_SPEED.id]: {
+    //   component: SizeRenderer,
+    //   props: () => ({
+    //     value: torrent[TRANSMISSION_COLUMN.DOWNLOAD_RATE],
+    //     isSpeed: true,
+    //     perSize: $session[SESSION_COLUMN_UNITS]?.[SESSION_COLUMN_UNITS_SPEED],
+    //   }),
+    // },
+    // [UI_COLUMN.UPLOADED.id]: {
+    //   component: SizeRenderer,
+    //   props: () => ({
+    //     value: torrent[TRANSMISSION_COLUMN.UPLOADED],
+    //     perSize: $session[SESSION_COLUMN_UNITS]?.[SESSION_COLUMN_UNITS_SIZE],
+    //   }),
+    // },
+    // [UI_COLUMN.UPLOAD_SPEED.id]: {
+    //   component: SizeRenderer,
+    //   props: () => ({
+    //     value: torrent[TRANSMISSION_COLUMN.UPLOAD_RATE],
+    //     isSpeed: true,
+    //     isUpload: true,
+    //     perSize: $session[SESSION_COLUMN_UNITS]?.[SESSION_COLUMN_UNITS_SPEED],
+    //   }),
+    // },
+    // [UI_COLUMN.ETA.id]: {
+    //   component: ArrivalRenderer,
+    //   props: () => ({ value: torrent[TRANSMISSION_COLUMN.ETA] }),
+    // },
+    // [UI_COLUMN.RATIO.id]: {
+    //   component: TextRenderer,
+    //   props: () => ({ value: torrent[TRANSMISSION_COLUMN.RATIO]?.toFixed(2) }),
+    // },
+    // [UI_COLUMN.FILE_SIZE.id]: {
+    //   component: SizeRenderer,
+    //   props: () => ({
+    //     value: torrent[TRANSMISSION_COLUMN.SIZE],
+    //     perSize: $session[SESSION_COLUMN_UNITS]?.[SESSION_COLUMN_UNITS_SIZE],
+    //   }),
+    // },
+    // [UI_COLUMN.ADDED.id]: {
+    //   component: DateRenderer,
+    //   props: () => ({ value: torrent[TRANSMISSION_COLUMN.ADDED] }),
+    // },
+    // [UI_COLUMN.CREATION_DATE.id]: {
+    //   component: DateRenderer,
+    //   props: () => ({ value: torrent[TRANSMISSION_COLUMN.CREATED] }),
+    // },
+    // [UI_COLUMN.SEEDS.id]: {
+    //   component: ConnectionRenderer,
+    //   props: () => ({
+    //     value: torrent[TRANSMISSION_COLUMN.SEEDING_TO],
+    //     connected: torrent[TRANSMISSION_COLUMN.PEERS_CONNECTED],
+    //   }),
+    // },
+    // [UI_COLUMN.PEERS.id]: {
+    //   component: ConnectionRenderer,
+    //   props: () => ({
+    //     value: torrent[TRANSMISSION_COLUMN.DOWNLOADING_FROM],
+    //     connected: torrent[TRANSMISSION_COLUMN.PEERS_CONNECTED],
+    //   }),
+    // },
+    // [UI_COLUMN.BASE_PATH.id]: {
+    //   component: TextRenderer,
+    //   props: () => ({ value: torrent[TRANSMISSION_COLUMN.DOWNLOAD_DIR] }),
+    // },
+    // [UI_COLUMN.HASH.id]: {
+    //   component: TextRenderer,
+    //   props: () => ({ value: torrent[TRANSMISSION_COLUMN.HASH] }),
+    // },
+    // [UI_COLUMN.COMMENT.id]: {
+    //   component: TextRenderer,
+    //   props: () => ({ value: torrent[TRANSMISSION_COLUMN.COMMENT] }),
+    // },
+    // [UI_COLUMN.LABELS.id]: {
+    //   component: LabelRenderer,
+    //   props: () => ({ value: torrent[TRANSMISSION_COLUMN.LABELS] }),
+    // },
+    // [UI_COLUMN.ERROR.id]: {
+    //   component: TextRenderer,
+    //   props: () => ({ value: torrent[TRANSMISSION_COLUMN.ERROR_STRING] }),
+    // },
+    // [UI_COLUMN.PRIVATE.id]: {
+    //   component: BooleanRenderer,
+    //   props: () => ({ value: torrent[TRANSMISSION_COLUMN.PRIVATE] }),
+    // },
+    // [UI_COLUMN.TRACKERS.id]: {
+    //   component: TextRenderer,
+    //   props: () => {
+    //     const value = torrent[TRANSMISSION_COLUMN.TRACKERS]
+    //       .map((tracker) => trackerStripper(tracker.announce))
+    //       .sort()
+    //       .join(', ');
+    //     return { value };
+    //   },
+    // },
+    // [UI_COLUMN.DONE.id]: {
+    //   component: DateRenderer,
+    //   props: () => ({ value: torrent[TRANSMISSION_COLUMN.DONE] }),
+    // },
+    // [UI_COLUMN.STATUS.id]: {
+    //   component: TextRenderer,
+    //   props: () => ({ value: STATUSES[torrent[TRANSMISSION_COLUMN.STATUS]] }),
+    // },
+    // [UI_COLUMN.QUEUE_POSITION.id]: {
+    //   component: TextRenderer,
+    //   props: () => ({
+    //     value: torrent[TRANSMISSION_COLUMN.QUEUE_POSITION],
+    //   }),
+    // },
+    // [UI_COLUMN.TOTAL_LEECHERS.id]: {
+    //   component: TextRenderer,
+    //   props: () => {
+    //     const leecherCounts = torrent[TRANSMISSION_COLUMN.TRACKER_STATS].map(
+    //       ({ leecherCount }) => leecherCount
+    //     );
+    //     const filteredLeecherCounts = leecherCounts.filter(
+    //       (count) => count !== -1
+    //     );
+    //     const value = filteredLeecherCounts.length
+    //       ? Math.max(...filteredLeecherCounts)
+    //       : '-';
 
-        return { value };
-      },
-    },
-    [UI_COLUMN.TOTAL_SEEDERS.id]: {
-      component: TextRenderer,
-      props: () => {
-        const seederCounts = torrent[TRANSMISSION_COLUMN.TRACKER_STATS].map(
-          ({ seederCount }) => seederCount
-        );
-        const filteredSeederCounts = seederCounts.filter(
-          (count) => count !== -1
-        );
-        const value = filteredSeederCounts.length
-          ? Math.max(...filteredSeederCounts)
-          : '-';
+    //     return { value };
+    //   },
+    // },
+    // [UI_COLUMN.TOTAL_SEEDERS.id]: {
+    //   component: TextRenderer,
+    //   props: () => {
+    //     const seederCounts = torrent[TRANSMISSION_COLUMN.TRACKER_STATS].map(
+    //       ({ seederCount }) => seederCount
+    //     );
+    //     const filteredSeederCounts = seederCounts.filter(
+    //       (count) => count !== -1
+    //     );
+    //     const value = filteredSeederCounts.length
+    //       ? Math.max(...filteredSeederCounts)
+    //       : '-';
 
-        return { value };
-      },
-    },
-    [UI_COLUMN.ACTIVITY.id]: {
-      component: DateRenderer,
-      props: () => ({ value: torrent[TRANSMISSION_COLUMN.ACTIVITY_DATE] }),
-    },
-    [UI_COLUMN.PERCENT_COMPLETE.id]: {
-      component: TextRenderer,
-      props: () => {
-        let number = torrent[TRANSMISSION_COLUMN.DOWNLOAD_PROGRESS];
+    //     return { value };
+    //   },
+    // },
+    // [UI_COLUMN.ACTIVITY.id]: {
+    //   component: DateRenderer,
+    //   props: () => ({ value: torrent[TRANSMISSION_COLUMN.ACTIVITY_DATE] }),
+    // },
+    // [UI_COLUMN.PERCENT_COMPLETE.id]: {
+    //   component: TextRenderer,
+    //   props: () => {
+    //     let number = torrent[TRANSMISSION_COLUMN.DOWNLOAD_PROGRESS];
 
-        if (
-          torrent[TRANSMISSION_COLUMN.RECHECK_PROGRESS] > 0 &&
-          torrent[TRANSMISSION_COLUMN.RECHECK_PROGRESS] < 1
-        ) {
-          number = torrent[TRANSMISSION_COLUMN.RECHECK_PROGRESS];
-        }
+    //     if (
+    //       torrent[TRANSMISSION_COLUMN.RECHECK_PROGRESS] > 0 &&
+    //       torrent[TRANSMISSION_COLUMN.RECHECK_PROGRESS] < 1
+    //     ) {
+    //       number = torrent[TRANSMISSION_COLUMN.RECHECK_PROGRESS];
+    //     }
 
-        if (
-          torrent[TRANSMISSION_COLUMN.METADATA_PROGRESS] > 0 &&
-          torrent[TRANSMISSION_COLUMN.METADATA_PROGRESS] < 1
-        ) {
-          number = torrent[TRANSMISSION_COLUMN.METADATA_PROGRESS];
-        }
+    //     if (
+    //       torrent[TRANSMISSION_COLUMN.METADATA_PROGRESS] > 0 &&
+    //       torrent[TRANSMISSION_COLUMN.METADATA_PROGRESS] < 1
+    //     ) {
+    //       number = torrent[TRANSMISSION_COLUMN.METADATA_PROGRESS];
+    //     }
 
-        return { value: `${Math.round(number * 10_000) / 100}%` };
-      },
-    },
+    //     return { value: `${Math.round(number * 10_000) / 100}%` };
+    //   },
+    // },
   };
 </script>
 
@@ -304,6 +320,10 @@
 
   tr.selected.error {
     background-color: var(--color-torrent-background-selected-error);
+  }
+
+  tr.hidden {
+    display: none;
   }
 
   td {

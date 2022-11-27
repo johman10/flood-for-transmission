@@ -2,11 +2,28 @@
   import Input from '~components/Input';
   import Icon from '~components/Icon';
   import { filters } from '~helpers/stores';
+
+  let currentValue = $filters.search;
+
+  let timer;
+  const debounce = (e) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      filters.update((currentFilters) => ({
+        ...currentFilters,
+        search: e.target.value,
+      }));
+    }, 500);
+  };
 </script>
 
 <div class="wrapper" class:active="{$filters.search}">
   <Icon name="Search" />
-  <Input placeholder="Search torrents" bind:value="{$filters.search}" />
+  <Input
+    placeholder="Search torrents"
+    bind:value="{currentValue}"
+    on:input="{debounce}"
+  />
 </div>
 
 <style>

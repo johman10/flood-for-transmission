@@ -5,7 +5,17 @@ const PATHS_STORAGE_KEY = 'paths';
 function getPaths() {
   const storedPaths = window.localStorage.getItem(PATHS_STORAGE_KEY);
   if (storedPaths) return JSON.parse(storedPaths);
-  return [];
+
+  return fetch('./preconf.json')
+    .then((res) => res.json())
+    .then((json) => {
+      let commonPaths = json.COMMON_PATH.split(',');
+      return commonPaths.map((path) => path.trim()).filter(Boolean);
+    })
+    .catch((e) => {
+      console.error('Something went wrong while fetching preconf.json', e);
+      return [];
+    });
 }
 
 function cleanValue(value) {
@@ -20,19 +30,32 @@ function storeValue(value) {
 const popup = writable({ element: null, shown: false });
 
 function createPathStore() {
-  const { subscribe, set, update } = writable(getPaths());
+  const { subscribe, set, update } = writable([]);
+  let initialized = false;
+
+  const setAndStore = (value) => {
+    set(value);
+    storeValue(value);
+  };
+
   const paths = {
-    subscribe,
-    set(value) {
-      set(value);
-      storeValue(value);
+    init: async () => {
+      if (initialized) return;
+
+      const paths = await getPaths();
+      console.log(paths);
+      setAndStore(paths);
+
+      initialized = true;
     },
+    subscribe,
+    set: setAndStore,
     update,
     popup,
     add(path) {
       let newValue;
       update((value) => {
-        newValue = value
+        newValue = value;
         if (!value.includes(path)) {
           newValue = [...value, path];
         }
@@ -49,16 +72,6 @@ function createPathStore() {
       storeValue(newValue);
     },
   };
-
-  // Fetch preconfigured data and set common path from it
-  fetch('./preconf.json')
-    .then(res => res.json())
-    .then(json => {
-      let predPaths = json.COMMON_PATH.split(';');
-      predPaths.forEach(elem => {
-        paths.add(elem);
-      });
-    });
 
   return paths;
 }

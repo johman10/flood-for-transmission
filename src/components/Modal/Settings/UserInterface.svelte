@@ -17,12 +17,16 @@
   import { orderable } from '~helpers/actions';
 
   const newColumns = JSON.parse(JSON.stringify($uiColumns));
-  let newPaths = [...$paths];
+  let newPaths = [];
   let newSwitchSpeedColors = $switchSpeedColors;
   let newTimeConfig = $timeConfig;
   let newTableHeaderConfig = $tableHeaderConfig;
   const configuredDarkMode = darkMode.configuredValue;
   let newDarkMode = $configuredDarkMode;
+
+  const pathsPromise = paths.init().then(() => {
+    newPaths = [...$paths];
+  });
 
   const darkModeOptions = [
     { label: 'Auto', value: 'auto' },
@@ -53,75 +57,78 @@
   };
 </script>
 
-<form on:submit|preventDefault="{handleSubmit}">
-  <Header text="Color scheme" />
-  <div class="list">
-    <Select
-      options="{darkModeOptions}"
-      on:change="{(event) => (newDarkMode = event.detail)}"
-      value="{newDarkMode}"
-      direction="below"
-      label="Dark mode"
+{#await pathsPromise then}
+  <form on:submit|preventDefault="{handleSubmit}">
+    <Header text="Color scheme" />
+    <div class="list">
+      <Select
+        options="{darkModeOptions}"
+        on:change="{(event) => (newDarkMode = event.detail)}"
+        value="{newDarkMode}"
+        direction="below"
+        label="Dark mode"
+      />
+    </div>
+
+    <div class="list">
+      <Checkbox
+        label="Switch speed colors"
+        hint="This will switch the upload and download colors. Originally green for download and blue for upload."
+        bind:checked="{newSwitchSpeedColors}"
+      />
+    </div>
+
+    <Header text="Format" />
+    <div class="list">
+      <Checkbox
+        label="24-hour notation"
+        hint="Will represent time with 24 hours if enabled and 12 hours if disabled"
+        bind:checked="{newTimeConfig}"
+      />
+    </div>
+
+    <div class="list">
+      <Checkbox
+        label="Wrap overflowing text in table headers"
+        hint="Will wrap text in header columns when enabled"
+        bind:checked="{newTableHeaderConfig}"
+      />
+    </div>
+
+    <Header text="Common paths" />
+    <p class="hint">
+      These paths will be shown behind the magnifier where you can select a
+      path.
+    </p>
+    <InputMultiple
+      bind:values="{newPaths}"
+      pattern="^/.*"
+      validationMessage="Path must be an absolute path."
     />
-  </div>
 
-  <div class="list">
-    <Checkbox
-      label="Switch speed colors"
-      hint="This will switch the upload and download colors. Originally green for download and blue for upload."
-      bind:checked="{newSwitchSpeedColors}"
-    />
-  </div>
+    <Header text="Torrent Columns" />
+    <div class="list">
+      {#each Object.values(newColumns) as column}
+        <div
+          class="column"
+          draggable="true"
+          use:orderable="{handleColumnDrop}"
+          id="{column.id}"
+        >
+          <span>{uiColumns.getColumnLabel(column.id)}</span>
+          <Checkbox bind:checked="{column.enabled}" label="Enabled" />
+        </div>
+      {/each}
+    </div>
 
-  <Header text="Format" />
-  <div class="list">
-    <Checkbox
-      label="24-hour notation"
-      hint="Will represent time with 24 hours if enabled and 12 hours if disabled"
-      bind:checked="{newTimeConfig}"
-    />
-  </div>
-
-  <div class="list">
-    <Checkbox
-      label="Wrap overflowing text in table headers"
-      hint="Will wrap text in header columns when enabled"
-      bind:checked="{newTableHeaderConfig}"
-    />
-  </div>
-
-  <Header text="Common paths" />
-  <p class="hint">
-    These paths will be shown behind the magnifier where you can select a path.
-  </p>
-  <InputMultiple
-    bind:values="{newPaths}"
-    pattern="^/.*"
-    validationMessage="Path must be an absolute path."
-  />
-
-  <Header text="Torrent Columns" />
-  <div class="list">
-    {#each Object.values(newColumns) as column}
-      <div
-        class="column"
-        draggable="true"
-        use:orderable="{handleColumnDrop}"
-        id="{column.id}"
-      >
-        <span>{uiColumns.getColumnLabel(column.id)}</span>
-        <Checkbox bind:checked="{column.enabled}" label="Enabled" />
-      </div>
-    {/each}
-  </div>
-
-  <div class="buttons">
-    <Button type="button" priority="tertiary" on:click="{modals.close}">
-      Cancel
-    </Button>
-    <Button type="submit" priority="primary">Save settings</Button>
-  </div>
-</form>
+    <div class="buttons">
+      <Button type="button" priority="tertiary" on:click="{modals.close}">
+        Cancel
+      </Button>
+      <Button type="submit" priority="primary">Save settings</Button>
+    </div>
+  </form>
+{/await}
 
 <style>
   form {

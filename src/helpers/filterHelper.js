@@ -17,6 +17,7 @@ import {
   TRANSMISSION_COLUMN_TRACKERS,
   TRANSMISSION_COLUMN_DOWNLOAD_RATE,
   TRANSMISSION_COLUMN_UPLOAD_RATE,
+  TRANSMISSION_COLUMN_PRIORITY,
 } from '~helpers/constants/columns';
 import { trackerStripper } from '~helpers/trackerHelper';
 
@@ -85,4 +86,10 @@ export function trackerFilter(tracker, torrent) {
   return !!torrent[TRANSMISSION_COLUMN_TRACKERS].find(
     (t) => trackerStripper(t.announce) === tracker
   );
+}
+
+export function priorityFilter(priority, torrent) {
+  if (priority === null) return true;
+
+  return torrent[TRANSMISSION_COLUMN_PRIORITY] === priority;
 }

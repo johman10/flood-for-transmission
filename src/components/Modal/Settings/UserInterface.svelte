@@ -12,6 +12,7 @@
     darkMode,
     switchSpeedColors,
     timeConfig,
+    tableHeaderConfig,
   } from '~helpers/stores';
   import { orderable } from '~helpers/actions';
 
@@ -19,6 +20,7 @@
   let newPaths = [...$paths];
   let newSwitchSpeedColors = $switchSpeedColors;
   let newTimeConfig = $timeConfig;
+  let newTableHeaderConfig = $tableHeaderConfig;
   const configuredDarkMode = darkMode.configuredValue;
   let newDarkMode = $configuredDarkMode;
 
@@ -34,6 +36,7 @@
       paths.set(newPaths);
       switchSpeedColors.set(newSwitchSpeedColors);
       timeConfig.set(newTimeConfig);
+      tableHeaderConfig.set(newTableHeaderConfig);
       darkMode.set(newDarkMode);
       alerts.add('Succesfully saved user interface settings');
     } catch (e) {
@@ -70,11 +73,20 @@
     />
   </div>
 
+  <Header text="Format" />
   <div class="list">
     <Checkbox
       label="24-hour notation"
       hint="Will represent time with 24 hours if enabled and 12 hours if disabled"
       bind:checked="{newTimeConfig}"
+    />
+  </div>
+
+  <div class="list">
+    <Checkbox
+      label="Wrap overflowing text in table headers"
+      hint="Will wrap text in header columns when enabled"
+      bind:checked="{newTableHeaderConfig}"
     />
   </div>
 
@@ -118,10 +130,6 @@
     flex-direction: column;
     line-height: 1;
     color: var(--color-modal-text);
-  }
-
-  form :global(.checkbox) {
-    font-size: 11px;
   }
 
   form :global(.checkbox) :global(.indicator) {

@@ -13,6 +13,7 @@ export { session } from './session';
 export { sessionStats } from './sessionStats';
 export { sorting } from './sorting';
 export { switchSpeedColors } from './switchSpeedColors';
+export { tableHeaderConfig } from './tableHeaderConfig';
 export { timeConfig } from './timeConfig';
 export { torrentDetails } from './torrentDetails';
 export { torrents } from './torrents';

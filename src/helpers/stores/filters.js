@@ -6,6 +6,7 @@ function createFiltersStore() {
     status: null,
     label: null,
     tracker: null,
+    priority: null,
   });
 
   return {

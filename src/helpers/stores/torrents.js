@@ -31,6 +31,7 @@ import {
   statusFilter,
   trackerFilter,
   labelFilter,
+  priorityFilter,
 } from '~helpers/filterHelper';
 import { trackerStripper } from '~helpers/trackerHelper';
 import { copyToClipboard } from '../copyHelper';
@@ -47,14 +48,17 @@ const sorted = derived(
   ([$torrents, $filters, $sorting]) => {
     // performance.mark('start');
     let filteredTorrents = $torrents;
-    const hasFilter = !!Object.values($filters).filter(Boolean).length;
+    const hasFilter = !!Object.values($filters).filter(
+      (value) => value !== null
+    ).length;
     if (hasFilter) {
       filteredTorrents = $torrents.filter((torrent) => {
         const search = searchFilter($filters.search, torrent);
         const status = statusFilter($filters.status, torrent);
         const label = labelFilter($filters.label, torrent);
         const tracker = trackerFilter($filters.tracker, torrent);
-        return search && status && label && tracker;
+        const priority = priorityFilter($filters.priority, torrent);
+        return search && status && label && tracker && priority;
       });
     }
 
@@ -74,10 +78,11 @@ const sorted = derived(
             bValue = bValue.toLowerCase();
           }
 
-          // Transmission ETA -1, is infinity so mimic that behaviour
+          // Transmission ETA less than 0 is unknown/infinity so mimic that behaviour.
+          // Reference: https://github.com/transmission/transmission/blob/3.00/libtransmission/transmission.h#L1748-L1749
           if (transmissionColumn === TRANSMISSION_COLUMN_ETA) {
-            if (aValue === -1) aValue = Number.MAX_SAFE_INTEGER;
-            if (bValue === -1) bValue = Number.MAX_SAFE_INTEGER;
+            if (aValue < 0) aValue = Number.MAX_SAFE_INTEGER;
+            if (bValue < 0) bValue = Number.MAX_SAFE_INTEGER;
           }
 
           // TODO: consider some way of setting a sorting value/key per column so that this can be abstracted

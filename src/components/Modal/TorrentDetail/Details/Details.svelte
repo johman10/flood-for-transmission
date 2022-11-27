@@ -88,7 +88,7 @@
 
   <div class="column column--label">Creation Date</div>
   <div class="column column--value">
-    {$torrentDetails[TRANSMISSION_COLUMN.CREATED]}
+    <DateRenderer value="{$torrentDetails[TRANSMISSION_COLUMN.CREATED]}" />
   </div>
 
   <div class="column column--label">Hash</div>

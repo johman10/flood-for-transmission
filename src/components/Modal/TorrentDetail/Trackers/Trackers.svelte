@@ -30,7 +30,7 @@
 
   const addTracker = (event) => {
     event.preventDefault();
-    torrentDetails.addTrackers($torrentDetails, [newTracker]);
+    torrentDetails.addTrackers($torrentDetails, [newTracker.trim()]);
     newTracker = null;
   };
 </script>

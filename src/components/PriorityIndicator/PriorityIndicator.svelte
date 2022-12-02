@@ -44,11 +44,22 @@
     }
     dispatch('click', newPriority);
   };
+
+  const handleRightClick = () => {
+    let newPriority = value - 1;
+    if (newPriority < -1 && !allowDisabled) {
+      newPriority = 1;
+    } else if (newPriority < -2) {
+      newPriority = 1;
+    }
+    dispatch('click', newPriority);
+  };
 </script>
 
 <div
   class="priority-indicator"
   on:click="{handleClick}"
+  on:contextmenu|preventDefault="{handleRightClick}"
   bind:this="{element}"
   title="{showLabel ? undefined : label}"
 >

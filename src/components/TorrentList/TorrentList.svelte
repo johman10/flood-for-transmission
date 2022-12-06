@@ -143,7 +143,9 @@
       {/each}
     </tbody>
   </table>
-  <TorrentDropzone />
+  {#if !$modals}
+    <TorrentDropzone />
+  {/if}
 </div>
 
 <style>

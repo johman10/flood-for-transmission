@@ -1,95 +1,144 @@
+<script context="module">
+  let num = 0;
+</script>
+
 <script>
+  import { torrents, alerts, session } from '~helpers/stores';
+  import {
+    SESSION_COLUMN_DOWNLOAD_DIR,
+    SESSION_COLUMN_START_ADDED,
+  } from '~helpers/constants/columns';
+  import {
+    handleTorrentAddResponses,
+    getFileAddBody,
+    areAllFilesValid,
+  } from '~helpers/fileHelper';
+
   let hovering = false;
+  let counter = 0;
+  let input;
 
-  const isFile = (event) => {
-    var dt = event.dataTransfer;
-    return dt.types.some((type) => type === 'Files');
-  };
+  num += 1;
+  const id = `torrent-dropzone-${num}`;
+  const acceptList = ['.torrent', 'application/x-bittorrent'];
 
-  const handleDragEnter = (event) => {
-    if (!isFile(event)) return;
+  const handleDragEnter = () => {
+    counter += 1;
     hovering = true;
   };
 
-  const handleDragOver = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-  };
-
-  const handleDragLeave = (event) => {
-    event.stopPropagation();
-    event.preventDefault();
+  const handleDragLeave = () => {
+    counter -= 1;
+    if (counter !== 0) return;
 
     hovering = false;
   };
 
-  const handleFiles = (newFiles) => {
-    const fileList = Array.from(newFiles);
-    if (acceptList) {
-      const allFilesValid = fileList.every((file) => {
-        const splitName = file.name.split('.');
-        const extension = `.${splitName[splitName.length - 1]}`;
-        return acceptList.some(
-          (type) => type === file.type || type === extension
-        );
+  const handleFiles = (files) => {
+    const fileList = Array.from(files);
+    const allFilesValid = areAllFilesValid(fileList, acceptList);
+
+    if (!allFilesValid) {
+      alerts.add(
+        'Seems like some of the dropped files are invalid, try again with valid .torrent files',
+        'negative'
+      );
+      return;
+    }
+
+    return fileList;
+  };
+
+  const handleFileSubmit = (files) => {
+    let destination = null;
+    let start = null;
+
+    session
+      .addColumns([SESSION_COLUMN_DOWNLOAD_DIR, SESSION_COLUMN_START_ADDED])
+      .then(($session) => {
+        destination = $session[SESSION_COLUMN_DOWNLOAD_DIR];
+        start = $session[SESSION_COLUMN_START_ADDED];
+      })
+      .then(() => {
+        return getFileAddBody(files, start, destination);
+      })
+      .then((dataItems) => {
+        console.log(dataItems);
+        return Promise.all(dataItems.map((item) => torrents.add(item)));
+      })
+      .then(handleTorrentAddResponses)
+      .catch((e) => {
+        if (!e) return;
+
+        console.error(e);
+        alerts.add('Failed to add some torrent, please try again', 'negative');
       });
-
-      if (!allFilesValid) {
-        invalid = true;
-        return;
-      }
-    }
-
-    invalid = false;
-    if (multiple) {
-      files = files ? [...files, ...fileList] : fileList;
-    } else {
-      files = [fileList[0]];
-    }
-    return files;
   };
 
   const handleDrop = (event) => {
-    event.preventDefault();
     hovering = false;
 
     const { dataTransfer } = event;
-    handleFiles(dataTransfer.files);
+    const files = handleFiles(dataTransfer.files);
+    if (files) {
+      handleFileSubmit(files);
+    }
     event.target.value = '';
-  };
-
-  const handleChange = (event) => {
-    event.preventDefault();
-    handleFiles(event.target.files);
-    event.target.value = '';
-  };
-
-  const removeFile = (removeFile) => {
-    files = files.filter((file) => removeFile !== file);
   };
 </script>
 
-<svelte:window
-  on:dragenter="{handleDragEnter}"
-  on:dragover="{handleDragOver}"
-  on:dragleave="{handleDragLeave}"
+<svelte:body
+  on:dragenter|preventDefault="{handleDragEnter}"
+  on:dragleave|preventDefault="{handleDragLeave}"
+  on:dragover|preventDefault
 />
 
-<label class="dropzone" class:hovering>Drop here</label>
+<label
+  class="dropzone"
+  class:hovering
+  for="{id}"
+  on:drop|preventDefault="{handleDrop}"
+>
+  <div class="dropzone-content">Drop the file here to add it.</div>
+  <input type="file" id="{id}" bind:this="{input}" multiple />
+</label>
 
 <style>
   .dropzone {
+    z-index: 99;
     position: absolute;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     inset: 0;
     opacity: 0;
-    background-color: black;
+    background-color: var(--color-dropzone-background);
     pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .dropzone.hovering {
     opacity: 1;
     pointer-events: all;
+  }
+
+  .dropzone:before {
+    content: '';
+    inset: 20px;
+    width: calc(100% - 40px);
+    height: calc(100% - 40px);
+    position: absolute;
+    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='30' ry='30' stroke='rgb(112, 133, 158)' stroke-width='15' stroke-dasharray='25' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e");
+    border-radius: 30px;
+  }
+
+  input {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    pointer-events: none;
   }
 </style>

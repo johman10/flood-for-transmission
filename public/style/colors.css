@@ -185,6 +185,8 @@
   --color-priority-normal: var(--color-positive);
   --color-priority-high: var(--color-positive);
   --color-priority-off: rgb(67, 96, 118);
+
+  --color-dropzone-background: rgba(var(--rgb-background), 0.9);
 }
 
 .dark-mode {

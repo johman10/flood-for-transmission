@@ -4,6 +4,7 @@
 
 <script>
   import Icon from '~components/Icon';
+  import { areAllFilesValid } from '~helpers/fileHelper';
 
   export let files;
   export let label;
@@ -31,26 +32,18 @@
   num += 1;
   const id = `file-input-${num}`;
 
-  const handleDragOver = (event) => {
-    event.preventDefault();
+  const handleDragOver = () => {
     hovering = true;
   };
 
-  const handleDragLeave = (event) => {
-    event.preventDefault();
+  const handleDragLeave = () => {
     hovering = false;
   };
 
   const handleFiles = (newFiles) => {
     const fileList = Array.from(newFiles);
     if (acceptList) {
-      const allFilesValid = fileList.every((file) => {
-        const splitName = file.name.split('.');
-        const extension = `.${splitName[splitName.length - 1]}`;
-        return acceptList.some(
-          (type) => type === file.type || type === extension
-        );
-      });
+      const allFilesValid = areAllFilesValid(fileList, acceptList);
 
       if (!allFilesValid) {
         invalid = true;
@@ -68,7 +61,6 @@
   };
 
   const handleDrop = (event) => {
-    event.preventDefault();
     hovering = false;
 
     const { dataTransfer } = event;
@@ -77,7 +69,6 @@
   };
 
   const handleChange = (event) => {
-    event.preventDefault();
     handleFiles(event.target.files);
     event.target.value = '';
   };
@@ -96,7 +87,11 @@
           <Icon name="File" />
           {file.name}
         </span>
-        <button class="remove-file-button" on:click="{() => removeFile(file)}">
+        <button
+          class="remove-file-button"
+          type="button"
+          on:click="{() => removeFile(file)}"
+        >
           <Icon name="Close" />
         </button>
       </li>
@@ -109,10 +104,10 @@
   class:invalid
   class:file="{files}"
   class:hovering
-  on:dragenter="{handleDragOver}"
-  on:dragover="{handleDragOver}"
-  on:dragleave="{handleDragLeave}"
-  on:drop="{handleDrop}"
+  on:dragenter|preventDefault="{handleDragOver}"
+  on:dragover|preventDefault="{handleDragOver}"
+  on:dragleave|preventDefault="{handleDragLeave}"
+  on:drop|preventDefault="{handleDrop}"
 >
   <Icon name="Files" />
   {#if invalid}
@@ -123,7 +118,7 @@
   <input
     type="file"
     id="{id}"
-    on:input="{handleChange}"
+    on:input|preventDefault="{handleChange}"
     bind:this="{input}"
     required="{required && (!files || !files.length)}"
     multiple="{multiple}"
@@ -167,6 +162,13 @@
 
   .file-item:not(:last-child) {
     border-bottom: solid 1px var(--color-input-file-border);
+  }
+
+  .file-label {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .file-label > :global(.icon) {

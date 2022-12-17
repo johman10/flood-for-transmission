@@ -13,6 +13,7 @@
     getFileAddBody,
     areAllFilesValid,
   } from '~helpers/fileHelper';
+  import Icon from '~components/Icon';
 
   let hovering = false;
   let counter = 0;
@@ -63,7 +64,6 @@
         return getFileAddBody(files, start, destination);
       })
       .then((dataItems) => {
-        console.log(dataItems);
         return Promise.all(dataItems.map((item) => torrents.add(item)));
       })
       .then(handleTorrentAddResponses)
@@ -99,14 +99,17 @@
   for="{id}"
   on:drop|preventDefault="{handleDrop}"
 >
-  <div class="dropzone-content">Drop the file here to add it.</div>
+  <div class="dropzone-content">
+    <Icon name="Files" />
+    Drop here to add them to Transmission.
+  </div>
   <input type="file" id="{id}" bind:this="{input}" multiple />
 </label>
 
 <style>
   .dropzone {
     z-index: 99;
-    position: absolute;
+    position: sticky;
     width: 100%;
     height: 100%;
     inset: 0;
@@ -131,6 +134,20 @@
     position: absolute;
     background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='30' ry='30' stroke='rgb(112, 133, 158)' stroke-width='15' stroke-dasharray='25' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e");
     border-radius: 30px;
+  }
+
+  .dropzone-content {
+    color: var(--color-input-file-text);
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .dropzone-content > :global(.icon) {
+    height: 56px;
+    width: 56px;
+    fill: var(--color-input-file-icon-active);
   }
 
   input {

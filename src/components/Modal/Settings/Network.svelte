@@ -58,11 +58,11 @@
         'utp-enabled': utpEnabled,
       })
       .then(() => {
-        alerts.add('Succesfully saved torrent settings');
+        alerts.add('Succesfully saved network settings');
       })
       .catch(() => {
         alerts.add(
-          'Failed saving torrent settings, please try again',
+          'Failed saving network settings, please try again',
           'negative'
         );
       })

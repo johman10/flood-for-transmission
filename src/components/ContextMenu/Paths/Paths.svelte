@@ -15,12 +15,16 @@
   }
 </script>
 
-{#if $paths.length}
-  {#each $paths as path}
-    <li on:click="{onItemClick(onPathSelect, [path])}">{path}</li>
-  {/each}
-{:else}
-  <li on:click="{onFallbackClick}">
-    No common paths configured yet, click here to add some.
-  </li>
-{/if}
+{#await paths.init()}
+  <li>Loading paths...</li>
+{:then}
+  {#if $paths.length}
+    {#each $paths as path}
+      <li on:click="{onItemClick(onPathSelect, [path])}">{path}</li>
+    {/each}
+  {:else}
+    <li on:click="{onFallbackClick}">
+      No common paths configured yet, click here to add some.
+    </li>
+  {/if}
+{/await}

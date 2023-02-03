@@ -1,7 +1,8 @@
 let draggingElement;
 
-const emptyImage = document.createElement("img");   
-emptyImage.src = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
+const emptyImage = document.createElement('img');
+emptyImage.src =
+  'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
 
 export default function orderable(item, handleDrop) {
   const list = item.parentNode;

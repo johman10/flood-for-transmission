@@ -1,16 +1,21 @@
 let draggingElement;
 
+const emptyImage = document.createElement("img");   
+emptyImage.src = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
+
 export default function orderable(item, handleDrop) {
   const list = item.parentNode;
 
   const onDragStart = (e) => {
-    e.dataTransfer.setDragImage(document.createElement('div'), 0, 0);
+    e.dataTransfer.setDragImage(emptyImage, 0, 0);
     draggingElement = item;
     draggingElement.style = 'opacity: .6';
   };
 
   const onDragOver = (event) => {
     event.preventDefault();
+
+    if (draggingElement.id === item.id) return;
 
     if (event.offsetY < 2) {
       list.insertBefore(draggingElement, item.nextSibling);

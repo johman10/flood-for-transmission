@@ -14,6 +14,7 @@
     TRANSMISSION_COLUMN_PRIORITY,
     TRANSMISSION_COLUMN_ID,
   } from '~helpers/constants/columns';
+  import TorrentDropzone from './TorrentDropzone.svelte';
 
   const sortedTorrents = torrents.sorted;
   const activeColumns = uiColumns.active;
@@ -142,6 +143,9 @@
       {/each}
     </tbody>
   </table>
+  {#if !$modals}
+    <TorrentDropzone />
+  {/if}
 </div>
 
 <style>

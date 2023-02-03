@@ -11,6 +11,10 @@
     SESSION_COLUMN_DOWNLOAD_DIR,
     SESSION_COLUMN_START_ADDED,
   } from '~helpers/constants/columns';
+  import {
+    getFileAddBody,
+    handleTorrentAddResponses,
+  } from '~helpers/fileHelper';
 
   const TORRENT_HASH_REGEX = /^[\da-f]{40}$/i;
 
@@ -35,26 +39,6 @@
     .finally(() => {
       loadingInitial = false;
     });
-
-  const toBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result.split(',')[1]);
-      reader.onerror = (error) => reject(error);
-    });
-  };
-
-  const handleFileSubmit = () => {
-    const promises = files.map((file) => toBase64(file));
-    return Promise.all(promises).then((base64Files) =>
-      base64Files.map((base64File) => ({
-        'metainfo': base64File,
-        'paused': !start,
-        'download-dir': destination,
-      }))
-    );
-  };
 
   const validateInputs = (formElement) => {
     const inputs = Array.from(
@@ -100,7 +84,7 @@
 
     let promise;
     if (tab === 'file') {
-      promise = handleFileSubmit();
+      promise = getFileAddBody(files, start, destination);
     } else if (tab === 'url') {
       promise = handleUrlSubmit(event);
     } else {
@@ -112,24 +96,7 @@
         return Promise.all(dataItems.map((item) => torrents.add(item)));
       })
       .then((responses) => {
-        const duplicateResponses = responses
-          .map((response) => response.arguments['torrent-duplicate'])
-          .filter(Boolean);
-        const pluralize = responses.length > 1 ? 'torrents' : 'torrent';
-
-        if (!duplicateResponses.length) {
-          alerts.add(`Succesfully added ${responses.length} ${pluralize}`);
-        } else if (duplicateResponses.length === responses.length) {
-          alerts.add(`All the uploaded ${pluralize} already exist`, 'negative');
-        } else {
-          const pluralizeDuplicates =
-            duplicateResponses.length > 1 ? 'torrents' : 'torrent';
-          const successCount = responses.length - duplicateResponses.length;
-          alerts.add(
-            `Succesfully added ${successCount} ${pluralize}, the other ${duplicateResponses.length} ${pluralizeDuplicates} already exist`,
-            'negative'
-          );
-        }
+        handleTorrentAddResponses(responses);
 
         modals.close();
       })
@@ -170,7 +137,7 @@
     {:else if tab === 'file'}
       <InputFile
         label="Torrents"
-        bind:files
+        bind:files="{files}"
         multiple
         required
         accept=".torrent,application/x-bittorrent"

@@ -133,6 +133,7 @@
         placeholder="Torrent URL, Magnet Link or hash"
         bind:values="{fileNames}"
         required="{!cleanFileNames.length}"
+        autofocus
       />
     {:else if tab === 'file'}
       <InputFile
@@ -226,8 +227,12 @@
     display: inherit;
   }
 
+  .content form {
+    transition: opacity 500ms;
+  }
+
   .content.loading-initial form {
-    visibility: hidden;
+    opacity: 0;
   }
 
   .button-group {

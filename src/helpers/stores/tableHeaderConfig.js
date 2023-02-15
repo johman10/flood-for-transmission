@@ -1,3 +1,4 @@
+import config from '~helpers/configHelper';
 import { writable } from 'svelte/store';
 
 const LOCAL_STORAGE_KEY = 'tableHeaderConfig';
@@ -5,7 +6,7 @@ const LOCAL_STORAGE_KEY = 'tableHeaderConfig';
 function getConfiguredValue() {
   const storedConfig = window.localStorage.getItem(LOCAL_STORAGE_KEY);
   if (storedConfig === null) {
-    return false;
+    return config.WRAP_HEADER || false;
   }
   return storedConfig === 'true';
 }

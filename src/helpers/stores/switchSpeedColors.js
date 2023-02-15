@@ -1,9 +1,14 @@
+import config from '~helpers/configHelper';
 import { writable } from 'svelte/store';
 
 const LOCAL_STORAGE_KEY = 'switchSpeedColors';
 
 function getConfiguredValue() {
-  return window.localStorage.getItem(LOCAL_STORAGE_KEY) === 'true';
+  const storedConfig = window.localStorage.getItem(LOCAL_STORAGE_KEY);
+  if (storedConfig === null) {
+    return config.SWITCH_COLORS || false;
+  }
+  return storedConfig === 'true';
 }
 
 function createSwitchSpeedColors() {

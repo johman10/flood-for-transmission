@@ -1,3 +1,4 @@
+import config from '~helpers/configHelper';
 import { get, readable, writable } from 'svelte/store';
 
 const LOCAL_STORAGE_KEY = 'darkMode';
@@ -24,7 +25,7 @@ const browserPrefersDarkModeStore = readable(
 
 // Returns the value from the storage or 'auto' if no storage value is found
 function getConfiguredValue() {
-  return window.localStorage.getItem(LOCAL_STORAGE_KEY) || 'auto';
+  return window.localStorage.getItem(LOCAL_STORAGE_KEY) || config.DARK_MODE || 'auto';
 }
 
 // Returns whether darkMode is enabled

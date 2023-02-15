@@ -1,3 +1,4 @@
+import config from '~helpers/configHelper';
 import { writable } from 'svelte/store';
 
 const PATHS_STORAGE_KEY = 'paths';
@@ -5,17 +6,7 @@ const PATHS_STORAGE_KEY = 'paths';
 function getPaths() {
   const storedPaths = window.localStorage.getItem(PATHS_STORAGE_KEY);
   if (storedPaths) return JSON.parse(storedPaths);
-
-  return fetch('./config.json')
-    .then((res) => res.json())
-    .then((json) => {
-      let commonPaths = json.COMMON_PATH.split(',');
-      return commonPaths.map((path) => path.trim()).filter(Boolean);
-    })
-    .catch((e) => {
-      console.error('Something went wrong while fetching config.json', e);
-      return [];
-    });
+  return config.COMMON_PATH || []
 }
 
 function cleanValue(value) {

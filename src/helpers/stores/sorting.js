@@ -1,13 +1,12 @@
 import config from '~helpers/configHelper';
 import { writable } from 'svelte/store';
-import { UI_COLUMN_PROGRESS_BAR } from '~helpers/constants/columns';
 import { UI_COLUMN } from '~helpers/constants/columns';
 import { uiColumns } from '~helpers/stores';
 
 const SORTING_STORAGE_KEY = 'torrent-sorting';
 const DEFAULT_SORTING = {
-  id: Object.values(UI_COLUMN).find(column => column.label === config.SORT_COLUMN).id || UI_COLUMN_PROGRESS_BAR.id,
-  direction: config.SORT_DIRECTION || 'desc',
+  id: Object.values(UI_COLUMN).find(column => column.label === config.SORT_COLUMN).id,
+  direction: config.SORT_DIRECTION,
 };
 
 function storeSorting(value) {

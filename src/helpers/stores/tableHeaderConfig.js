@@ -6,7 +6,7 @@ const LOCAL_STORAGE_KEY = 'tableHeaderConfig';
 function getConfiguredValue() {
   const storedConfig = window.localStorage.getItem(LOCAL_STORAGE_KEY);
   if (storedConfig === null) {
-    return config.WRAP_HEADER || false;
+    return config.WRAP_HEADER;
   }
   return storedConfig === 'true';
 }

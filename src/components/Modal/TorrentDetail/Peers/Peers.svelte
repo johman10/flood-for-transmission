@@ -49,8 +49,9 @@
             {#if $ipAddress[peer.address]}
               <img
                 class="flag"
-                src="images/flags/{$ipAddress[peer.address].toLowerCase()}.png"
-                alt="{$ipAddress[peer.address]}"
+                src="images/flags/{$ipAddress[peer.address].country.toLowerCase()}.png"
+                alt="{$ipAddress[peer.address].country}"
+                title="{$ipAddress[peer.address].name}"
               />
             {:else}
               <img class="flag" src="images/flags/_unknown.png" alt="Unknown" />

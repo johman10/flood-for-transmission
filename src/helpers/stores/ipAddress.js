@@ -27,7 +27,7 @@ const createIpAddressStore = () => {
             output.forEach((item) => {
               value[item.ip] = {
                 country: item.country,
-                name: item.name
+                name: item.name,
               };
             });
             return value;

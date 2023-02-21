@@ -147,7 +147,7 @@
       label="Destination"
       placeholder="Destination"
       bind:value="{destination}"
-      pattern="^/.*$"
+      pattern="^(/|[a-zA-Z]:\\).*$"
       validationMessage="Destination must be an absolute path."
       required
     />

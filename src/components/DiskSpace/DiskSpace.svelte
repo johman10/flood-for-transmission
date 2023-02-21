@@ -32,6 +32,7 @@
 </script>
 
 <!-- TODO: Only render based on configuration -->
+<!-- TODO: Only show config if on Transmission >= 4.0 -->
 {#if $paths.length}
   <div class="wrapper">
     <h2>Disk space</h2>

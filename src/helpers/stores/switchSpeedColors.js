@@ -4,11 +4,7 @@ import { writable } from 'svelte/store';
 const LOCAL_STORAGE_KEY = 'switchSpeedColors';
 
 function getConfiguredValue() {
-  const storedConfig = window.localStorage.getItem(LOCAL_STORAGE_KEY);
-  if (storedConfig === null) {
-    return config.SWITCH_COLORS ?? false;
-  }
-  return storedConfig === 'true';
+  return JSON.parse(window.localStorage.getItem(LOCAL_STORAGE_KEY)) ?? config.SWITCH_COLORS;
 }
 
 function createSwitchSpeedColors() {

@@ -11,21 +11,19 @@ const UI_COLUMNS_STORAGE_KEY = 'ui-columns';
 const UI_COLUMN_VALUES = Object.values(UI_COLUMN);
 const UI_COLUMN_IDS = UI_COLUMN_VALUES.map((column) => column.id);
 
-if (config.COLUMNS) {
-  DEFAULT_COLUMNS.map((dcolumn) => {
-    UI_COLUMN_VALUES.map((column) => {
-      if (dcolumn.id === column.id) {
-        dcolumn.enabled = config.COLUMNS.includes(column.label)
-        if (dcolumn.enabled) {
-          let fromIndex = DEFAULT_COLUMNS.indexOf(dcolumn)
-          let toIndex = config.COLUMNS.indexOf(column.label)
-          DEFAULT_COLUMNS.splice(fromIndex, 1)
-          DEFAULT_COLUMNS.splice(toIndex, 0, dcolumn)
-        }
+DEFAULT_COLUMNS.map((dcolumn) => {
+  UI_COLUMN_VALUES.map((column) => {
+    if (dcolumn.id === column.id) {
+      dcolumn.enabled = config.COLUMNS.includes(column.label);
+      if (dcolumn.enabled) {
+        let fromIndex = DEFAULT_COLUMNS.indexOf(dcolumn);
+        let toIndex = config.COLUMNS.indexOf(column.label);
+        DEFAULT_COLUMNS.splice(fromIndex, 1);
+        DEFAULT_COLUMNS.splice(toIndex, 0, dcolumn);
       }
-    })
-  })
-}
+    }
+  });
+});
 
 function storeColumns(columns) {
   const columnIds = Object.keys(COLUMN_MAP).map((column) =>

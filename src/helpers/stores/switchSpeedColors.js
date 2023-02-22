@@ -6,7 +6,7 @@ const LOCAL_STORAGE_KEY = 'switchSpeedColors';
 function getConfiguredValue() {
   const storedConfig = window.localStorage.getItem(LOCAL_STORAGE_KEY);
   if (storedConfig === null) {
-    return config.SWITCH_COLORS;
+    return config.SWITCH_COLORS ?? false;
   }
   return storedConfig === 'true';
 }

@@ -317,110 +317,137 @@ export const UI_COLUMN = {
 export const DEFAULT_COLUMNS = [
   {
     id: UI_COLUMN.NAME.id,
+    enabled: true,
     width: 600,
   },
   {
     id: UI_COLUMN.PROGRESS_BAR.id,
+    enabled: true,
     width: 300,
   },
   {
     id: UI_COLUMN.ETA.id,
+    enabled: true,
     width: 100,
   },
   {
     id: UI_COLUMN.DOWNLOAD_SPEED.id,
+    enabled: true,
     width: 100,
   },
   {
     id: UI_COLUMN.UPLOAD_SPEED.id,
+    enabled: true,
     width: 100,
   },
   {
     id: UI_COLUMN.FILE_SIZE.id,
+    enabled: true,
     width: 100,
   },
   {
     id: UI_COLUMN.DOWNLOADED.id,
+    enabled: true,
     width: 100,
   },
   {
     id: UI_COLUMN.UPLOADED.id,
+    enabled: true,
     width: 100,
   },
   {
     id: UI_COLUMN.PEERS.id,
+    enabled: true,
     width: 100,
   },
   {
     id: UI_COLUMN.SEEDS.id,
+    enabled: true,
     width: 100,
   },
   {
     id: UI_COLUMN.ADDED.id,
+    enabled: false,
     width: 100,
   },
   {
     id: UI_COLUMN.BASE_PATH.id,
+    enabled: false,
     width: 100,
   },
   {
     id: UI_COLUMN.COMMENT.id,
+    enabled: false,
     width: 100,
   },
   {
     id: UI_COLUMN.CREATION_DATE.id,
+    enabled: false,
     width: 100,
   },
   {
     id: UI_COLUMN.HASH.id,
+    enabled: false,
     width: 100,
   },
   {
     id: UI_COLUMN.PRIVATE.id,
+    enabled: false,
     width: 100,
   },
   {
     id: UI_COLUMN.LABELS.id,
+    enabled: false,
     width: 100,
   },
   {
     id: UI_COLUMN.ERROR.id,
+    enabled: false,
     width: 100,
   },
   {
     id: UI_COLUMN.TRACKERS.id,
+    enabled: false,
     width: 100,
   },
   {
     id: UI_COLUMN.RATIO.id,
+    enabled: false,
     width: 100,
   },
   {
     id: UI_COLUMN.DONE.id,
+    enabled: false,
     width: 100,
   },
   {
     id: UI_COLUMN.STATUS.id,
+    enabled: false,
     width: 100,
   },
   {
     id: UI_COLUMN.QUEUE_POSITION.id,
+    enabled: false,
     width: 100,
   },
   {
     id: UI_COLUMN.TOTAL_LEECHERS.id,
+    enabled: false,
     width: 100,
   },
   {
     id: UI_COLUMN.TOTAL_SEEDERS.id,
+    enabled: false,
     width: 100,
   },
   {
     id: UI_COLUMN.ACTIVITY.id,
+    enabled: false,
     width: 100,
   },
   {
     id: UI_COLUMN.PERCENT_COMPLETE.id,
+    enabled: false,
     width: 100,
   },
 ];

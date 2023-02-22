@@ -6,7 +6,7 @@ const PATHS_STORAGE_KEY = 'paths';
 function getPaths() {
   const storedPaths = window.localStorage.getItem(PATHS_STORAGE_KEY);
   if (storedPaths) return JSON.parse(storedPaths);
-  return config.COMMON_PATH
+  return config.COMMON_PATH ?? []
 }
 
 function cleanValue(value) {
@@ -21,35 +21,20 @@ function storeValue(value) {
 const popup = writable({ element: null, shown: false });
 
 function createPathStore() {
-  const { subscribe, set, update } = writable([]);
-  let initialized = false;
+  const { subscribe, set, update } = writable(getPaths());
 
-  const setAndStore = (value) => {
-    set(value);
-    storeValue(value);
-  };
-
-  const paths = {
-    init: async () => {
-      if (initialized) return;
-
-      const paths = await getPaths();
-      console.log(paths);
-      setAndStore(paths);
-
-      initialized = true;
-    },
+  return {
     subscribe,
-    set: setAndStore,
+    set(value) {
+      set(value);
+      storeValue(value);
+    },
     update,
     popup,
     add(path) {
       let newValue;
       update((value) => {
-        newValue = value;
-        if (!value.includes(path)) {
-          newValue = [...value, path];
-        }
+        newValue = [...value, path];
         return newValue;
       });
       storeValue(newValue);
@@ -63,7 +48,5 @@ function createPathStore() {
       storeValue(newValue);
     },
   };
-
-  return paths;
 }
 export const paths = createPathStore();

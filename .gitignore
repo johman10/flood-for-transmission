@@ -2,6 +2,7 @@
 /public/build/
 /public/sw.js*
 /public/workbox-*.js*
+/public/config.json
 
 .DS_Store
 

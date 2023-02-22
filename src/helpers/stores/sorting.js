@@ -1,7 +1,6 @@
 import config from '~helpers/configHelper';
 import { writable } from 'svelte/store';
 import { UI_COLUMN } from '~helpers/constants/columns';
-import { UI_COLUMN_PROGRESS_BAR } from '~helpers/constants/columns';
 import { uiColumns } from '~helpers/stores';
 
 const SORTING_STORAGE_KEY = 'torrent-sorting';

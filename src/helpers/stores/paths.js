@@ -4,9 +4,7 @@ import { writable } from 'svelte/store';
 const PATHS_STORAGE_KEY = 'paths';
 
 function getPaths() {
-  const storedPaths = window.localStorage.getItem(PATHS_STORAGE_KEY);
-  if (storedPaths) return JSON.parse(storedPaths);
-  return config.COMMON_PATH ?? []
+  return JSON.parse(window.localStorage.getItem(PATHS_STORAGE_KEY)) ?? config.COMMON_PATH;
 }
 
 function cleanValue(value) {

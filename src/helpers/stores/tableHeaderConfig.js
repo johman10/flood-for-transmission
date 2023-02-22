@@ -4,11 +4,7 @@ import { writable } from 'svelte/store';
 const LOCAL_STORAGE_KEY = 'tableHeaderConfig';
 
 function getConfiguredValue() {
-  const storedConfig = window.localStorage.getItem(LOCAL_STORAGE_KEY);
-  if (storedConfig === null) {
-    return config.WRAP_HEADER ?? false;
-  }
-  return storedConfig === 'true';
+  return JSON.parse(window.localStorage.getItem(LOCAL_STORAGE_KEY)) ?? config.WRAP_HEADER;
 }
 
 function createTableHeaderConfig() {

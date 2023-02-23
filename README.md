@@ -62,10 +62,9 @@ _Note:_ If you run Flood for Transmission behind SSL and in Chrome you can also 
 * `WRAP_HEADER`-> Type: Boolean e.g. true or false -> Default: false
 * `COMMON_PATH`-> Type: Array of Strings e.g. ["/downloads/expeliarmus","/downloads/lumos"] -> Default: []
 * `COLUMNS` -> Type: Array of Strings e.g. ["Ratio","Upload Speed","Uploaded"] -> Default: ["Name","Progress","ETA","Download Speed","Upload Speed","File Size","Downloaded","Uploaded","Downloading from","Seeding to"]
-You can control the order of the columms by the order of the array.
----
+  * Note that you can control the order of the columns by the order of the array!
 * `SORT_COLUMN` -> Type: String e.g. "Ratio" -> Default: "Progress"
-* `SORT_DIRECTION`-> Type: String e.g. "asc" or "desc" -> Default: "desc" 
+* `SORT_DIRECTION`-> Type: String e.g. "asc" or "desc" -> Default: "desc"
 
 ### Updating
 

@@ -55,13 +55,15 @@ _Note:_ If you run Flood for Transmission behind SSL and in Chrome you can also 
 
 ### [BETA] Customization
 
-1. All User Interface defaults can be customized in `/flood-for-transmission/public/config.json` and should be self-explanatory:
+1. All User Interface defaults can be customized in `/flood-for-transmission/public/config.json` and should be self-explanatory, `cp config.json.defaults config.json` to get started:
 * `DARK_MODE` -> Type: String e.g. "auto" or "enabled" or "disabled" -> Default: "auto"
 * `SWITCH_COLORS`-> Type: Boolean e.g true or false -> Default: false
 * `NOTATION_24H`-> Type: Boolean e.g true or false -> Default: true
 * `WRAP_HEADER`-> Type: Boolean e.g. true or false -> Default: false
 * `COMMON_PATH`-> Type: Array of Strings e.g. ["/downloads/expeliarmus","/downloads/lumos"] -> Default: []
-* `COLUMNS` -> Type: Array of Strings e.g. ["Ratio","Upload Speed","Uploaded"] -> Default: ["Name","Progress","ETA","Download Speed","Upload Speed","File Size","Downloaded","Uploaded","Downloading from","Seeding to","Ratio"] -> Note that you can control the order of the columms by the order of the array!
+* `COLUMNS` -> Type: Array of Strings e.g. ["Ratio","Upload Speed","Uploaded"] -> Default: ["Name","Progress","ETA","Download Speed","Upload Speed","File Size","Downloaded","Uploaded","Downloading from","Seeding to"]
+You can control the order of the columms by the order of the array.
+---
 * `SORT_COLUMN` -> Type: String e.g. "Ratio" -> Default: "Progress"
 * `SORT_DIRECTION`-> Type: String e.g. "asc" or "desc" -> Default: "desc" 
 

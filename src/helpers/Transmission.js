@@ -65,6 +65,7 @@ export default class Transmission {
         headers,
       });
       if (!response.ok) {
+        this._tokenHeader = null;
         throw new Error(response.statusText);
       }
       const output = await response.json();

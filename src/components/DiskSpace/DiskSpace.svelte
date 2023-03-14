@@ -3,6 +3,7 @@
   import { paths } from '~helpers/stores';
   import Transmission from '~helpers/Transmission';
   import { ProgressRenderer } from '~components/TorrentList/Renderers';
+  import ProgressBar from '../ProgressBar/ProgressBar.svelte';
 
   const transmission = new Transmission();
 
@@ -27,7 +28,7 @@
     const freeSpace = pathSpace?.['size-bytes'];
     const totalSpace = pathSpace?.total_size;
     const usedSpace = totalSpace - freeSpace;
-    return usedSpace / totalSpace;
+    return (usedSpace / totalSpace) * 100;
   };
 </script>
 
@@ -40,11 +41,7 @@
       {#each $paths as path}
         <li>
           {path}
-          <!-- TODO: Create seperate progress bar component -->
-          <ProgressRenderer
-            value="{getProgress(path)}"
-            torrentStatus="Downloading"
-          />
+          <ProgressBar progress="{getProgress(path)}" />
         </li>
       {/each}
     </ul>
@@ -71,6 +68,9 @@
   }
 
   li {
+    --progess-color: var(--color-progress-bar-download);
+    --background-color: var(--color-progress-bar-download-background);
+
     font-weight: 400;
     padding: 3px 0;
     display: flex;

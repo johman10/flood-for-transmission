@@ -52,7 +52,7 @@
                 src="images/flags/{$ipAddress[
                   peer.address
                 ].country_code.toLowerCase()}.png"
-                alt="{`Flag of ${$ipAddress[peer.address].country_name}`}"
+                alt="{$ipAddress[peer.address].country_code}"
                 title="{$ipAddress[peer.address].country_name}"
               />
             {:else}

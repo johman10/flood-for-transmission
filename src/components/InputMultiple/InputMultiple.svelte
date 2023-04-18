@@ -54,7 +54,7 @@
     <Input
       id="input-multiple-{index}"
       type="{type}"
-      bind:value
+      bind:value="{value}"
       addons="{getAddons(index)}"
       {...$$restProps}
     />

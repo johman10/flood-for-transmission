@@ -33,7 +33,7 @@
         bind:this="{input}"
         on:invalid="{handleInvalid}"
         on:input="{(e) => e.target.setCustomValidity('')}"
-        bind:value
+        bind:value="{value}"
         {...$$restProps}
       />
     {:else if type === 'number'}
@@ -44,7 +44,7 @@
         bind:this="{input}"
         on:invalid="{handleInvalid}"
         on:input="{(e) => e.target.setCustomValidity('')}"
-        bind:value
+        bind:value="{value}"
         {...$$restProps}
       />
     {:else if type === 'time'}
@@ -55,7 +55,7 @@
         bind:this="{input}"
         on:invalid="{handleInvalid}"
         on:input="{(e) => e.target.setCustomValidity('')}"
-        bind:value
+        bind:value="{value}"
         {...$$restProps}
       />
     {:else if type === 'url'}
@@ -66,7 +66,7 @@
         bind:this="{input}"
         on:invalid="{handleInvalid}"
         on:input="{(e) => e.target.setCustomValidity('')}"
-        bind:value
+        bind:value="{value}"
         {...$$restProps}
       />
     {:else}{console.error(`Invalid type received, ${type}`)}{/if}

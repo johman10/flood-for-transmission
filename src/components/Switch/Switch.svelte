@@ -11,7 +11,7 @@
   };
 </script>
 
-<div class:checked on:click="{handleClick}"></div>
+<div class:checked="{checked}" on:click="{handleClick}"></div>
 
 <style>
   div {

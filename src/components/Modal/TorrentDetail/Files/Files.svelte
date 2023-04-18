@@ -39,7 +39,7 @@
     {#if files.length}
       <Folder
         structure="{structure}"
-        bind:selectedFiles
+        bind:selectedFiles="{selectedFiles}"
         iconName="Disk"
         folderName="{getMainFolder(
           $torrentDetails[TRANSMISSION_COLUMN_DOWNLOAD_DIR],

@@ -20,7 +20,7 @@
     "@rollup/plugin-commonjs": "^24.1.0",
     "@rollup/plugin-node-resolve": "^15.0.2",
     "@rollup/plugin-replace": "^5.0.2",
-    "@wwa/rollup-plugin-terser": "^1.0.1",
+    "@rollup/plugin-terser": "^0.4.1",
     "dotenv": "^16.0.3",
     "eslint": "^8.38.0",
     "eslint-plugin-svelte3": "^4.0.0",

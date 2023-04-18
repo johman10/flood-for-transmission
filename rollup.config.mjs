@@ -5,14 +5,17 @@ import css from 'rollup-plugin-css-only';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import livereload from 'rollup-plugin-livereload';
-import { terser } from 'rollup-plugin-terser';
+import { terser } from '@wwa/rollup-plugin-terser';
 import alias from '@rollup/plugin-alias';
 import path from 'path';
 import replace from '@rollup/plugin-replace';
 import dotenv from 'dotenv';
 import babel from '@rollup/plugin-babel';
+import * as url from 'url';
+import childProcess from 'child_process';
 
 const production = !process.env.ROLLUP_WATCH;
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 if (!production) {
   dotenv.config();
@@ -28,14 +31,10 @@ function serve() {
   return {
     writeBundle() {
       if (server) return;
-      server = require('child_process').spawn(
-        'npm',
-        ['run', 'serve', '--', '--dev'],
-        {
-          stdio: ['ignore', 'inherit', 'inherit'],
-          shell: true,
-        }
-      );
+      server = childProcess.spawn('npm', ['run', 'serve', '--', '--dev'], {
+        stdio: ['ignore', 'inherit', 'inherit'],
+        shell: true,
+      });
 
       process.on('SIGTERM', toExit);
       process.on('exit', toExit);

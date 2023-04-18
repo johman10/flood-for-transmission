@@ -95,7 +95,7 @@
 
 <label
   class="dropzone"
-  class:hovering
+  class:hovering="{hovering}"
   for="{id}"
   on:drop|preventDefault="{handleDrop}"
 >

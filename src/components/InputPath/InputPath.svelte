@@ -25,8 +25,8 @@
 
 <Input
   type="text"
-  bind:input
-  bind:value
+  bind:input="{input}"
+  bind:value="{value}"
   addons="{[{ iconName: 'Search', onClick: togglePopup, iconSize: '18px' }]}"
   {...$$restProps}
 />

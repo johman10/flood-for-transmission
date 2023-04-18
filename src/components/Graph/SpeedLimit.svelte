@@ -22,7 +22,7 @@
   class="limit"
   class:upload="{direction === 'upload'}"
   class:download="{direction === 'download'}"
-  class:hidden
+  class:hidden="{hidden}"
 >
   {#if limit}
     {limit}

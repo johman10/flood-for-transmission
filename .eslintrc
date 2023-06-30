@@ -17,12 +17,12 @@
     "__TRANSMISSION_SSL__": "readonly",
     "__ENV__": "readonly"
   },
-  "plugins": ["svelte3"],
-  "extends": ["eslint:recommended"],
+  "plugins": [],
+  "extends": ["plugin:svelte/recommended", "eslint:recommended"],
   "overrides": [
     {
       "files": ["**/*.svelte"],
-      "processor": "svelte3/svelte3"
+      "parser": "svelte-eslint-parser"
     }
   ],
   "rules": {

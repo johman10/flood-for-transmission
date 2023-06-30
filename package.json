@@ -31,6 +31,7 @@
     "rollup-plugin-livereload": "^2.0.5",
     "rollup-plugin-svelte": "^7.1.6",
     "svelte": "^4.0.1",
+    "svelte-eslint-parser": "^0.32.0",
     "workbox-cli": "^7.0.0"
   },
   "dependencies": {

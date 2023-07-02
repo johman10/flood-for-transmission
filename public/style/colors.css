@@ -187,6 +187,8 @@
   --color-priority-off: rgb(67, 96, 118);
 
   --color-dropzone-background: rgba(var(--rgb-background), 0.9);
+
+  color-scheme: light;
 }
 
 .dark-mode {
@@ -206,6 +208,8 @@
 
   --color-torrent-text: rgb(171, 186, 199);
   --color-torrent-text-inactive: var(--color-text);
+
+  color-scheme: dark;
 }
 
 .switch-speed-colors {

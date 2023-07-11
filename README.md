@@ -67,6 +67,72 @@ To update follow the following steps (feel free to write a cron job script for t
 1. Remove the now redundant zip file: `rm flood-for-transmission.zip`
 1. Restart Transmission.
 
+### Docker
+
+Alternatively you can use pre-build image with Transmission and Flood inside.
+
+#### Docker compose
+
+```yaml
+version: "3.8"
+services:
+  transmission:
+    image: johman10/flood-for-transmission:latest
+    container_name: transmission
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - USER= #optional
+      - PASS= #optional
+      - WHITELIST= #optional
+      - PEERPORT= #optional
+      - HOST_WHITELIST= #optional
+    volumes:
+      - /path/to/data:/config
+      - /path/to/downloads:/downloads
+      - /path/to/watch/folder:/watch
+      - /path/to/config.json:/flood-for-transmission/public/config.json
+    ports:
+      - 9091:9091
+      - 51413:51413
+      - 51413:51413/udp
+    restart: unless-stopped
+```
+
+#### Docker cli
+
+```bash
+docker run -d \
+  --name=transmission \
+  -e PUID=1000 \
+  -e PGID=1000 \
+  -e TZ=Etc/UTC \
+  -e USER= `#optional` \
+  -e PASS= `#optional` \
+  -e WHITELIST= `#optional` \
+  -e PEERPORT= `#optional` \
+  -e HOST_WHITELIST= `#optional` \
+  -p 9091:9091 \
+  -p 51413:51413 \
+  -p 51413:51413/udp \
+  -v /path/to/data:/config \
+  -v /path/to/downloads:/downloads \
+  -v /path/to/watch/folder:/watch \
+  -v /path/to/config.json:/flood-for-transmission/public/config.json \
+  --restart unless-stopped \
+  johman10/flood-for-transmission:latest
+```
+
+#### Parameters
+
+Most of the configuration comes from transmission image (see [linuxserver/transmission](https://github.com/linuxserver/docker-transmission#parameters) parameters).
+
+|                    Parameter                    | Function                        |
+|:-----------------------------------------------:|---------------------------------|
+| `-v /flood-for-transmission/public/config.json` | Flood customization config file |
+
+
 ### Local Development
 
 1. Run `npm install`.

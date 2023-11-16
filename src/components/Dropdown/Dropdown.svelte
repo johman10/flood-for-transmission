@@ -84,7 +84,9 @@
     font-size: 13px;
     border-bottom: solid 1px rgba(41, 51, 65, 0.05);
     cursor: pointer;
-    transition: color 250ms, fill 250ms;
+    transition:
+      color 250ms,
+      fill 250ms;
   }
 
   .header:hover {
@@ -114,7 +116,9 @@
     padding: 5px 15px;
     font-size: 13px;
     cursor: pointer;
-    transition: background-color 0.25s, color 0.25s;
+    transition:
+      background-color 0.25s,
+      color 0.25s;
   }
 
   li:hover {

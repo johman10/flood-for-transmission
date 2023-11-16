@@ -92,8 +92,7 @@
 
   <Header text="Common paths" />
   <p class="hint">
-    These paths will be shown behind the magnifier where you can select a
-    path.
+    These paths will be shown behind the magnifier where you can select a path.
   </p>
   <InputMultiple
     bind:values="{newPaths}"

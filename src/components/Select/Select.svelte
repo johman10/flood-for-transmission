@@ -56,7 +56,7 @@
     <div class="content">
       {options.find((option) => option.value === value)?.label || placeholder}
     </div>
-    <div class="arrow" class:open="{open}">
+    <div class="arrow" class:open>
       <Icon name="Chevron" />
     </div>
   </Button>

@@ -77,7 +77,9 @@
     position: absolute;
     right: 8px;
     top: 50%;
-    transition: opacity 200ms, transform 200ms;
+    transition:
+      opacity 200ms,
+      transform 200ms;
   }
 
   .header.sorting:after {

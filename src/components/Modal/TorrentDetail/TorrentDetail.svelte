@@ -43,7 +43,7 @@
 
 <div class="container" class:loading-initial="{loadingInitial}">
   <Icon name="SpinnerIcon" />
-  <Header torrentId="{torrentId}" />
+  <Header {torrentId} />
   <div class="content">
     <nav>
       {#each pages as { name, component }}

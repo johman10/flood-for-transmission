@@ -28,45 +28,45 @@
     {#if type === 'text'}
       <input
         class="input"
-        id="{id}"
+        {id}
         type="text"
         bind:this="{input}"
         on:invalid="{handleInvalid}"
         on:input="{(e) => e.target.setCustomValidity('')}"
-        bind:value="{value}"
+        bind:value
         {...$$restProps}
       />
     {:else if type === 'number'}
       <input
         class="input"
-        id="{id}"
+        {id}
         type="number"
         bind:this="{input}"
         on:invalid="{handleInvalid}"
         on:input="{(e) => e.target.setCustomValidity('')}"
-        bind:value="{value}"
+        bind:value
         {...$$restProps}
       />
     {:else if type === 'time'}
       <input
         class="input"
-        id="{id}"
+        {id}
         type="time"
         bind:this="{input}"
         on:invalid="{handleInvalid}"
         on:input="{(e) => e.target.setCustomValidity('')}"
-        bind:value="{value}"
+        bind:value
         {...$$restProps}
       />
     {:else if type === 'url'}
       <input
         class="input"
-        id="{id}"
+        {id}
         type="url"
         bind:this="{input}"
         on:invalid="{handleInvalid}"
         on:input="{(e) => e.target.setCustomValidity('')}"
-        bind:value="{value}"
+        bind:value
         {...$$restProps}
       />
     {:else}{console.error(`Invalid type received, ${type}`)}{/if}
@@ -116,7 +116,9 @@
     align-items: center;
     justify-content: center;
     border-left: solid 1px var(--color-input-addon-border);
-    transition: fill 125ms, border 125ms;
+    transition:
+      fill 125ms,
+      border 125ms;
     cursor: pointer;
     fill: var(--color-input-addon-icon);
   }

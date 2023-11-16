@@ -2,7 +2,7 @@
   export let viewBox;
 </script>
 
-<svg on:click class="icon" viewBox="{viewBox}">
+<svg on:click class="icon" {viewBox}>
   <path
     d="M26,38.9c-7.1,0-12.8-5.8-12.8-12.8C13.2,19,19,13.2,26,13.2c7.1,0,12.8,5.8,12.8,12.8
     C38.9,33.1,33.1,38.9,26,38.9z
@@ -13,5 +13,6 @@
     y="36.7"
     transform="matrix(0.7071 0.7071 -0.7071 0.7071 39.1863 -16.2315)"
     width="16.5"
-    height="5"></rect>
+    height="5"
+  ></rect>
 </svg>

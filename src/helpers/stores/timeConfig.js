@@ -4,7 +4,10 @@ import { writable } from 'svelte/store';
 const LOCAL_STORAGE_KEY = 'timeConfig';
 
 function getConfiguredValue() {
-  return JSON.parse(window.localStorage.getItem(LOCAL_STORAGE_KEY)) ?? config.NOTATION_24H;
+  return (
+    JSON.parse(window.localStorage.getItem(LOCAL_STORAGE_KEY)) ??
+    config.NOTATION_24H
+  );
 }
 
 function createTimeConfig() {

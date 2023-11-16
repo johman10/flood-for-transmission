@@ -41,7 +41,7 @@
     <Checkbox label="Delete local data" bind:checked="{deleteData}" />
     <div class="button-group">
       <Button priority="tertiary" on:click="{modals.close}">Cancel</Button>
-      <Button priority="primary" loading="{loading}" type="submit">
+      <Button priority="primary" {loading} type="submit">
         Remove torrents
       </Button>
     </div>

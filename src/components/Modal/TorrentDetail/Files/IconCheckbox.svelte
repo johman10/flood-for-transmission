@@ -9,12 +9,7 @@
 </script>
 
 <div class="icon-checkbox" class:selected="{group?.includes(value) || checked}">
-  <Checkbox
-    on:change
-    group="{group}"
-    value="{value}"
-    bind:checked="{checked}"
-  />
+  <Checkbox on:change {group} {value} bind:checked />
   <Icon name="{iconName}" />
 </div>
 

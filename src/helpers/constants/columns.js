@@ -314,7 +314,9 @@ export const UI_COLUMN = {
   UPLOADED: UI_COLUMN_UPLOADED,
 };
 
-export const DEFAULT_COLUMNS = [
+export const DEFAULT_COLUMN_WIDTH = 100;
+export const DEFAULT_SORT_COLUMN_ID = 15;
+export const DEFAULT_COLUMN_WIDTH_EXCEPTIONS = [
   {
     id: UI_COLUMN.NAME.id,
     width: 600,
@@ -323,107 +325,8 @@ export const DEFAULT_COLUMNS = [
     id: UI_COLUMN.PROGRESS_BAR.id,
     width: 300,
   },
-  {
-    id: UI_COLUMN.ETA.id,
-    width: 100,
-  },
-  {
-    id: UI_COLUMN.DOWNLOAD_SPEED.id,
-    width: 100,
-  },
-  {
-    id: UI_COLUMN.UPLOAD_SPEED.id,
-    width: 100,
-  },
-  {
-    id: UI_COLUMN.FILE_SIZE.id,
-    width: 100,
-  },
-  {
-    id: UI_COLUMN.DOWNLOADED.id,
-    width: 100,
-  },
-  {
-    id: UI_COLUMN.UPLOADED.id,
-    width: 100,
-  },
-  {
-    id: UI_COLUMN.PEERS.id,
-    width: 100,
-  },
-  {
-    id: UI_COLUMN.SEEDS.id,
-    width: 100,
-  },
-  {
-    id: UI_COLUMN.ADDED.id,
-    width: 100,
-  },
-  {
-    id: UI_COLUMN.BASE_PATH.id,
-    width: 100,
-  },
-  {
-    id: UI_COLUMN.COMMENT.id,
-    width: 100,
-  },
-  {
-    id: UI_COLUMN.CREATION_DATE.id,
-    width: 100,
-  },
-  {
-    id: UI_COLUMN.HASH.id,
-    width: 100,
-  },
-  {
-    id: UI_COLUMN.PRIVATE.id,
-    width: 100,
-  },
-  {
-    id: UI_COLUMN.LABELS.id,
-    width: 100,
-  },
-  {
-    id: UI_COLUMN.ERROR.id,
-    width: 100,
-  },
-  {
-    id: UI_COLUMN.TRACKERS.id,
-    width: 100,
-  },
-  {
-    id: UI_COLUMN.RATIO.id,
-    width: 100,
-  },
-  {
-    id: UI_COLUMN.DONE.id,
-    width: 100,
-  },
-  {
-    id: UI_COLUMN.STATUS.id,
-    width: 100,
-  },
-  {
-    id: UI_COLUMN.QUEUE_POSITION.id,
-    width: 100,
-  },
-  {
-    id: UI_COLUMN.TOTAL_LEECHERS.id,
-    width: 100,
-  },
-  {
-    id: UI_COLUMN.TOTAL_SEEDERS.id,
-    width: 100,
-  },
-  {
-    id: UI_COLUMN.ACTIVITY.id,
-    width: 100,
-  },
-  {
-    id: UI_COLUMN.PERCENT_COMPLETE.id,
-    width: 100,
-  },
 ];
+
 export const TRANSMISSION_BASE_COLUMNS = [
   TRANSMISSION_COLUMN.DOWNLOAD_PROGRESS,
   TRANSMISSION_COLUMN.DOWNLOAD_RATE,

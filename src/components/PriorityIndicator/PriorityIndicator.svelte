@@ -87,7 +87,10 @@
     content: '';
     height: 100%;
     top: 0;
-    transition: background-color 0.25s, left 0.25s, transform 0.25s;
+    transition:
+      background-color 0.25s,
+      left 0.25s,
+      transform 0.25s;
     transform: translateX(-50%);
     width: 2px;
     background-color: var(--color);

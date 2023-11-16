@@ -132,7 +132,8 @@
     padding: 9px 0;
     font-size: 12px;
     border-radius: 4px;
-    box-shadow: 0 1px 1px var(--color-context-menu-shadow-1),
+    box-shadow:
+      0 1px 1px var(--color-context-menu-shadow-1),
       0 1px 3px 1px var(--color-context-menu-shadow-2),
       0 0 0 1px var(--color-context-menu-shadow-3);
     color: var(--color-context-menu-text);
@@ -143,7 +144,9 @@
   ul > :global(li) {
     cursor: pointer;
     padding: 5px 15px;
-    transition: background-color 250ms, color 250ms;
+    transition:
+      background-color 250ms,
+      color 250ms;
     display: flex;
     align-items: center;
     justify-content: space-between;

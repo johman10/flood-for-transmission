@@ -13,5 +13,6 @@
     y="36.7"
     transform="matrix(0.7071 0.7071 -0.7071 0.7071 39.1863 -16.2315)"
     width="16.5"
-    height="5"></rect>
+    height="5"
+  ></rect>
 </svg>

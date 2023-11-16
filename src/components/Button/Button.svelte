@@ -47,21 +47,24 @@
   button.primary {
     background: var(--color-button-primary-background);
     border-color: var(--color-button-primary-border);
-    text-shadow: 0 1px 0 var(--color-button-primary-shadow-1),
+    text-shadow:
+      0 1px 0 var(--color-button-primary-shadow-1),
       0 1px 2px var(--color-button-primary-shadow-2);
   }
 
   button.secondary {
     background: var(--color-button-secondary-background);
     border-color: var(--color-button-secondary-border);
-    text-shadow: 0 1px 0 var(--color-button-secondary-shadow-1),
+    text-shadow:
+      0 1px 0 var(--color-button-secondary-shadow-1),
       0 1px 2px var(--color-button-secondary-shadow-2);
   }
 
   button.tertiary {
     background: var(--color-button-tertiary-background);
     border-color: var(--color-button-tertiary-border);
-    text-shadow: 0 1px 0 var(--color-button-tertiary-shadow-1),
+    text-shadow:
+      0 1px 0 var(--color-button-tertiary-shadow-1),
       0 1px 2px var(--color-button-tertiary-shadow-2);
   }
 

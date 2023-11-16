@@ -49,7 +49,9 @@
     margin-right: 0;
     padding: 5px;
     border-right: solid 1px transparent;
-    transition: border-color 0.25s, color 0.25s;
+    transition:
+      border-color 0.25s,
+      color 0.25s;
     cursor: pointer;
   }
 

@@ -276,7 +276,9 @@
     padding: 3px 0;
     display: flex;
     align-items: center;
-    transition: fill 0.25s, color 0.25s;
+    transition:
+      fill 0.25s,
+      color 0.25s;
     font-size: 13px;
   }
 

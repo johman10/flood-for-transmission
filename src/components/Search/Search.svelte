@@ -36,7 +36,9 @@
     font-size: 16px;
     outline: none;
     padding: 12px 0 12px 45px;
-    transition: background-color 0.25s, border 0.25s;
+    transition:
+      background-color 0.25s,
+      border 0.25s;
     width: 100%;
     height: auto;
   }

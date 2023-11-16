@@ -116,7 +116,9 @@
     align-items: center;
     justify-content: center;
     border-left: solid 1px var(--color-input-addon-border);
-    transition: fill 125ms, border 125ms;
+    transition:
+      fill 125ms,
+      border 125ms;
     cursor: pointer;
     fill: var(--color-input-addon-icon);
   }

@@ -1,40 +1,22 @@
 import config from '~helpers/configHelper';
 import { writable } from 'svelte/store';
-import { UI_COLUMN } from '~helpers/constants/columns';
-import { uiColumns } from '~helpers/stores';
 
 const SORTING_STORAGE_KEY = 'torrent-sorting';
-const DEFAULT_SORTING = {
-  id: Object.values(UI_COLUMN).find(column => column.label === config.SORT_COLUMN).id,
-  direction: config.SORT_DIRECTION
-};
 
 function storeSorting(value) {
   window.localStorage.setItem(SORTING_STORAGE_KEY, JSON.stringify(value));
 }
 
 function getSorting() {
-  const storedSorting = window.localStorage.getItem(SORTING_STORAGE_KEY);
-  if (storedSorting) {
-    const sorting = JSON.parse(storedSorting);
-
-    if (sorting.id) return sorting;
-
-    // Migrate from using column name to column ID
-    const uiColumnId = uiColumns.getColumnId(sorting.column);
-    // Sorting seems invalid, fallback to the default sorting
-    if (!uiColumnId) return DEFAULT_SORTING;
-
-    const newSorting = {
-      id: uiColumnId,
-      direction: sorting.direction,
-    };
-    storeSorting(newSorting);
-    return newSorting;
-  }
-
-  // Default sorting
-  return DEFAULT_SORTING;
+  const storedSorting = JSON.parse(
+    window.localStorage.getItem(SORTING_STORAGE_KEY)
+  );
+  const currentSorting = {
+    id: storedSorting?.id ?? config.SORT_COLUMN,
+    direction: storedSorting?.direction ?? config.SORT_DIRECTION,
+  };
+  storeSorting(currentSorting);
+  return currentSorting;
 }
 
 function createSortingStore() {
@@ -51,9 +33,10 @@ function createSortingStore() {
       let newValue;
       update((value) => {
         if (value.id === id && value.direction === 'desc') {
-          newValue = { ...value, direction: 'asc' };
+          newValue = { id, direction: 'asc' };
           return newValue;
         }
+
         newValue = { id, direction: 'desc' };
         return newValue;
       });

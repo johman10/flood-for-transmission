@@ -1,7 +1,6 @@
 import config from '~helpers/configHelper';
 import { writable, derived } from 'svelte/store';
 import {
-  DEFAULT_COLUMNS,
   TRANSMISSION_BASE_COLUMNS,
   COLUMN_MAP,
   UI_COLUMN,
@@ -10,20 +9,6 @@ import {
 const UI_COLUMNS_STORAGE_KEY = 'ui-columns';
 const UI_COLUMN_VALUES = Object.values(UI_COLUMN);
 const UI_COLUMN_IDS = UI_COLUMN_VALUES.map((column) => column.id);
-
-DEFAULT_COLUMNS.map((dcolumn) => {
-  UI_COLUMN_VALUES.map((column) => {
-    if (dcolumn.id === column.id) {
-      dcolumn.enabled = config.COLUMNS.includes(column.label);
-      if (dcolumn.enabled) {
-        let fromIndex = DEFAULT_COLUMNS.indexOf(dcolumn);
-        let toIndex = config.COLUMNS.indexOf(column.label);
-        DEFAULT_COLUMNS.splice(fromIndex, 1);
-        DEFAULT_COLUMNS.splice(toIndex, 0, dcolumn);
-      }
-    }
-  });
-});
 
 function storeColumns(columns) {
   const columnIds = Object.keys(COLUMN_MAP).map((column) =>
@@ -40,42 +25,17 @@ function storeColumns(columns) {
   window.localStorage.setItem(UI_COLUMNS_STORAGE_KEY, data);
 }
 
-function getColumnId(name) {
-  return UI_COLUMN_VALUES.find(
-    (column) => column.label === name || column.oldLabels?.includes(name)
-  )?.id;
-}
-
 function migrateStoredColumns(storedColumns) {
   const storedColumnsClone = JSON.parse(JSON.stringify(storedColumns));
-  let invalid = false;
-
-  // Migrate stored columns by name to stored columns by id
-  const storedColumnsWithId = storedColumnsClone.map((storedColumn) => {
-    if (storedColumn.id) return storedColumn;
-
-    const columnId = getColumnId(storedColumn.name);
-    if (!columnId) {
-      invalid = true;
-      return storedColumn;
-    }
-
-    return {
-      id: columnId,
-      enabled: storedColumn.enabled,
-      width: storedColumn.width,
-    };
-  });
-  if (invalid) return DEFAULT_COLUMNS;
 
   // Find all the columns that are still supported, remove any ones that have been removed
-  const cleanedStoredColumns = storedColumnsWithId.filter(({ id }) =>
+  const cleanedStoredColumns = storedColumnsClone.filter(({ id }) =>
     UI_COLUMN_IDS.includes(id)
   );
 
   // Find all columns that aren't included in the stored version
-  const storedColumnIds = storedColumnsWithId.map((column) => column.id);
-  const missingColumns = DEFAULT_COLUMNS.filter(({ id }) => {
+  const storedColumnIds = storedColumnsClone.map((column) => column.id);
+  const missingColumns = UI_COLUMN_VALUES.filter(({ id }) => {
     return !storedColumnIds.includes(id);
   });
 
@@ -92,7 +52,7 @@ function getUiColumns() {
     if (!columns) throw new Error('No columns stored yet');
     return migrateStoredColumns(columns);
   } catch (e) {
-    return DEFAULT_COLUMNS;
+    return config.COLUMNS;
   }
 }
 
@@ -131,7 +91,6 @@ function uiColumnStore() {
     getColumnLabel: (id) => {
       return UI_COLUMN_VALUES.find((column) => column.id === id)?.label;
     },
-    getColumnId,
   };
 }
 export const uiColumns = uiColumnStore();

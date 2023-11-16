@@ -9,5 +9,6 @@
   "quoteProps": "consistent",
   "svelteSortOrder": "options-scripts-markup-styles",
   "svelteStrictMode": true,
-  "svelteBracketNewLine": true
+  "svelteBracketNewLine": true,
+  "svelteAllowShorthand": false
 }

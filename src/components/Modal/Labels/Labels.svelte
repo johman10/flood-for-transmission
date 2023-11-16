@@ -50,7 +50,9 @@
     />
     <div class="button-group">
       <Button priority="tertiary" on:click="{modals.close}">Cancel</Button>
-      <Button priority="primary" {loading} type="submit">Set labels</Button>
+      <Button priority="primary" loading="{loading}" type="submit"
+        >Set labels</Button
+      >
     </div>
   </form>
 </div>

@@ -101,9 +101,9 @@
 <label
   for="{id}"
   class="zone"
-  class:invalid
+  class:invalid="{invalid}"
   class:file="{files}"
-  class:hovering
+  class:hovering="{hovering}"
   on:dragenter|preventDefault="{handleDragOver}"
   on:dragover|preventDefault="{handleDragOver}"
   on:dragleave|preventDefault="{handleDragLeave}"
@@ -117,11 +117,11 @@
   {/if}
   <input
     type="file"
-    {id}
+    id="{id}"
     on:input|preventDefault="{handleChange}"
     bind:this="{input}"
     required="{required && (!files || !files.length)}"
-    {multiple}
+    multiple="{multiple}"
     {...$$restProps}
   />
 </label>

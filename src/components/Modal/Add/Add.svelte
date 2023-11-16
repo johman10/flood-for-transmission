@@ -137,7 +137,7 @@
     {:else if tab === 'file'}
       <InputFile
         label="Torrents"
-        bind:files
+        bind:files="{files}"
         multiple
         required
         accept=".torrent,application/x-bittorrent"

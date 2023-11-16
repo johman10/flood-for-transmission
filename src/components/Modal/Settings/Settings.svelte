@@ -79,7 +79,7 @@
 </script>
 
 <div class="wrapper">
-  <Menu bind:activePageId {pages} />
+  <Menu bind:activePageId="{activePageId}" pages="{pages}" />
   <div class="content">
     {#await pages
       .find((page) => page.id === activePageId)

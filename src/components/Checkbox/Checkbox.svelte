@@ -17,13 +17,19 @@
 
 <label for="{id}" tabindex="0" class="checkbox">
   {#if group && value}
-    <input type="checkbox" bind:group {value} {id} on:change />
+    <input
+      type="checkbox"
+      bind:group="{group}"
+      value="{value}"
+      id="{id}"
+      on:change
+    />
     <div class="indicator" class:checked="{group.includes(value)}">
       <Icon name="CheckboxCheckmark" viewBox="0 0 18 18" />
     </div>
   {:else}
-    <input type="checkbox" bind:checked {id} on:change />
-    <div class="indicator" class:checked>
+    <input type="checkbox" bind:checked="{checked}" id="{id}" on:change />
+    <div class="indicator" class:checked="{checked}">
       <Icon name="CheckboxCheckmark" viewBox="0 0 18 18" />
     </div>
   {/if}

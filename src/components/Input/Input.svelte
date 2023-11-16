@@ -28,45 +28,45 @@
     {#if type === 'text'}
       <input
         class="input"
-        {id}
+        id="{id}"
         type="text"
         bind:this="{input}"
         on:invalid="{handleInvalid}"
         on:input="{(e) => e.target.setCustomValidity('')}"
-        bind:value
+        bind:value="{value}"
         {...$$restProps}
       />
     {:else if type === 'number'}
       <input
         class="input"
-        {id}
+        id="{id}"
         type="number"
         bind:this="{input}"
         on:invalid="{handleInvalid}"
         on:input="{(e) => e.target.setCustomValidity('')}"
-        bind:value
+        bind:value="{value}"
         {...$$restProps}
       />
     {:else if type === 'time'}
       <input
         class="input"
-        {id}
+        id="{id}"
         type="time"
         bind:this="{input}"
         on:invalid="{handleInvalid}"
         on:input="{(e) => e.target.setCustomValidity('')}"
-        bind:value
+        bind:value="{value}"
         {...$$restProps}
       />
     {:else if type === 'url'}
       <input
         class="input"
-        {id}
+        id="{id}"
         type="url"
         bind:this="{input}"
         on:invalid="{handleInvalid}"
         on:input="{(e) => e.target.setCustomValidity('')}"
-        bind:value
+        bind:value="{value}"
         {...$$restProps}
       />
     {:else}{console.error(`Invalid type received, ${type}`)}{/if}

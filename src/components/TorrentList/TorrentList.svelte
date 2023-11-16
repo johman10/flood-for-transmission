@@ -135,7 +135,7 @@
     <tbody>
       {#each $sortedTorrents as torrent (torrent[TRANSMISSION_COLUMN_ID])}
         <Torrent
-          {torrent}
+          torrent="{torrent}"
           on:click="{handleTorrentClick}"
           on:contextmenu="{handleTorrentRightClick}"
           selected="{$selectedTorrents.includes(torrent.id)}"

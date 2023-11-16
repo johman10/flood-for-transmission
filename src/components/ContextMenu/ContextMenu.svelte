@@ -117,7 +117,7 @@
     <svelte:component
       this="{$contextMenu.component}"
       {...$contextMenu.props}
-      {onItemClick}
+      onItemClick="{onItemClick}"
     />
   </ul>
 {/if}

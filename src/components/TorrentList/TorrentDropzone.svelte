@@ -95,7 +95,7 @@
 
 <label
   class="dropzone"
-  class:hovering
+  class:hovering="{hovering}"
   for="{id}"
   on:drop|preventDefault="{handleDrop}"
 >
@@ -103,7 +103,7 @@
     <Icon name="Files" />
     Drop here to add them to Transmission.
   </div>
-  <input type="file" {id} bind:this="{input}" multiple />
+  <input type="file" id="{id}" bind:this="{input}" multiple />
 </label>
 
 <style>

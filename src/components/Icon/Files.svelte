@@ -2,7 +2,7 @@
   export let viewBox;
 </script>
 
-<svg on:click class="icon" {viewBox}>
+<svg on:click class="icon" viewBox="{viewBox}">
   <path
     d="M44.3,18l-6.38-6.6A5.4,5.4,0,0,0,34.56,10H16.23a2,2,0,0,0-2,2V45.89a2,2,0,0,0,2,2h27.5a2,2,0,0,0,2-2V21.52A5.78,5.78,0,0,0,44.3,18Zm-9.08-5a2.75,2.75,0,0,1,.84.35L42.46,20a5.15,5.15,0,0,1,.24,1H35.22V13Zm8,32.43H16.76V12.5h16l-0.05,9a2,2,0,0,0,2,2H43.2v22Z"
   ></path>

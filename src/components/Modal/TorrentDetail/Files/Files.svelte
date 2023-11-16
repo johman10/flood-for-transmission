@@ -38,8 +38,8 @@
   <ActionBarView items="{selectedFiles}" itemName="file" itemNamePlural="files">
     {#if files.length}
       <Folder
-        {structure}
-        bind:selectedFiles
+        structure="{structure}"
+        bind:selectedFiles="{selectedFiles}"
         iconName="Disk"
         folderName="{getMainFolder(
           $torrentDetails[TRANSMISSION_COLUMN_DOWNLOAD_DIR],

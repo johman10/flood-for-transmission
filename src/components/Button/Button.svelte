@@ -14,7 +14,7 @@
   };
 </script>
 
-<button {type} class="button {priority}" on:click="{handleClick}">
+<button type="{type}" class="button {priority}" on:click="{handleClick}">
   {#if loading}
     <Icon name="SpinnerIcon" />
   {:else}

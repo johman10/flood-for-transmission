@@ -69,7 +69,7 @@
 <div
   class="folder"
   style="{`margin-left: ${level * 8}px`}"
-  class:strong
+  class:strong="{strong}"
   title="{folderName}"
 >
   <IconCheckbox
@@ -90,9 +90,9 @@
     <svelte:self
       folderName="{nestedFolder}"
       structure="{structure.folders[nestedFolder]}"
-      bind:selectedFiles
+      bind:selectedFiles="{selectedFiles}"
       level="{level + 1}"
-      {onSingleFilePrioChange}
+      onSingleFilePrioChange="{onSingleFilePrioChange}"
     />
   {/each}
   {#each structure.files as file}

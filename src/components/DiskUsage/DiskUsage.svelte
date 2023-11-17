@@ -1,25 +1,22 @@
 <script>
   import { onMount } from 'svelte';
-  import { paths } from '~helpers/stores';
+  import { paths, diskUsage, session } from '~helpers/stores';
   import Transmission from '~helpers/Transmission';
-  import { ProgressRenderer } from '~components/TorrentList/Renderers';
   import ProgressBar from '../ProgressBar/ProgressBar.svelte';
+  import { SESSION_COLUMN_RPC_VERSION } from '~helpers/constants/columns';
 
   const transmission = new Transmission();
 
   $: diskSpace = [];
   onMount(() => {
-    // TODO: Fetch every 15 minutes?
-    paths.init().then((local_paths) => {
-      const promises = local_paths.map((local_path) =>
-        transmission.getFreeSpace(local_path).then((result) => {
-          return result.arguments;
-        })
-      );
+    const promises = $paths.map((local_path) =>
+      transmission.getFreeSpace(local_path).then((result) => {
+        return result.arguments;
+      })
+    );
 
-      Promise.all(promises).then((results) => {
-        diskSpace = results;
-      });
+    Promise.all(promises).then((results) => {
+      diskSpace = results;
     });
   });
 
@@ -28,19 +25,24 @@
     const freeSpace = pathSpace?.['size-bytes'];
     const totalSpace = pathSpace?.total_size;
     const usedSpace = totalSpace - freeSpace;
-    return (usedSpace / totalSpace) * 100;
+    return Math.round((usedSpace / totalSpace) * 100);
   };
 </script>
 
-<!-- TODO: Only render based on configuration -->
-<!-- TODO: Only show config if on Transmission >= 4.0 -->
-{#if $paths.length}
+{#if $diskUsage && $session[SESSION_COLUMN_RPC_VERSION] >= 15}
   <div class="wrapper">
-    <h2>Disk space</h2>
+    <h2>Disk usage</h2>
     <ul>
       {#each $paths as path}
-        <li>
-          {path}
+        <li class="path-item">
+          <div class="path-details">
+            <span>
+              {path}
+            </span>
+            <span>
+              {getProgress(path)}%
+            </span>
+          </div>
           <ProgressBar progress="{getProgress(path)}" />
         </li>
       {/each}
@@ -67,15 +69,23 @@
     margin-bottom: 30px;
   }
 
-  li {
-    --progess-color: var(--color-progress-bar-download);
-    --background-color: var(--color-progress-bar-download-background);
+  .path-item {
+    --progess-color: var(--color-progress-bar-stopped);
+    --background-color: var(--color-progress-bar-stopped-background);
 
     font-weight: 400;
     padding: 3px 0;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    gap: 2px;
     transition: fill 0.25s, color 0.25s;
     font-size: 13px;
+  }
+
+  .path-details {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%
   }
 </style>

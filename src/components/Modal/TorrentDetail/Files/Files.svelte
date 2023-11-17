@@ -21,7 +21,8 @@
     { label: 'High', value: 1 },
   ];
 
-  $: files = $torrentDetails[TRANSMISSION_COLUMN_FILES];
+  $: files = $torrentDetails[TRANSMISSION_COLUMN_FILES].toSorted((a, b) => a.name.localeCompare(b.name));
+  $: console.log(files);
   $: structure = getFolderStructure(files);
 
   const handleSelectedFilePrioChange = (event) => {

@@ -12,7 +12,7 @@
   export let required = false;
   export let multiple = false;
 
-  if (accept.indexOf('*') > -1) {
+  if (accept?.indexOf('*') > -1) {
     console.warn(
       '<InputFile> received an non allowed wildcard in the accept value.'
     );

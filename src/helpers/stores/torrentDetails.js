@@ -1,7 +1,6 @@
 import { TRANSMISSION_COLUMN } from '~helpers/constants/columns';
 import { writable } from 'svelte/store';
 import Transmission from '~helpers/Transmission';
-import { cloneObject } from '~helpers/objectHelper';
 
 const TORRENT_REQUEST_INTERVAL = 1000;
 const transmission = new Transmission();
@@ -15,7 +14,10 @@ function getTorrent(torrentId, setTorrent) {
   transmission
     .getTorrents(torrentId, Object.values(TRANSMISSION_COLUMN))
     .then((torrents) => {
-      setTorrent(torrents[0]);
+      setTorrent({
+        ...torrents[0],
+        loaded: true,
+      });
     })
     // TODO: Error handling
     .catch((e) => {
@@ -83,51 +85,35 @@ function createTorrentDetailsStore() {
       transmission
         .setTorrents([torrent[TRANSMISSION_COLUMN.ID]], params)
         .catch(() => {
-          set(torrent);
+          set({ ...torrent, loaded: true });
         });
 
-      const newTorrent = cloneObject(torrent);
+      const newTorrent = structuredClone(torrent);
       fileIndices.forEach((fileIndex) => {
         newTorrent[TRANSMISSION_COLUMN.FILE_STATS][fileIndex].priority =
           priority;
         newTorrent[TRANSMISSION_COLUMN.FILE_STATS][fileIndex].wanted =
           !!params['files-wanted'];
       });
-      set(newTorrent);
+      set({ ...newTorrent, loaded: true });
     },
-    removeTrackers: (torrent, trackers) => {
+    setTrackers: (torrent, trackerUrls) => {
       transmission
         .setTorrents([torrent[TRANSMISSION_COLUMN.ID]], {
-          trackerRemove: trackers,
+          [TRANSMISSION_COLUMN.TRACKER_URLS]: trackerUrls,
         })
-        .catch(() => set(torrent));
-
-      const newTorrent = cloneObject(torrent);
-      const newTrackers = newTorrent[TRANSMISSION_COLUMN.TRACKERS].filter(
-        (tracker) => !trackers.includes(tracker.id)
-      );
-      newTorrent[TRANSMISSION_COLUMN.TRACKERS] = newTrackers;
-      set(newTorrent);
+        .catch(() => set({ ...torrent, loaded: true }));
     },
-    addTrackers: (torrent, trackers) => {
-      transmission
-        .setTorrents([torrent[TRANSMISSION_COLUMN.ID]], {
-          trackerAdd: trackers,
-        })
-        .catch(() => set(torrent));
+    setDetails: (torrent, data) => {
+      const promise = transmission
+        .setTorrents([torrent[TRANSMISSION_COLUMN.ID]], data)
+        .catch(() => set({ ...torrent, loaded: true }));
 
-      const newTorrent = cloneObject(torrent);
-      const trackerLength = newTorrent[TRANSMISSION_COLUMN.TRACKERS].length;
-      const newTrackers = trackers.map((t, i) => ({
-        announce: t,
-        id: i + trackerLength,
-        tier: i + trackerLength,
-      }));
-      newTorrent[TRANSMISSION_COLUMN.TRACKERS] = [
-        ...newTorrent[TRANSMISSION_COLUMN.TRACKERS],
-        ...newTrackers,
-      ];
-      set(newTorrent);
+      let newTorrent = structuredClone(torrent);
+      newTorrent = { ...newTorrent, ...data };
+      set({ ...newTorrent, loaded: true });
+
+      return promise;
     },
   };
 }

@@ -16,7 +16,7 @@
   } from '~helpers/stores';
   import { orderable } from '~helpers/actions';
 
-  const newColumns = JSON.parse(JSON.stringify($uiColumns));
+  const newColumns = structuredClone($uiColumns);
   let newPaths = [...$paths];
   let newSwitchSpeedColors = $switchSpeedColors;
   let newTimeConfig = $timeConfig;

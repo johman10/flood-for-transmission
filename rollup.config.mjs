@@ -103,9 +103,7 @@ export default {
       __TRANSMISSION_PASSWORD__: process.env.TRANSMISSION_PASSWORD
         ? `"${process.env.TRANSMISSION_PASSWORD}"`
         : undefined,
-      __TRANSMISSION_SSL__: process.env.TRANSMISSION_SSL
-        ? !!process.env.TRANSMISSION_SSL
-        : undefined,
+      __TRANSMISSION_SSL__: process.env.TRANSMISSION_SSL === 'true',
       __ENV__: production ? '"production"' : '"development"',
     }),
 

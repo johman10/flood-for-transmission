@@ -125,6 +125,15 @@
   };
 </script>
 
+<svelte:window
+  on:keydown="{(event) => {
+    if ((event.ctrlKey || event.metaKey) && event.key === 'a') {
+      event.preventDefault();
+      selectedTorrents.set($sortedTorrents.map((t) => t.id));
+    }
+  }}"
+/>
+
 <div class="wrapper">
   <table class="table" style="width: {$totalSize}px">
     <thead class="table-header">

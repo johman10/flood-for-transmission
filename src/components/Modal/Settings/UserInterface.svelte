@@ -15,6 +15,7 @@
     tableHeaderConfig,
   } from '~helpers/stores';
   import { orderable } from '~helpers/actions';
+  import { PATH_VALIDATION_REGEX } from '~helpers/constants/paths';
 
   const newColumns = JSON.parse(JSON.stringify($uiColumns));
   let newPaths = [...$paths];
@@ -96,7 +97,7 @@
   </p>
   <InputMultiple
     bind:values="{newPaths}"
-    pattern="^/.*"
+    pattern="{PATH_VALIDATION_REGEX}"
     validationMessage="Path must be an absolute path."
   />
 

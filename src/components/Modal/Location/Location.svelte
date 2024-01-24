@@ -10,6 +10,7 @@
     selectedTorrents,
     session,
   } from '~helpers/stores';
+  import { PATH_VALIDATION_REGEX } from '~helpers/constants/paths';
   import { SESSION_COLUMN_DOWNLOAD_DIR } from '~helpers/constants/columns';
 
   let loadingInitial = true;
@@ -59,7 +60,7 @@
       bind:value="{location}"
       placeholder="Destination"
       label="Torrent location"
-      pattern="^/.*"
+      pattern="{PATH_VALIDATION_REGEX}"
       validationMessage="Destination must be an absolute path."
       required
     />

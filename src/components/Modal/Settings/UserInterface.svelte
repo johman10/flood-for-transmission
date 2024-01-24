@@ -13,6 +13,7 @@
     switchSpeedColors,
     timeConfig,
     tableHeaderConfig,
+    diskUsage
   } from '~helpers/stores';
   import { orderable } from '~helpers/actions';
 
@@ -23,6 +24,7 @@
   let newTableHeaderConfig = $tableHeaderConfig;
   const configuredDarkMode = darkMode.configuredValue;
   let newDarkMode = $configuredDarkMode;
+  let newDiskUsage = $diskUsage;
 
   const darkModeOptions = [
     { label: 'Auto', value: 'auto' },
@@ -38,6 +40,7 @@
       timeConfig.set(newTimeConfig);
       tableHeaderConfig.set(newTableHeaderConfig);
       darkMode.set(newDarkMode);
+      diskUsage.set(newDiskUsage);
       alerts.add('Succesfully saved user interface settings');
     } catch (e) {
       console.error(e);
@@ -99,6 +102,14 @@
     pattern="^/.*"
     validationMessage="Path must be an absolute path."
   />
+
+  <div class="list">
+    <Checkbox
+      label="Show disk usage"
+      hint="Shows disk usage in the sidepanel based on the common paths"
+      bind:checked="{newDiskUsage}"
+    />
+  </div>
 
   <Header text="Torrent Columns" />
   <div class="list">

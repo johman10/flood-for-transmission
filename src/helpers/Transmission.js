@@ -169,4 +169,12 @@ export default class Transmission {
       'delete-local-data': deleteLocalData,
     });
   }
+
+  getFreeSpace(path) {
+    if (!path) {
+      throw new Error('Path is required.');
+    }
+
+    return this.rpcCall('free-space', { path });
+  }
 }

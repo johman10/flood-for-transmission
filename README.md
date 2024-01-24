@@ -47,7 +47,7 @@ Curious what it looks like? Do check out the [screenshots folder](screenshots#re
      ```
      Any other configuration can be added as you wish.
    - On **Windows** (untested) you have to set an environment variable to do this, open the start menu and type "environment". Click on "Edit this system environment variables". In the newly opened window choose "new" and fill in the "Variable name" `TRANSMISSION_WEB_HOME` and the "Variable value" to `C:\path\to\flood-for-transmission`.
-   - On **Mac** create a backup of the folder at `/Applications/Transmission.app/Contents/Resources/web` with `cp /Applications/Transmission.app/Contents/Resources/web /Applications/Transmission.app/Contents/Resources/web.default`. Then copy the latest release folder to `/Applications/Transmission.app/Contents/Resources/web` like so `cp ~/Download/flood-for-transmission /Applications/Transmission.app/Contents/Resources/web`. Whenever you update Tranmission you will have to follow this procedure again. Note: there might be a way to do this with environment variables as well, [but as of now I don't know how to do it](https://github.com/johman10/flood-for-transmission/issues/330). If you know, please open an issue so that this can be updated.
+   - On **Mac** create a backup of the folder at `/Applications/Transmission.app/Contents/Resources/public_html` with `cp /Applications/Transmission.app/Contents/Resources/public_html /Applications/Transmission.app/Contents/Resources/public_html.default`. Then copy the latest release folder to `/Applications/Transmission.app/Contents/Resources/public_html` like so `cp ~/Download/flood-for-transmission /Applications/Transmission.app/Contents/Resources/public_html`. Whenever you update Tranmission you will have to follow this procedure again. Note: there might be a way to do this with environment variables as well, [but as of now I don't know how to do it](https://github.com/johman10/flood-for-transmission/issues/330). If you know, please open an issue so that this can be updated.
 1. Restart Transmission
 1. Access transmission as you usually do, By default this would be by opening `http://localhost:9091`.
 
@@ -56,31 +56,36 @@ _Note:_ If you run Flood for Transmission behind SSL and in Chrome you can also 
 ### [BETA] Customization
 
 1. All User Interface defaults can be customized in `/flood-for-transmission/public/config.json` and should be self-explanatory, `cp config.json.defaults config.json` to get started:
-* `"DARK_MODE"`
-  * Type: String e.g. `"auto"` or `"enabled"` or `"disabled"`
-  * Default: `"auto"`
-* `"SWITCH_COLORS"`
-  * Type: Boolean e.g `true` or `false`
-  * Default: `false`
-* `"NOTATION_24H"`
-  * Type: Boolean e.g `true` or `false`
-  * Default: `true`
-* `"WRAP_HEADER"`
-  * Type: Boolean e.g. `true` or `false`
-  * Default: `false`
-* `"COMMON_PATH"`
-  * Type: Array of Strings e.g. `["/downloads/expeliarmus","/downloads/lumos"]`
-  * Default: `[]`
-* `"COLUMNS"`
-  * Type: Array of Strings e.g. `["Ratio","Upload Speed","Uploaded"]`
-  * Default: `["Name","Progress","ETA","Download Speed","Upload Speed","File Size","Downloaded","Uploaded","Downloading from","Seeding to"]`
-      * Note that you can control the order of the columns by the order of the array!
-* `"SORT_COLUMN"`
-  * Type: String e.g. `"Ratio"`
-  * Default: `"Progress"`
-* `"SORT_DIRECTION"`
-  * Type: String e.g. `"asc"` or `"desc"`
-  * Default: `"desc"`
+
+- `"DARK_MODE"`
+  - Type: String e.g. `"auto"` or `"enabled"` or `"disabled"`
+  - Default: `"auto"`
+- `"SWITCH_COLORS"`
+  - Type: Boolean e.g `true` or `false`
+  - Default: `false`
+- `"NOTATION_24H"`
+  - Type: Boolean e.g `true` or `false`
+  - Default: `true`
+- `"WRAP_HEADER"`
+  - Type: Boolean e.g. `true` or `false`
+  - Default: `false`
+- `"COMMON_PATH"`
+  - Type: Array of Strings e.g. `["/downloads/expeliarmus","/downloads/lumos"]`
+  - Default: `[]`
+- `"COLUMNS"`
+  - Type: Array of Strings e.g. `["Ratio","Upload Speed","Uploaded"]`
+  - Default: `["Name","Progress","ETA","Download Speed","Upload Speed","File Size","Downloaded","Uploaded","Downloading from","Seeding to"]`
+    - Note that you can control the order of the columns by the order of the array!
+- `"SORT_COLUMN"`
+  - Type: String e.g. `"Ratio"`
+  - Default: `"Progress"`
+- `"SORT_DIRECTION"`
+  - Type: String `"asc"` or `"desc"`
+  - Default: `"desc"`
+- `"SHOW_DISK_USAGE"`
+  - Type: Boolean `true` or `false`
+  - Default: `true`
+  - Will only show for Transmission 4 and higher
 
 ### Updating
 

@@ -33,6 +33,7 @@
         bind:this="{input}"
         on:invalid="{handleInvalid}"
         on:input="{(e) => e.target.setCustomValidity('')}"
+        on:paste
         bind:value="{value}"
         {...$$restProps}
       />
@@ -44,6 +45,7 @@
         bind:this="{input}"
         on:invalid="{handleInvalid}"
         on:input="{(e) => e.target.setCustomValidity('')}"
+        on:paste
         bind:value="{value}"
         {...$$restProps}
       />
@@ -55,6 +57,7 @@
         bind:this="{input}"
         on:invalid="{handleInvalid}"
         on:input="{(e) => e.target.setCustomValidity('')}"
+        on:paste
         bind:value="{value}"
         {...$$restProps}
       />
@@ -66,6 +69,7 @@
         bind:this="{input}"
         on:invalid="{handleInvalid}"
         on:input="{(e) => e.target.setCustomValidity('')}"
+        on:paste
         bind:value="{value}"
         {...$$restProps}
       />

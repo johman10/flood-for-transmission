@@ -61,6 +61,10 @@
     height: 12px;
   }
 
+  .limit span {
+    white-space: nowrap;
+  }
+
   .hidden {
     opacity: 0;
   }

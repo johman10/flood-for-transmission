@@ -61,7 +61,7 @@
     height: 12px;
   }
 
-  .limit span {
+  .speed__size {
     white-space: nowrap;
   }
 

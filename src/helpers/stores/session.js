@@ -36,7 +36,12 @@ function updateSession(setSession) {
 
   transmission
     .getSession(SESSION_BASE_COLUMNS)
-    .then(setSession)
+    .then((result) => {
+      if (!result) {
+        return;
+      }
+      setSession(result);
+    })
     // TODO: Error handling
     .catch(console.error)
     .finally(() => {

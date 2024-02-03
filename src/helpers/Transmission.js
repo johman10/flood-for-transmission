@@ -1,12 +1,10 @@
-const TOKEN_HEADER = 'X-Transmission-Session-Id';
+const SESSION_TOKEN_HEADER = 'X-Transmission-Session-Id';
 
 let transmission;
 
 export default class Transmission {
-  _authHeader = null;
-
-  _tokenHeader = null;
-
+  _authorizationHeader = null;
+  _sessionToken = null;
   _url = '../rpc';
 
   constructor() {
@@ -20,7 +18,7 @@ export default class Transmission {
     }
 
     if (__TRANSMISSION_USERNAME__) {
-      this._authHeader = `Basic ${window.btoa(
+      this._authorizationHeader = `Basic ${window.btoa(
         __TRANSMISSION_USERNAME__ +
           (__TRANSMISSION_PASSWORD__ ? `:${__TRANSMISSION_PASSWORD__}` : '')
       )}`;
@@ -29,59 +27,64 @@ export default class Transmission {
     transmission = this;
   }
 
-  async setToken() {
-    if (this._tokenHeader) return;
+  request(method, args) {
+    const body = {
+      method,
+      arguments: args,
+    };
+
     const headers = new Headers();
-    headers.append('content-type', 'application/json');
-    if (this._authHeader) {
-      headers.append('authorization', this._authHeader);
+    headers.append('Content-Type', 'application/json');
+    if (this._sessionToken) {
+      headers.append(SESSION_TOKEN_HEADER, this._sessionToken);
+    }
+    if (this._authorizationHeader) {
+      headers.append('Authorization', this._authorizationHeader);
     }
 
-    const response = await fetch(this._url, {
-      method: 'post',
+    return fetch(this._url, {
+      method: 'POST',
+      body: JSON.stringify(body),
+      credentials: this._authorizationHeader ? undefined : 'include',
       headers,
     });
-    this._tokenHeader = response.headers.get(TOKEN_HEADER);
   }
 
-  async rpcCall(method, args = {}) {
-    const body = {
-      arguments: args,
-      method,
-    };
-    await this.setToken();
-    const headers = new Headers();
-    headers.append('content-type', 'application/json');
-    headers.append(TOKEN_HEADER, this._tokenHeader);
-    if (this._authHeader) {
-      headers.append('authorization', this._authHeader);
+  readToken(response) {
+    if (!response.headers.has(SESSION_TOKEN_HEADER)) return;
+
+    this._sessionToken = response.headers.get(SESSION_TOKEN_HEADER);
+  }
+
+  async rpcCall(method, args) {
+    if (!this._sessionToken) {
+      const response = await this.request('');
+      this.readToken(response);
     }
 
-    try {
-      const response = await fetch(this._url, {
-        method: 'post',
-        body: JSON.stringify(body),
-        credentials: this._authHeader ? undefined : 'include',
-        headers,
-      });
-      if (!response.ok) {
-        this._tokenHeader = null;
-        throw new Error(response.statusText);
-      }
-      const output = await response.json();
-      if (output.result !== 'success') {
-        throw new Error(output.result);
-      }
-      return output;
-    } catch (e) {
-      this._tokenHeader = null;
-      throw new Error(`[Transmission] ${e.message}`);
+    const response = await this.request(method, args);
+
+    // Invalid token
+    if (response.status === 409) {
+      this.readToken(response);
+      return;
     }
+
+    if (!response.ok) {
+      throw Error(response.statusText);
+    }
+
+    const output = await response.json();
+    if (output?.result !== 'success') {
+      throw Error(output);
+    }
+
+    return output;
   }
 
   getSession(fields) {
     return this.rpcCall('session-get', { fields }).then(
-      (response) => response.arguments
+      (response) => response?.arguments
     );
   }
 
@@ -90,18 +93,20 @@ export default class Transmission {
   }
 
   getSessionStats() {
-    return this.rpcCall('session-stats').then((response) => response.arguments);
+    return this.rpcCall('session-stats').then(
+      (response) => response?.arguments
+    );
   }
 
   updateBlocklist(data) {
     return this.rpcCall('blocklist-update', data).then(
-      (response) => response.arguments['blocklist-size']
+      (response) => response?.arguments?.['blocklist-size']
     );
   }
 
   getPortTest() {
     return this.rpcCall('port-test').then(
-      (response) => response.arguments['port-is-open']
+      (response) => response?.arguments?.['port-is-open']
     );
   }
 
@@ -111,9 +116,9 @@ export default class Transmission {
       fields,
     }).then((response) => {
       if (ids === 'recently-active') {
-        return response.arguments;
+        return response?.arguments;
       }
-      return response.arguments.torrents;
+      return response?.arguments?.torrents;
     });
   }
 
@@ -150,7 +155,9 @@ export default class Transmission {
   }
 
   getStats() {
-    return this.rpcCall('session-stats').then((response) => response.arguments);
+    return this.rpcCall('session-stats').then(
+      (response) => response?.arguments
+    );
   }
 
   addTorrent({ filename, metainfo, ...other }) {

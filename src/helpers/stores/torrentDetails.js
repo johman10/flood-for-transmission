@@ -52,13 +52,7 @@ function createTorrentDetailsStore() {
     subscribe,
     setTorrentId: torrentId.set,
     clearTorrentId: () => torrentId.set(0),
-    setPriority: (torrent, fileNames, priority) => {
-      const allFileNames = torrent[TRANSMISSION_COLUMN.FILES].map(
-        (file) => file.name
-      );
-      const fileIndices = fileNames.map((fileName) =>
-        allFileNames.indexOf(fileName)
-      );
+    setPriority: (torrent, fileIndices, priority) => {
       let params;
       switch (priority) {
         case -2:

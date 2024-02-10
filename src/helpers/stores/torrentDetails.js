@@ -15,6 +15,9 @@ function getTorrent(torrentId, setTorrent) {
   transmission
     .getTorrents(torrentId, Object.values(TRANSMISSION_COLUMN))
     .then((torrents) => {
+      if (!torrents.length) {
+        return;
+      }
       setTorrent(torrents[0]);
     })
     // TODO: Error handling

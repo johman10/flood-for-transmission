@@ -14,7 +14,12 @@ function updateSessionStats(setSessionStats) {
 
   transmission
     .getSessionStats()
-    .then(setSessionStats)
+    .then((result) => {
+      if (!result) {
+        return;
+      }
+      setSessionStats(result);
+    })
     // TODO: Error handling
     .catch(console.error)
     .finally(() => {

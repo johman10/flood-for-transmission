@@ -114,7 +114,15 @@ function getRecentlyActiveTorrents() {
 
   transmission
     .getTorrents('recently-active', get(transmissionColumns))
-    .then(({ torrents, removed }) => {
+    .then((result) => {
+      const activeColumns = get(uiColumns.active);
+      previousActiveColumns = activeColumns;
+
+      if (!result) {
+        return;
+      }
+
+      const { torrents, removed } = result;
       store.update((currentTorrents) => {
         const updatedTorrents = currentTorrents.map((torrent) => {
           const activeTorrent = torrents.find((t) => t.id === torrent.id);
@@ -126,31 +134,10 @@ function getRecentlyActiveTorrents() {
           };
         });
 
-        const activeColumns = get(uiColumns.active);
-        // If no column was added, just keep fetching the recently active
-        if (
-          previousActiveColumns &&
-          activeColumns.every((column) =>
-            previousActiveColumns.includes(column)
-          )
-        ) {
-          updateTorrentTimeout = setTimeout(
-            getRecentlyActiveTorrents,
-            TORRENT_FETCHING_TIMEOUT
-          );
-        } else {
-          // If an ui column was added, fetch all to fill the column correctly.
-          updateTorrentTimeout = setTimeout(
-            getAllTorrents,
-            TORRENT_FETCHING_TIMEOUT
-          );
-        }
-
         const addedTorrents = torrents.filter(
           (at) => !currentTorrents.find((ct) => ct.id === at.id)
         );
 
-        previousActiveColumns = activeColumns;
         let newTorrents = [...updatedTorrents, ...addedTorrents];
         newTorrents = newTorrents.filter(
           (torrent) => !removed.includes(torrent.id)
@@ -165,6 +152,25 @@ function getRecentlyActiveTorrents() {
         getAllTorrents,
         TORRENT_FETCHING_TIMEOUT
       );
+    })
+    .finally(() => {
+      const activeColumns = get(uiColumns.active);
+      // If no column was added, just keep fetching the recently active
+      if (
+        previousActiveColumns &&
+        activeColumns.every((column) => previousActiveColumns.includes(column))
+      ) {
+        updateTorrentTimeout = setTimeout(
+          getRecentlyActiveTorrents,
+          TORRENT_FETCHING_TIMEOUT
+        );
+      } else {
+        // If an ui column was added, fetch all to fill the column correctly.
+        updateTorrentTimeout = setTimeout(
+          getAllTorrents,
+          TORRENT_FETCHING_TIMEOUT
+        );
+      }
     });
 }
 
@@ -173,20 +179,34 @@ function getAllTorrents() {
     clearTimeout(updateTorrentTimeout);
   }
 
+  let hasError = false;
+
   transmission
     .getTorrents(undefined, get(transmissionColumns))
     .then((value) => {
+      if (!value) {
+        hasError = true;
+        return;
+      }
+      hasError = false;
       store.set(value);
-      updateTorrentTimeout = setTimeout(
-        getRecentlyActiveTorrents,
-        TORRENT_FETCHING_TIMEOUT
-      );
     })
     // TODO: Error handling
     .catch((e) => {
       console.error(e);
+      hasError = true;
+    })
+    .finally(() => {
+      if (hasError) {
+        updateTorrentTimeout = setTimeout(
+          getAllTorrents,
+          TORRENT_FETCHING_TIMEOUT
+        );
+        return;
+      }
+
       updateTorrentTimeout = setTimeout(
-        getAllTorrents,
+        getRecentlyActiveTorrents,
         TORRENT_FETCHING_TIMEOUT
       );
     });

@@ -127,6 +127,8 @@
 
 <svelte:window
   on:keydown="{(event) => {
+    if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+
     if ((event.ctrlKey || event.metaKey) && event.key === 'a') {
       event.preventDefault();
       selectedTorrents.set($sortedTorrents.map((t) => t.id));

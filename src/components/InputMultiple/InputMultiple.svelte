@@ -86,7 +86,7 @@
     white-space: nowrap;
   }
 
-  .list > :global(.container) {
+  .list > :global(.input-container) {
     margin: 0 0 8px;
   }
 </style>

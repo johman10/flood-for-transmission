@@ -26,7 +26,7 @@ function storeColumns(columns) {
 }
 
 function migrateStoredColumns(storedColumns) {
-  const storedColumnsClone = JSON.parse(JSON.stringify(storedColumns));
+  const storedColumnsClone = structuredClone(storedColumns);
 
   // Find all the columns that are still supported, remove any ones that have been removed
   const cleanedStoredColumns = storedColumnsClone.filter(({ id }) =>

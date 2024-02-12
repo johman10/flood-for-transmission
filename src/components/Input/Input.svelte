@@ -15,6 +15,7 @@
   export let addons = [];
   export let input = null;
   export let id = `input-text-${num}`;
+  export let disabled = false;
 
   const handleInvalid = (e) => {
     if (!validationMessage) return;
@@ -22,7 +23,7 @@
   };
 </script>
 
-<div class="container">
+<div class="input-container">
   {#if label}<label class="label" for="{id}">{label}</label>{/if}
   <div class="input-wrapper" style="--addon-count: {addons.length};">
     {#if type === 'text'}
@@ -35,6 +36,7 @@
         on:input="{(e) => e.target.setCustomValidity('')}"
         on:paste
         bind:value="{value}"
+        disabled="{disabled}"
         {...$$restProps}
       />
     {:else if type === 'number'}
@@ -47,6 +49,7 @@
         on:input="{(e) => e.target.setCustomValidity('')}"
         on:paste
         bind:value="{value}"
+        disabled="{disabled}"
         {...$$restProps}
       />
     {:else if type === 'time'}
@@ -59,6 +62,7 @@
         on:input="{(e) => e.target.setCustomValidity('')}"
         on:paste
         bind:value="{value}"
+        disabled="{disabled}"
         {...$$restProps}
       />
     {:else if type === 'url'}
@@ -71,13 +75,14 @@
         on:input="{(e) => e.target.setCustomValidity('')}"
         on:paste
         bind:value="{value}"
+        disabled="{disabled}"
         {...$$restProps}
       />
     {:else}{console.error(`Invalid type received, ${type}`)}{/if}
     {#each addons as addon, index}
       <div
         class="addon"
-        on:click="{addon.onClick}"
+        on:click="{!disabled ? addon.onClick : undefined}"
         style="--index: {index}; --icon-size: {addon.iconSize};"
       >
         <Icon name="{addon.iconName}" />
@@ -88,7 +93,7 @@
 </div>
 
 <style>
-  .container {
+  .input-container {
     margin-bottom: 15px;
   }
 
@@ -164,6 +169,12 @@
     background-color: var(--color-input-background-active);
     border-color: var(--color-input-border-active);
     color: var(--color-input-text-active);
+  }
+
+  input:disabled {
+    background-color: var(--color-input-background-disabled);
+    border-color: var(--color-input-border-disabled);
+    color: var(--color-input-text-disabled);
   }
 
   input::-webkit-outer-spin-button,

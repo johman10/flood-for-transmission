@@ -21,16 +21,26 @@
   };
 
   const removeTrackers = () => {
-    torrentDetails.removeTrackers(
-      $torrentDetails,
-      selectedTrackers.map((i) => parseInt(i))
+    let newTrackers = structuredClone(
+      $torrentDetails[TRANSMISSION_COLUMN_TRACKERS]
     );
+    newTrackers = newTrackers.filter(
+      (t) => !selectedTrackers.includes(t.id.toString())
+    );
+    newTrackers = newTrackers.map((tracker) => tracker.announce).join('\n\n');
+    torrentDetails.setTrackers($torrentDetails, newTrackers);
     selectedTrackers = [];
   };
 
   const addTracker = (event) => {
     event.preventDefault();
-    torrentDetails.addTrackers($torrentDetails, [newTracker.trim()]);
+
+    let newTrackers = structuredClone(
+      $torrentDetails[TRANSMISSION_COLUMN_TRACKERS]
+    );
+    newTrackers = newTrackers.map((tracker) => tracker.announce).join('\n\n');
+    newTrackers = [...newTrackers, newTracker.trim()];
+    torrentDetails.addTrackers($torrentDetails, newTrackers);
     newTracker = null;
   };
 </script>
@@ -138,7 +148,7 @@
     gap: 8px;
   }
 
-  .new-tracker-form > :global(.container) {
+  .new-tracker-form > :global(.input-container) {
     margin: 0;
     flex-grow: 1;
   }

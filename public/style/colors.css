@@ -5,6 +5,7 @@
   --rgb-active: 37, 141, 229;
   --rgb-text: 112, 133, 158;
   --rgb-background: 41, 51, 65;
+  --rgb-border: 32, 45, 60;
 
   --color-positive: rgb(var(--rgb-positive));
   --color-negative: rgb(233, 87, 121);
@@ -15,7 +16,7 @@
   --color-text: rgb(var(--rgb-text));
   --color-header: rgba(var(--rgb-text), 0.5);
   --color-background: rgb(var(--rgb-background));
-  --color-border: rgb(32, 45, 60);
+  --color-border: rgb(var(--rgb-border));
 
   --color-dropdown-header: rgba(var(--rgb-text), 0.5);
 
@@ -114,6 +115,9 @@
   --color-input-background-active: rgba(var(--rgb-active), 0.15);
   --color-input-border-active: var(--color-active);
   --color-input-text-active: rgb(246, 250, 254);
+  --color-input-background-disabled: rgba(var(--rgb-background), 0.5);
+  --color-input-border-disabled: rgba(var(--rgb-border), 0.5);
+  --color-input-text-disabled: var(--color-input-placeholder);
   --color-input-addon-icon: rgb(136, 153, 168);
   --color-input-addon-border: var(--color-border);
   --color-input-addon-icon-active: var(--color-active);

@@ -173,7 +173,7 @@
       label="Stop seeding at ratio:"
       bind:checked="{seedRatioLimited}"
     />
-    <Input bind:value="{seedRatioLimit}" type="number" step="0.000001" />
+    <Input bind:value="{seedRatioLimit}" type="number" step="0.01" />
     <Checkbox
       label="Stop seeding if idle for (min):"
       bind:checked="{idleSeedingLimited}"

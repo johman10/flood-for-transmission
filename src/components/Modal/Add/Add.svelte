@@ -11,6 +11,7 @@
     SESSION_COLUMN_DOWNLOAD_DIR,
     SESSION_COLUMN_START_ADDED,
   } from '~helpers/constants/columns';
+  import { PATH_VALIDATION_REGEX } from '~helpers/constants/paths';
   import {
     getFileAddBody,
     handleTorrentAddResponses,
@@ -147,7 +148,7 @@
       label="Destination"
       placeholder="Destination"
       bind:value="{destination}"
-      pattern="^(/|[a-zA-Z]:\\).*$"
+      pattern="{PATH_VALIDATION_REGEX}"
       validationMessage="Destination must be an absolute path."
       required
     />

@@ -11,6 +11,20 @@
     }
   }
 
+  function handlePaste(index, e) {
+    // Prevent the original value from actually being pasted
+    e.preventDefault();
+
+    const pastedValues = e.clipboardData.getData("text").split('\n').map(url => url.trim()).filter(Boolean)
+    const clonedValues = [...values];
+    if (clonedValues[index]) {
+      clonedValues.splice(index + 1, 0, ...pastedValues);
+    } else {
+      clonedValues.splice(index, 1, ...pastedValues);
+    }
+    values = clonedValues;
+  }
+
   function getAddons(index) {
     const addons = [
       {
@@ -56,6 +70,7 @@
       type="{type}"
       bind:value="{value}"
       addons="{getAddons(index)}"
+      on:paste="{(e) => handlePaste(index, e)}"
       {...$$restProps}
     />
   {/each}

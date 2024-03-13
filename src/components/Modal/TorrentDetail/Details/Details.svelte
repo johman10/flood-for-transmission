@@ -244,6 +244,7 @@
         bind:value="{seedRatioLimit}"
         type="number"
         label="Seed ratio limit"
+        step="0.01"
         disabled="{seedRatioMode !== 1}"
       />
     </div>

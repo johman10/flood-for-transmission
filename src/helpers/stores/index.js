@@ -17,3 +17,4 @@ export { tableHeaderConfig } from './tableHeaderConfig';
 export { timeConfig } from './timeConfig';
 export { torrentDetails } from './torrentDetails';
 export { torrents } from './torrents';
+export { diskUsage } from './diskUsage';

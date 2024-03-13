@@ -28,6 +28,7 @@ const defaults = {
   ],
   SORT_COLUMN: 'Progress', // String
   SORT_DIRECTION: 'desc', // String (asc, desc)
+  SHOW_DISK_USAGE: true,
 };
 
 export default await fetch('./config.json')

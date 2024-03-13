@@ -9,6 +9,7 @@ import {
   SESSION_COLUMN_SPEED_LIMIT_UP_ENABLED,
   SESSION_COLUMN_SPEED_LIMIT_UP,
   SESSION_COLUMN_UNITS,
+  SESSION_COLUMN_RPC_VERSION,
 } from '~helpers/constants/columns';
 
 const transmission = new Transmission();
@@ -22,6 +23,7 @@ const SESSION_BASE_COLUMNS = [
   SESSION_COLUMN_SPEED_LIMIT_UP_ENABLED,
   SESSION_COLUMN_SPEED_LIMIT_UP,
   SESSION_COLUMN_UNITS,
+  SESSION_COLUMN_RPC_VERSION,
 ];
 let updateSessionTimeout;
 const store = writable({});

@@ -5,6 +5,7 @@
     STATUS_DOWNLOADING,
     STATUS_SEEDING,
   } from '~helpers/constants/statuses';
+  import ProgressBar from '../../ProgressBar/ProgressBar.svelte';
 
   const STATUS_ICON_MAP = {
     [STATUS_STOPPED]: 'StopIcon',
@@ -32,15 +33,13 @@
   $: iconName = STATUS_ICON_MAP[torrentStatus] || 'SpinnerIcon';
 </script>
 
-<div class="progress-bar {torrentStatusClass}">
+<div class="progress-renderer {torrentStatusClass}">
   <Icon name="{iconName}" />
-  <div class="fill-wrapper">
-    <div class="fill" style="width: {progress}%"></div>
-  </div>
+  <ProgressBar progress="{progress}" />
 </div>
 
 <style>
-  .progress-bar {
+  .progress-renderer {
     --progess-color: var(--color-progress-bar-download);
     --background-color: var(--color-progress-bar-download-background);
 
@@ -51,22 +50,7 @@
     fill: var(--progess-color);
   }
 
-  .fill {
-    background: var(--progess-color);
-    display: block;
-    height: 3px;
-    width: 100%;
-    transition: width 100ms;
-  }
-
-  .fill-wrapper {
-    background: var(--background-color);
-    flex: 1 1 auto;
-    position: relative;
-    height: 3px;
-  }
-
-  .progress-bar :global(.icon) {
+  .progress-renderer :global(.icon) {
     flex: 0 0 auto;
     box-sizing: initial;
     margin-right: 5px;

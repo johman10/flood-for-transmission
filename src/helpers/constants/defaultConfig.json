@@ -1,0 +1,22 @@
+{
+    "DARK_MODE": "auto",
+    "SWITCH_COLORS": false,
+    "NOTATION_24H": true,
+    "WRAP_HEADER": false,
+    "COMMON_PATH": [],
+    "COLUMNS": [
+        { "label": "Name", "width": 600, "enabled": true },
+        { "label": "Progress", "width": 300, "enabled": true },
+        { "label": "ETA", "width": 100, "enabled": true },
+        { "label": "Download Speed", "width": 100, "enabled": true },
+        { "label": "Upload Speed", "width": 100, "enabled": true },
+        { "label": "File Size", "width": 100, "enabled": true },
+        { "label": "Downloaded", "width": 100, "enabled": true },
+        { "label": "Uploaded", "width": 100, "enabled": true },
+        { "label": "Downloading from", "width": 100, "enabled": true },
+        { "label": "Seeding to", "width": 100, "enabled": true }
+    ],
+    "SORT_COLUMN": "Progress",
+    "SORT_DIRECTION": "desc",
+    "SHOW_DISK_USAGE": true
+}

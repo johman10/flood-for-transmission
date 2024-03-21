@@ -73,7 +73,7 @@ _Note:_ If you run Flood for Transmission behind SSL and in Chrome you can also 
   - Type: Array of Strings e.g. `["/downloads/expeliarmus","/downloads/lumos"]`
   - Default: `[]`
 - `"COLUMNS"`
-  - Type: Array of Strings e.g. `["Ratio","Upload Speed","Uploaded"]`
+  - Type: Array of Strings e.g. `["Ratio","Upload Speed","Uploaded"] or (NEW!) Object of Strings (key) and integers (value) pairs e.g. `["Name": 400, "Progress": 600, "Ratio": 0]` to also configure the column width -> Protip: Use 0 to use the default width for a column!
   - Default: `["Name","Progress","ETA","Download Speed","Upload Speed","File Size","Downloaded","Uploaded","Downloading from","Seeding to"]`
     - Note that you can control the order of the columns by the order of the array!
 - `"SORT_COLUMN"`

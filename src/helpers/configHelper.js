@@ -14,7 +14,7 @@ const defaults = {
   WRAP_HEADER: false, // Boolean
   COMMON_PATH: [], // Array of Strings
   COLUMNS: [
-    // Array of Strings in the order they should appear
+    // Array OR Object of Strings (key) and integers (value) pairs in the order they should appear and their respective width (0 = Default width)
     'Name',
     'Progress',
     'ETA',
@@ -24,11 +24,11 @@ const defaults = {
     'Downloaded',
     'Uploaded',
     'Downloading from',
-    'Seeding to',
+    'Seeding to'
   ],
   SORT_COLUMN: 'Progress', // String
   SORT_DIRECTION: 'desc', // String (asc, desc)
-  SHOW_DISK_USAGE: true,
+  SHOW_DISK_USAGE: true // Boolean
 };
 
 export default await fetch('./config.json')
@@ -50,19 +50,18 @@ export default await fetch('./config.json')
   })
   .then((configWithDefaults) => {
     const completeConfig = { ...configWithDefaults };
+    const columns = Array.isArray(configWithDefaults.COLUMNS) ? configWithDefaults.COLUMNS : Object.keys(configWithDefaults.COLUMNS)
     completeConfig.COLUMNS = Object.values(UI_COLUMN)
       .map((column) => {
         return {
           ...column,
-          width:
-            DEFAULT_COLUMN_WIDTH_EXCEPTIONS.find((dc) => dc.id === column.id)
-              ?.width ?? DEFAULT_COLUMN_WIDTH,
-          enabled: completeConfig.COLUMNS.includes(column.label),
+          width: completeConfig.COLUMNS[column.label] || (DEFAULT_COLUMN_WIDTH_EXCEPTIONS.find((dc) => dc.id === column.id) ?.width ?? DEFAULT_COLUMN_WIDTH), // Throws: Nullish coalescing operator(??) requires parens when mixing with logical operators - w/o the parentes
+          enabled: columns.includes(column.label),
         };
       })
       .sort((a, b) => {
-        const aIndex = configWithDefaults.COLUMNS.indexOf(a.label);
-        const bIndex = configWithDefaults.COLUMNS.indexOf(b.label);
+        const aIndex = columns.indexOf(a.label);
+        const bIndex = columns.indexOf(b.label);
         // Sort by enabled items first, then by the index of the column from the config
         return b.enabled - a.enabled || aIndex - bIndex;
       });

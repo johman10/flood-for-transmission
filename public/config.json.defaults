@@ -17,5 +17,6 @@
         "Seeding to"
     ],
     "SORT_COLUMN": "Progress",
-    "SORT_DIRECTION": "desc"
+    "SORT_DIRECTION": "desc",
+    "SHOW_DISK_USAGE": true
 }

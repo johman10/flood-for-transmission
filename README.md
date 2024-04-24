@@ -55,36 +55,30 @@ _Note:_ If you run Flood for Transmission behind SSL and in Chrome you can also 
 
 ### [BETA] Customization
 
-1. All User Interface defaults can be customized in `/flood-for-transmission/public/config.json` and should be self-explanatory, `cp config.defaults.json config.json` to get started:
+1. All user interface defaults can be customized in `/flood-for-transmission/public/config.json`, `cp config.json.defaults config.json` to get started. The `config.json.defaults` file also illustrates the default configuration.
 
 - `"DARK_MODE"`
   - Type: String e.g. `"auto"` or `"enabled"` or `"disabled"`
-  - Default: `"auto"`
 - `"SWITCH_COLORS"`
   - Type: Boolean e.g `true` or `false`
-  - Default: `false`
 - `"NOTATION_24H"`
   - Type: Boolean e.g `true` or `false`
-  - Default: `true`
 - `"WRAP_HEADER"`
   - Type: Boolean e.g. `true` or `false`
-  - Default: `false`
 - `"COMMON_PATH"`
-  - Type: Array of Strings e.g. `["/downloads/expeliarmus","/downloads/lumos"]`
-  - Default: `[]`
+  - Type: Array of Strings e.g. `["/downloads/expeliarmus", "/downloads/lumos"]`
 - `"COLUMNS"`
-  - Type: Array of Objects e.g. `[{ label: "Name", width: 400, enabled: true }, { label: "Progress", width: 600, enabled: true }, { label: "Ratio", width: 0, enabled: false }]` -> Protip: Omitting a key from a column object will fall back to the default value
-  - Default: `["Name","Progress","ETA","Download Speed","Upload Speed","File Size","Downloaded","Uploaded","Downloading from","Seeding to"]`
-    - Note that you can control the order of the columns by the order of the array!
+  - Type: Array of Objects e.g. `[{ label: "Name", width: 400, enabled: true }, { label: "Progress", width: 600 }, { label: "Ratio", width: 0, enabled: false }]`
+  - Comments:
+    - Omitting a key from a column object will fall back to the default value
+    - Omitting `enabled` will assume the value to be `true`, and still show the column
+    - Note that you can control the order of the columns by the order of the array
 - `"SORT_COLUMN"`
   - Type: String e.g. `"Ratio"`
-  - Default: `"Progress"`
 - `"SORT_DIRECTION"`
   - Type: String `"asc"` or `"desc"`
-  - Default: `"desc"`
 - `"SHOW_DISK_USAGE"`
   - Type: Boolean `true` or `false`
-  - Default: `true`
   - Will only show for Transmission 4 and higher
 
 ### Updating

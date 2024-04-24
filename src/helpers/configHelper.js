@@ -3,7 +3,7 @@ import {
   UI_COLUMN,
   DEFAULT_SORT_COLUMN_ID,
 } from './constants/columns';
-import defaults from '../../public/config.defaults.json';
+import defaults from './constants/defaultConfig.json';
 
 const getConfigurationColumnsWithDefaults = (configColumns) => {
   if (!Array.isArray(configColumns)) {

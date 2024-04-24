@@ -318,16 +318,6 @@ export const UI_COLUMN = {
 
 export const DEFAULT_COLUMN_WIDTH = 100;
 export const DEFAULT_SORT_COLUMN_ID = 15;
-export const DEFAULT_COLUMN_WIDTH_EXCEPTIONS = [
-  {
-    id: UI_COLUMN.NAME.id,
-    width: 600,
-  },
-  {
-    id: UI_COLUMN.PROGRESS_BAR.id,
-    width: 300,
-  },
-];
 
 export const TRANSMISSION_BASE_COLUMNS = [
   TRANSMISSION_COLUMN.DOWNLOAD_PROGRESS,

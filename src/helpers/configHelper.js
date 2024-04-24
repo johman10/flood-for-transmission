@@ -1,34 +1,34 @@
 import {
-  DEFAULT_COLUMN_WIDTH_EXCEPTIONS,
   DEFAULT_COLUMN_WIDTH,
   UI_COLUMN,
   DEFAULT_SORT_COLUMN_ID,
 } from './constants/columns';
+import defaults from '../../public/config.defaults.json';
 
-// DEFAULT configuration, can be (selectively) overwritten in /flood-for-transmission/public/config.json
-// Check /flood-for-transmission/public/config.json.defaults to get started
-const defaults = {
-  DARK_MODE: 'auto', // String (enabled, disabled, auto)
-  SWITCH_COLORS: false, // Boolean
-  NOTATION_24H: true, // Boolean
-  WRAP_HEADER: false, // Boolean
-  COMMON_PATH: [], // Array of Strings
-  COLUMNS: [
-    // Array OR Object of Strings (key) and integers (value) pairs in the order they should appear and their respective width (0 = Default width)
-    'Name',
-    'Progress',
-    'ETA',
-    'Download Speed',
-    'Upload Speed',
-    'File Size',
-    'Downloaded',
-    'Uploaded',
-    'Downloading from',
-    'Seeding to'
-  ],
-  SORT_COLUMN: 'Progress', // String
-  SORT_DIRECTION: 'desc', // String (asc, desc)
-  SHOW_DISK_USAGE: true // Boolean
+const getConfigurationColumnsWithDefaults = (configColumns) => {
+  if (!Array.isArray(configColumns)) {
+    console.info(
+      "The columns config in config.json is invalid, ensure it's an array and try again"
+    );
+    return defaults.COLUMNS;
+  }
+
+  // Deprecated support for array of strings
+  if (typeof configColumns[0] === 'string') {
+    return configColumns.map((columnLabel) => {
+      const width =
+        defaults.COLUMNS.find(
+          (defaultColumn) => defaultColumn.label === columnLabel
+        ).width || DEFAULT_COLUMN_WIDTH;
+      return {
+        label: columnLabel,
+        width,
+        enabled: true,
+      };
+    });
+  }
+
+  return configColumns;
 };
 
 export default await fetch('./config.json')
@@ -50,18 +50,29 @@ export default await fetch('./config.json')
   })
   .then((configWithDefaults) => {
     const completeConfig = { ...configWithDefaults };
-    const columns = Array.isArray(configWithDefaults.COLUMNS) ? configWithDefaults.COLUMNS : Object.keys(configWithDefaults.COLUMNS)
+    const safeConfigColumns = getConfigurationColumnsWithDefaults(
+      configWithDefaults.COLUMNS
+    );
     completeConfig.COLUMNS = Object.values(UI_COLUMN)
-      .map((column) => {
+      .map((uiColumn) => {
+        const configColumn =
+          safeConfigColumns.find(
+            (configColumn) => configColumn.label === uiColumn.label
+          ) || {};
         return {
-          ...column,
-          width: completeConfig.COLUMNS[column.label] || (DEFAULT_COLUMN_WIDTH_EXCEPTIONS.find((dc) => dc.id === column.id) ?.width ?? DEFAULT_COLUMN_WIDTH), // Throws: Nullish coalescing operator(??) requires parens when mixing with logical operators - w/o the parentes
-          enabled: columns.includes(column.label),
+          ...uiColumn,
+          ...configColumn,
+          // Uses enabled key when present, but defaults to true when column is present in config
+          enabled: configColumn.enabled ?? !!configColumn.label,
         };
       })
       .sort((a, b) => {
-        const aIndex = columns.indexOf(a.label);
-        const bIndex = columns.indexOf(b.label);
+        const aIndex = safeConfigColumns.findIndex(
+          (configColumn) => configColumn.label === a.label
+        );
+        const bIndex = safeConfigColumns.findIndex(
+          (configColumn) => configColumn.label === b.label
+        );
         // Sort by enabled items first, then by the index of the column from the config
         return b.enabled - a.enabled || aIndex - bIndex;
       });

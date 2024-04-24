@@ -9,6 +9,7 @@ import terser from '@rollup/plugin-terser';
 import alias from '@rollup/plugin-alias';
 import path from 'path';
 import replace from '@rollup/plugin-replace';
+import json from '@rollup/plugin-json';
 import dotenv from 'dotenv';
 import babel from '@rollup/plugin-babel';
 import * as url from 'url';
@@ -71,6 +72,8 @@ export default {
       dedupe: ['svelte'],
     }),
     commonjs(),
+
+    json(),
 
     alias({
       entries: [

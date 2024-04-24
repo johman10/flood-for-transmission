@@ -55,7 +55,7 @@ _Note:_ If you run Flood for Transmission behind SSL and in Chrome you can also 
 
 ### [BETA] Customization
 
-1. All User Interface defaults can be customized in `/flood-for-transmission/public/config.json` and should be self-explanatory, `cp config.json.defaults config.json` to get started:
+1. All User Interface defaults can be customized in `/flood-for-transmission/public/config.json` and should be self-explanatory, `cp config.defaults.json config.json` to get started:
 
 - `"DARK_MODE"`
   - Type: String e.g. `"auto"` or `"enabled"` or `"disabled"`
@@ -73,7 +73,7 @@ _Note:_ If you run Flood for Transmission behind SSL and in Chrome you can also 
   - Type: Array of Strings e.g. `["/downloads/expeliarmus","/downloads/lumos"]`
   - Default: `[]`
 - `"COLUMNS"`
-  - Type: Array of Strings e.g. `["Ratio","Upload Speed","Uploaded"]` or (NEW!) Object of Strings (key) and integers (value) pairs e.g. `{"Name": 400, "Progress": 600, "Ratio": 0}` to also configure the column width -> Protip: Use 0 to use the default width for a column!
+  - Type: Array of Objects e.g. `[{ label: "Name", width: 400, enabled: true }, { label: "Progress", width: 600, enabled: true }, { label: "Ratio", width: 0, enabled: false }]` -> Protip: Omitting a key from a column object will fall back to the default value
   - Default: `["Name","Progress","ETA","Download Speed","Upload Speed","File Size","Downloaded","Uploaded","Downloading from","Seeding to"]`
     - Note that you can control the order of the columns by the order of the array!
 - `"SORT_COLUMN"`

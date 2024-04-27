@@ -28,11 +28,11 @@ jobs:
           cache-name: cache-node-modules
         with:
           path: ~/.npm
-          key: v1-${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            v1-${{ runner.os }}-build-${{ env.cache-name }}-
-            v1-${{ runner.os }}-build-
-            v1-${{ runner.os }}-
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
 
       - name: Install modules
         run: npm ci

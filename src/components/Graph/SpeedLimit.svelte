@@ -61,6 +61,10 @@
     height: 12px;
   }
 
+  .speed__size {
+    white-space: nowrap;
+  }
+
   .hidden {
     opacity: 0;
   }

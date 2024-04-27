@@ -1,14 +1,14 @@
-name: "Release"
+name: 'Release'
 
 on:
   push:
     branches:
-      - "master"
+      - 'master'
 
 jobs:
   release:
-    name: "Release"
-    runs-on: "ubuntu-latest"
+    name: 'Release'
+    runs-on: 'ubuntu-latest'
 
     steps:
       - name: Set time var
@@ -28,11 +28,11 @@ jobs:
           cache-name: cache-node-modules
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          key: v1-${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
+            v1-${{ runner.os }}-build-${{ env.cache-name }}-
+            v1-${{ runner.os }}-build-
+            v1-${{ runner.os }}-
 
       - name: Install modules
         run: npm ci
@@ -50,23 +50,23 @@ jobs:
         run: tar -czvf flood-for-transmission.tar.gz flood-for-transmission
 
       - name: Release time based version
-        uses: "marvinpinto/action-automatic-releases@latest"
+        uses: 'marvinpinto/action-automatic-releases@latest'
         with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "${{ env.ref }}"
+          repo_token: '${{ secrets.GITHUB_TOKEN }}'
+          automatic_release_tag: '${{ env.ref }}'
           prerelease: false
-          title: "${{ env.time }}"
+          title: '${{ env.time }}'
           files: |
             flood-for-transmission.zip
             flood-for-transmission.tar.gz
 
       - name: Release latest
-        uses: "marvinpinto/action-automatic-releases@latest"
+        uses: 'marvinpinto/action-automatic-releases@latest'
         with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "latest"
+          repo_token: '${{ secrets.GITHUB_TOKEN }}'
+          automatic_release_tag: 'latest'
           prerelease: false
-          title: "Latest"
+          title: 'Latest'
           files: |
             flood-for-transmission.zip
             flood-for-transmission.tar.gz

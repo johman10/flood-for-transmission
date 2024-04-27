@@ -13,7 +13,7 @@
     switchSpeedColors,
     timeConfig,
     tableHeaderConfig,
-    diskUsage
+    diskUsage,
   } from '~helpers/stores';
   import { orderable } from '~helpers/actions';
   import { PATH_VALIDATION_REGEX } from '~helpers/constants/paths';

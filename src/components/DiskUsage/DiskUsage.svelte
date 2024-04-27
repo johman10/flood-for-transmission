@@ -78,7 +78,9 @@
     display: flex;
     flex-direction: column;
     gap: 2px;
-    transition: fill 0.25s, color 0.25s;
+    transition:
+      fill 0.25s,
+      color 0.25s;
     font-size: 13px;
   }
 
@@ -86,6 +88,6 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 100%
+    width: 100%;
   }
 </style>

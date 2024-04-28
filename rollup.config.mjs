@@ -9,10 +9,12 @@ import terser from '@rollup/plugin-terser';
 import alias from '@rollup/plugin-alias';
 import path from 'path';
 import replace from '@rollup/plugin-replace';
+import json from '@rollup/plugin-json';
 import dotenv from 'dotenv';
 import babel from '@rollup/plugin-babel';
 import * as url from 'url';
 import childProcess from 'child_process';
+import copy from 'rollup-plugin-copy';
 
 const production = !process.env.ROLLUP_WATCH;
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
@@ -58,6 +60,16 @@ export default {
       },
     }),
 
+    copy({
+      targets: [
+        {
+          src: 'src/helpers/constants/defaultConfig.json',
+          dest: 'public',
+          rename: 'config.json.defaults',
+        },
+      ],
+    }),
+
     css({ output: 'bundle.css' }),
 
     // If you have external dependencies installed from
@@ -71,6 +83,8 @@ export default {
       dedupe: ['svelte'],
     }),
     commonjs(),
+
+    json(),
 
     alias({
       entries: [

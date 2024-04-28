@@ -18,7 +18,7 @@
   import { orderable } from '~helpers/actions';
   import { PATH_VALIDATION_REGEX } from '~helpers/constants/paths';
 
-  const newColumns = JSON.parse(JSON.stringify($uiColumns));
+  const newColumns = structuredClone($uiColumns);
   let newPaths = [...$paths];
   let newSwitchSpeedColors = $switchSpeedColors;
   let newTimeConfig = $timeConfig;

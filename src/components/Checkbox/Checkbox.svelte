@@ -15,27 +15,29 @@
   const id = `input-checkbox-${num}`;
 </script>
 
-<label for="{id}" tabindex="0" class="checkbox">
-  {#if group && value}
-    <input
-      type="checkbox"
-      bind:group="{group}"
-      value="{value}"
-      id="{id}"
-      on:change
-    />
-    <div class="indicator" class:checked="{group.includes(value)}">
-      <Icon name="CheckboxCheckmark" viewBox="0 0 18 18" />
-    </div>
-  {:else}
-    <input type="checkbox" bind:checked="{checked}" id="{id}" on:change />
-    <div class="indicator" class:checked="{checked}">
-      <Icon name="CheckboxCheckmark" viewBox="0 0 18 18" />
-    </div>
-  {/if}
-  {#if label}<div class="label">{label}</div>{/if}
-</label>
-{#if hint}<div class="hint">{hint}</div>{/if}
+<div class="checkbox">
+  <label for="{id}" tabindex="0">
+    {#if group && value}
+      <input
+        type="checkbox"
+        bind:group="{group}"
+        value="{value}"
+        id="{id}"
+        on:change
+      />
+      <div class="indicator" class:checked="{group.includes(value)}">
+        <Icon name="CheckboxCheckmark" viewBox="0 0 18 18" />
+      </div>
+    {:else}
+      <input type="checkbox" bind:checked="{checked}" id="{id}" on:change />
+      <div class="indicator" class:checked="{checked}">
+        <Icon name="CheckboxCheckmark" viewBox="0 0 18 18" />
+      </div>
+    {/if}
+    {#if label}<div class="label">{label}</div>{/if}
+  </label>
+  {#if hint}<div class="hint">{hint}</div>{/if}
+</div>
 
 <style>
   label {

@@ -104,7 +104,7 @@
   }
 
   .content {
-    padding: 5px;
+    padding: 5px 12px;
   }
 
   .arrow {
@@ -140,7 +140,7 @@
 
   .option {
     cursor: pointer;
-    padding: 6px 9px;
+    padding: 6px 12px;
     transition: background-color 0.125s;
     font-size: 14px;
   }

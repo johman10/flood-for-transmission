@@ -27,12 +27,14 @@
   $: structure = getFolderStructure(files);
 
   const handleSelectedFilePrioChange = (event) => {
-    torrentDetails.setPriority($torrentDetails, selectedFiles, event.detail);
+    const fileIndices = selectedFiles.map((fileName) =>
+      files.findIndex((file) => file.name === fileName)
+    );
+    torrentDetails.setPriority($torrentDetails, fileIndices, event.detail);
   };
 
   const handleSingleFilePrioChange = (fileIndex, event) => {
-    const fileName = files[fileIndex].name;
-    torrentDetails.setPriority($torrentDetails, [fileName], event.detail);
+    torrentDetails.setPriority($torrentDetails, [fileIndex], event.detail);
   };
 </script>
 

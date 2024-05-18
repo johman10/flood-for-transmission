@@ -16,10 +16,13 @@ const getConfigurationColumnsWithDefaults = (configColumns) => {
   // Deprecated support for array of strings
   if (typeof configColumns[0] === 'string') {
     return configColumns.map((columnLabel) => {
-      const width =
-        defaults.COLUMNS.find(
-          (defaultColumn) => defaultColumn.label === columnLabel
-        ).width || DEFAULT_COLUMN_WIDTH;
+      const foundColumn = defaults.COLUMNS.find(
+        (defaultColumn) => defaultColumn.label === columnLabel
+      );
+      if (!foundColumn) {
+        console.warn(`${columnLabel} in config.json is not recognized`);
+      }
+      const width = foundColumn?.width || DEFAULT_COLUMN_WIDTH;
       return {
         label: columnLabel,
         width,
@@ -28,7 +31,8 @@ const getConfigurationColumnsWithDefaults = (configColumns) => {
     });
   }
 
-  return configColumns;
+  // Ignore potential id from config.json
+  return configColumns.map(({ id, ...configColumn }) => configColumn);
 };
 
 export default await fetch('./config.json')

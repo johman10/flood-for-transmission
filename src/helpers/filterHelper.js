@@ -61,7 +61,7 @@ export function statusFilter(status, torrent) {
 export function searchFilter(query, torrent) {
   if (!query) return true;
 
-  const replaceRegex = /[^a-z0-9]/g;
+  const replaceRegex = /[ \[\]\.·_-]/g;
   const searchValue = query.toLowerCase().replace(replaceRegex, '');
   const value = torrent[TRANSMISSION_COLUMN_NAME].toLowerCase().replace(
     replaceRegex,

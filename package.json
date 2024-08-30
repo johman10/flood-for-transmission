@@ -32,7 +32,7 @@
     "rollup-plugin-css-only": "^4.5.2",
     "rollup-plugin-livereload": "^2.0.5",
     "rollup-plugin-svelte": "^7.2.0",
-    "svelte": "^4.2.15",
+    "svelte": "^4.2.19",
     "svelte-eslint-parser": "^0.35.0",
     "workbox-cli": "^7.1.0"
   },

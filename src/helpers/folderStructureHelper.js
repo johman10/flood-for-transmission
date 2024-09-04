@@ -36,6 +36,11 @@ export const getMainFolder = (downloadDir, sampleFile) => {
   return downloadDir;
 };
 
+const sortFolderStructure = (structure) => {
+  structure.files.sort((a, b) => a.name.localeCompare(b.name));
+  Object.keys(structure.folders).forEach(folder => sortFolderStructure(structure.folders[folder]))
+}
+
 export const getFolderStructure = (files) => {
   const structure = getEmptyFolder();
 
@@ -59,5 +64,8 @@ export const getFolderStructure = (files) => {
     });
     prevFolder.files.push(getFile(file, fileName, index));
   });
+
+  sortFolderStructure(structure);
+
   return structure;
 };

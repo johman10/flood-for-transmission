@@ -22,7 +22,7 @@
   let open = true;
 
   $: allChecked = getAllFiles(structure).every((file) =>
-    selectedFiles.includes(file.name)
+    selectedFiles.includes(file.index)
   );
 
   const getFileSize = (file) => {
@@ -53,7 +53,7 @@
   };
 
   const selectFolder = (event) => {
-    const folderFileNames = getAllFiles(structure).map((file) => file.name);
+    const folderFileNames = getAllFiles(structure).map((file) => file.index);
 
     if (event.target.checked) {
       selectedFiles = [...selectedFiles, ...folderFileNames];
@@ -104,15 +104,15 @@
       <IconCheckbox
         on:change="{handleFileCheckbox}"
         group="{selectedFiles}"
-        value="{file.name}"
+        value="{file.index}"
         iconName="File"
       />
       <div
         class="path"
         on:click="{() =>
-          selectedFiles.includes(file.name)
-            ? unselectFile(file.name)
-            : selectFile(file.name)}"
+          selectedFiles.includes(file.index)
+            ? unselectFile(file.index)
+            : selectFile(file.index)}"
       >
         {file.fileName}
       </div>

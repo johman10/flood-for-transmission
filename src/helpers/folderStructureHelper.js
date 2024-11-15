@@ -3,10 +3,9 @@ const getEmptyFolder = () => ({
   files: [],
 });
 
-const getFile = (file, fileName, index) => ({
+const getFile = (file, fileName) => ({
   ...file,
   fileName,
-  index,
 });
 
 const addFolderToObject = (key, object) => {
@@ -59,5 +58,6 @@ export const getFolderStructure = (files) => {
     });
     prevFolder.files.push(getFile(file, fileName, index));
   });
+
   return structure;
 };

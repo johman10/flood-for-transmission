@@ -19,6 +19,12 @@ function getTorrent(torrentId, setTorrent) {
       }
       setTorrent({
         ...torrents[0],
+        [TRANSMISSION_COLUMN.FILES]: torrents[0][TRANSMISSION_COLUMN.FILES].map(
+          (file, index) => ({
+            ...file,
+            index: index.toString(),
+          })
+        ),
         loaded: true,
       });
     })
@@ -59,23 +65,29 @@ function createTorrentDetailsStore() {
     clearTorrentId: () => torrentId.set(0),
     setPriority: (torrent, fileIndices, priority) => {
       let params;
+      const fileIndicesInt = fileIndices.map((fileIndex) =>
+        parseInt(fileIndex)
+      );
       switch (priority) {
         case -2:
-          params = { 'files-unwanted': fileIndices };
+          params = { 'files-unwanted': fileIndicesInt };
           break;
         case -1:
-          params = { 'priority-low': fileIndices, 'files-wanted': fileIndices };
+          params = {
+            'priority-low': fileIndicesInt,
+            'files-wanted': fileIndicesInt,
+          };
           break;
         case 0:
           params = {
-            'priority-normal': fileIndices,
-            'files-wanted': fileIndices,
+            'priority-normal': fileIndicesInt,
+            'files-wanted': fileIndicesInt,
           };
           break;
         case 1:
           params = {
-            'priority-high': fileIndices,
-            'files-wanted': fileIndices,
+            'priority-high': fileIndicesInt,
+            'files-wanted': fileIndicesInt,
           };
           break;
       }

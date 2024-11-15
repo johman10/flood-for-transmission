@@ -21,14 +21,13 @@
     { label: 'High', value: 1 },
   ];
 
-  $: files = $torrentDetails[TRANSMISSION_COLUMN_FILES];
+  $: files = $torrentDetails[TRANSMISSION_COLUMN_FILES].toSorted((a, b) =>
+    a.name.localeCompare(b.name)
+  );
   $: structure = getFolderStructure(files);
 
   const handleSelectedFilePrioChange = (event) => {
-    const fileIndices = selectedFiles.map((fileName) =>
-      files.findIndex((file) => file.name === fileName)
-    );
-    torrentDetails.setPriority($torrentDetails, fileIndices, event.detail);
+    torrentDetails.setPriority($torrentDetails, selectedFiles, event.detail);
   };
 
   const handleSingleFilePrioChange = (fileIndex, event) => {

@@ -1,15 +1,13 @@
 <script>
   import Input from '~components/Input';
 
-  export let values;
-  export let type = 'text';
-  export let label = null;
+  let { values = $bindable(), type = 'text', label = null, ...rest } = $props();
 
-  $: {
+  $effect(() => {
     if (!values.length) {
       values = [''];
     }
-  }
+  });
 
   function handlePaste(index, e) {
     // Prevent the original value from actually being pasted
@@ -71,11 +69,11 @@
   {#each values as value, index}
     <Input
       id="input-multiple-{index}"
-      type="{type}"
-      bind:value="{value}"
-      addons="{getAddons(index)}"
-      on:paste="{(e) => handlePaste(index, e)}"
-      {...$$restProps}
+      type={type}
+      bind:value={values[index]}
+      addons={getAddons(index)}
+      on:paste={(e) => handlePaste(index, e)}
+      {...rest}
     />
   {/each}
 </div>

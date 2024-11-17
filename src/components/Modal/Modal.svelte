@@ -9,21 +9,22 @@
   };
 </script>
 
-<svelte:window on:keydown="{handleKeydown}" />
+<svelte:window onkeydown={handleKeydown} />
 
 {#if $modals && $modals.component}
+  {@const SvelteComponent = $modals.component}
   <div class="modal">
     <div
       class="backdrop"
-      on:click="{modals.close}"
-      transition:fade="{{ duration: 250, easing: cubicInOut }}"
+      onclick={modals.close}
+      transition:fade={{ duration: 250, easing: cubicInOut }}
     ></div>
     <div
       class="content"
-      class:large="{$modals.large}"
-      transition:scale="{{ duration: 250, easing: cubicInOut }}"
+      class:large={$modals.large}
+      transition:scale={{ duration: 250, easing: cubicInOut }}
     >
-      <svelte:component this="{$modals.component}" {...$modals.props || {}} />
+      <SvelteComponent {...$modals.props || {}} />
     </div>
   </div>
 {/if}

@@ -13,7 +13,7 @@
     getMainFolder,
   } from '~helpers/folderStructureHelper';
 
-  let selectedFiles = [];
+  let selectedFiles = $state([]);
   const prioOptions = [
     { label: "Don't download", value: -2 },
     { label: 'Low', value: -1 },
@@ -21,34 +21,36 @@
     { label: 'High', value: 1 },
   ];
 
-  $: files = $torrentDetails[TRANSMISSION_COLUMN_FILES].toSorted((a, b) =>
-    a.name.localeCompare(b.name)
+  let files = $derived(
+    $torrentDetails[TRANSMISSION_COLUMN_FILES].toSorted((a, b) =>
+      a.name.localeCompare(b.name)
+    )
   );
-  $: structure = getFolderStructure(files);
+  let structure = $derived(getFolderStructure(files));
 
-  const handleSelectedFilePrioChange = (event) => {
-    torrentDetails.setPriority($torrentDetails, selectedFiles, event.detail);
+  const handleSelectedFilePrioChange = (priority) => {
+    torrentDetails.setPriority($torrentDetails, selectedFiles, priority);
   };
 
-  const handleSingleFilePrioChange = (fileIndex, event) => {
-    torrentDetails.setPriority($torrentDetails, [fileIndex], event.detail);
+  const handleSingleFilePrioChange = (fileIndex, priority, ...args) => {
+    torrentDetails.setPriority($torrentDetails, [fileIndex], priority);
   };
 </script>
 
 <div class="container">
-  <ActionBarView items="{selectedFiles}" itemName="file" itemNamePlural="files">
+  <ActionBarView items={selectedFiles} itemName="file" itemNamePlural="files">
     {#if files.length}
       <Folder
-        structure="{structure}"
-        bind:selectedFiles="{selectedFiles}"
+        structure={structure}
+        bind:selectedFiles={selectedFiles}
         iconName="Disk"
-        folderName="{getMainFolder(
+        folderName={getMainFolder(
           $torrentDetails[TRANSMISSION_COLUMN_DOWNLOAD_DIR],
           files[0]
-        )}"
-        collapsible="{false}"
-        strong="{true}"
-        onSingleFilePrioChange="{handleSingleFilePrioChange}"
+        )}
+        collapsible={false}
+        strong={true}
+        onSingleFilePrioChange={handleSingleFilePrioChange}
       />
     {:else}
       <div class="empty">
@@ -56,13 +58,15 @@
       </div>
     {/if}
 
-    <div slot="actions" class="select-container">
-      <Select
-        options="{prioOptions}"
-        placeholder="Set priority"
-        on:change="{handleSelectedFilePrioChange}"
-      />
-    </div>
+    {#snippet actions()}
+      <div class="select-container">
+        <Select
+          options={prioOptions}
+          placeholder="Set priority"
+          onchange={handleSelectedFilePrioChange}
+        />
+      </div>
+    {/snippet}
   </ActionBarView>
 </div>
 

@@ -1,11 +1,14 @@
 <script>
-  export let viewBox;
+  import { createBubbler } from 'svelte/legacy';
+
+  const bubble = createBubbler();
+  let { viewBox } = $props();
 </script>
 
 <svg
-  on:click
+  onclick={bubble('click')}
   class="icon"
-  viewBox="{viewBox}"
+  viewBox={viewBox}
   xmlns="http://www.w3.org/2000/svg"
 >
   <polygon

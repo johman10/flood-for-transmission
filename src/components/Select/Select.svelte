@@ -1,29 +1,29 @@
 <script>
-  import { createEventDispatcher } from 'svelte';
   import { clickOutside } from '~helpers/actions';
   import Icon from '~components/Icon';
   import Button from '~components/Button';
   import { fly } from 'svelte/transition';
 
-  export let options;
-  export let placeholder = '';
-  export let direction = 'above';
-  export let value = null;
-  export let label = null;
+  let {
+    options,
+    onchange,
+    placeholder = '',
+    direction = 'above',
+    value = null,
+    label = null,
+  } = $props();
 
-  let open = false;
-  let optionsStyle;
-  let optionsElement;
-  let selectElement;
-
-  const dispatch = createEventDispatcher();
+  let open = $state(false);
+  let optionsStyle = $state();
+  let optionsElement = $state();
+  let selectElement = $state();
 
   const handleChange = (newValue) => {
     open = false;
-    dispatch('change', newValue);
+    onchange(newValue);
   };
 
-  $: {
+  $effect(() => {
     if (open && selectElement) {
       const { x, y, width, height } = selectElement.getBoundingClientRect();
       if (direction === 'above') {
@@ -32,46 +32,46 @@
         optionsStyle = `left: ${x}px; top: ${y + height}px; width: ${width}px;`;
       }
     }
-  }
+  });
 
-  $: {
+  $effect(() => {
     if (optionsElement) {
       document.body.appendChild(optionsElement);
     }
-  }
+  });
 </script>
 
 <div
   class="select"
-  bind:this="{selectElement}"
-  use:clickOutside="{() => {
+  bind:this={selectElement}
+  use:clickOutside={() => {
     open = false;
-  }}"
+  }}
 >
   {#if label}
-    <div class="label" on:click="{() => (open = !open)}">{label}</div>
+    <div class="label" onclick={() => (open = !open)}>{label}</div>
   {/if}
 
-  <Button on:click="{() => (open = !open)}" priority="quaternary">
+  <Button onclick={() => (open = !open)} priority="quaternary">
     <div class="content">
       {options.find((option) => option.value === value)?.label || placeholder}
     </div>
-    <div class="arrow" class:open="{open}">
+    <div class="arrow" class:open={open}>
       <Icon name="Chevron" />
     </div>
   </Button>
 
   {#if open}
     <div
-      bind:this="{optionsElement}"
+      bind:this={optionsElement}
       class="options"
-      class:above="{direction === 'above'}"
-      class:below="{direction === 'below'}"
-      style="{optionsStyle}"
-      transition:fly="{{ duration: 125, y: -20 }}"
+      class:above={direction === 'above'}
+      class:below={direction === 'below'}
+      style={optionsStyle}
+      transition:fly={{ duration: 125, y: -20 }}
     >
       {#each options as option}
-        <div class="option" on:click="{handleChange(option.value)}">
+        <div class="option" onclick={handleChange.bind(this, option.value)}>
           {option.label}
         </div>
       {/each}

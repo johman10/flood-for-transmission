@@ -5,10 +5,9 @@
 
   const dispatch = createEventDispatcher();
 
-  export let header;
-  export let lists;
+  let { header, lists, trigger, bottom } = $props();
 
-  let open = false;
+  let open = $state(false);
 
   const toggleOpen = (onlyClose) => {
     if (onlyClose) {
@@ -27,15 +26,15 @@
 
 <div
   class="wrapper"
-  use:clickOutside="{toggleOpen.bind(null, true)}"
-  on:click="{toggleOpen.bind(null, false)}"
+  use:clickOutside={toggleOpen.bind(null, true)}
+  onclick={toggleOpen.bind(null, false)}
 >
-  <slot name="trigger" />
+  {@render trigger?.()}
 
   {#if open}
-    <div class="menu" transition:fade="{{ duration: 250 }}">
+    <div class="menu" transition:fade={{ duration: 250 }}>
       <div class="header">
-        <slot name="trigger" />
+        {@render trigger?.()}
         <span>{header}</span>
       </div>
       <div class="lists">
@@ -45,8 +44,8 @@
             <ul>
               {#each options as option}
                 <li
-                  class:selected="{option.selected}"
-                  on:click="{optionSelect(option)}"
+                  class:selected={option.selected}
+                  onclick={optionSelect(option)}
                 >
                   {option.name}
                 </li>
@@ -55,7 +54,7 @@
           </div>
         {/each}
       </div>
-      <slot name="bottom" />
+      {@render bottom?.()}
     </div>
   {/if}
 </div>

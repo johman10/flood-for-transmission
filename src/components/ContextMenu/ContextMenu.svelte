@@ -6,24 +6,17 @@
   const SPACE_AROUND = 10;
   const VERTICAL_OFFSET = 5;
 
-  let windowHeight = 0;
-  let windowWidth = 0;
-  let menuHeight = 0;
-  let menuWidth = 0;
-  let bottom = 'auto';
-  let top = 'auto';
-  let maxHeight = 'auto';
-  let width = 'auto';
-  let left = 'auto';
-  let right = 'auto';
-
-  $: {
-    bottom = 'auto';
-    top = 'auto';
-    maxHeight = 'auto';
-    width = 'auto';
-    left = 'auto';
-    right = 'auto';
+  let windowHeight = $state(0);
+  let windowWidth = $state(0);
+  let menuHeight = $state(0);
+  let menuWidth = $state(0);
+  let position = $derived.by(() => {
+    let bottom = 'auto';
+    let top = 'auto';
+    let left = 'auto';
+    let right = 'auto';
+    let maxHeight = 'auto';
+    let width = 'auto';
 
     if ($contextMenu?.element) {
       const buttonBoundingRect = $contextMenu.element.getBoundingClientRect();
@@ -69,7 +62,16 @@
         left = $contextMenu.coordinates.x;
       }
     }
-  }
+
+    return {
+      bottom,
+      top,
+      left,
+      right,
+      width,
+      maxHeight,
+    };
+  });
 
   function getStyleDeclaration(property, value) {
     if (typeof value === 'string') return `${property}: ${value};`;
@@ -94,31 +96,28 @@
 </script>
 
 <svelte:window
-  on:keydown="{handleKeydown}"
-  bind:innerHeight="{windowHeight}"
-  bind:innerWidth="{windowWidth}"
+  onkeydown={handleKeydown}
+  bind:innerHeight={windowHeight}
+  bind:innerWidth={windowWidth}
 />
 
 {#if $contextMenu?.component}
+  {@const SvelteComponent = $contextMenu.component}
   <ul
-    style="{[
-      getStyleDeclaration('top', top),
-      getStyleDeclaration('bottom', bottom),
-      getStyleDeclaration('max-height', maxHeight),
-      getStyleDeclaration('width', width),
-      getStyleDeclaration('left', left),
-      getStyleDeclaration('right', right),
-    ].join(' ')}"
-    bind:offsetHeight="{menuHeight}"
-    bind:offsetWidth="{menuWidth}"
-    use:clickOutside="{contextMenu.close}"
-    transition:fly="{{ duration: 125, y: -20 }}"
+    style={[
+      getStyleDeclaration('top', position.top),
+      getStyleDeclaration('bottom', position.bottom),
+      getStyleDeclaration('left', position.left),
+      getStyleDeclaration('right', position.right),
+      getStyleDeclaration('max-height', position.maxHeight),
+      getStyleDeclaration('width', position.width),
+    ].join(' ')}
+    bind:offsetHeight={menuHeight}
+    bind:offsetWidth={menuWidth}
+    use:clickOutside={contextMenu.close}
+    transition:fly={{ duration: 125, y: -20 }}
   >
-    <svelte:component
-      this="{$contextMenu.component}"
-      {...$contextMenu.props}
-      onItemClick="{onItemClick}"
-    />
+    <SvelteComponent {...$contextMenu.props} onItemClick={onItemClick} />
   </ul>
 {/if}
 

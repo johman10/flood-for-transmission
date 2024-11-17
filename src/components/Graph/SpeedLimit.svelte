@@ -7,22 +7,30 @@
     SESSION_COLUMN_UNITS_SPEED,
   } from '~helpers/constants/columns';
 
-  export let direction;
-  export let hidden = false;
+  /**
+   * @typedef {Object} Props
+   * @property {any} direction
+   * @property {boolean} [hidden]
+   */
+
+  /** @type {Props} */
+  let { direction, hidden = false } = $props();
 
   const speedLimit = session.speedLimit(direction);
-  $: ({ value: limit, size: limitSize } = getSize($speedLimit, {
-    isSpeed: true,
-    startSize: 'kB',
-    perSize: $session[SESSION_COLUMN_UNITS]?.[SESSION_COLUMN_UNITS_SPEED],
-  }));
+  let { value: limit, size: limitSize } = $derived(
+    getSize($speedLimit, {
+      isSpeed: true,
+      startSize: 'kB',
+      perSize: $session[SESSION_COLUMN_UNITS]?.[SESSION_COLUMN_UNITS_SPEED],
+    })
+  );
 </script>
 
 <div
   class="limit"
-  class:upload="{direction === 'upload'}"
-  class:download="{direction === 'download'}"
-  class:hidden="{hidden}"
+  class:upload={direction === 'upload'}
+  class:download={direction === 'download'}
+  class:hidden={hidden}
 >
   {#if limit}
     {limit}

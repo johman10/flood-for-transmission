@@ -1,21 +1,27 @@
-<script context="module">
+<script module>
   let num = 0;
 </script>
 
 <script>
+  import { createBubbler } from 'svelte/legacy';
+
+  const bubble = createBubbler();
   import Icon from '~components/Icon';
 
   num += 1;
 
-  export let label = null;
-  export let value;
-  export let type = 'text';
-  export let hint = null;
-  export let validationMessage = '';
-  export let addons = [];
-  export let input = null;
-  export let id = `input-text-${num}`;
-  export let disabled = false;
+  let {
+    label = null,
+    value = $bindable(),
+    type = 'text',
+    hint = null,
+    validationMessage = '',
+    addons = [],
+    input = $bindable(),
+    id = `input-text-${num}`,
+    disabled = false,
+    ...rest
+  } = $props();
 
   const handleInvalid = (e) => {
     if (!validationMessage) return;
@@ -24,68 +30,68 @@
 </script>
 
 <div class="input-container">
-  {#if label}<label class="label" for="{id}">{label}</label>{/if}
+  {#if label}<label class="label" for={id}>{label}</label>{/if}
   <div class="input-wrapper" style="--addon-count: {addons.length};">
     {#if type === 'text'}
       <input
         class="input"
-        id="{id}"
+        id={id}
         type="text"
-        bind:this="{input}"
-        on:invalid="{handleInvalid}"
-        on:input="{(e) => e.target.setCustomValidity('')}"
-        on:paste
-        bind:value="{value}"
-        disabled="{disabled}"
-        {...$$restProps}
+        bind:this={input}
+        oninvalid={handleInvalid}
+        oninput={(e) => e.target.setCustomValidity('')}
+        onpaste={bubble('paste')}
+        bind:value={value}
+        disabled={disabled}
+        {...rest}
       />
     {:else if type === 'number'}
       <input
         class="input"
-        id="{id}"
+        id={id}
         type="number"
-        bind:this="{input}"
-        on:invalid="{handleInvalid}"
-        on:input="{(e) => e.target.setCustomValidity('')}"
-        on:paste
-        bind:value="{value}"
-        disabled="{disabled}"
-        {...$$restProps}
+        bind:this={input}
+        oninvalid={handleInvalid}
+        oninput={(e) => e.target.setCustomValidity('')}
+        onpaste={bubble('paste')}
+        bind:value={value}
+        disabled={disabled}
+        {...rest}
       />
     {:else if type === 'time'}
       <input
         class="input"
-        id="{id}"
+        id={id}
         type="time"
-        bind:this="{input}"
-        on:invalid="{handleInvalid}"
-        on:input="{(e) => e.target.setCustomValidity('')}"
-        on:paste
-        bind:value="{value}"
-        disabled="{disabled}"
-        {...$$restProps}
+        bind:this={input}
+        oninvalid={handleInvalid}
+        oninput={(e) => e.target.setCustomValidity('')}
+        onpaste={bubble('paste')}
+        bind:value={value}
+        disabled={disabled}
+        {...rest}
       />
     {:else if type === 'url'}
       <input
         class="input"
-        id="{id}"
+        id={id}
         type="url"
-        bind:this="{input}"
-        on:invalid="{handleInvalid}"
-        on:input="{(e) => e.target.setCustomValidity('')}"
-        on:paste
-        bind:value="{value}"
-        disabled="{disabled}"
-        {...$$restProps}
+        bind:this={input}
+        oninvalid={handleInvalid}
+        oninput={(e) => e.target.setCustomValidity('')}
+        onpaste={bubble('paste')}
+        bind:value={value}
+        disabled={disabled}
+        {...rest}
       />
     {:else}{console.error(`Invalid type received, ${type}`)}{/if}
     {#each addons as addon, index}
       <div
         class="addon"
-        on:click="{!disabled ? addon.onClick : undefined}"
+        onclick={!disabled ? addon.onClick : undefined}
         style="--index: {index}; --icon-size: {addon.iconSize};"
       >
-        <Icon name="{addon.iconName}" />
+        <Icon name={addon.iconName} />
       </div>
     {/each}
   </div>

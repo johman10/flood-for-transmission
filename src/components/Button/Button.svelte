@@ -1,24 +1,25 @@
 <script>
-  import { createEventDispatcher } from 'svelte';
   import Icon from '~components/Icon';
 
-  const dispatch = createEventDispatcher();
-
-  export let priority = 'primary';
-  export let type = 'button';
-  export let loading = false;
+  let {
+    onclick,
+    priority = 'primary',
+    type = 'button',
+    loading = false,
+    children,
+  } = $props();
 
   const handleClick = (event) => {
     if (loading) return;
-    dispatch('click', event);
+    onclick(event);
   };
 </script>
 
-<button type="{type}" class="button {priority}" on:click="{handleClick}">
+<button type={type} class="button {priority}" onclick={handleClick}>
   {#if loading}
     <Icon name="SpinnerIcon" />
   {:else}
-    <slot />
+    {@render children?.()}
   {/if}
 </button>
 

@@ -1,10 +1,16 @@
 <script>
-  export let value;
-  export let torrentStatusClass = null;
-  export let size = 'normal';
+  /**
+   * @typedef {Object} Props
+   * @property {any} value
+   * @property {any} [torrentStatusClass]
+   * @property {string} [size]
+   */
+
+  /** @type {Props} */
+  let { value, torrentStatusClass = null, size = 'normal' } = $props();
 </script>
 
-<span class:big="{size === 'big'}" class="{torrentStatusClass}">{value}</span>
+<span class:big={size === 'big'} class={torrentStatusClass}>{value}</span>
 
 <style>
   .big {

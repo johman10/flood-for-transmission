@@ -2,20 +2,23 @@
   import Icon from '~components/Icon';
   import Checkbox from '~components/Checkbox';
 
-  export let checked = false;
-  export let group = null;
-  export let value = null;
-  export let iconName;
+  let {
+    checked = $bindable(false),
+    group = null,
+    value = null,
+    iconName,
+    onchange,
+  } = $props();
 </script>
 
-<div class="icon-checkbox" class:selected="{group?.includes(value) || checked}">
+<div class="icon-checkbox" class:selected={group?.includes(value) || checked}>
   <Checkbox
-    on:change
-    group="{group}"
-    value="{value}"
-    bind:checked="{checked}"
+    onchange={onchange}
+    group={group}
+    value={value}
+    bind:checked={checked}
   />
-  <Icon name="{iconName}" />
+  <Icon name={iconName} />
 </div>
 
 <style>

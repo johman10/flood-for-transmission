@@ -1,4 +1,6 @@
 <script>
+  import { handlers } from 'svelte/legacy';
+
   import { createEventDispatcher } from 'svelte';
   import {
     TextRenderer,
@@ -26,8 +28,14 @@
 
   const dispatch = createEventDispatcher();
 
-  export let torrent = {};
-  export let selected = false;
+  /**
+   * @typedef {Object} Props
+   * @property {any} [torrent]
+   * @property {boolean} [selected]
+   */
+
+  /** @type {Props} */
+  let { torrent = {}, selected = false } = $props();
 
   const activeColumns = uiColumns.active;
 
@@ -71,7 +79,7 @@
   };
 
   // TODO: Move to constants/columns, pass torrent and session as arg to props;
-  $: rendererMap = {
+  let rendererMap = $derived({
     [UI_COLUMN.NAME.id]: {
       component: TextRenderer,
       props: () => ({ value: torrent[TRANSMISSION_COLUMN.NAME], size: 'big' }),
@@ -259,23 +267,22 @@
         return { value: `${Math.round(number * 10_000) / 100}%` };
       },
     },
-  };
+  });
 </script>
 
 <tr
-  class="{generateTorrentStatusClass(torrent, selected)}"
+  class={generateTorrentStatusClass(torrent, selected)}
   use:contextmenu
-  on:contextmenu="{dispatchContextmenu}"
-  on:click="{dispatchClick}"
-  on:click="{handleClick}"
+  oncontextmenu={dispatchContextmenu}
+  onclick={handlers(dispatchClick, handleClick)}
 >
   {#each $activeColumns
     .map((column) => rendererMap[column.id])
     .filter(Boolean) as { component, props }}
+    {@const SvelteComponent = component}
     <td>
-      <svelte:component
-        this="{component}"
-        torrentStatusClass="{generateTorrentStatusClass(torrent, selected)}"
+      <SvelteComponent
+        torrentStatusClass={generateTorrentStatusClass(torrent, selected)}
         {...props()}
       />
     </td>

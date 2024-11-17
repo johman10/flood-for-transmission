@@ -27,26 +27,26 @@
 <nav class="header">
   <div class="left">
     <div class="group">
-      <button class="button" on:click="{togglePanel}">
+      <button class="button" onclick={togglePanel}>
         <Icon name="MenuIcon" viewBox="0 0 60 60" />
       </button>
     </div>
   </div>
   <div class="right">
     <div class="group">
-      <button class="button" on:click="{handleStart}">
+      <button class="button" onclick={handleStart}>
         <Icon name="StartIcon" />
       </button>
-      <button class="button" on:click="{handleStop}">
+      <button class="button" onclick={handleStop}>
         <Icon name="StopIcon" />
       </button>
     </div>
     <div class="divider"></div>
     <div class="group">
-      <button class="button" on:click="{handleAdd}">
+      <button class="button" onclick={handleAdd}>
         <Icon name="Add" />
       </button>
-      <button class="button" on:click="{handleRemove}">
+      <button class="button" onclick={handleRemove}>
         <Icon name="Remove" />
       </button>
     </div>

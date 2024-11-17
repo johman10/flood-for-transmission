@@ -1,4 +1,5 @@
 <script>
+  import Folder from './Folder.svelte';
   import { torrentDetails, session } from '~helpers/stores';
   import { getSize } from '~helpers/sizeHelper';
   import { getAllFiles } from '~helpers/folderStructureHelper';
@@ -10,19 +11,34 @@
   import IconCheckbox from './IconCheckbox.svelte';
   import PriorityIndicator from '~components/PriorityIndicator';
 
-  export let folderName;
-  export let structure;
-  export let selectedFiles;
-  export let level = 0;
-  export let iconName = null;
-  export let collapsible = true;
-  export let strong = false;
-  export let onSingleFilePrioChange;
+  /**
+   * @typedef {Object} Props
+   * @property {any} folderName
+   * @property {any} structure
+   * @property {any} selectedFiles
+   * @property {number} [level]
+   * @property {any} [iconName]
+   * @property {boolean} [collapsible]
+   * @property {boolean} [strong]
+   * @property {any} onSingleFilePrioChange
+   */
 
-  let open = true;
+  /** @type {Props} */
+  let {
+    folderName,
+    structure,
+    selectedFiles = $bindable(),
+    level = 0,
+    iconName = null,
+    collapsible = true,
+    strong = false,
+    onSingleFilePrioChange,
+  } = $props();
 
-  $: allChecked = getAllFiles(structure).every((file) =>
-    selectedFiles.includes(file.index)
+  let open = $state(true);
+
+  let allChecked = $derived(
+    getAllFiles(structure).every((file) => selectedFiles.includes(file.index))
   );
 
   const getFileSize = (file) => {
@@ -68,51 +84,51 @@
 
 <div
   class="folder"
-  style="{`margin-left: ${level * 8}px`}"
-  class:strong="{strong}"
-  title="{folderName}"
+  style={`margin-left: ${level * 8}px`}
+  class:strong={strong}
+  title={folderName}
 >
   <IconCheckbox
-    checked="{allChecked}"
-    on:change="{selectFolder}"
-    iconName="{iconName ?? (open ? 'FolderOpen' : 'FolderClosed')}"
+    checked={allChecked}
+    onchange={selectFolder}
+    iconName={iconName ?? (open ? 'FolderOpen' : 'FolderClosed')}
   />
   <div
     class="path"
-    class:no-action="{!collapsible}"
-    on:click="{() => collapsible && (open = !open)}"
+    class:no-action={!collapsible}
+    onclick={() => collapsible && (open = !open)}
   >
     {folderName}
   </div>
 </div>
 {#if open}
   {#each Object.keys(structure.folders) as nestedFolder}
-    <svelte:self
-      folderName="{nestedFolder}"
-      structure="{structure.folders[nestedFolder]}"
-      bind:selectedFiles="{selectedFiles}"
-      level="{level + 1}"
-      onSingleFilePrioChange="{onSingleFilePrioChange}"
+    <Folder
+      folderName={nestedFolder}
+      structure={structure.folders[nestedFolder]}
+      bind:selectedFiles={selectedFiles}
+      level={level + 1}
+      onSingleFilePrioChange={onSingleFilePrioChange}
     />
   {/each}
   {#each structure.files as file}
     <div
       class="file"
-      style="{`margin-left: ${(level + 1) * 8}px`}"
-      title="{file.fileName}"
+      style={`margin-left: ${(level + 1) * 8}px`}
+      title={file.fileName}
     >
       <IconCheckbox
-        on:change="{handleFileCheckbox}"
-        group="{selectedFiles}"
-        value="{file.index}"
+        onchange={handleFileCheckbox}
+        group={selectedFiles}
+        value={file.index}
         iconName="File"
       />
       <div
         class="path"
-        on:click="{() =>
+        onclick={() =>
           selectedFiles.includes(file.index)
             ? unselectFile(file.index)
-            : selectFile(file.index)}"
+            : selectFile(file.index)}
       >
         {file.fileName}
       </div>
@@ -120,11 +136,11 @@
         <span>{getFileSize(file).value}{getFileSize(file).size}</span>
         <span>{Math.round((file.bytesCompleted / file.length) * 100)}%</span>
         <PriorityIndicator
-          value="{getFilePriority(
+          value={getFilePriority(
             $torrentDetails[TRANSMISSION_COLUMN_FILE_STATS][file.index]
-          )}"
-          allowDisabled="{true}"
-          on:click="{onSingleFilePrioChange.bind(this, file.index)}"
+          )}
+          allowDisabled={true}
+          onclick={onSingleFilePrioChange.bind(this, file.index)}
         />
       </div>
     </div>

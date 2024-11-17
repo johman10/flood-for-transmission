@@ -9,8 +9,10 @@
   import Badge from '~components/Badge';
   import Icon from '~components/Icon';
 
-  $: peers = $torrentDetails[TRANSMISSION_COLUMN_PEERS];
-  $: ipAddress.add(peers.map((peer) => peer.address));
+  let peers = $derived($torrentDetails[TRANSMISSION_COLUMN_PEERS]);
+  $effect(() => {
+    ipAddress.add(peers.map((peer) => peer.address));
+  });
 
   const getDownloadSpeed = (peer) => {
     return getSize(peer.rateToClient, {
@@ -52,8 +54,8 @@
                 src="images/flags/{$ipAddress[
                   peer.address
                 ].country_code.toLowerCase()}.png"
-                alt="{$ipAddress[peer.address].country_code}"
-                title="{$ipAddress[peer.address].country_name}"
+                alt={$ipAddress[peer.address].country_code}
+                title={$ipAddress[peer.address].country_name}
               />
             {:else}
               <img class="flag" src="images/flags/_unknown.png" alt="Unknown" />

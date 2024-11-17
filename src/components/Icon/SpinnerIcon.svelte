@@ -1,15 +1,24 @@
-<script context="module">
+<script module>
   let num = 0;
 </script>
 
 <script>
-  export let viewBox = null;
+  import { createBubbler } from 'svelte/legacy';
+
+  const bubble = createBubbler();
+  /**
+   * @typedef {Object} Props
+   * @property {any} [viewBox]
+   */
+
+  /** @type {Props} */
+  let { viewBox = null } = $props();
 
   num += 1;
   const id = num;
 </script>
 
-<svg on:click class="icon" viewBox="0 0 128 128">
+<svg onclick={bubble('click')} class="icon" viewBox="0 0 128 128">
   <defs>
     <mask
       id="spinner-{id}"

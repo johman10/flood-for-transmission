@@ -4,9 +4,9 @@
   import { filters } from '~helpers/stores';
 </script>
 
-<div class="wrapper" class:active="{$filters.search}">
+<div class="wrapper" class:active={$filters.search}>
   <Icon name="Search" />
-  <Input placeholder="Search torrents" bind:value="{$filters.search}" />
+  <Input placeholder="Search torrents" bind:value={$filters.search} />
 </div>
 
 <style>

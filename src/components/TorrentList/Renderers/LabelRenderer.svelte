@@ -1,8 +1,14 @@
 <script>
   import Badge from '~components/Badge';
 
-  export let value;
-  export let torrentStatusClass = null;
+  /**
+   * @typedef {Object} Props
+   * @property {any} value
+   * @property {any} [torrentStatusClass]
+   */
+
+  /** @type {Props} */
+  let { value, torrentStatusClass = null } = $props();
 </script>
 
 <div class="labels {torrentStatusClass}">

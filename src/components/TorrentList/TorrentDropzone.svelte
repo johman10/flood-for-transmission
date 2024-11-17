@@ -1,8 +1,11 @@
-<script context="module">
+<script module>
   let num = 0;
 </script>
 
 <script>
+  import { preventDefault, createBubbler } from 'svelte/legacy';
+
+  const bubble = createBubbler();
   import { torrents, alerts, session } from '~helpers/stores';
   import {
     SESSION_COLUMN_DOWNLOAD_DIR,
@@ -15,9 +18,9 @@
   } from '~helpers/fileHelper';
   import Icon from '~components/Icon';
 
-  let hovering = false;
+  let hovering = $state(false);
   let counter = 0;
-  let input;
+  let input = $state();
 
   num += 1;
   const id = `torrent-dropzone-${num}`;
@@ -88,22 +91,22 @@
 </script>
 
 <svelte:body
-  on:dragenter|preventDefault="{handleDragEnter}"
-  on:dragleave|preventDefault="{handleDragLeave}"
-  on:dragover|preventDefault
+  ondragenter={preventDefault(handleDragEnter)}
+  ondragleave={preventDefault(handleDragLeave)}
+  ondragover={preventDefault(bubble('dragover'))}
 />
 
 <label
   class="dropzone"
-  class:hovering="{hovering}"
-  for="{id}"
-  on:drop|preventDefault="{handleDrop}"
+  class:hovering={hovering}
+  for={id}
+  ondrop={preventDefault(handleDrop)}
 >
   <div class="dropzone-content">
     <Icon name="Files" />
     Drop here to add them to Transmission.
   </div>
-  <input type="file" id="{id}" bind:this="{input}" multiple />
+  <input type="file" id={id} bind:this={input} multiple />
 </label>
 
 <style>

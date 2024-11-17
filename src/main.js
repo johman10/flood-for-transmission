@@ -1,3 +1,4 @@
+import { mount } from 'svelte';
 import App from '~components/App';
 
 if (__ENV__ === 'production' && 'serviceWorker' in navigator) {
@@ -6,6 +7,4 @@ if (__ENV__ === 'production' && 'serviceWorker' in navigator) {
   });
 }
 
-new App({
-  target: document.body,
-});
+const app = mount(App, { target: document.body });

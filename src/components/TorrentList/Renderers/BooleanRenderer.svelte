@@ -1,8 +1,14 @@
 <script>
   import Icon from '~components/Icon';
 
-  export let value = false;
-  export let torrentStatusClass = null;
+  /**
+   * @typedef {Object} Props
+   * @property {boolean} [value]
+   * @property {any} [torrentStatusClass]
+   */
+
+  /** @type {Props} */
+  let { value = false, torrentStatusClass = null } = $props();
 </script>
 
 <div>

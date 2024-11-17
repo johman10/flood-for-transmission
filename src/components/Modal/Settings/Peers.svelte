@@ -1,4 +1,6 @@
 <script>
+  import { preventDefault } from 'svelte/legacy';
+
   import Header from './Header.svelte';
   import Checkbox from '~components/Checkbox';
   import Input from '~components/Input';
@@ -18,19 +20,19 @@
     SESSION_COLUMN_PEX_ENABLED,
   } from '~helpers/constants/columns';
 
-  let loadingInitial = true;
-  let submitLoading = false;
-  let blocklistUpdateLoading = false;
+  let loadingInitial = $state(true);
+  let submitLoading = $state(false);
+  let blocklistUpdateLoading = $state(false);
 
-  let maxPeersPerTorrent = null;
-  let maxPeersOverall = null;
-  let pexEnabled = null;
-  let dhtEnabled = null;
-  let lpdEnabled = null;
-  let blocklistUrl = null;
-  let blocklistEnabled = null;
-  let blocklistSize = 0;
-  let encryption = null;
+  let maxPeersPerTorrent = $state(null);
+  let maxPeersOverall = $state(null);
+  let pexEnabled = $state(null);
+  let dhtEnabled = $state(null);
+  let lpdEnabled = $state(null);
+  let blocklistUrl = $state(null);
+  let blocklistEnabled = $state(null);
+  let blocklistSize = $state(0);
+  let encryption = $state(null);
 
   const numberFormatter = new Intl.NumberFormat();
   const encryptionOptions = [
@@ -122,39 +124,39 @@
   };
 </script>
 
-<div class="wrapper" class:loading-initial="{loadingInitial}">
+<div class="wrapper" class:loading-initial={loadingInitial}>
   <Icon name="SpinnerIcon" />
-  <form on:submit|preventDefault="{handleSubmit}">
+  <form onsubmit={preventDefault(handleSubmit)}>
     <Header text="Connections" />
     <Input
-      bind:value="{maxPeersPerTorrent}"
+      bind:value={maxPeersPerTorrent}
       label="Max peers per torrent"
       type="number"
     />
     <Input
-      bind:value="{maxPeersOverall}"
+      bind:value={maxPeersOverall}
       label="Max peers overall"
       type="number"
     />
 
     <Header text="Options" />
-    <Checkbox bind:checked="{pexEnabled}" label="Use PEX to find more peers" />
-    <Checkbox bind:checked="{dhtEnabled}" label="Use DHT to find more peers" />
-    <Checkbox bind:checked="{lpdEnabled}" label="Use LPD to find more peers" />
+    <Checkbox bind:checked={pexEnabled} label="Use PEX to find more peers" />
+    <Checkbox bind:checked={dhtEnabled} label="Use DHT to find more peers" />
+    <Checkbox bind:checked={lpdEnabled} label="Use LPD to find more peers" />
 
     <Header text="Privacy" />
     <Select
-      options="{encryptionOptions}"
-      on:change="{(event) => (encryption = event.detail)}"
-      value="{encryption}"
+      options={encryptionOptions}
+      onchange={(event) => (encryption = event.detail)}
+      value={encryption}
       direction="below"
       label="Encryption"
     />
 
     <Header text="Blocklist" />
-    <Checkbox bind:checked="{blocklistEnabled}" label="Enable blocklist" />
+    <Checkbox bind:checked={blocklistEnabled} label="Enable blocklist" />
     <Input
-      bind:value="{blocklistUrl}"
+      bind:value={blocklistUrl}
       type="url"
       hint="Blocklist has {numberFormatter.format(blocklistSize)} rules"
     />
@@ -162,16 +164,16 @@
       <Button
         type="button"
         priority="tertiary"
-        on:click="{updateBlocklist}"
-        loading="{blocklistUpdateLoading}">Update blocklist</Button
+        onclick={updateBlocklist}
+        loading={blocklistUpdateLoading}>Update blocklist</Button
       >
     </div>
 
     <div class="buttons">
-      <Button type="button" priority="tertiary" on:click="{modals.close}">
+      <Button type="button" priority="tertiary" onclick={modals.close}>
         Cancel
       </Button>
-      <Button type="submit" priority="primary" loading="{submitLoading}">
+      <Button type="submit" priority="primary" loading={submitLoading}>
         Save settings
       </Button>
     </div>

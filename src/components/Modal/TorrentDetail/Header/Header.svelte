@@ -18,31 +18,30 @@
   import ProgressRenderer from '~components/TorrentList/Renderers/ProgressRenderer';
   import { generateTorrentStatusClass } from '~helpers/classHelper';
 
-  export let torrentId;
+  let { torrentId } = $props();
 
-  $: downloadSpeed = getSize(
-    $torrentDetails[TRANSMISSION_COLUMN.DOWNLOAD_RATE] || 0,
-    {
+  let downloadSpeed = $derived(
+    getSize($torrentDetails[TRANSMISSION_COLUMN.DOWNLOAD_RATE] || 0, {
       isSpeed: true,
       perSize: $session[SESSION_COLUMN_UNITS]?.[SESSION_COLUMN_UNITS_SPEED],
-    }
+    })
   );
-  $: uploadSpeed = getSize(
-    $torrentDetails[TRANSMISSION_COLUMN.UPLOAD_RATE] || 0,
-    {
+  let uploadSpeed = $derived(
+    getSize($torrentDetails[TRANSMISSION_COLUMN.UPLOAD_RATE] || 0, {
       isSpeed: true,
       perSize: $session[SESSION_COLUMN_UNITS]?.[SESSION_COLUMN_UNITS_SPEED],
-    }
+    })
   );
-  $: downloadSize = getSize(
-    $torrentDetails[TRANSMISSION_COLUMN.DOWNLOADED] || 0,
-    {
+  let downloadSize = $derived(
+    getSize($torrentDetails[TRANSMISSION_COLUMN.DOWNLOADED] || 0, {
       perSize: $session[SESSION_COLUMN_UNITS]?.[SESSION_COLUMN_UNITS_SIZE],
-    }
+    })
   );
-  $: uploadSize = getSize($torrentDetails[TRANSMISSION_COLUMN.UPLOADED] || 0, {
-    perSize: $session[SESSION_COLUMN_UNITS]?.[SESSION_COLUMN_UNITS_SIZE],
-  });
+  let uploadSize = $derived(
+    getSize($torrentDetails[TRANSMISSION_COLUMN.UPLOADED] || 0, {
+      perSize: $session[SESSION_COLUMN_UNITS]?.[SESSION_COLUMN_UNITS_SIZE],
+    })
+  );
 
   const updatePriority = (event) => {
     const newPrio = event.detail;
@@ -129,17 +128,17 @@
 
 <div class="header">
   <h1
-    on:dblclick="{makeEditable}"
-    on:blur="{rename}"
-    on:paste="{handlePaste}"
-    on:keydown="{handleEnter}"
+    ondblclick={makeEditable}
+    onblur={rename}
+    onpaste={handlePaste}
+    onkeydown={handleEnter}
   >
     {$torrentDetails[TRANSMISSION_COLUMN.NAME]}
   </h1>
   <div class="subheading">
     <ul>
       <li
-        class:active="{!!downloadSpeed.value}"
+        class:active={!!downloadSpeed.value}
         title="Download speed"
         class="downloading"
       >
@@ -150,7 +149,7 @@
           {downloadSize.value}<em>{downloadSize.size}</em>
         </span>
       </li>
-      <li class:active="{!!uploadSpeed.value}" title="Upload speed">
+      <li class:active={!!uploadSpeed.value} title="Upload speed">
         <Icon name="Upload" />
         <span>
           {uploadSpeed.value}<em>{uploadSpeed.size}</em>
@@ -164,29 +163,29 @@
       </li>
       <li title="ETA">
         <Icon name="ETA" />
-        <ArrivalRenderer value="{$torrentDetails[TRANSMISSION_COLUMN.ETA]}" />
+        <ArrivalRenderer value={$torrentDetails[TRANSMISSION_COLUMN.ETA]} />
       </li>
     </ul>
 
     <ul class="right">
       <li class="button">
         <PriorityIndicator
-          value="{$torrentDetails[TRANSMISSION_COLUMN.PRIORITY]}"
+          value={$torrentDetails[TRANSMISSION_COLUMN.PRIORITY]}
           showLabel
-          on:click="{updatePriority}"
+          onclick={updatePriority}
         />
       </li>
       <li
-        class:active="{$torrentDetails[TRANSMISSION_COLUMN.STATUS] > 0}"
-        on:click="{startTorrent}"
+        class:active={$torrentDetails[TRANSMISSION_COLUMN.STATUS] > 0}
+        onclick={startTorrent}
         class="button"
       >
         <Icon name="StartIcon" />
         Start
       </li>
       <li
-        class:active="{$torrentDetails[TRANSMISSION_COLUMN.STATUS] === 0}"
-        on:click="{stopTorrent}"
+        class:active={$torrentDetails[TRANSMISSION_COLUMN.STATUS] === 0}
+        onclick={stopTorrent}
         class="button"
       >
         <Icon name="StopIcon" />
@@ -195,11 +194,11 @@
     </ul>
   </div>
   <ProgressRenderer
-    value="{$torrentDetails[TRANSMISSION_COLUMN.DOWNLOAD_PROGRESS]}"
-    torrentStatus="{STATUSES[$torrentDetails[TRANSMISSION_COLUMN.STATUS]]}"
-    torrentStatusClass="{generateTorrentStatusClass($torrentDetails)}"
-    metadataProgress="{$torrentDetails[TRANSMISSION_COLUMN.METADATA_PROGRESS]}"
-    checkingProgress="{$torrentDetails[TRANSMISSION_COLUMN.RECHECK_PROGRESS]}"
+    value={$torrentDetails[TRANSMISSION_COLUMN.DOWNLOAD_PROGRESS]}
+    torrentStatus={STATUSES[$torrentDetails[TRANSMISSION_COLUMN.STATUS]]}
+    torrentStatusClass={generateTorrentStatusClass($torrentDetails)}
+    metadataProgress={$torrentDetails[TRANSMISSION_COLUMN.METADATA_PROGRESS]}
+    checkingProgress={$torrentDetails[TRANSMISSION_COLUMN.RECHECK_PROGRESS]}
   />
 </div>
 

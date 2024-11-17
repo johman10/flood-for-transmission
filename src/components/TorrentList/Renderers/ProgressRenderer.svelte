@@ -1,4 +1,6 @@
 <script>
+  import { run } from 'svelte/legacy';
+
   import Icon from '~components/Icon';
   import {
     STATUS_STOPPED,
@@ -13,15 +15,17 @@
     [STATUS_SEEDING]: 'StartIcon',
   };
 
-  export let value;
-  export let torrentStatus;
-  export let torrentStatusClass;
-  export let metadataProgress;
-  export let checkingProgress;
+  let {
+    value,
+    torrentStatus,
+    torrentStatusClass,
+    metadataProgress,
+    checkingProgress,
+  } = $props();
   export const column = null;
 
-  let progress = 0;
-  $: {
+  let progress = $state(0);
+  run(() => {
     if (!Object.keys(STATUS_ICON_MAP).includes(torrentStatus)) {
       progress = checkingProgress * 100;
     } else if (metadataProgress < 1) {
@@ -29,13 +33,13 @@
     } else {
       progress = value * 100;
     }
-  }
-  $: iconName = STATUS_ICON_MAP[torrentStatus] || 'SpinnerIcon';
+  });
+  let iconName = $derived(STATUS_ICON_MAP[torrentStatus] || 'SpinnerIcon');
 </script>
 
 <div class="progress-renderer {torrentStatusClass}">
-  <Icon name="{iconName}" />
-  <ProgressBar progress="{progress}" />
+  <Icon name={iconName} />
+  <ProgressBar progress={progress} />
 </div>
 
 <style>

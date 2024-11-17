@@ -1,22 +1,20 @@
 <script>
   import Icon from '~components/Icon';
 
-  export let value;
-  export let torrentStatusClass = null;
+  let { value = 0, torrentStatusClass = null } = $props();
 
-  let seconds;
-  let minutes;
-  let hours;
-  let days;
-
-  $: {
-    seconds = Math.floor(value % 60);
-    if (seconds < 10) seconds = `0${seconds}`;
-    minutes = Math.floor((value / 60) % 60);
-    if (minutes < 10) minutes = `0${minutes}`;
-    hours = Math.floor((value / 60 / 60) % 24);
-    days = Math.floor(value / 60 / 60 / 24);
-  }
+  let seconds = $derived.by(() => {
+    let secondString = Math.floor(value % 60);
+    if (secondString < 10) secondString = `0${secondString}`;
+    return secondString;
+  });
+  let minutes = $derived.by(() => {
+    let minuteString = Math.floor((value / 60) % 60);
+    if (minuteString < 10) minuteString = `0${minuteString}`;
+    return minuteString;
+  });
+  let hours = $derived(Math.floor((value / 60 / 60) % 24));
+  let days = $derived(Math.floor(value / 60 / 60 / 24));
 </script>
 
 <span>

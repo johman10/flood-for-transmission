@@ -7,7 +7,8 @@
 
   const transmission = new Transmission();
 
-  $: diskSpace = [];
+  let diskSpace = $state([]);
+
   onMount(() => {
     const promises = $paths.map((local_path) =>
       transmission.getFreeSpace(local_path).then((result) => {
@@ -20,13 +21,13 @@
     });
   });
 
-  $: getProgress = (path) => {
+  let getProgress = $derived((path) => {
     const pathSpace = diskSpace.find((x) => x.path === path);
     const freeSpace = pathSpace?.['size-bytes'];
     const totalSpace = pathSpace?.total_size;
     const usedSpace = totalSpace - freeSpace;
     return Math.round((usedSpace / totalSpace) * 100);
-  };
+  });
 </script>
 
 {#if $diskUsage && $session[SESSION_COLUMN_RPC_VERSION] >= 15}
@@ -43,7 +44,7 @@
               {getProgress(path)}%
             </span>
           </div>
-          <ProgressBar progress="{getProgress(path)}" />
+          <ProgressBar progress={getProgress(path)} />
         </li>
       {/each}
     </ul>

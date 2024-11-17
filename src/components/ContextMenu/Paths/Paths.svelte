@@ -2,8 +2,7 @@
   import { paths, modals, contextMenu } from '~helpers/stores';
   import { Settings } from '~components/Modal';
 
-  export let onPathSelect;
-  export let onItemClick;
+  let { onPathSelect, onItemClick } = $props();
 
   function onFallbackClick() {
     modals.open({
@@ -17,10 +16,10 @@
 
 {#if $paths.length}
   {#each $paths as path}
-    <li on:click="{onItemClick(onPathSelect, [path])}">{path}</li>
+    <li onclick={onItemClick(onPathSelect, [path])}>{path}</li>
   {/each}
 {:else}
-  <li on:click="{onFallbackClick}">
+  <li onclick={onFallbackClick}>
     No common paths configured yet, click here to add some.
   </li>
 {/if}

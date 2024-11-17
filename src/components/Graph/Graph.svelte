@@ -1,4 +1,6 @@
 <script>
+  import { run } from 'svelte/legacy';
+
   import { scaleLinear } from 'd3-scale';
   import { line, area, curveMonotoneX } from 'd3-shape';
   import { max } from 'd3-array';
@@ -13,15 +15,92 @@
     SESSION_COLUMN_UNITS_SIZE,
   } from '~helpers/constants/columns';
 
-  let mouseX = 0;
-  let hovering = false;
+  let mouseX = $state(0);
+  let hovering = $state(false);
   const margin = { bottom: 10, top: 10 };
   const totalRateStore = torrents.totalRate;
 
-  const setInspectorCoordinates = (data, defaultTransform) => {
-    if (!xScale || !hovering) {
+  let xScale = $derived(
+    scaleLinear()
+      .domain([0, $rateData.download.length - 1])
+      .range([0, 240])
+  );
+  let yScale = $derived(
+    scaleLinear()
+      .domain([
+        0,
+        max($rateData.download, (dataPoint, index) =>
+          Math.max(dataPoint, $rateData.upload[index])
+        ) || 1,
+      ])
+      .range([150 - margin.top, margin.bottom])
+  );
+  let linePath = $derived(
+    line()
+      .x((dataPoint, index) => xScale(index))
+      .y(yScale)
+      .curve(curveMonotoneX)
+  );
+  let downloadLinePath = $derived(linePath($rateData.download));
+  let areaPath = $derived(
+    area()
+      .x((dataPoint, index) => xScale(index))
+      .y0(150)
+      .y1(yScale)
+      .curve(curveMonotoneX)
+  );
+
+  let downloadAreaPath = $derived(areaPath($rateData.download));
+  let uploadLinePath = $derived(linePath($rateData.upload));
+  let uploadAreaPath = $derived(areaPath($rateData.upload));
+
+  let { value: displayUploadSpeed, size: displayUploadSize } = $derived(
+    getSize(uploadSpeed !== null ? uploadSpeed : $totalRateStore.upload, {
+      isSpeed: true,
+      perSize: $session[SESSION_COLUMN_UNITS]?.[SESSION_COLUMN_UNITS_SIZE],
+    })
+  );
+  let { value: displayDownloadSpeed, size: displayDownloadSize } = $derived(
+    getSize(downloadSpeed !== null ? downloadSpeed : $totalRateStore.download, {
+      isSpeed: true,
+      perSize: $session[SESSION_COLUMN_UNITS]?.[SESSION_COLUMN_UNITS_SIZE],
+    })
+  );
+
+  let {
+    circleTransform: uploadCircleTransform,
+    speed: uploadSpeed,
+    timestamp,
+  } = $derived(
+    getInspectorCoordinates(
+      $rateData.upload,
+      xScale,
+      hovering,
+      mouseX,
+      $rateData.timestamps
+    )
+  );
+  let { circleTransform: downloadCircleTransform, speed: downloadSpeed } =
+    $derived(
+      getInspectorCoordinates(
+        $rateData.download,
+        xScale,
+        hovering,
+        mouseX,
+        $rateData.timestamps
+      )
+    );
+
+  const getInspectorCoordinates = (
+    data,
+    xScale,
+    hovering,
+    mouseX,
+    timestamps
+  ) => {
+    if (!hovering) {
       return {
-        circleTransform: defaultTransform,
+        circleTransform: null,
         speed: null,
         timestamp: null,
       };
@@ -32,7 +111,7 @@
 
     const delta = upperSpeed - lowerSpeed;
     const speed = lowerSpeed + delta * (hoverPoint % 1);
-    const timestamp = $rateData.timestamps[Math.round(hoverPoint)];
+    const timestamp = timestamps[Math.round(hoverPoint)];
 
     const x = xScale(hoverPoint);
     const y = yScale(speed);
@@ -44,76 +123,14 @@
     };
   };
 
-  $: downloadLinePath = linePath($rateData.download);
-  $: downloadAreaPath = areaPath($rateData.download);
-  $: uploadLinePath = linePath($rateData.upload);
-  $: uploadAreaPath = areaPath($rateData.upload);
-  $: ({
-    circleTransform: uploadCircleTransform,
-    speed: uploadSpeed,
-    timestamp,
-  } = setInspectorCoordinates($rateData.upload, uploadCircleTransform));
-  $: ({ circleTransform: downloadCircleTransform, speed: downloadSpeed } =
-    setInspectorCoordinates($rateData.download, downloadCircleTransform));
-
-  $: ({ value: displayUploadSpeed, size: displayUploadSize } = getSize(
-    uploadSpeed !== null ? uploadSpeed : $totalRateStore.upload,
-    {
-      isSpeed: true,
-      perSize: $session[SESSION_COLUMN_UNITS]?.[SESSION_COLUMN_UNITS_SIZE],
-    }
-  ));
-  $: ({ value: displayDownloadSpeed, size: displayDownloadSize } = getSize(
-    downloadSpeed !== null ? downloadSpeed : $totalRateStore.download,
-    {
-      isSpeed: true,
-      perSize: $session[SESSION_COLUMN_UNITS]?.[SESSION_COLUMN_UNITS_SIZE],
-    }
-  ));
-
-  $: xScale = scaleLinear()
-    .domain([0, $rateData.download.length - 1])
-    .range([0, 240]);
-
-  $: yScale = scaleLinear()
-    .domain([
-      0,
-      max($rateData.download, (dataPoint, index) =>
-        Math.max(dataPoint, $rateData.upload[index])
-      ) || 1,
-    ])
-    .range([150 - margin.top, margin.bottom]);
-
-  $: linePath = line()
-    .x((dataPoint, index) => xScale(index))
-    .y(yScale)
-    .curve(curveMonotoneX);
-
-  $: areaPath = area()
-    .x((dataPoint, index) => xScale(index))
-    .y0(150)
-    .y1(yScale)
-    .curve(curveMonotoneX);
-
   const handleMouseMove = (event) => {
     hovering = true;
     const rect = event.target.getBoundingClientRect();
     mouseX = event.clientX - rect.left;
-    ({
-      circleTransform: uploadCircleTransform,
-      speed: uploadSpeed,
-      timestamp,
-    } = setInspectorCoordinates($rateData.upload));
-    ({ circleTransform: downloadCircleTransform, speed: downloadSpeed } =
-      setInspectorCoordinates($rateData.download));
   };
 
   const handleMouseLeave = () => {
     hovering = false;
-    ({ speed: uploadSpeed, timestamp } = setInspectorCoordinates(
-      $rateData.upload
-    ));
-    ({ speed: downloadSpeed } = setInspectorCoordinates($rateData.download));
   };
 </script>
 
@@ -125,8 +142,8 @@
         {displayDownloadSpeed}
         <span class="speed__size">{displayDownloadSize}</span>
       </div>
-      <Bytes direction="download" hidden="{hovering}" />
-      <SpeedLimit direction="download" hidden="{hovering}" />
+      <Bytes direction="download" hidden={hovering} />
+      <SpeedLimit direction="download" hidden={hovering} />
     </div>
   </div>
   <div class="rate rate--upload">
@@ -136,19 +153,20 @@
         {displayUploadSpeed}
         <span class="speed__size">{displayUploadSize}</span>
       </div>
-      <Bytes direction="upload" hidden="{hovering}" />
-      <SpeedLimit direction="upload" hidden="{hovering}" />
+      <Bytes direction="upload" hidden={hovering} />
+      <SpeedLimit direction="upload" hidden={hovering} />
     </div>
   </div>
-  <div class="timestamp" class:hidden="{!hovering}">
+  <div class="timestamp" class:hidden={!hovering}>
     {relativeTime(timestamp)}
   </div>
 </div>
 
+<!-- svelte-ignore a11y_no_static_element_interactions -->
 <svg
   class="graph"
-  on:mousemove="{handleMouseMove}"
-  on:mouseleave="{handleMouseLeave}"
+  onmousemove={handleMouseMove}
+  onmouseleave={handleMouseLeave}
 >
   <defs>
     <linearGradient id="gradient--upload" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -163,26 +181,26 @@
   <path
     class="area area--download"
     fill="url(#gradient--download)"
-    d="{downloadAreaPath}"
+    d={downloadAreaPath}
   ></path>
   <path
     class="area area--upload"
     fill="url(#gradient--upload)"
-    d="{uploadAreaPath}"
+    d={uploadAreaPath}
   ></path>
-  <path class="line line--download" d="{downloadLinePath}"></path>
-  <path class="line line--upload" d="{uploadLinePath}"></path>
+  <path class="line line--download" d={downloadLinePath}></path>
+  <path class="line line--upload" d={uploadLinePath}></path>
   <circle
     r="2.5"
     class="circle circle--download"
-    class:circle--active="{hovering}"
-    transform="{downloadCircleTransform}"
+    class:circle--active={hovering}
+    transform={downloadCircleTransform}
   ></circle>
   <circle
     r="2.5"
     class="circle circle--upload"
-    class:circle--active="{hovering}"
-    transform="{uploadCircleTransform}"
+    class:circle--active={hovering}
+    transform={uploadCircleTransform}
   ></circle>
 </svg>
 

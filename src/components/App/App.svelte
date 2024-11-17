@@ -9,9 +9,9 @@
 </script>
 
 <main
-  class:panel="{$panel}"
-  class:dark-mode="{$darkMode}"
-  class:switch-speed-colors="{$switchSpeedColors}"
+  class:panel={$panel}
+  class:dark-mode={$darkMode}
+  class:switch-speed-colors={$switchSpeedColors}
 >
   <Panel />
   <div class="content">

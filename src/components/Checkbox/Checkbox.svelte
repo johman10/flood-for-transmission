@@ -1,36 +1,46 @@
-<script context="module">
+<script module>
   let num = 0;
 </script>
 
 <script>
+  import { createBubbler } from 'svelte/legacy';
   import Icon from '~components/Icon';
 
-  export let label = null;
-  export let checked = false;
-  export let group = null;
-  export let value = null;
-  export let hint = null;
+  const bubble = createBubbler();
+
+  let {
+    label = null,
+    checked = $bindable(),
+    group = $bindable(),
+    value = null,
+    hint = null,
+  } = $props();
 
   num += 1;
   const id = `input-checkbox-${num}`;
 </script>
 
 <div class="checkbox">
-  <label for="{id}" tabindex="0">
+  <label for={id} tabindex="0">
     {#if group && value}
       <input
         type="checkbox"
-        bind:group="{group}"
-        value="{value}"
-        id="{id}"
-        on:change
+        bind:group={group}
+        value={value}
+        id={id}
+        onchange={bubble('change')}
       />
-      <div class="indicator" class:checked="{group.includes(value)}">
+      <div class="indicator" class:checked={group.includes(value)}>
         <Icon name="CheckboxCheckmark" viewBox="0 0 18 18" />
       </div>
     {:else}
-      <input type="checkbox" bind:checked="{checked}" id="{id}" on:change />
-      <div class="indicator" class:checked="{checked}">
+      <input
+        type="checkbox"
+        bind:checked={checked}
+        id={id}
+        onchange={bubble('change')}
+      />
+      <div class="indicator" class:checked={checked}>
         <Icon name="CheckboxCheckmark" viewBox="0 0 18 18" />
       </div>
     {/if}

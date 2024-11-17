@@ -1,5 +1,11 @@
 <script>
-  export let progress = 0;
+  /**
+   * @typedef {Object} Props
+   * @property {number} [progress]
+   */
+
+  /** @type {Props} */
+  let { progress = 0 } = $props();
 </script>
 
 <div class="fill-wrapper">

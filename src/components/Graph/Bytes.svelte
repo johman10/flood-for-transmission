@@ -9,8 +9,14 @@
     SESSION_STATS_TOTAL_DOWNLOAD,
   } from '~helpers/constants/columns';
 
-  export let direction;
-  export let hidden = false;
+  /**
+   * @typedef {Object} Props
+   * @property {any} direction
+   * @property {boolean} [hidden]
+   */
+
+  /** @type {Props} */
+  let { direction, hidden = false } = $props();
 
   if (!['upload', 'download'].includes(direction)) {
     throw new Error(
@@ -18,24 +24,24 @@
     );
   }
 
-  $: valueColumn =
+  let valueColumn = $derived(
     direction === 'upload'
       ? SESSION_STATS_TOTAL_UPLOAD
-      : SESSION_STATS_TOTAL_DOWNLOAD;
+      : SESSION_STATS_TOTAL_DOWNLOAD
+  );
 
-  $: ({ value, size } = getSize(
-    $sessionStats[SESSION_STATS_CUMULATIVE_STATS]?.[valueColumn],
-    {
+  let { value, size } = $derived(
+    getSize($sessionStats[SESSION_STATS_CUMULATIVE_STATS]?.[valueColumn], {
       perSize: $session[SESSION_COLUMN_UNITS]?.[SESSION_COLUMN_UNITS_SIZE],
-    }
-  ));
+    })
+  );
 </script>
 
 <div
   class="bytes"
-  class:upload="{direction === 'upload'}"
-  class:download="{direction === 'download'}"
-  class:hidden="{hidden}"
+  class:upload={direction === 'upload'}
+  class:download={direction === 'download'}
+  class:hidden={hidden}
 >
   {value}
   <span class="bytes__size">{size}</span>

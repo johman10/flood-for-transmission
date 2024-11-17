@@ -1,7 +1,13 @@
 <script>
   import Menu from './Menu.svelte';
 
-  export let activePageId = 'torrents';
+  /**
+   * @typedef {Object} Props
+   * @property {string} [activePageId]
+   */
+
+  /** @type {Props} */
+  let { activePageId = $bindable('torrents') } = $props();
 
   let torrentsComponent;
   let speedComponent;
@@ -79,12 +85,13 @@
 </script>
 
 <div class="wrapper">
-  <Menu bind:activePageId="{activePageId}" pages="{pages}" />
+  <Menu bind:activePageId={activePageId} pages={pages} />
   <div class="content">
     {#await pages
       .find((page) => page.id === activePageId)
       .component() then component}
-      <svelte:component this="{component}" />
+      {@const SvelteComponent = component}
+      <SvelteComponent />
     {/await}
   </div>
 </div>

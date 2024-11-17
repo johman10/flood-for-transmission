@@ -5,13 +5,13 @@
 </script>
 
 {#if $alerts.length}
-  <ul class="alert-container" transition:fade="{{ duration: 250 }}">
+  <ul class="alert-container" transition:fade={{ duration: 250 }}>
     {#each $alerts as alert}
       <li class="alert {alert.type}">
         <Icon
-          name="{alert.type === 'positive'
+          name={alert.type === 'positive'
             ? 'CircleCheckmarkIcon'
-            : 'CircleExclamationIcon'}"
+            : 'CircleExclamationIcon'}
         />
         <span class="message">{alert.message}</span>
       </li>

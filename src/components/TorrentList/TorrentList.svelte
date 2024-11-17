@@ -1,4 +1,6 @@
 <script>
+  import { run } from 'svelte/legacy';
+
   import {
     uiColumns,
     selectedTorrents,
@@ -20,8 +22,8 @@
   const activeColumns = uiColumns.active;
   const { totalSize } = uiColumns;
 
-  let prio = 0;
-  $: {
+  let prio = $state(0);
+  run(() => {
     if ($selectedTorrents.length === 0) {
       prio = 0;
     } else {
@@ -37,9 +39,11 @@
         prio = 0;
       }
     }
-  }
+  });
   // If the prio changes while the contextMenu is open, update the prio in the context menu
-  $: contextMenu.updateProps({ prio });
+  run(() => {
+    contextMenu.updateProps({ prio });
+  });
 
   const handleTorrentClick = ({
     detail: { torrent, modifierKey },
@@ -126,30 +130,30 @@
 </script>
 
 <svelte:window
-  on:keydown="{(event) => {
+  onkeydown={(event) => {
     if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
 
     if ((event.ctrlKey || event.metaKey) && event.key === 'a') {
       event.preventDefault();
       selectedTorrents.set($sortedTorrents.map((t) => t.id));
     }
-  }}"
+  }}
 />
 
 <div class="wrapper">
   <table class="table" style="width: {$totalSize}px">
     <thead class="table-header">
       {#each $activeColumns as column}
-        <ColumnHeader id="{column.id}" />
+        <ColumnHeader id={column.id} />
       {/each}
     </thead>
     <tbody>
       {#each $sortedTorrents as torrent (torrent[TRANSMISSION_COLUMN_ID])}
         <Torrent
-          torrent="{torrent}"
-          on:click="{handleTorrentClick}"
-          on:contextmenu="{handleTorrentRightClick}"
-          selected="{$selectedTorrents.includes(torrent.id)}"
+          torrent={torrent}
+          onclick={handleTorrentClick}
+          on:contextmenu={handleTorrentRightClick}
+          selected={$selectedTorrents.includes(torrent.id)}
         />
       {/each}
     </tbody>

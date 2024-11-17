@@ -1,6 +1,5 @@
 <script>
-  export let activePageId;
-  export let pages;
+  let { activePageId = $bindable(), pages } = $props();
 </script>
 
 <div class="menu">
@@ -9,10 +8,10 @@
   <ul class="items">
     {#each pages as page}
       <li
-        class:active="{page.id === activePageId}"
-        on:click="{() => {
+        class:active={page.id === activePageId}
+        onclick={() => {
           activePageId = page.id;
-        }}"
+        }}
       >
         {page.name}
       </li>

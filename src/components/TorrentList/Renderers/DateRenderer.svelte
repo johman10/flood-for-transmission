@@ -1,11 +1,17 @@
 <script>
   import { timeConfig } from '~helpers/stores';
 
-  export let value;
-  export let torrentStatusClass = null;
+  /**
+   * @typedef {Object} Props
+   * @property {any} value
+   * @property {any} [torrentStatusClass]
+   */
+
+  /** @type {Props} */
+  let { value, torrentStatusClass = null } = $props();
   export const column = null;
 
-  $: date = new Date(value * 1000);
+  let date = $derived(new Date(value * 1000));
 
   function getYear(date) {
     return date.getFullYear();

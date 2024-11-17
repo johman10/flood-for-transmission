@@ -1,5 +1,5 @@
 <script>
-  export let viewBox;
+  let { viewBox } = $props();
 </script>
 
 <svg

@@ -1,39 +1,27 @@
 <script>
-  import { createEventDispatcher } from 'svelte';
+  let { value, onclick, showLabel = false, allowDisabled = false } = $props();
 
-  export let value;
-  export let showLabel = false;
-  export let allowDisabled = false;
-
-  let element;
-  let label;
-  const dispatch = createEventDispatcher();
-
-  $: {
+  let element = $state();
+  let label = $derived.by(() => {
     switch (value) {
       case 0:
-        label = 'Normal';
-        break;
+        return 'Normal';
       case 1:
-        label = 'High';
-        break;
+        return 'High';
       case -1:
-        label = 'Low';
-        break;
+        return 'Low';
       case -2:
-        label = "Don't download";
-        break;
+        return "Don't download";
       default:
-        label = 'Invalid';
-        break;
+        return 'Invalid';
     }
-  }
+  });
 
-  $: {
+  $effect(() => {
     element
       ? element.style.setProperty('--levels', allowDisabled ? 4 : 3)
       : undefined;
-  }
+  });
 
   const handleClick = () => {
     let newPriority = value + 1;
@@ -42,15 +30,15 @@
     } else if (newPriority > 1) {
       newPriority = -1;
     }
-    dispatch('click', newPriority);
+    onclick(newPriority);
   };
 </script>
 
 <div
   class="priority-indicator"
-  on:click="{handleClick}"
-  bind:this="{element}"
-  title="{showLabel ? undefined : label}"
+  onclick={handleClick}
+  bind:this={element}
+  title={showLabel ? undefined : label}
 >
   <div class="slider level-{value}"></div>
   {#if showLabel}<span class="label">{label}</span>{/if}

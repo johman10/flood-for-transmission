@@ -1,4 +1,6 @@
 <script>
+  import { preventDefault } from 'svelte/legacy';
+
   import InputPath from '~components/InputPath';
   import Checkbox from '~components/Checkbox';
   import Button from '~components/Button';
@@ -13,10 +15,10 @@
   import { PATH_VALIDATION_REGEX } from '~helpers/constants/paths';
   import { SESSION_COLUMN_DOWNLOAD_DIR } from '~helpers/constants/columns';
 
-  let loadingInitial = true;
-  let loadingSubmit = false;
-  let location = null;
-  let moveData = true;
+  let loadingInitial = $state(true);
+  let loadingSubmit = $state(false);
+  let location = $state(null);
+  let moveData = $state(true);
 
   session
     .addColumns([SESSION_COLUMN_DOWNLOAD_DIR])
@@ -52,22 +54,22 @@
 
 <h1>Set torrent location</h1>
 
-<div class="content" class:loading-initial="{loadingInitial}">
+<div class="content" class:loading-initial={loadingInitial}>
   <Icon name="SpinnerIcon" />
-  <form on:submit|preventDefault="{handleLocation}">
+  <form onsubmit={preventDefault(handleLocation)}>
     <InputPath
       type="text"
-      bind:value="{location}"
+      bind:value={location}
       placeholder="Destination"
       label="Torrent location"
-      pattern="{PATH_VALIDATION_REGEX}"
+      pattern={PATH_VALIDATION_REGEX}
       validationMessage="Destination must be an absolute path."
       required
     />
     <div class="button-group">
-      <Checkbox label="Move data" bind:checked="{moveData}" />
-      <Button priority="tertiary" on:click="{modals.close}">Cancel</Button>
-      <Button priority="primary" loading="{loadingSubmit}" type="submit">
+      <Checkbox label="Move data" bind:checked={moveData} />
+      <Button priority="tertiary" onclick={modals.close}>Cancel</Button>
+      <Button priority="primary" loading={loadingSubmit} type="submit">
         Set torrent location
       </Button>
     </div>

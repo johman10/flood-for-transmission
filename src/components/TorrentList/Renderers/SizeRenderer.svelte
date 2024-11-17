@@ -1,21 +1,37 @@
 <script>
+  import { run } from 'svelte/legacy';
+
   import { getSize } from '~helpers/sizeHelper';
 
-  export let value;
-  export let torrentStatusClass = null;
-  export let isSpeed = false;
-  export let isUpload = false;
-  export let perSize = 1024;
+  /**
+   * @typedef {Object} Props
+   * @property {any} value
+   * @property {any} [torrentStatusClass]
+   * @property {boolean} [isSpeed]
+   * @property {boolean} [isUpload]
+   * @property {number} [perSize]
+   */
 
-  let size = 'B';
-  $: ({ size, value } = getSize(value, { isSpeed, perSize }));
+  /** @type {Props} */
+  let {
+    value = $bindable(),
+    torrentStatusClass = null,
+    isSpeed = false,
+    isUpload = false,
+    perSize = 1024,
+  } = $props();
+
+  let size = $state('B');
+  run(() => {
+    ({ size, value } = getSize(value, { isSpeed, perSize }));
+  });
 </script>
 
 <span
-  class:speed="{isSpeed}"
-  class:active="{value > 0}"
-  class:upload="{isUpload}"
-  class="{torrentStatusClass}"
+  class:speed={isSpeed}
+  class:active={value > 0}
+  class:upload={isUpload}
+  class={torrentStatusClass}
 >
   {value}
   <em>{size}</em>

@@ -1,7 +1,13 @@
 <script>
-  export let value = 0;
-  export let connected = 0;
-  export let torrentStatusClass = null;
+  /**
+   * @typedef {Object} Props
+   * @property {number} [value]
+   * @property {number} [connected]
+   * @property {any} [torrentStatusClass]
+   */
+
+  /** @type {Props} */
+  let { value = 0, connected = 0, torrentStatusClass = null } = $props();
 </script>
 
 {value}

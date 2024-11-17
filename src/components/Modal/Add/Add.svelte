@@ -1,4 +1,6 @@
 <script>
+  import { preventDefault } from 'svelte/legacy';
+
   import InputMultiple from '~components/InputMultiple';
   import InputPath from '~components/InputPath';
   import InputFile from '~components/InputFile';
@@ -19,17 +21,17 @@
 
   const TORRENT_HASH_REGEX = /^[\da-f]{40}$/i;
 
-  let loadingInitial = true;
-  let loadingSubmit = false;
-  let tab = 'url';
-  let fileNames = [];
-  let files = null;
-  let destination = null;
-  let start = null;
+  let loadingInitial = $state(true);
+  let loadingSubmit = $state(false);
+  let tab = $state('url');
+  let fileNames = $state([]);
+  let files = $state(null);
+  let destination = $state(null);
+  let start = $state(null);
 
-  $: cleanFileNames = fileNames
-    .map((fileName) => fileName.trim())
-    .filter(Boolean);
+  let cleanFileNames = $derived(
+    fileNames.map((fileName) => fileName.trim()).filter(Boolean)
+  );
 
   session
     .addColumns([SESSION_COLUMN_DOWNLOAD_DIR, SESSION_COLUMN_START_ADDED])
@@ -116,29 +118,27 @@
 
 <h1>Add Torrents</h1>
 <ul class="tabs">
-  <li on:click="{() => (tab = 'url')}" class:active="{tab === 'url'}">
+  <li onclick={() => (tab = 'url')} class:active={tab === 'url'}>
     By URL or hash
   </li>
-  <li on:click="{() => (tab = 'file')}" class:active="{tab === 'file'}">
-    By File
-  </li>
+  <li onclick={() => (tab = 'file')} class:active={tab === 'file'}>By File</li>
 </ul>
 
-<div class="content" class:loading-initial="{loadingInitial}">
+<div class="content" class:loading-initial={loadingInitial}>
   <Icon name="SpinnerIcon" />
-  <form on:submit|preventDefault="{handleSubmit}">
+  <form onsubmit={preventDefault(handleSubmit)}>
     {#if tab === 'url'}
       <InputMultiple
         label="Torrents"
         class="torrent-url-hash-input"
         placeholder="Torrent URL, Magnet Link or hash"
-        bind:values="{fileNames}"
-        required="{!cleanFileNames.length}"
+        bind:values={fileNames}
+        required={!cleanFileNames.length}
       />
     {:else if tab === 'file'}
       <InputFile
         label="Torrents"
-        bind:files="{files}"
+        bind:files={files}
         multiple
         required
         accept=".torrent,application/x-bittorrent"
@@ -147,15 +147,15 @@
     <InputPath
       label="Destination"
       placeholder="Destination"
-      bind:value="{destination}"
-      pattern="{PATH_VALIDATION_REGEX}"
+      bind:value={destination}
+      pattern={PATH_VALIDATION_REGEX}
       validationMessage="Destination must be an absolute path."
       required
     />
     <div class="button-group">
-      <Checkbox label="Start Torrent" bind:checked="{start}" />
-      <Button priority="tertiary" on:click="{modals.close}">Cancel</Button>
-      <Button priority="primary" loading="{loadingSubmit}" type="submit">
+      <Checkbox label="Start Torrent" bind:checked={start} />
+      <Button priority="tertiary" onclick={modals.close}>Cancel</Button>
+      <Button priority="primary" loading={loadingSubmit} type="submit">
         Add Torrent
       </Button>
     </div>

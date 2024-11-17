@@ -1,4 +1,6 @@
 <script>
+  import { preventDefault } from 'svelte/legacy';
+
   import Header from './Header.svelte';
   import Checkbox from '~components/Checkbox';
   import Input from '~components/Input';
@@ -19,19 +21,19 @@
     SESSION_COLUMN_ALT_SPEED_TIME_END,
   } from '~helpers/constants/columns';
 
-  let loadingInitial = true;
-  let loadingSubmit = false;
+  let loadingInitial = $state(true);
+  let loadingSubmit = $state(false);
 
-  let uploadLimitEnabled = null;
-  let uploadLimit = null;
-  let downloadLimitEnabled = null;
-  let downloadLimit = null;
-  let altLimitsEnabled = null;
-  let altUploadLimit = null;
-  let altDownloadLimit = null;
-  let altSpeedTimeEnabled = null;
-  let altSpeedTimeBegin = null;
-  let altSpeedTimeEnd = null;
+  let uploadLimitEnabled = $state(null);
+  let uploadLimit = $state(null);
+  let downloadLimitEnabled = $state(null);
+  let downloadLimit = $state(null);
+  let altLimitsEnabled = $state(null);
+  let altUploadLimit = $state(null);
+  let altDownloadLimit = $state(null);
+  let altSpeedTimeEnabled = $state(null);
+  let altSpeedTimeBegin = $state(null);
+  let altSpeedTimeEnd = $state(null);
 
   session
     .addColumns([
@@ -102,40 +104,40 @@
   };
 </script>
 
-<div class="wrapper" class:loading-initial="{loadingInitial}">
+<div class="wrapper" class:loading-initial={loadingInitial}>
   <Icon name="SpinnerIcon" />
-  <form on:submit|preventDefault="{handleSubmit}">
+  <form onsubmit={preventDefault(handleSubmit)}>
     <Header text="Speed Limits" />
-    <Checkbox bind:checked="{uploadLimitEnabled}" label="Upload (kB/s)" />
-    <Input bind:value="{uploadLimit}" type="number" />
+    <Checkbox bind:checked={uploadLimitEnabled} label="Upload (kB/s)" />
+    <Input bind:value={uploadLimit} type="number" />
 
-    <Checkbox bind:checked="{downloadLimitEnabled}" label="Download (kB/s)" />
-    <Input bind:value="{downloadLimit}" type="number" />
+    <Checkbox bind:checked={downloadLimitEnabled} label="Download (kB/s)" />
+    <Input bind:value={downloadLimit} type="number" />
 
     <Header text="Alternative Speed Limits" />
     <Checkbox
-      bind:checked="{altLimitsEnabled}"
+      bind:checked={altLimitsEnabled}
       label="Alternative speeds enabled"
     />
 
-    <Input bind:value="{altUploadLimit}" label="Upload (kB/s)" type="number" />
+    <Input bind:value={altUploadLimit} label="Upload (kB/s)" type="number" />
 
     <Input
-      bind:value="{altDownloadLimit}"
+      bind:value={altDownloadLimit}
       label="Download (kB/s)"
       type="number"
     />
 
-    <Checkbox bind:checked="{altSpeedTimeEnabled}" label="Scheduled Times" />
+    <Checkbox bind:checked={altSpeedTimeEnabled} label="Scheduled Times" />
 
-    <Input bind:value="{altSpeedTimeBegin}" label="From" type="time" />
-    <Input bind:value="{altSpeedTimeEnd}" label="To" type="time" />
+    <Input bind:value={altSpeedTimeBegin} label="From" type="time" />
+    <Input bind:value={altSpeedTimeEnd} label="To" type="time" />
 
     <div class="buttons">
-      <Button type="button" priority="tertiary" on:click="{modals.close}">
+      <Button type="button" priority="tertiary" onclick={modals.close}>
         Cancel
       </Button>
-      <Button type="submit" priority="primary" loading="{loadingSubmit}">
+      <Button type="submit" priority="primary" loading={loadingSubmit}>
         Save settings
       </Button>
     </div>

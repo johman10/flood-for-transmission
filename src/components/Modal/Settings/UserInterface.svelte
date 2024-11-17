@@ -1,4 +1,6 @@
 <script>
+  import { preventDefault } from 'svelte/legacy';
+
   import Header from './Header.svelte';
   import Button from '~components/Button';
   import InputMultiple from '~components/InputMultiple';
@@ -18,14 +20,14 @@
   import { orderable } from '~helpers/actions';
   import { PATH_VALIDATION_REGEX } from '~helpers/constants/paths';
 
-  const newColumns = structuredClone($uiColumns);
-  let newPaths = [...$paths];
-  let newSwitchSpeedColors = $switchSpeedColors;
-  let newTimeConfig = $timeConfig;
-  let newTableHeaderConfig = $tableHeaderConfig;
+  const newColumns = $state(structuredClone($uiColumns));
+  let newPaths = $state([...$paths]);
+  let newSwitchSpeedColors = $state($switchSpeedColors);
+  let newTimeConfig = $state($timeConfig);
+  let newTableHeaderConfig = $state($tableHeaderConfig);
   const configuredDarkMode = darkMode.configuredValue;
-  let newDarkMode = $configuredDarkMode;
-  let newDiskUsage = $diskUsage;
+  let newDarkMode = $state($configuredDarkMode);
+  let newDiskUsage = $state($diskUsage);
 
   const darkModeOptions = [
     { label: 'Auto', value: 'auto' },
@@ -57,13 +59,13 @@
   };
 </script>
 
-<form on:submit|preventDefault="{handleSubmit}">
+<form onsubmit={preventDefault(handleSubmit)}>
   <Header text="Color scheme" />
   <div class="list">
     <Select
-      options="{darkModeOptions}"
-      on:change="{(event) => (newDarkMode = event.detail)}"
-      value="{newDarkMode}"
+      options={darkModeOptions}
+      onchange={(event) => (newDarkMode = event.detail)}
+      value={newDarkMode}
       direction="below"
       label="Dark mode"
     />
@@ -73,7 +75,7 @@
     <Checkbox
       label="Switch speed colors"
       hint="This will switch the upload and download colors. Originally green for download and blue for upload."
-      bind:checked="{newSwitchSpeedColors}"
+      bind:checked={newSwitchSpeedColors}
     />
   </div>
 
@@ -82,7 +84,7 @@
     <Checkbox
       label="24-hour notation"
       hint="Will represent time with 24 hours if enabled and 12 hours if disabled"
-      bind:checked="{newTimeConfig}"
+      bind:checked={newTimeConfig}
     />
   </div>
 
@@ -90,7 +92,7 @@
     <Checkbox
       label="Wrap overflowing text in table headers"
       hint="Will wrap text in header columns when enabled"
-      bind:checked="{newTableHeaderConfig}"
+      bind:checked={newTableHeaderConfig}
     />
   </div>
 
@@ -99,8 +101,8 @@
     These paths will be shown behind the magnifier where you can select a path.
   </p>
   <InputMultiple
-    bind:values="{newPaths}"
-    pattern="{PATH_VALIDATION_REGEX}"
+    bind:values={newPaths}
+    pattern={PATH_VALIDATION_REGEX}
     validationMessage="Path must be an absolute path."
   />
 
@@ -108,7 +110,7 @@
     <Checkbox
       label="Show disk usage"
       hint="Shows disk usage in the sidepanel based on the common paths"
-      bind:checked="{newDiskUsage}"
+      bind:checked={newDiskUsage}
     />
   </div>
 
@@ -118,17 +120,17 @@
       <div
         class="column"
         draggable="true"
-        use:orderable="{handleColumnDrop}"
-        id="{column.id}"
+        use:orderable={handleColumnDrop}
+        id={column.id}
       >
         <span>{uiColumns.getColumnLabel(column.id)}</span>
-        <Checkbox bind:checked="{column.enabled}" label="Enabled" />
+        <Checkbox bind:checked={column.enabled} label="Enabled" />
       </div>
     {/each}
   </div>
 
   <div class="buttons">
-    <Button type="button" priority="tertiary" on:click="{modals.close}">
+    <Button type="button" priority="tertiary" onclick={modals.close}>
       Cancel
     </Button>
     <Button type="submit" priority="primary">Save settings</Button>

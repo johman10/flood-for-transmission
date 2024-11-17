@@ -1,16 +1,31 @@
-<script context="module">
+<script module>
   let num = 0;
 </script>
 
 <script>
+  import { preventDefault } from 'svelte/legacy';
+
   import Icon from '~components/Icon';
   import { areAllFilesValid } from '~helpers/fileHelper';
 
-  export let files;
-  export let label;
-  export let accept = null;
-  export let required = false;
-  export let multiple = false;
+  /**
+   * @typedef {Object} Props
+   * @property {any} files
+   * @property {any} label
+   * @property {any} [accept]
+   * @property {boolean} [required]
+   * @property {boolean} [multiple]
+   */
+
+  /** @type {Props & { [key: string]: any }} */
+  let {
+    files = $bindable(),
+    label,
+    accept = null,
+    required = false,
+    multiple = false,
+    ...rest
+  } = $props();
 
   if (accept.indexOf('*') > -1) {
     console.warn(
@@ -18,16 +33,18 @@
     );
   }
 
-  $: acceptList = accept
-    ? accept
-        .split(',')
-        .filter(Boolean)
-        .map((type) => type.trim())
-    : null;
+  let acceptList = $derived(
+    accept
+      ? accept
+          .split(',')
+          .filter(Boolean)
+          .map((type) => type.trim())
+      : null
+  );
 
-  let hovering = false;
-  let invalid = false;
-  let input;
+  let hovering = $state(false);
+  let invalid = $state(false);
+  let input = $state();
 
   num += 1;
   const id = `file-input-${num}`;
@@ -78,7 +95,7 @@
   };
 </script>
 
-<label class="label-text" for="{id}">{label}</label>
+<label class="label-text" for={id}>{label}</label>
 {#if files && files.length}
   <ul class="file-list">
     {#each files as file}
@@ -90,7 +107,7 @@
         <button
           class="remove-file-button"
           type="button"
-          on:click="{() => removeFile(file)}"
+          onclick={() => removeFile(file)}
         >
           <Icon name="Close" />
         </button>
@@ -99,15 +116,15 @@
   </ul>
 {/if}
 <label
-  for="{id}"
+  for={id}
   class="zone"
-  class:invalid="{invalid}"
-  class:file="{files}"
-  class:hovering="{hovering}"
-  on:dragenter|preventDefault="{handleDragOver}"
-  on:dragover|preventDefault="{handleDragOver}"
-  on:dragleave|preventDefault="{handleDragLeave}"
-  on:drop|preventDefault="{handleDrop}"
+  class:invalid={invalid}
+  class:file={files}
+  class:hovering={hovering}
+  ondragenter={preventDefault(handleDragOver)}
+  ondragover={preventDefault(handleDragOver)}
+  ondragleave={preventDefault(handleDragLeave)}
+  ondrop={preventDefault(handleDrop)}
 >
   <Icon name="Files" />
   {#if invalid}
@@ -117,12 +134,12 @@
   {/if}
   <input
     type="file"
-    id="{id}"
-    on:input|preventDefault="{handleChange}"
-    bind:this="{input}"
-    required="{required && (!files || !files.length)}"
-    multiple="{multiple}"
-    {...$$restProps}
+    id={id}
+    oninput={preventDefault(handleChange)}
+    bind:this={input}
+    required={required && (!files || !files.length)}
+    multiple={multiple}
+    {...rest}
   />
 </label>
 

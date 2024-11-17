@@ -1,28 +1,26 @@
 <script>
   import { slide } from 'svelte/transition';
 
-  export let items;
-  export let itemName;
-  export let itemNamePlural;
+  let { items, itemName, itemNamePlural, form, children, actions } = $props();
 </script>
 
-<div class="content" class:selected="{!!items.length || $$slots.form}">
-  <slot />
+<div class="content" class:selected={!!items.length || form}>
+  {@render children?.()}
 </div>
 
 <div class="bar-spacing">
-  <slot name="form" />
+  {@render form?.()}
 </div>
 
 {#if items.length}
-  <div class="action-bar bar-spacing" transition:slide="{{ duration: 250 }}">
+  <div class="action-bar bar-spacing" transition:slide={{ duration: 250 }}>
     <div class="text">
       <span class="focus">{items.length}</span>
       {items.length === 1 ? itemName : itemNamePlural}
       selected
     </div>
 
-    <slot name="actions" />
+    {@render actions?.()}
   </div>
 {/if}
 

@@ -3,7 +3,7 @@
 
   const dispatch = createEventDispatcher();
 
-  export let checked;
+  let { checked = $bindable() } = $props();
 
   const handleClick = () => {
     checked = !checked;
@@ -11,7 +11,7 @@
   };
 </script>
 
-<div class:checked="{checked}" on:click="{handleClick}"></div>
+<div class:checked={checked} onclick={handleClick}></div>
 
 <style>
   div {

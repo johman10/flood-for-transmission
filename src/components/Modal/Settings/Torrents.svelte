@@ -1,4 +1,6 @@
 <script>
+  import { preventDefault } from 'svelte/legacy';
+
   import Header from './Header.svelte';
   import Icon from '~components/Icon';
   import Input from '~components/Input';
@@ -27,26 +29,26 @@
     SESSION_COLUMN_SCRIPT_DONE,
   } from '~helpers/constants/columns';
 
-  let loadingInitial = true;
-  let loadingSubmit = false;
-  let downloadDir = null;
-  let startAddedTorrents = null;
-  let renamePartialFiles = null;
-  let seedRatioLimited = null;
-  let seedRatioLimit = null;
-  let idleSeedingLimited = null;
-  let idleSeedingLimit = null;
-  let downloadQueueSize = null;
-  let downloadQueueEnabled = null;
-  let seedQueueSize = null;
-  let seedQueueEnabled = null;
-  let incompleteDir = null;
-  let incompleteDirEnabled = null;
-  let queueStalledEnabled = null;
-  let queueStalledMinutes = null;
-  let removeTorrentFile = null;
-  let scriptDoneEnabled = null;
-  let scriptDone = null;
+  let loadingInitial = $state(true);
+  let loadingSubmit = $state(false);
+  let downloadDir = $state(null);
+  let startAddedTorrents = $state(null);
+  let renamePartialFiles = $state(null);
+  let seedRatioLimited = $state(null);
+  let seedRatioLimit = $state(null);
+  let idleSeedingLimited = $state(null);
+  let idleSeedingLimit = $state(null);
+  let downloadQueueSize = $state(null);
+  let downloadQueueEnabled = $state(null);
+  let seedQueueSize = $state(null);
+  let seedQueueEnabled = $state(null);
+  let incompleteDir = $state(null);
+  let incompleteDirEnabled = $state(null);
+  let queueStalledEnabled = $state(null);
+  let queueStalledMinutes = $state(null);
+  let removeTorrentFile = $state(null);
+  let scriptDoneEnabled = $state(null);
+  let scriptDone = $state(null);
 
   session
     .addColumns([
@@ -136,76 +138,73 @@
   };
 </script>
 
-<div class="wrapper" class:loading-initial="{loadingInitial}">
+<div class="wrapper" class:loading-initial={loadingInitial}>
   <Icon name="SpinnerIcon" />
-  <form on:submit|preventDefault="{handleSubmit}">
+  <form onsubmit={preventDefault(handleSubmit)}>
     <Header text="Downloading" />
     <InputPath
       label="Download to"
-      bind:value="{downloadDir}"
+      bind:value={downloadDir}
       hint="This will be used as the default location for Transmission when adding a new torrent."
     />
-    <Checkbox label="Start when added" bind:checked="{startAddedTorrents}" />
+    <Checkbox label="Start when added" bind:checked={startAddedTorrents} />
     <Checkbox
       label="Remove torrent file when added"
-      bind:checked="{removeTorrentFile}"
+      bind:checked={removeTorrentFile}
     />
     <Checkbox
-      label="{'Append ".part" to incomplete files\' names'}"
-      bind:checked="{renamePartialFiles}"
+      label={'Append ".part" to incomplete files\' names'}
+      bind:checked={renamePartialFiles}
     />
     <Checkbox
       label="Incomplete directory:"
-      bind:checked="{incompleteDirEnabled}"
+      bind:checked={incompleteDirEnabled}
     />
     <InputPath
-      bind:value="{incompleteDir}"
+      bind:value={incompleteDir}
       hint="Will default to the download directory when not enabled"
     />
     <Checkbox
       label="Run script when complete:"
-      bind:checked="{scriptDoneEnabled}"
+      bind:checked={scriptDoneEnabled}
     />
-    <InputPath bind:value="{scriptDone}" />
+    <InputPath bind:value={scriptDone} />
 
     <Header text="Seeding" />
-    <Checkbox
-      label="Stop seeding at ratio:"
-      bind:checked="{seedRatioLimited}"
-    />
-    <Input bind:value="{seedRatioLimit}" type="number" step="0.01" />
+    <Checkbox label="Stop seeding at ratio:" bind:checked={seedRatioLimited} />
+    <Input bind:value={seedRatioLimit} type="number" step="0.01" />
     <Checkbox
       label="Stop seeding if idle for (min):"
-      bind:checked="{idleSeedingLimited}"
+      bind:checked={idleSeedingLimited}
     />
-    <Input bind:value="{idleSeedingLimit}" type="number" />
+    <Input bind:value={idleSeedingLimit} type="number" />
 
     <Header text="Queue" />
     <Checkbox
       label="Limit concurrent downloads:"
-      bind:checked="{downloadQueueEnabled}"
+      bind:checked={downloadQueueEnabled}
     />
-    <Input bind:value="{downloadQueueSize}" type="number" />
+    <Input bind:value={downloadQueueSize} type="number" />
     <Checkbox
       label="Limit concurrent seeding:"
-      bind:checked="{seedQueueEnabled}"
+      bind:checked={seedQueueEnabled}
     />
-    <Input bind:value="{seedQueueSize}" type="number" />
+    <Input bind:value={seedQueueSize} type="number" />
     <Checkbox
       label="Consider inactive after (minutes):"
-      bind:checked="{queueStalledEnabled}"
+      bind:checked={queueStalledEnabled}
     />
     <Input
-      bind:value="{queueStalledMinutes}"
+      bind:value={queueStalledMinutes}
       type="number"
       hint="Torrents that are inactive for this amount of minutes will not be considered as a concurrent download/seed."
     />
 
     <div class="buttons">
-      <Button type="button" priority="tertiary" on:click="{modals.close}">
+      <Button type="button" priority="tertiary" onclick={modals.close}>
         Cancel
       </Button>
-      <Button type="submit" priority="primary" loading="{loadingSubmit}">
+      <Button type="submit" priority="primary" loading={loadingSubmit}>
         Save settings
       </Button>
     </div>

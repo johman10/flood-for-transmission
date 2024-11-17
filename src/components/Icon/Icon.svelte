@@ -67,8 +67,9 @@
     Upload,
   };
 
-  export let viewBox = '0 0 60 60';
-  export let name;
+  let { viewBox = '0 0 60 60', name, onclick } = $props();
+
+  const SvelteComponent = $derived(iconMap[name]);
 </script>
 
-<svelte:component this="{iconMap[name]}" viewBox="{viewBox}" on:click />
+<SvelteComponent viewBox={viewBox} onclick={onclick} />

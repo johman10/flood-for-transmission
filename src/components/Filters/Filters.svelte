@@ -14,10 +14,10 @@
 
   const limitedLabelsCount = 3;
   const limitedTrackersCount = 4;
-  let limitTrackers = true;
-  let limitLabels = true;
+  let limitTrackers = $state(true);
+  let limitLabels = $state(true);
 
-  $: statusFilters = [
+  let statusFilters = $derived([
     {
       label: 'All',
       value: null,
@@ -66,9 +66,9 @@
       iconName: 'ErrorIcon',
       count: $torrents.filter(statusFilter.bind(null, 'error')).length,
     },
-  ];
+  ]);
 
-  $: priorityFilters = [
+  let priorityFilters = $derived([
     {
       label: 'All',
       value: null,
@@ -89,63 +89,68 @@
       value: -1,
       count: $torrents.filter(priorityFilter.bind(null, -1)).length,
     },
-  ];
+  ]);
 
-  $: labelFilters = [
-    {
-      label: 'All',
-      value: null,
-      count: $torrents.length,
-    },
-    {
-      label: 'Unlabeled',
-      value: 'unlabeled',
-      count: $torrents.filter(labelFilter.bind(null, 'unlabeled')).length,
-    },
-    ...$labels
-      .map((label) => ({
-        label,
-        value: label,
-        count: $torrents.filter(labelFilter.bind(null, label)).length,
-      }))
-      .slice(0, limitLabels ? limitedLabelsCount : $labels.length),
-    $filters.label && {
-      label: $filters.label,
-      value: $filters.label,
-      count: $torrents.filter(trackerFilter.bind(null, $filters.label)).length,
-    },
-  ]
-    .filter(Boolean)
-    .filter(
-      (item, index, list) =>
-        list.map((i) => i.value).indexOf(item.value) === index
-    );
+  let labelFilters = $derived(
+    [
+      {
+        label: 'All',
+        value: null,
+        count: $torrents.length,
+      },
+      {
+        label: 'Unlabeled',
+        value: 'unlabeled',
+        count: $torrents.filter(labelFilter.bind(null, 'unlabeled')).length,
+      },
+      ...$labels
+        .map((label) => ({
+          label,
+          value: label,
+          count: $torrents.filter(labelFilter.bind(null, label)).length,
+        }))
+        .slice(0, limitLabels ? limitedLabelsCount : $labels.length),
+      $filters.label && {
+        label: $filters.label,
+        value: $filters.label,
+        count: $torrents.filter(trackerFilter.bind(null, $filters.label))
+          .length,
+      },
+    ]
+      .filter(Boolean)
+      .filter(
+        (item, index, list) =>
+          list.map((i) => i.value).indexOf(item.value) === index
+      )
+  );
 
-  $: trackerFilters = [
-    {
-      label: 'All',
-      value: null,
-      count: $torrents.length,
-    },
-    ...$trackers
-      .map((tracker) => ({
-        label: tracker,
-        value: tracker,
-        count: $torrents.filter(trackerFilter.bind(null, tracker)).length,
-      }))
-      .slice(0, limitTrackers ? limitedTrackersCount : $trackers.length),
-    $filters.tracker && {
-      label: $filters.tracker,
-      value: $filters.tracker,
-      count: $torrents.filter(trackerFilter.bind(null, $filters.tracker))
-        .length,
-    },
-  ]
-    .filter(Boolean)
-    .filter(
-      (item, index, list) =>
-        list.map((i) => i.value).indexOf(item.value) === index
-    );
+  let trackerFilters = $derived(
+    [
+      {
+        label: 'All',
+        value: null,
+        count: $torrents.length,
+      },
+      ...$trackers
+        .map((tracker) => ({
+          label: tracker,
+          value: tracker,
+          count: $torrents.filter(trackerFilter.bind(null, tracker)).length,
+        }))
+        .slice(0, limitTrackers ? limitedTrackersCount : $trackers.length),
+      $filters.tracker && {
+        label: $filters.tracker,
+        value: $filters.tracker,
+        count: $torrents.filter(trackerFilter.bind(null, $filters.tracker))
+          .length,
+      },
+    ]
+      .filter(Boolean)
+      .filter(
+        (item, index, list) =>
+          list.map((i) => i.value).indexOf(item.value) === index
+      )
+  );
 
   const setStatusFilter = (filter) => {
     selectedTorrents.clear();
@@ -179,10 +184,10 @@
   <ul>
     {#each statusFilters as filter}
       <li
-        class:active="{$filters.status === filter.value}"
-        on:click="{setStatusFilter.bind(null, filter.value)}"
+        class:active={$filters.status === filter.value}
+        onclick={setStatusFilter.bind(null, filter.value)}
       >
-        <Icon name="{filter.iconName}" />
+        <Icon name={filter.iconName} />
         {filter.label}
         <Badge>{filter.count || 0}</Badge>
       </li>
@@ -193,8 +198,8 @@
   <ul>
     {#each priorityFilters as filter}
       <li
-        class:active="{$filters.priority === filter.value}"
-        on:click="{setPriorityFilter.bind(null, filter.value)}"
+        class:active={$filters.priority === filter.value}
+        onclick={setPriorityFilter.bind(null, filter.value)}
       >
         {filter.label}
         <Badge>{filter.count || 0}</Badge>
@@ -206,10 +211,10 @@
   <ul>
     {#each labelFilters as filter, index}
       <li
-        class:active="{$filters.label === filter.value}"
-        on:click="{setLabelFilter.bind(null, filter.value)}"
-        in:slide="{getTransitionConfig('in', labelFilters.length, index)}"
-        out:slide="{getTransitionConfig('out', labelFilters.length, index)}"
+        class:active={$filters.label === filter.value}
+        onclick={setLabelFilter.bind(null, filter.value)}
+        in:slide={getTransitionConfig('in', labelFilters.length, index)}
+        out:slide={getTransitionConfig('out', labelFilters.length, index)}
       >
         {filter.label}
         <Badge>{filter.count || 0}</Badge>
@@ -217,9 +222,9 @@
     {/each}
     {#if labelFilters.length > limitedLabelsCount}
       <li
-        on:click="{() => {
+        onclick={() => {
           limitLabels = !limitLabels;
-        }}"
+        }}
       >
         {#if limitLabels}Show all...{:else}Hide some...{/if}
       </li>
@@ -230,10 +235,10 @@
   <ul>
     {#each trackerFilters as filter, index}
       <li
-        class:active="{$filters.tracker === filter.value}"
-        on:click="{setTrackerFilter.bind(null, filter.value)}"
-        in:slide="{getTransitionConfig('in', trackerFilters.length, index)}"
-        out:slide="{getTransitionConfig('out', trackerFilters.length, index)}"
+        class:active={$filters.tracker === filter.value}
+        onclick={setTrackerFilter.bind(null, filter.value)}
+        in:slide={getTransitionConfig('in', trackerFilters.length, index)}
+        out:slide={getTransitionConfig('out', trackerFilters.length, index)}
       >
         {filter.label}
         <Badge>{filter.count || 0}</Badge>
@@ -241,9 +246,9 @@
     {/each}
     {#if trackerFilters.length > limitedTrackersCount}
       <li
-        on:click="{() => {
+        onclick={() => {
           limitTrackers = !limitTrackers;
-        }}"
+        }}
       >
         {#if limitTrackers}Show all...{:else}Hide some...{/if}
       </li>

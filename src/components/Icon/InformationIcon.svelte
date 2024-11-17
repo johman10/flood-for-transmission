@@ -1,8 +1,11 @@
 <script>
-  export let viewBox;
+  import { createBubbler } from 'svelte/legacy';
+
+  const bubble = createBubbler();
+  let { viewBox } = $props();
 </script>
 
-<svg on:click class="icon" viewBox="{viewBox}">
+<svg onclick={bubble('click')} class="icon" viewBox={viewBox}>
   <path
     d="M27.14,28.26h5.72V43.95H27.14V28.26ZM30,24.44a4,4,0,1,0-4-4A4,4,0,0,0,30,24.44Z"
   ></path>

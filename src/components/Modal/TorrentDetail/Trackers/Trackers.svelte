@@ -7,9 +7,9 @@
   import Checkbox from '~components/Checkbox';
   import Button from '~components/Button';
 
-  $: trackers = $torrentDetails[TRANSMISSION_COLUMN_TRACKERS];
-  let selectedTrackers = [];
-  let newTracker = null;
+  let trackers = $derived($torrentDetails[TRANSMISSION_COLUMN_TRACKERS]);
+  let selectedTrackers = $state([]);
+  let newTracker = $state(null);
 
   const toggleSelectedTracker = (event) => {
     if (!selectedTrackers.includes(event.target.value)) {
@@ -47,7 +47,7 @@
 
 <div class="container">
   <ActionBarView
-    items="{selectedTrackers}"
+    items={selectedTrackers}
     itemName="tracker"
     itemNamePlural="trackers"
   >
@@ -66,9 +66,9 @@
           <tr>
             <td class="tracker-name">
               <Checkbox
-                on:change="{toggleSelectedTracker}"
-                group="{selectedTrackers}"
-                value="{tracker.id.toString()}"
+                on:change={toggleSelectedTracker}
+                group={selectedTrackers}
+                value={tracker.id.toString()}
               />
               {tracker.announce}
             </td>
@@ -78,22 +78,26 @@
       </tbody>
     </table>
 
-    <form class="new-tracker-form" slot="form" on:submit="{addTracker}">
-      <Input
-        bind:value="{newTracker}"
-        class="new-tracker-input"
-        name="tracker"
-        type="url"
-        placeholder="Tracker announce URL"
-      />
-      <Button type="submit">Add tracker</Button>
-    </form>
+    {#snippet form()}
+      <form class="new-tracker-form" onsubmit={addTracker}>
+        <Input
+          bind:value={newTracker}
+          class="new-tracker-input"
+          name="tracker"
+          type="url"
+          placeholder="Tracker announce URL"
+        />
+        <Button type="submit">Add tracker</Button>
+      </form>
+    {/snippet}
 
-    <div slot="actions">
-      <Button priority="tertiary" on:click="{removeTrackers}">
-        Remove selected
-      </Button>
-    </div>
+    {#snippet actions()}
+      <div>
+        <Button priority="tertiary" onclick={removeTrackers}>
+          Remove selected
+        </Button>
+      </div>
+    {/snippet}
   </ActionBarView>
 </div>
 

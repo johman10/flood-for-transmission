@@ -44,6 +44,19 @@ function serve() {
   };
 }
 
+function getParsedEnvVariable(key, type = 'string') {
+  if (!(key in process.env)) {
+    return undefined;
+  }
+
+  switch (type) {
+    case 'boolean':
+      return process.env[key] === 'true';
+    default:
+      return JSON.stringify(process.env[key]);
+  }
+}
+
 export default {
   input: 'src/main.js',
   output: {
@@ -102,23 +115,36 @@ export default {
     replace({
       preventAssignment: true,
       exclude: 'node_modules/**',
-      __TRANSMISSION_HOST__: process.env.TRANSMISSION_HOST
-        ? `"${process.env.TRANSMISSION_HOST}"`
-        : undefined,
-      __TRANSMISSION_PORT__: process.env.TRANSMISSION_PORT
-        ? `"${process.env.TRANSMISSION_PORT}"`
-        : undefined,
-      __TRANSMISSION_USERNAME__: process.env.TRANSMISSION_USERNAME
-        ? `"${process.env.TRANSMISSION_USERNAME}"`
-        : undefined,
-      __TRANSMISSION_PATH__: process.env.TRANSMISSION_PATH
-        ? `"${process.env.TRANSMISSION_PATH}"`
-        : undefined,
-      __TRANSMISSION_PASSWORD__: process.env.TRANSMISSION_PASSWORD
-        ? `"${process.env.TRANSMISSION_PASSWORD}"`
-        : undefined,
-      __TRANSMISSION_SSL__: process.env.TRANSMISSION_SSL === 'true',
-      __ENV__: production ? '"production"' : '"development"',
+      values: {
+        __TRANSMISSION_HOST__: getParsedEnvVariable('TRANSMISSION_HOST'),
+        __TRANSMISSION_PORT__: getParsedEnvVariable('TRANSMISSION_PORT'),
+        __TRANSMISSION_USERNAME__: getParsedEnvVariable(
+          'TRANSMISSION_USERNAME'
+        ),
+        __TRANSMISSION_PATH__: getParsedEnvVariable('TRANSMISSION_PATH'),
+        __TRANSMISSION_PASSWORD__: getParsedEnvVariable(
+          'TRANSMISSION_PASSWORD'
+        ),
+        __TRANSMISSION_SSL__:
+          getParsedEnvVariable('TRANSMISSION_SSL', 'boolean') || false,
+        __ENV__: production ? '"production"' : '"development"',
+
+        __DARK_MODE__: getParsedEnvVariable('FLOOD_DARK_MODE'),
+        __SWITCH_COLORS__: getParsedEnvVariable(
+          'FLOOD_SWITCH_COLORS',
+          'boolean'
+        ),
+        __NOTATION_24H__: getParsedEnvVariable('FLOOD_NOTATION_24H', 'boolean'),
+        __WRAP_HEADER__: getParsedEnvVariable('FLOOD_WRAP_HEADER', 'boolean'),
+        __COMMON_PATH__: getParsedEnvVariable('FLOOD_COMMON_PATH'),
+        __COLUMNS__: getParsedEnvVariable('FLOOD_COLUMNS'),
+        __SORT_COLUMN__: getParsedEnvVariable('FLOOD_SORT_COLUMN'),
+        __SORT_DIRECTION__: getParsedEnvVariable('FLOOD_SORT_DIRECTION'),
+        __SHOW_DISK_USAGE__: getParsedEnvVariable(
+          'FLOOD_SHOW_DISK_USAGE',
+          'boolean'
+        ),
+      },
     }),
 
     // In dev mode, call `npm run start` once

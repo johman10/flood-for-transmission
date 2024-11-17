@@ -5,6 +5,42 @@ import {
 } from './constants/columns';
 import defaults from './constants/defaultConfig.json';
 
+const parseJSONEnvironmentConfiguration = (key, value, fallback) => {
+  try {
+    return value ? JSON.parse(value) : fallback;
+  } catch (e) {
+    console.warn(
+      `Environment variable ${key} is invalid JSON, configuration is not applied`
+    );
+    return fallback;
+  }
+};
+
+const applyEnvironmentConfiguration = () => {
+  const commonPath = parseJSONEnvironmentConfiguration(
+    'FLOOD_COMMON_PATH',
+    __COMMON_PATH__,
+    defaults.COMMON_PATH
+  );
+  const columns = parseJSONEnvironmentConfiguration(
+    'FLOOD_COLUMNS',
+    __COLUMNS__,
+    defaults.COLUMNS
+  );
+
+  return {
+    DARK_MODE: __DARK_MODE__ ?? defaults.DARK_MODE,
+    SWITCH_COLORS: __SWITCH_COLORS__ ?? defaults.SWITCH_COLORS,
+    NOTATION_24H: __NOTATION_24H__ ?? defaults.NOTATION_24H,
+    WRAP_HEADER: __WRAP_HEADER__ ?? defaults.WRAP_HEADER,
+    COMMON_PATH: commonPath,
+    COLUMNS: columns,
+    SORT_COLUMN: __SORT_COLUMN__ ?? defaults.SORT_COLUMN,
+    SORT_DIRECTION: __SORT_DIRECTION__ ?? defaults.SORT_DIRECTION,
+    SHOW_DISK_USAGE: __SHOW_DISK_USAGE__ ?? defaults.SHOW_DISK_USAGE,
+  };
+};
+
 const getConfigurationColumnsWithDefaults = (configColumns) => {
   if (!Array.isArray(configColumns)) {
     console.info(
@@ -46,7 +82,8 @@ export default await fetch('./config.json')
     }
   })
   .then((config) => {
-    return { ...defaults, ...config };
+    const defaultsWithEnvironment = applyEnvironmentConfiguration();
+    return { ...defaultsWithEnvironment, ...config };
   })
   .catch((e) => {
     console.error('Something went wrong while fetching config.json', e);

@@ -55,7 +55,36 @@ _Note:_ If you run Flood for Transmission behind SSL and in Chrome you can also 
 
 ### [BETA] Customization
 
-1. All user interface defaults can be customized in `/flood-for-transmission/public/config.json`, `cp config.json.defaults config.json` to get started. The `config.json.defaults` file also illustrates the default configuration.
+Flood for Transmission has some customization options which can be changed through the UI, however, since the UI is just running in the browser, the changes you make will only be stored in that specific browser.
+
+If this is not what you want, and rather want your UI to consistently have the same configuration, you can also customize the configuration in two central ways; through the file system and through environment variables.
+
+In order from least to most priority this is how configuration is applied:
+
+1. Default configuration
+2. Environment variables
+3. File system
+4. Browser based configuration (only applies in the specific browser where you apply the changes)
+
+i.e. if you build Flood for Tranmission with the environment variable DARK_MODE set to "disabled" and then setup a file system based configuration with DARK_MODE set to "enabled", dark mode will be enabled as per the file system configuration.
+
+> :memo: Note: If the configuration is not applied correctly check whether the browser has a value stored in localStorage.
+
+#### Through the file system
+
+To get started copy the `config.json.defaults` file to `config.json` in the same folder. Update the config.json file to match the configuration you like, safe the file and open Flood for Transmission. The configuration should be applied.
+
+#### Through environment variables
+
+> :memo: Note: this only work if you build Flood for Transmission from source. The environment variables have to be set before running `npm build`. If you just download the build version the default configuration will be used.
+
+Before building Flood for Transmission apply configuration options by setting environment variables with for example `export FLOOD_DARK_MODE=disabled`. Apply all configuration options you want and ensure you use the same shell to build afterwards and the configuration should be applied on first load.
+
+> :memo: Note: all environment variables are prefixed with `FLOOD_` to prevent collision with operating level environment variables.
+
+#### Configuration options
+
+Below is a list of all options to be applied.
 
 - `"DARK_MODE"`
   - Type: String e.g. `"auto"` or `"enabled"` or `"disabled"`

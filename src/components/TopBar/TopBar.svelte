@@ -1,7 +1,20 @@
 <script>
+  import { onMount } from 'svelte';
   import Icon from '~components/Icon';
   import { Add, Remove } from '~components/Modal';
   import { torrents, modals, selectedTorrents, panel } from '~helpers/stores';
+
+  onMount(() => {
+    const url = new URL(window.location.href);
+    const magnet = url.searchParams.get('addtorrent');
+
+    if (magnet) {
+      modals.open({ component: Add, props: { fileNames: [decodeURIComponent(magnet)] } });
+
+      url.searchParams.delete('addtorrent');
+      history.replaceState(null, '', url.toString());
+    }
+  });
 
   const togglePanel = () => {
     panel.toggle();

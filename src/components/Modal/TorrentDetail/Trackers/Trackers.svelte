@@ -38,9 +38,9 @@
     let newTrackers = structuredClone(
       $torrentDetails[TRANSMISSION_COLUMN_TRACKERS]
     );
-    newTrackers = newTrackers.map((tracker) => tracker.announce).join('\n\n');
-    newTrackers = [...newTrackers, newTracker.trim()];
-    torrentDetails.addTrackers($torrentDetails, newTrackers);
+    newTrackers = newTrackers.map((tracker) => tracker.announce);
+    newTrackers = [...newTrackers, newTracker.trim()].join('\n\n');
+    torrentDetails.setTrackers($torrentDetails, newTrackers);
     newTracker = null;
   };
 </script>

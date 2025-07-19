@@ -129,17 +129,17 @@
 
 <div class="header">
   <h1
-    on:dblclick="{makeEditable}"
-    on:blur="{rename}"
-    on:paste="{handlePaste}"
-    on:keydown="{handleEnter}"
+    on:dblclick={makeEditable}
+    on:blur={rename}
+    on:paste={handlePaste}
+    on:keydown={handleEnter}
   >
     {$torrentDetails[TRANSMISSION_COLUMN.NAME]}
   </h1>
   <div class="subheading">
     <ul>
       <li
-        class:active="{!!downloadSpeed.value}"
+        class:active={!!downloadSpeed.value}
         title="Download speed"
         class="downloading"
       >
@@ -150,7 +150,7 @@
           {downloadSize.value}<em>{downloadSize.size}</em>
         </span>
       </li>
-      <li class:active="{!!uploadSpeed.value}" title="Upload speed">
+      <li class:active={!!uploadSpeed.value} title="Upload speed">
         <Icon name="Upload" />
         <span>
           {uploadSpeed.value}<em>{uploadSpeed.size}</em>
@@ -164,29 +164,29 @@
       </li>
       <li title="ETA">
         <Icon name="ETA" />
-        <ArrivalRenderer value="{$torrentDetails[TRANSMISSION_COLUMN.ETA]}" />
+        <ArrivalRenderer value={$torrentDetails[TRANSMISSION_COLUMN.ETA]} />
       </li>
     </ul>
 
     <ul class="right">
       <li class="button">
         <PriorityIndicator
-          value="{$torrentDetails[TRANSMISSION_COLUMN.PRIORITY]}"
+          value={$torrentDetails[TRANSMISSION_COLUMN.PRIORITY]}
           showLabel
-          on:click="{updatePriority}"
+          on:click={updatePriority}
         />
       </li>
       <li
-        class:active="{$torrentDetails[TRANSMISSION_COLUMN.STATUS] > 0}"
-        on:click="{startTorrent}"
+        class:active={$torrentDetails[TRANSMISSION_COLUMN.STATUS] > 0}
+        on:click={startTorrent}
         class="button"
       >
         <Icon name="StartIcon" />
         Start
       </li>
       <li
-        class:active="{$torrentDetails[TRANSMISSION_COLUMN.STATUS] === 0}"
-        on:click="{stopTorrent}"
+        class:active={$torrentDetails[TRANSMISSION_COLUMN.STATUS] === 0}
+        on:click={stopTorrent}
         class="button"
       >
         <Icon name="StopIcon" />
@@ -195,11 +195,11 @@
     </ul>
   </div>
   <ProgressRenderer
-    value="{$torrentDetails[TRANSMISSION_COLUMN.DOWNLOAD_PROGRESS]}"
-    torrentStatus="{STATUSES[$torrentDetails[TRANSMISSION_COLUMN.STATUS]]}"
-    torrentStatusClass="{generateTorrentStatusClass($torrentDetails)}"
-    metadataProgress="{$torrentDetails[TRANSMISSION_COLUMN.METADATA_PROGRESS]}"
-    checkingProgress="{$torrentDetails[TRANSMISSION_COLUMN.RECHECK_PROGRESS]}"
+    value={$torrentDetails[TRANSMISSION_COLUMN.DOWNLOAD_PROGRESS]}
+    torrentStatus={STATUSES[$torrentDetails[TRANSMISSION_COLUMN.STATUS]]}
+    torrentStatusClass={generateTorrentStatusClass($torrentDetails)}
+    metadataProgress={$torrentDetails[TRANSMISSION_COLUMN.METADATA_PROGRESS]}
+    checkingProgress={$torrentDetails[TRANSMISSION_COLUMN.RECHECK_PROGRESS]}
   />
 </div>
 

@@ -51,6 +51,7 @@ function getUiColumns() {
     );
     if (!columns) throw new Error('No columns stored yet');
     return migrateStoredColumns(columns);
+    // eslint-disable-next-line no-unused-vars
   } catch (e) {
     return config.COLUMNS;
   }

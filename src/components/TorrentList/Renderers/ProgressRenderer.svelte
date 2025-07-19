@@ -34,8 +34,8 @@
 </script>
 
 <div class="progress-renderer {torrentStatusClass}">
-  <Icon name="{iconName}" />
-  <ProgressBar progress="{progress}" />
+  <Icon name={iconName} />
+  <ProgressBar progress={progress} />
 </div>
 
 <style>

@@ -22,15 +22,15 @@
 {#if id}
   <th
     class="header"
-    class:sorting="{id === $sorting.id}"
-    class:asc="{$sorting.id === id && $sorting.direction === 'asc'}"
-    class:desc="{$sorting.id === id && $sorting.direction === 'desc'}"
-    class:wrap="{$tableHeaderConfig}"
+    class:sorting={id === $sorting.id}
+    class:asc={$sorting.id === id && $sorting.direction === 'asc'}
+    class:desc={$sorting.id === id && $sorting.direction === 'desc'}
+    class:wrap={$tableHeaderConfig}
     style="width: {$columnSizes[id]}px"
-    on:click="{handleClick}"
+    on:click={handleClick}
   >
     {uiColumns.getColumnLabel(id)}
-    <span class="handle" use:resizeableTable="{handleResize}"></span>
+    <span class="handle" use:resizeableTable={handleResize}></span>
   </th>
 {/if}
 

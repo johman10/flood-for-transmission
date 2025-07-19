@@ -27,26 +27,26 @@
 
 <div
   class="wrapper"
-  use:clickOutside="{toggleOpen.bind(null, true)}"
-  on:click="{toggleOpen.bind(null, false)}"
+  use:clickOutside={toggleOpen.bind(null, true)}
+  on:click={toggleOpen.bind(null, false)}
 >
   <slot name="trigger" />
 
   {#if open}
-    <div class="menu" transition:fade="{{ duration: 250 }}">
+    <div class="menu" transition:fade={{ duration: 250 }}>
       <div class="header">
         <slot name="trigger" />
         <span>{header}</span>
       </div>
       <div class="lists">
-        {#each Object.entries(lists) as [listHeader, options]}
+        {#each Object.entries(lists) as [listHeader, options] (listHeader)}
           <div class="list">
             <span class="list-header">{listHeader}</span>
             <ul>
-              {#each options as option}
+              {#each options as option (option.name)}
                 <li
-                  class:selected="{option.selected}"
-                  on:click="{optionSelect(option)}"
+                  class:selected={option.selected}
+                  on:click={optionSelect(option)}
                 >
                   {option.name}
                 </li>

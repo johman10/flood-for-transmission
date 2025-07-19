@@ -94,30 +94,30 @@
 </script>
 
 <svelte:window
-  on:keydown="{handleKeydown}"
-  bind:innerHeight="{windowHeight}"
-  bind:innerWidth="{windowWidth}"
+  on:keydown={handleKeydown}
+  bind:innerHeight={windowHeight}
+  bind:innerWidth={windowWidth}
 />
 
 {#if $contextMenu?.component}
   <ul
-    style="{[
+    style={[
       getStyleDeclaration('top', top),
       getStyleDeclaration('bottom', bottom),
       getStyleDeclaration('max-height', maxHeight),
       getStyleDeclaration('width', width),
       getStyleDeclaration('left', left),
       getStyleDeclaration('right', right),
-    ].join(' ')}"
-    bind:offsetHeight="{menuHeight}"
-    bind:offsetWidth="{menuWidth}"
-    use:clickOutside="{contextMenu.close}"
-    transition:fly="{{ duration: 125, y: -20 }}"
+    ].join(' ')}
+    bind:offsetHeight={menuHeight}
+    bind:offsetWidth={menuWidth}
+    use:clickOutside={contextMenu.close}
+    transition:fly={{ duration: 125, y: -20 }}
   >
     <svelte:component
-      this="{$contextMenu.component}"
+      this={$contextMenu.component}
       {...$contextMenu.props}
-      onItemClick="{onItemClick}"
+      onItemClick={onItemClick}
     />
   </ul>
 {/if}

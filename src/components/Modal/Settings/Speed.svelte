@@ -102,40 +102,40 @@
   };
 </script>
 
-<div class="wrapper" class:loading-initial="{loadingInitial}">
+<div class="wrapper" class:loading-initial={loadingInitial}>
   <Icon name="SpinnerIcon" />
-  <form on:submit|preventDefault="{handleSubmit}">
+  <form on:submit|preventDefault={handleSubmit}>
     <Header text="Speed Limits" />
-    <Checkbox bind:checked="{uploadLimitEnabled}" label="Upload (kB/s)" />
-    <Input bind:value="{uploadLimit}" type="number" />
+    <Checkbox bind:checked={uploadLimitEnabled} label="Upload (kB/s)" />
+    <Input bind:value={uploadLimit} type="number" />
 
-    <Checkbox bind:checked="{downloadLimitEnabled}" label="Download (kB/s)" />
-    <Input bind:value="{downloadLimit}" type="number" />
+    <Checkbox bind:checked={downloadLimitEnabled} label="Download (kB/s)" />
+    <Input bind:value={downloadLimit} type="number" />
 
     <Header text="Alternative Speed Limits" />
     <Checkbox
-      bind:checked="{altLimitsEnabled}"
+      bind:checked={altLimitsEnabled}
       label="Alternative speeds enabled"
     />
 
-    <Input bind:value="{altUploadLimit}" label="Upload (kB/s)" type="number" />
+    <Input bind:value={altUploadLimit} label="Upload (kB/s)" type="number" />
 
     <Input
-      bind:value="{altDownloadLimit}"
+      bind:value={altDownloadLimit}
       label="Download (kB/s)"
       type="number"
     />
 
-    <Checkbox bind:checked="{altSpeedTimeEnabled}" label="Scheduled Times" />
+    <Checkbox bind:checked={altSpeedTimeEnabled} label="Scheduled Times" />
 
-    <Input bind:value="{altSpeedTimeBegin}" label="From" type="time" />
-    <Input bind:value="{altSpeedTimeEnd}" label="To" type="time" />
+    <Input bind:value={altSpeedTimeBegin} label="From" type="time" />
+    <Input bind:value={altSpeedTimeEnd} label="To" type="time" />
 
     <div class="buttons">
-      <Button type="button" priority="tertiary" on:click="{modals.close}">
+      <Button type="button" priority="tertiary" on:click={modals.close}>
         Cancel
       </Button>
-      <Button type="submit" priority="primary" loading="{loadingSubmit}">
+      <Button type="submit" priority="primary" loading={loadingSubmit}>
         Save settings
       </Button>
     </div>

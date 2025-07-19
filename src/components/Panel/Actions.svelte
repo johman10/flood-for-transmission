@@ -14,7 +14,7 @@
   const LIST_NAMES = ['download', 'upload'];
   const downloadSpeedLimit = session.speedLimit('download');
   const uploadSpeedLimit = session.speedLimit('upload');
-  $: altSpeedEnabled = $session[SESSION_COLUMN_ALT_SPEED_ENABLED] || false;
+  let altSpeedEnabled = $session[SESSION_COLUMN_ALT_SPEED_ENABLED] || false;
 
   $: speedLimitLists = LIST_NAMES.reduce((acc, listName) => {
     const currentLimit =
@@ -81,8 +81,8 @@
 <div class="actions">
   <Dropdown
     header="Speed Limits"
-    on:select="{handleSelect}"
-    lists="{speedLimitLists}"
+    on:select={handleSelect}
+    lists={speedLimitLists}
   >
     <div slot="trigger" class="trigger">
       <Icon name="Limits" />
@@ -90,12 +90,12 @@
     <div slot="bottom" class="alt-speed-row" on:click|stopPropagation>
       Alternative speeds
       <Switch
-        bind:checked="{altSpeedEnabled}"
-        on:change="{toggleAltSpeedEnabled}"
+        bind:checked={altSpeedEnabled}
+        on:change={toggleAltSpeedEnabled}
       />
     </div>
   </Dropdown>
-  <Icon name="SettingsIcon" on:click="{openSettings}" />
+  <Icon name="SettingsIcon" on:click={openSettings} />
 </div>
 
 <style>

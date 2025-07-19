@@ -47,7 +47,7 @@
 
 <div class="container">
   <ActionBarView
-    items="{selectedTrackers}"
+    items={selectedTrackers}
     itemName="tracker"
     itemNamePlural="trackers"
   >
@@ -62,13 +62,13 @@
         </tr>
       </thead>
       <tbody>
-        {#each trackers as tracker}
+        {#each trackers as tracker (tracker.id)}
           <tr>
             <td class="tracker-name">
               <Checkbox
-                on:change="{toggleSelectedTracker}"
-                group="{selectedTrackers}"
-                value="{tracker.id.toString()}"
+                on:change={toggleSelectedTracker}
+                group={selectedTrackers}
+                value={tracker.id.toString()}
               />
               {tracker.announce}
             </td>
@@ -78,9 +78,9 @@
       </tbody>
     </table>
 
-    <form class="new-tracker-form" slot="form" on:submit="{addTracker}">
+    <form class="new-tracker-form" slot="form" on:submit={addTracker}>
       <Input
-        bind:value="{newTracker}"
+        bind:value={newTracker}
         class="new-tracker-input"
         name="tracker"
         type="url"
@@ -90,7 +90,7 @@
     </form>
 
     <div slot="actions">
-      <Button priority="tertiary" on:click="{removeTrackers}">
+      <Button priority="tertiary" on:click={removeTrackers}>
         Remove selected
       </Button>
     </div>

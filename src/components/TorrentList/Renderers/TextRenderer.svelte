@@ -4,7 +4,7 @@
   export let size = 'normal';
 </script>
 
-<span class:big="{size === 'big'}" class="{torrentStatusClass}">{value}</span>
+<span class:big={size === 'big'} class={torrentStatusClass}>{value}</span>
 
 <style>
   .big {

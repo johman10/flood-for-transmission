@@ -41,23 +41,23 @@
   $: loadingInitial = !Object.keys($torrentDetails).length;
 </script>
 
-<div class="container" class:loading-initial="{loadingInitial}">
+<div class="container" class:loading-initial={loadingInitial}>
   <Icon name="SpinnerIcon" />
-  <Header torrentId="{torrentId}" />
+  <Header torrentId={torrentId} />
   <div class="content">
     <nav>
-      {#each pages as { name, component }}
+      {#each pages as { name, component } (name)}
         <a
           href="/{name.toLowerCase()}"
-          class:active="{page.name === name}"
-          on:click|preventDefault="{() => (page = { name, component })}"
+          class:active={page.name === name}
+          on:click|preventDefault={() => (page = { name, component })}
         >
           {name}
         </a>
       {/each}
     </nav>
     <div class="page-content">
-      <svelte:component this="{page.component}" />
+      <svelte:component this={page.component} />
     </div>
   </div>
 </div>

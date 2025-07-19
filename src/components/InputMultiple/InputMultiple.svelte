@@ -68,13 +68,13 @@
       {label}
     </label>
   {/if}
-  {#each values as value, index}
+  {#each values as value, index (value)}
     <Input
       id="input-multiple-{index}"
-      type="{type}"
-      bind:value="{value}"
-      addons="{getAddons(index)}"
-      on:paste="{(e) => handlePaste(index, e)}"
+      type={type}
+      bind:value={value}
+      addons={getAddons(index)}
+      on:paste={(e) => handlePaste(index, e)}
       {...$$restProps}
     />
   {/each}

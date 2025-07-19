@@ -9,7 +9,10 @@
     const magnet = url.searchParams.get('addtorrent');
 
     if (magnet) {
-      modals.open({ component: Add, props: { fileNames: [decodeURIComponent(magnet)] } });
+      modals.open({
+        component: Add,
+        props: { fileNames: [decodeURIComponent(magnet)] },
+      });
 
       url.searchParams.delete('addtorrent');
       history.replaceState(null, '', url.toString());
@@ -40,26 +43,26 @@
 <nav class="header">
   <div class="left">
     <div class="group">
-      <button class="button" on:click="{togglePanel}">
+      <button class="button" on:click={togglePanel}>
         <Icon name="MenuIcon" viewBox="0 0 60 60" />
       </button>
     </div>
   </div>
   <div class="right">
     <div class="group">
-      <button class="button" on:click="{handleStart}">
+      <button class="button" on:click={handleStart}>
         <Icon name="StartIcon" />
       </button>
-      <button class="button" on:click="{handleStop}">
+      <button class="button" on:click={handleStop}>
         <Icon name="StopIcon" />
       </button>
     </div>
     <div class="divider"></div>
     <div class="group">
-      <button class="button" on:click="{handleAdd}">
+      <button class="button" on:click={handleAdd}>
         <Icon name="Add" />
       </button>
-      <button class="button" on:click="{handleRemove}">
+      <button class="button" on:click={handleRemove}>
         <Icon name="Remove" />
       </button>
     </div>

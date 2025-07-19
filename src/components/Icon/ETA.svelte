@@ -2,7 +2,7 @@
   export let viewBox;
 </script>
 
-<svg on:click class="icon" viewBox="{viewBox}">
+<svg on:click class="icon" viewBox={viewBox}>
   <path
     fill-opacity="1"
     d="M44.28,54.77a28.56,28.56,0,1,1,10.45-39A28.56,28.56,0,0,1,44.28,54.77Zm6-36.41a23.36,23.36,0,1,0-8.55,31.92A23.36,23.36,0,0,0,50.23,18.36Z"

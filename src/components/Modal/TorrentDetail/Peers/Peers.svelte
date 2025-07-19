@@ -43,7 +43,7 @@
       </tr>
     </thead>
     <tbody>
-      {#each peers as peer}
+      {#each peers as peer (peer.address)}
         <tr>
           <td>
             {#if $ipAddress[peer.address]}
@@ -52,8 +52,8 @@
                 src="images/flags/{$ipAddress[
                   peer.address
                 ].country_code.toLowerCase()}.png"
-                alt="{$ipAddress[peer.address].country_code}"
-                title="{$ipAddress[peer.address].country_name}"
+                alt={$ipAddress[peer.address].country_code}
+                title={$ipAddress[peer.address].country_name}
               />
             {:else}
               <img class="flag" src="images/flags/_unknown.png" alt="Unknown" />

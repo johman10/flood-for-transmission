@@ -32,6 +32,7 @@ const getConfigurationColumnsWithDefaults = (configColumns) => {
   }
 
   // Ignore potential id from config.json
+  // eslint-disable-next-line no-unused-vars
   return configColumns.map(({ id, ...configColumn }) => configColumn);
 };
 

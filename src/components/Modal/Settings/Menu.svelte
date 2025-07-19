@@ -7,12 +7,12 @@
   <h1>Settings</h1>
 
   <ul class="items">
-    {#each pages as page}
+    {#each pages as page (page.id)}
       <li
-        class:active="{page.id === activePageId}"
-        on:click="{() => {
+        class:active={page.id === activePageId}
+        on:click={() => {
           activePageId = page.id;
-        }}"
+        }}
       >
         {page.name}
       </li>

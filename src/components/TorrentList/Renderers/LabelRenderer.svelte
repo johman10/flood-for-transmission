@@ -6,7 +6,7 @@
 </script>
 
 <div class="labels {torrentStatusClass}">
-  {#each value as label}
+  {#each value as label (label)}
     <Badge>{label}</Badge>
   {/each}
 </div>

@@ -19,10 +19,11 @@
 
   const TORRENT_HASH_REGEX = /^[\da-f]{40}$/i;
 
+  export let fileNames = [];
+
   let loadingInitial = true;
   let loadingSubmit = false;
   let tab = 'url';
-  let fileNames = [];
   let files = null;
   let destination = null;
   let start = null;

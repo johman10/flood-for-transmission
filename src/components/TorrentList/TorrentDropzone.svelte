@@ -88,22 +88,22 @@
 </script>
 
 <svelte:body
-  on:dragenter|preventDefault="{handleDragEnter}"
-  on:dragleave|preventDefault="{handleDragLeave}"
+  on:dragenter|preventDefault={handleDragEnter}
+  on:dragleave|preventDefault={handleDragLeave}
   on:dragover|preventDefault
 />
 
 <label
   class="dropzone"
-  class:hovering="{hovering}"
-  for="{id}"
-  on:drop|preventDefault="{handleDrop}"
+  class:hovering={hovering}
+  for={id}
+  on:drop|preventDefault={handleDrop}
 >
   <div class="dropzone-content">
     <Icon name="Files" />
     Drop here to add them to Transmission.
   </div>
-  <input type="file" id="{id}" bind:this="{input}" multiple />
+  <input type="file" id={id} bind:this={input} multiple />
 </label>
 
 <style>

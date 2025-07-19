@@ -48,9 +48,9 @@
 
 <div
   class="priority-indicator"
-  on:click="{handleClick}"
-  bind:this="{element}"
-  title="{showLabel ? undefined : label}"
+  on:click={handleClick}
+  bind:this={element}
+  title={showLabel ? undefined : label}
 >
   <div class="slider level-{value}"></div>
   {#if showLabel}<span class="label">{label}</span>{/if}

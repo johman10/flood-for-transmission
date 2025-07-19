@@ -16,11 +16,11 @@
 </script>
 
 {#if $paths.length}
-  {#each $paths as path}
-    <li on:click="{onItemClick(onPathSelect, [path])}">{path}</li>
+  {#each $paths as path (path)}
+    <li on:click={onItemClick(onPathSelect, [path])}>{path}</li>
   {/each}
 {:else}
-  <li on:click="{onFallbackClick}">
+  <li on:click={onFallbackClick}>
     No common paths configured yet, click here to add some.
   </li>
 {/if}

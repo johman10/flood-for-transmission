@@ -72,36 +72,36 @@
   };
 </script>
 
-<div class="wrapper" class:loading-initial="{loadingInitial}">
+<div class="wrapper" class:loading-initial={loadingInitial}>
   <Icon name="SpinnerIcon" />
-  <form on:submit|preventDefault="{handleSubmit}">
+  <form on:submit|preventDefault={handleSubmit}>
     <Header text="Listening port" />
     <Input
       label="Peer listening port"
-      bind:value="{peerPort}"
+      bind:value={peerPort}
       type="number"
       hint="Port is {portOpen ? 'open' : 'closed'}"
     />
     <Checkbox
       label="Randomize port on launch"
-      bind:checked="{randomizePeerPort}"
+      bind:checked={randomizePeerPort}
     />
     <Checkbox
       label="Use port forwarding from my router"
-      bind:checked="{portForwardingEnabled}"
+      bind:checked={portForwardingEnabled}
     />
 
     <Header text="Options" />
     <Checkbox
       label="Enable uTP for peer communication"
-      bind:checked="{utpEnabled}"
+      bind:checked={utpEnabled}
     />
 
     <div class="buttons">
-      <Button type="button" priority="tertiary" on:click="{modals.close}">
+      <Button type="button" priority="tertiary" on:click={modals.close}>
         Cancel
       </Button>
-      <Button type="submit" priority="primary" loading="{submitLoading}">
+      <Button type="submit" priority="primary" loading={submitLoading}>
         Save settings
       </Button>
     </div>

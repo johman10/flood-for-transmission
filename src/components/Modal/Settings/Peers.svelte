@@ -122,39 +122,39 @@
   };
 </script>
 
-<div class="wrapper" class:loading-initial="{loadingInitial}">
+<div class="wrapper" class:loading-initial={loadingInitial}>
   <Icon name="SpinnerIcon" />
-  <form on:submit|preventDefault="{handleSubmit}">
+  <form on:submit|preventDefault={handleSubmit}>
     <Header text="Connections" />
     <Input
-      bind:value="{maxPeersPerTorrent}"
+      bind:value={maxPeersPerTorrent}
       label="Max peers per torrent"
       type="number"
     />
     <Input
-      bind:value="{maxPeersOverall}"
+      bind:value={maxPeersOverall}
       label="Max peers overall"
       type="number"
     />
 
     <Header text="Options" />
-    <Checkbox bind:checked="{pexEnabled}" label="Use PEX to find more peers" />
-    <Checkbox bind:checked="{dhtEnabled}" label="Use DHT to find more peers" />
-    <Checkbox bind:checked="{lpdEnabled}" label="Use LPD to find more peers" />
+    <Checkbox bind:checked={pexEnabled} label="Use PEX to find more peers" />
+    <Checkbox bind:checked={dhtEnabled} label="Use DHT to find more peers" />
+    <Checkbox bind:checked={lpdEnabled} label="Use LPD to find more peers" />
 
     <Header text="Privacy" />
     <Select
-      options="{encryptionOptions}"
-      on:change="{(event) => (encryption = event.detail)}"
-      value="{encryption}"
+      options={encryptionOptions}
+      on:change={(event) => (encryption = event.detail)}
+      value={encryption}
       direction="below"
       label="Encryption"
     />
 
     <Header text="Blocklist" />
-    <Checkbox bind:checked="{blocklistEnabled}" label="Enable blocklist" />
+    <Checkbox bind:checked={blocklistEnabled} label="Enable blocklist" />
     <Input
-      bind:value="{blocklistUrl}"
+      bind:value={blocklistUrl}
       type="url"
       hint="Blocklist has {numberFormatter.format(blocklistSize)} rules"
     />
@@ -162,16 +162,16 @@
       <Button
         type="button"
         priority="tertiary"
-        on:click="{updateBlocklist}"
-        loading="{blocklistUpdateLoading}">Update blocklist</Button
+        on:click={updateBlocklist}
+        loading={blocklistUpdateLoading}>Update blocklist</Button
       >
     </div>
 
     <div class="buttons">
-      <Button type="button" priority="tertiary" on:click="{modals.close}">
+      <Button type="button" priority="tertiary" on:click={modals.close}>
         Cancel
       </Button>
-      <Button type="submit" priority="primary" loading="{submitLoading}">
+      <Button type="submit" priority="primary" loading={submitLoading}>
         Save settings
       </Button>
     </div>

@@ -73,10 +73,12 @@
   // TODO: Move to constants/columns, pass torrent and session as arg to props;
   $: rendererMap = {
     [UI_COLUMN.NAME.id]: {
+      id: UI_COLUMN.NAME.id,
       component: TextRenderer,
       props: () => ({ value: torrent[TRANSMISSION_COLUMN.NAME], size: 'big' }),
     },
     [UI_COLUMN.PROGRESS_BAR.id]: {
+      id: UI_COLUMN.PROGRESS_BAR.id,
       component: ProgressRenderer,
       props: () => ({
         value: torrent[TRANSMISSION_COLUMN.DOWNLOAD_PROGRESS],
@@ -86,6 +88,7 @@
       }),
     },
     [UI_COLUMN.DOWNLOADED.id]: {
+      id: UI_COLUMN.DOWNLOADED.id,
       component: SizeRenderer,
       props: () => ({
         value: torrent[TRANSMISSION_COLUMN.DOWNLOADED],
@@ -93,6 +96,7 @@
       }),
     },
     [UI_COLUMN.DOWNLOAD_SPEED.id]: {
+      id: UI_COLUMN.DOWNLOAD_SPEED.id,
       component: SizeRenderer,
       props: () => ({
         value: torrent[TRANSMISSION_COLUMN.DOWNLOAD_RATE],
@@ -101,6 +105,7 @@
       }),
     },
     [UI_COLUMN.UPLOADED.id]: {
+      id: UI_COLUMN.UPLOADED.id,
       component: SizeRenderer,
       props: () => ({
         value: torrent[TRANSMISSION_COLUMN.UPLOADED],
@@ -108,6 +113,7 @@
       }),
     },
     [UI_COLUMN.UPLOAD_SPEED.id]: {
+      id: UI_COLUMN.UPLOAD_SPEED.id,
       component: SizeRenderer,
       props: () => ({
         value: torrent[TRANSMISSION_COLUMN.UPLOAD_RATE],
@@ -117,14 +123,17 @@
       }),
     },
     [UI_COLUMN.ETA.id]: {
+      id: UI_COLUMN.ETA.id,
       component: ArrivalRenderer,
       props: () => ({ value: torrent[TRANSMISSION_COLUMN.ETA] }),
     },
     [UI_COLUMN.RATIO.id]: {
+      id: UI_COLUMN.RATIO.id,
       component: TextRenderer,
       props: () => ({ value: torrent[TRANSMISSION_COLUMN.RATIO]?.toFixed(2) }),
     },
     [UI_COLUMN.FILE_SIZE.id]: {
+      id: UI_COLUMN.FILE_SIZE.id,
       component: SizeRenderer,
       props: () => ({
         value: torrent[TRANSMISSION_COLUMN.SIZE],
@@ -132,14 +141,17 @@
       }),
     },
     [UI_COLUMN.ADDED.id]: {
+      id: UI_COLUMN.ADDED.id,
       component: DateRenderer,
       props: () => ({ value: torrent[TRANSMISSION_COLUMN.ADDED] }),
     },
     [UI_COLUMN.CREATION_DATE.id]: {
+      id: UI_COLUMN.CREATION_DATE.id,
       component: DateRenderer,
       props: () => ({ value: torrent[TRANSMISSION_COLUMN.CREATED] }),
     },
     [UI_COLUMN.SEEDS.id]: {
+      id: UI_COLUMN.SEEDS.id,
       component: ConnectionRenderer,
       props: () => ({
         value: torrent[TRANSMISSION_COLUMN.SEEDING_TO],
@@ -147,6 +159,7 @@
       }),
     },
     [UI_COLUMN.PEERS.id]: {
+      id: UI_COLUMN.PEERS.id,
       component: ConnectionRenderer,
       props: () => ({
         value: torrent[TRANSMISSION_COLUMN.DOWNLOADING_FROM],
@@ -154,30 +167,37 @@
       }),
     },
     [UI_COLUMN.BASE_PATH.id]: {
+      id: UI_COLUMN.BASE_PATH.id,
       component: TextRenderer,
       props: () => ({ value: torrent[TRANSMISSION_COLUMN.DOWNLOAD_DIR] }),
     },
     [UI_COLUMN.HASH.id]: {
+      id: UI_COLUMN.HASH.id,
       component: TextRenderer,
       props: () => ({ value: torrent[TRANSMISSION_COLUMN.HASH] }),
     },
     [UI_COLUMN.COMMENT.id]: {
+      id: UI_COLUMN.COMMENT.id,
       component: TextRenderer,
       props: () => ({ value: torrent[TRANSMISSION_COLUMN.COMMENT] }),
     },
     [UI_COLUMN.LABELS.id]: {
+      id: UI_COLUMN.LABELS.id,
       component: LabelRenderer,
       props: () => ({ value: torrent[TRANSMISSION_COLUMN.LABELS] }),
     },
     [UI_COLUMN.ERROR.id]: {
+      id: UI_COLUMN.ERROR.id,
       component: TextRenderer,
       props: () => ({ value: torrent[TRANSMISSION_COLUMN.ERROR_STRING] }),
     },
     [UI_COLUMN.PRIVATE.id]: {
+      id: UI_COLUMN.PRIVATE.id,
       component: BooleanRenderer,
       props: () => ({ value: torrent[TRANSMISSION_COLUMN.PRIVATE] }),
     },
     [UI_COLUMN.TRACKERS.id]: {
+      id: UI_COLUMN.TRACKERS.id,
       component: TextRenderer,
       props: () => {
         const value = torrent[TRANSMISSION_COLUMN.TRACKERS]
@@ -188,20 +208,24 @@
       },
     },
     [UI_COLUMN.DONE.id]: {
+      id: UI_COLUMN.DONE.id,
       component: DateRenderer,
       props: () => ({ value: torrent[TRANSMISSION_COLUMN.DONE] }),
     },
     [UI_COLUMN.STATUS.id]: {
+      id: UI_COLUMN.STATUS.id,
       component: TextRenderer,
       props: () => ({ value: STATUSES[torrent[TRANSMISSION_COLUMN.STATUS]] }),
     },
     [UI_COLUMN.QUEUE_POSITION.id]: {
+      id: UI_COLUMN.QUEUE_POSITION.id,
       component: TextRenderer,
       props: () => ({
         value: torrent[TRANSMISSION_COLUMN.QUEUE_POSITION],
       }),
     },
     [UI_COLUMN.TOTAL_LEECHERS.id]: {
+      id: UI_COLUMN.TOTAL_LEECHERS.id,
       component: TextRenderer,
       props: () => {
         const trackerStats = torrent[TRANSMISSION_COLUMN.TRACKER_STATS] || [];
@@ -219,6 +243,7 @@
       },
     },
     [UI_COLUMN.TOTAL_SEEDERS.id]: {
+      id: UI_COLUMN.TOTAL_SEEDERS.id,
       component: TextRenderer,
       props: () => {
         const trackerStats = torrent[TRANSMISSION_COLUMN.TRACKER_STATS] || [];
@@ -234,10 +259,12 @@
       },
     },
     [UI_COLUMN.ACTIVITY.id]: {
+      id: UI_COLUMN.ACTIVITY.id,
       component: DateRenderer,
       props: () => ({ value: torrent[TRANSMISSION_COLUMN.ACTIVITY_DATE] }),
     },
     [UI_COLUMN.PERCENT_COMPLETE.id]: {
+      id: UI_COLUMN.PERCENT_COMPLETE.id,
       component: TextRenderer,
       props: () => {
         let number = torrent[TRANSMISSION_COLUMN.DOWNLOAD_PROGRESS];
@@ -263,19 +290,19 @@
 </script>
 
 <tr
-  class="{generateTorrentStatusClass(torrent, selected)}"
+  class={generateTorrentStatusClass(torrent, selected)}
   use:contextmenu
-  on:contextmenu="{dispatchContextmenu}"
-  on:click="{dispatchClick}"
-  on:click="{handleClick}"
+  on:contextmenu={dispatchContextmenu}
+  on:click={dispatchClick}
+  on:click={handleClick}
 >
   {#each $activeColumns
     .map((column) => rendererMap[column.id])
-    .filter(Boolean) as { component, props }}
+    .filter(Boolean) as { id, component, props } (id)}
     <td>
       <svelte:component
-        this="{component}"
-        torrentStatusClass="{generateTorrentStatusClass(torrent, selected)}"
+        this={component}
+        torrentStatusClass={generateTorrentStatusClass(torrent, selected)}
         {...props()}
       />
     </td>

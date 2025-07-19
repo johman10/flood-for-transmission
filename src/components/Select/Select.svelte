@@ -43,35 +43,35 @@
 
 <div
   class="select"
-  bind:this="{selectElement}"
-  use:clickOutside="{() => {
+  bind:this={selectElement}
+  use:clickOutside={() => {
     open = false;
-  }}"
+  }}
 >
   {#if label}
-    <div class="label" on:click="{() => (open = !open)}">{label}</div>
+    <div class="label" on:click={() => (open = !open)}>{label}</div>
   {/if}
 
-  <Button on:click="{() => (open = !open)}" priority="quaternary">
+  <Button on:click={() => (open = !open)} priority="quaternary">
     <div class="content">
       {options.find((option) => option.value === value)?.label || placeholder}
     </div>
-    <div class="arrow" class:open="{open}">
+    <div class="arrow" class:open={open}>
       <Icon name="Chevron" />
     </div>
   </Button>
 
   {#if open}
     <div
-      bind:this="{optionsElement}"
+      bind:this={optionsElement}
       class="options"
-      class:above="{direction === 'above'}"
-      class:below="{direction === 'below'}"
-      style="{optionsStyle}"
-      transition:fly="{{ duration: 125, y: -20 }}"
+      class:above={direction === 'above'}
+      class:below={direction === 'below'}
+      style={optionsStyle}
+      transition:fly={{ duration: 125, y: -20 }}
     >
-      {#each options as option}
-        <div class="option" on:click="{handleChange(option.value)}">
+      {#each options as option (option.label)}
+        <div class="option" on:click={handleChange(option.value)}>
           {option.label}
         </div>
       {/each}

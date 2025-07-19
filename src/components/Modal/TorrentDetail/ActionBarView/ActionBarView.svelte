@@ -6,7 +6,7 @@
   export let itemNamePlural;
 </script>
 
-<div class="content" class:selected="{!!items.length || $$slots.form}">
+<div class="content" class:selected={!!items.length || $$slots.form}>
   <slot />
 </div>
 
@@ -15,7 +15,7 @@
 </div>
 
 {#if items.length}
-  <div class="action-bar bar-spacing" transition:slide="{{ duration: 250 }}">
+  <div class="action-bar bar-spacing" transition:slide={{ duration: 250 }}>
     <div class="text">
       <span class="focus">{items.length}</span>
       {items.length === 1 ? itemName : itemNamePlural}

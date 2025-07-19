@@ -33,9 +33,9 @@
 
 <div
   class="bytes"
-  class:upload="{direction === 'upload'}"
-  class:download="{direction === 'download'}"
-  class:hidden="{hidden}"
+  class:upload={direction === 'upload'}
+  class:download={direction === 'download'}
+  class:hidden={hidden}
 >
   {value}
   <span class="bytes__size">{size}</span>

@@ -106,24 +106,24 @@
   });
 </script>
 
-<form on:submit|preventDefault="{handleSubmit}" class="content">
+<form on:submit|preventDefault={handleSubmit} class="content">
   <div class="info">
     <h1 class="header no-padding-top">General</h1>
 
     <div class="column column--label">Added</div>
     <div class="column column--value">
-      <DateRenderer value="{$torrentDetails[TRANSMISSION_COLUMN.ADDED]}" />
+      <DateRenderer value={$torrentDetails[TRANSMISSION_COLUMN.ADDED]} />
     </div>
 
     <div class="column column--label">Done</div>
     <div class="column column--value">
-      <DateRenderer value="{$torrentDetails[TRANSMISSION_COLUMN.DONE]}" />
+      <DateRenderer value={$torrentDetails[TRANSMISSION_COLUMN.DONE]} />
     </div>
 
     <div class="column column--label">Labels</div>
     <div class="column column--value">
       {#if $torrentDetails[TRANSMISSION_COLUMN.LABELS]}
-        {#each $torrentDetails[TRANSMISSION_COLUMN.LABELS] as label}
+        {#each $torrentDetails[TRANSMISSION_COLUMN.LABELS] as label (label)}
           <Badge>{label}</Badge>
         {/each}
       {/if}
@@ -132,7 +132,7 @@
 
   <div class="inputs">
     <div class="input-group">
-      <InputPath bind:value="{location}" label="Download location" />
+      <InputPath bind:value={location} label="Download location" />
     </div>
   </div>
 
@@ -170,23 +170,20 @@
   <div class="inputs">
     <div class="input-group">
       <Checkbox
-        bind:checked="{downloadLimitEnabled}"
+        bind:checked={downloadLimitEnabled}
         label="Download limit (kB/s)"
       />
-      <Input bind:value="{downloadLimit}" type="number" />
+      <Input bind:value={downloadLimit} type="number" />
+    </div>
+
+    <div class="input-group">
+      <Checkbox bind:checked={uploadLimitEnabled} label="Upload limit (kB/s)" />
+      <Input bind:value={uploadLimit} type="number" />
     </div>
 
     <div class="input-group">
       <Checkbox
-        bind:checked="{uploadLimitEnabled}"
-        label="Upload limit (kB/s)"
-      />
-      <Input bind:value="{uploadLimit}" type="number" />
-    </div>
-
-    <div class="input-group">
-      <Checkbox
-        bind:checked="{honorsSessionLimits}"
+        bind:checked={honorsSessionLimits}
         label="Honor session limits"
         hint="Ignores the global session limit if disabled"
       />
@@ -194,7 +191,7 @@
 
     <div class="input-group">
       <Checkbox
-        bind:checked="{sequentialDownload}"
+        bind:checked={sequentialDownload}
         label="Download sequentially"
         hint="Download file pieces from start to end instead of at random"
       />
@@ -202,50 +199,46 @@
 
     <div class="input-group">
       <Input
-        bind:value="{peerLimit}"
+        bind:value={peerLimit}
         type="number"
         label="Maximum amount of peers"
       />
     </div>
 
     <div class="input-group">
-      <Input
-        bind:value="{queuePosition}"
-        type="number"
-        label="Queue position"
-      />
+      <Input bind:value={queuePosition} type="number" label="Queue position" />
     </div>
 
     <div class="input-group">
       <Select
-        options="{seedModeOptions}"
-        on:change="{(event) => (seedIdleMode = event.detail)}"
-        value="{seedIdleMode}"
+        options={seedModeOptions}
+        on:change={(event) => (seedIdleMode = event.detail)}
+        value={seedIdleMode}
         direction="below"
         label="Seed idle mode"
       />
       <Input
-        bind:value="{seedIdleLimit}"
+        bind:value={seedIdleLimit}
         type="number"
         label="Seed idle limit"
-        disabled="{seedIdleMode !== 1}"
+        disabled={seedIdleMode !== 1}
       />
     </div>
 
     <div class="input-group">
       <Select
-        options="{seedModeOptions}"
-        on:change="{(event) => (seedRatioMode = event.detail)}"
-        value="{seedRatioMode}"
+        options={seedModeOptions}
+        on:change={(event) => (seedRatioMode = event.detail)}
+        value={seedRatioMode}
         direction="below"
         label="Seed ratio mode"
       />
       <Input
-        bind:value="{seedRatioLimit}"
+        bind:value={seedRatioLimit}
         type="number"
         label="Seed ratio limit"
         step="0.01"
-        disabled="{seedRatioMode !== 1}"
+        disabled={seedRatioMode !== 1}
       />
     </div>
   </div>
@@ -260,7 +253,7 @@
 
     <div class="column column--label">Creation Date</div>
     <div class="column column--value">
-      <DateRenderer value="{$torrentDetails[TRANSMISSION_COLUMN.CREATED]}" />
+      <DateRenderer value={$torrentDetails[TRANSMISSION_COLUMN.CREATED]} />
     </div>
 
     <div class="column column--label">Hash</div>
@@ -273,7 +266,7 @@
 
     <div class="column column--label">Private</div>
     <div class="column column--value">
-      <BooleanRenderer value="{$torrentDetails[TRANSMISSION_COLUMN.PRIVATE]}" />
+      <BooleanRenderer value={$torrentDetails[TRANSMISSION_COLUMN.PRIVATE]} />
     </div>
 
     <div class="column column--label">Error text</div>
@@ -283,10 +276,10 @@
   </div>
 
   <div class="buttons">
-    <Button type="button" priority="tertiary" on:click="{setServerValues}">
+    <Button type="button" priority="tertiary" on:click={setServerValues}>
       Reset
     </Button>
-    <Button type="submit" priority="primary" loading="{loadingSubmit}">
+    <Button type="submit" priority="primary" loading={loadingSubmit}>
       Save config
     </Button>
   </div>

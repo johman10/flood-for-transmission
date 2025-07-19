@@ -24,68 +24,68 @@
 </script>
 
 <div class="input-container">
-  {#if label}<label class="label" for="{id}">{label}</label>{/if}
+  {#if label}<label class="label" for={id}>{label}</label>{/if}
   <div class="input-wrapper" style="--addon-count: {addons.length};">
     {#if type === 'text'}
       <input
         class="input"
-        id="{id}"
+        id={id}
         type="text"
-        bind:this="{input}"
-        on:invalid="{handleInvalid}"
-        on:input="{(e) => e.target.setCustomValidity('')}"
+        bind:this={input}
+        on:invalid={handleInvalid}
+        on:input={(e) => e.target.setCustomValidity('')}
         on:paste
-        bind:value="{value}"
-        disabled="{disabled}"
+        bind:value={value}
+        disabled={disabled}
         {...$$restProps}
       />
     {:else if type === 'number'}
       <input
         class="input"
-        id="{id}"
+        id={id}
         type="number"
-        bind:this="{input}"
-        on:invalid="{handleInvalid}"
-        on:input="{(e) => e.target.setCustomValidity('')}"
+        bind:this={input}
+        on:invalid={handleInvalid}
+        on:input={(e) => e.target.setCustomValidity('')}
         on:paste
-        bind:value="{value}"
-        disabled="{disabled}"
+        bind:value={value}
+        disabled={disabled}
         {...$$restProps}
       />
     {:else if type === 'time'}
       <input
         class="input"
-        id="{id}"
+        id={id}
         type="time"
-        bind:this="{input}"
-        on:invalid="{handleInvalid}"
-        on:input="{(e) => e.target.setCustomValidity('')}"
+        bind:this={input}
+        on:invalid={handleInvalid}
+        on:input={(e) => e.target.setCustomValidity('')}
         on:paste
-        bind:value="{value}"
-        disabled="{disabled}"
+        bind:value={value}
+        disabled={disabled}
         {...$$restProps}
       />
     {:else if type === 'url'}
       <input
         class="input"
-        id="{id}"
+        id={id}
         type="url"
-        bind:this="{input}"
-        on:invalid="{handleInvalid}"
-        on:input="{(e) => e.target.setCustomValidity('')}"
+        bind:this={input}
+        on:invalid={handleInvalid}
+        on:input={(e) => e.target.setCustomValidity('')}
         on:paste
-        bind:value="{value}"
-        disabled="{disabled}"
+        bind:value={value}
+        disabled={disabled}
         {...$$restProps}
       />
     {:else}{console.error(`Invalid type received, ${type}`)}{/if}
-    {#each addons as addon, index}
+    {#each addons as addon, index (addon.iconName)}
       <div
         class="addon"
-        on:click="{!disabled ? addon.onClick : undefined}"
+        on:click={!disabled ? addon.onClick : undefined}
         style="--index: {index}; --icon-size: {addon.iconSize};"
       >
-        <Icon name="{addon.iconName}" />
+        <Icon name={addon.iconName} />
       </div>
     {/each}
   </div>

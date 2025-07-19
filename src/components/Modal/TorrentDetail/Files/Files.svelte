@@ -36,19 +36,19 @@
 </script>
 
 <div class="container">
-  <ActionBarView items="{selectedFiles}" itemName="file" itemNamePlural="files">
+  <ActionBarView items={selectedFiles} itemName="file" itemNamePlural="files">
     {#if files.length}
       <Folder
-        structure="{structure}"
-        bind:selectedFiles="{selectedFiles}"
+        structure={structure}
+        bind:selectedFiles={selectedFiles}
         iconName="Disk"
-        folderName="{getMainFolder(
+        folderName={getMainFolder(
           $torrentDetails[TRANSMISSION_COLUMN_DOWNLOAD_DIR],
           files[0]
-        )}"
-        collapsible="{false}"
-        strong="{true}"
-        onSingleFilePrioChange="{handleSingleFilePrioChange}"
+        )}
+        collapsible={false}
+        strong={true}
+        onSingleFilePrioChange={handleSingleFilePrioChange}
       />
     {:else}
       <div class="empty">
@@ -58,9 +58,9 @@
 
     <div slot="actions" class="select-container">
       <Select
-        options="{prioOptions}"
+        options={prioOptions}
         placeholder="Set priority"
-        on:change="{handleSelectedFilePrioChange}"
+        on:change={handleSelectedFilePrioChange}
       />
     </div>
   </ActionBarView>

@@ -12,10 +12,10 @@
 </script>
 
 <span
-  class:speed="{isSpeed}"
-  class:active="{value > 0}"
-  class:upload="{isUpload}"
-  class="{torrentStatusClass}"
+  class:speed={isSpeed}
+  class:active={value > 0}
+  class:upload={isUpload}
+  class={torrentStatusClass}
 >
   {value}
   <em>{size}</em>

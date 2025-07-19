@@ -41,16 +41,16 @@
 <h1>Set labels</h1>
 
 <div class="content">
-  <form on:submit|preventDefault="{handleLabel}">
+  <form on:submit|preventDefault={handleLabel}>
     <Input
       type="text"
-      bind:value="{labelValue}"
+      bind:value={labelValue}
       placeholder="Enter labels"
       label="Labels (comma separated)"
     />
     <div class="button-group">
-      <Button priority="tertiary" on:click="{modals.close}">Cancel</Button>
-      <Button priority="primary" loading="{loading}" type="submit"
+      <Button priority="tertiary" on:click={modals.close}>Cancel</Button>
+      <Button priority="primary" loading={loading} type="submit"
         >Set labels</Button
       >
     </div>

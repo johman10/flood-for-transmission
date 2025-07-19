@@ -79,12 +79,12 @@
 </script>
 
 <div class="wrapper">
-  <Menu bind:activePageId="{activePageId}" pages="{pages}" />
+  <Menu bind:activePageId={activePageId} pages={pages} />
   <div class="content">
     {#await pages
       .find((page) => page.id === activePageId)
       .component() then component}
-      <svelte:component this="{component}" />
+      <svelte:component this={component} />
     {/await}
   </div>
 </div>

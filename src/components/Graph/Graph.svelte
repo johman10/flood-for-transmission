@@ -1,4 +1,5 @@
 <script>
+  /* eslint svelte/no-reactive-reassign: 0 */
   import { scaleLinear } from 'd3-scale';
   import { line, area, curveMonotoneX } from 'd3-shape';
   import { max } from 'd3-array';
@@ -52,9 +53,9 @@
     circleTransform: uploadCircleTransform,
     speed: uploadSpeed,
     timestamp,
-  } = setInspectorCoordinates($rateData.upload, uploadCircleTransform));
+  } = setInspectorCoordinates($rateData.upload));
   $: ({ circleTransform: downloadCircleTransform, speed: downloadSpeed } =
-    setInspectorCoordinates($rateData.download, downloadCircleTransform));
+    setInspectorCoordinates($rateData.download));
 
   $: ({ value: displayUploadSpeed, size: displayUploadSize } = getSize(
     uploadSpeed !== null ? uploadSpeed : $totalRateStore.upload,
@@ -125,8 +126,8 @@
         {displayDownloadSpeed}
         <span class="speed__size">{displayDownloadSize}</span>
       </div>
-      <Bytes direction="download" hidden="{hovering}" />
-      <SpeedLimit direction="download" hidden="{hovering}" />
+      <Bytes direction="download" hidden={hovering} />
+      <SpeedLimit direction="download" hidden={hovering} />
     </div>
   </div>
   <div class="rate rate--upload">
@@ -136,19 +137,19 @@
         {displayUploadSpeed}
         <span class="speed__size">{displayUploadSize}</span>
       </div>
-      <Bytes direction="upload" hidden="{hovering}" />
-      <SpeedLimit direction="upload" hidden="{hovering}" />
+      <Bytes direction="upload" hidden={hovering} />
+      <SpeedLimit direction="upload" hidden={hovering} />
     </div>
   </div>
-  <div class="timestamp" class:hidden="{!hovering}">
+  <div class="timestamp" class:hidden={!hovering}>
     {relativeTime(timestamp)}
   </div>
 </div>
 
 <svg
   class="graph"
-  on:mousemove="{handleMouseMove}"
-  on:mouseleave="{handleMouseLeave}"
+  on:mousemove={handleMouseMove}
+  on:mouseleave={handleMouseLeave}
 >
   <defs>
     <linearGradient id="gradient--upload" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -163,26 +164,26 @@
   <path
     class="area area--download"
     fill="url(#gradient--download)"
-    d="{downloadAreaPath}"
+    d={downloadAreaPath}
   ></path>
   <path
     class="area area--upload"
     fill="url(#gradient--upload)"
-    d="{uploadAreaPath}"
+    d={uploadAreaPath}
   ></path>
-  <path class="line line--download" d="{downloadLinePath}"></path>
-  <path class="line line--upload" d="{uploadLinePath}"></path>
+  <path class="line line--download" d={downloadLinePath}></path>
+  <path class="line line--upload" d={uploadLinePath}></path>
   <circle
     r="2.5"
     class="circle circle--download"
-    class:circle--active="{hovering}"
-    transform="{downloadCircleTransform}"
+    class:circle--active={hovering}
+    transform={downloadCircleTransform}
   ></circle>
   <circle
     r="2.5"
     class="circle circle--upload"
-    class:circle--active="{hovering}"
-    transform="{uploadCircleTransform}"
+    class:circle--active={hovering}
+    transform={uploadCircleTransform}
   ></circle>
 </svg>
 

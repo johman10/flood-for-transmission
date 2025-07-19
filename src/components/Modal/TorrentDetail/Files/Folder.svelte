@@ -68,51 +68,51 @@
 
 <div
   class="folder"
-  style="{`margin-left: ${level * 8}px`}"
-  class:strong="{strong}"
-  title="{folderName}"
+  style={`margin-left: ${level * 8}px`}
+  class:strong={strong}
+  title={folderName}
 >
   <IconCheckbox
-    checked="{allChecked}"
-    on:change="{selectFolder}"
-    iconName="{iconName ?? (open ? 'FolderOpen' : 'FolderClosed')}"
+    checked={allChecked}
+    on:change={selectFolder}
+    iconName={iconName ?? (open ? 'FolderOpen' : 'FolderClosed')}
   />
   <div
     class="path"
-    class:no-action="{!collapsible}"
-    on:click="{() => collapsible && (open = !open)}"
+    class:no-action={!collapsible}
+    on:click={() => collapsible && (open = !open)}
   >
     {folderName}
   </div>
 </div>
 {#if open}
-  {#each Object.keys(structure.folders) as nestedFolder}
+  {#each Object.keys(structure.folders) as nestedFolder (nestedFolder)}
     <svelte:self
-      folderName="{nestedFolder}"
-      structure="{structure.folders[nestedFolder]}"
-      bind:selectedFiles="{selectedFiles}"
-      level="{level + 1}"
-      onSingleFilePrioChange="{onSingleFilePrioChange}"
+      folderName={nestedFolder}
+      structure={structure.folders[nestedFolder]}
+      bind:selectedFiles={selectedFiles}
+      level={level + 1}
+      onSingleFilePrioChange={onSingleFilePrioChange}
     />
   {/each}
-  {#each structure.files as file}
+  {#each structure.files as file (file.index)}
     <div
       class="file"
-      style="{`margin-left: ${(level + 1) * 8}px`}"
-      title="{file.fileName}"
+      style={`margin-left: ${(level + 1) * 8}px`}
+      title={file.fileName}
     >
       <IconCheckbox
-        on:change="{handleFileCheckbox}"
-        group="{selectedFiles}"
-        value="{file.index}"
+        on:change={handleFileCheckbox}
+        group={selectedFiles}
+        value={file.index}
         iconName="File"
       />
       <div
         class="path"
-        on:click="{() =>
+        on:click={() =>
           selectedFiles.includes(file.index)
             ? unselectFile(file.index)
-            : selectFile(file.index)}"
+            : selectFile(file.index)}
       >
         {file.fileName}
       </div>
@@ -120,11 +120,11 @@
         <span>{getFileSize(file).value}{getFileSize(file).size}</span>
         <span>{Math.round((file.bytesCompleted / file.length) * 100)}%</span>
         <PriorityIndicator
-          value="{getFilePriority(
+          value={getFilePriority(
             $torrentDetails[TRANSMISSION_COLUMN_FILE_STATS][file.index]
-          )}"
-          allowDisabled="{true}"
-          on:click="{onSingleFilePrioChange.bind(this, file.index)}"
+          )}
+          allowDisabled={true}
+          on:click={onSingleFilePrioChange.bind(this, file.index)}
         />
       </div>
     </div>

@@ -21,29 +21,29 @@
   };
 </script>
 
-<li on:click="{(...args) => onItemClick(onStart, args)}">Start</li>
-<li on:click="{(...args) => onItemClick(onStartNow, args)}">Start now</li>
-<li on:click="{(...args) => onItemClick(onStop, args)}">Stop</li>
-<li on:click="{(...args) => onItemClick(onRemove, args)}">Remove</li>
-<li on:click="{(...args) => onItemClick(onVerify, args)}">Verify local data</li>
-<li on:click="{(...args) => onItemClick(onCopyMagnetLink, args)}">
+<li on:click={(...args) => onItemClick(onStart, args)}>Start</li>
+<li on:click={(...args) => onItemClick(onStartNow, args)}>Start now</li>
+<li on:click={(...args) => onItemClick(onStop, args)}>Stop</li>
+<li on:click={(...args) => onItemClick(onRemove, args)}>Remove</li>
+<li on:click={(...args) => onItemClick(onVerify, args)}>Verify local data</li>
+<li on:click={(...args) => onItemClick(onCopyMagnetLink, args)}>
   Copy magnet link
 </li>
-<li on:click="{(...args) => onItemClick(onAsk, args)}">
+<li on:click={(...args) => onItemClick(onAsk, args)}>
   Ask tracker for more peers
 </li>
 <hr />
-<li on:click="{(...args) => onItemClick(onLabels, args)}">Set labels</li>
-<li on:click="{(...args) => onItemClick(onLocation, args)}">Set location</li>
+<li on:click={(...args) => onItemClick(onLabels, args)}>Set labels</li>
+<li on:click={(...args) => onItemClick(onLocation, args)}>Set location</li>
 <hr />
-<li on:click="{clickOnPriorityIndicator}">
+<li on:click={clickOnPriorityIndicator}>
   Priority
   <PriorityIndicator
-    bind:this="{priorityIndicator}"
-    value="{prio}"
-    on:click="{(event, ...args) => {
+    bind:this={priorityIndicator}
+    value={prio}
+    on:click={(event, ...args) => {
       onItemClick(onPrio, [event, ...args], { shouldClose: false });
       prio = event.detail;
-    }}"
+    }}
   />
 </li>

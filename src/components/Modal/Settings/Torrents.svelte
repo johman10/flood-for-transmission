@@ -136,76 +136,73 @@
   };
 </script>
 
-<div class="wrapper" class:loading-initial="{loadingInitial}">
+<div class="wrapper" class:loading-initial={loadingInitial}>
   <Icon name="SpinnerIcon" />
-  <form on:submit|preventDefault="{handleSubmit}">
+  <form on:submit|preventDefault={handleSubmit}>
     <Header text="Downloading" />
     <InputPath
       label="Download to"
-      bind:value="{downloadDir}"
+      bind:value={downloadDir}
       hint="This will be used as the default location for Transmission when adding a new torrent."
     />
-    <Checkbox label="Start when added" bind:checked="{startAddedTorrents}" />
+    <Checkbox label="Start when added" bind:checked={startAddedTorrents} />
     <Checkbox
       label="Remove torrent file when added"
-      bind:checked="{removeTorrentFile}"
+      bind:checked={removeTorrentFile}
     />
     <Checkbox
-      label="{'Append ".part" to incomplete files\' names'}"
-      bind:checked="{renamePartialFiles}"
+      label="Append &quot;.part&quot; to incomplete files' names"
+      bind:checked={renamePartialFiles}
     />
     <Checkbox
       label="Incomplete directory:"
-      bind:checked="{incompleteDirEnabled}"
+      bind:checked={incompleteDirEnabled}
     />
     <InputPath
-      bind:value="{incompleteDir}"
+      bind:value={incompleteDir}
       hint="Will default to the download directory when not enabled"
     />
     <Checkbox
       label="Run script when complete:"
-      bind:checked="{scriptDoneEnabled}"
+      bind:checked={scriptDoneEnabled}
     />
-    <InputPath bind:value="{scriptDone}" />
+    <InputPath bind:value={scriptDone} />
 
     <Header text="Seeding" />
-    <Checkbox
-      label="Stop seeding at ratio:"
-      bind:checked="{seedRatioLimited}"
-    />
-    <Input bind:value="{seedRatioLimit}" type="number" step="0.01" />
+    <Checkbox label="Stop seeding at ratio:" bind:checked={seedRatioLimited} />
+    <Input bind:value={seedRatioLimit} type="number" step="0.01" />
     <Checkbox
       label="Stop seeding if idle for (min):"
-      bind:checked="{idleSeedingLimited}"
+      bind:checked={idleSeedingLimited}
     />
-    <Input bind:value="{idleSeedingLimit}" type="number" />
+    <Input bind:value={idleSeedingLimit} type="number" />
 
     <Header text="Queue" />
     <Checkbox
       label="Limit concurrent downloads:"
-      bind:checked="{downloadQueueEnabled}"
+      bind:checked={downloadQueueEnabled}
     />
-    <Input bind:value="{downloadQueueSize}" type="number" />
+    <Input bind:value={downloadQueueSize} type="number" />
     <Checkbox
       label="Limit concurrent seeding:"
-      bind:checked="{seedQueueEnabled}"
+      bind:checked={seedQueueEnabled}
     />
-    <Input bind:value="{seedQueueSize}" type="number" />
+    <Input bind:value={seedQueueSize} type="number" />
     <Checkbox
       label="Consider inactive after (minutes):"
-      bind:checked="{queueStalledEnabled}"
+      bind:checked={queueStalledEnabled}
     />
     <Input
-      bind:value="{queueStalledMinutes}"
+      bind:value={queueStalledMinutes}
       type="number"
       hint="Torrents that are inactive for this amount of minutes will not be considered as a concurrent download/seed."
     />
 
     <div class="buttons">
-      <Button type="button" priority="tertiary" on:click="{modals.close}">
+      <Button type="button" priority="tertiary" on:click={modals.close}>
         Cancel
       </Button>
-      <Button type="submit" priority="primary" loading="{loadingSubmit}">
+      <Button type="submit" priority="primary" loading={loadingSubmit}>
         Save settings
       </Button>
     </div>

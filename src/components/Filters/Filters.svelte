@@ -177,12 +177,12 @@
 <div class="wrapper">
   <h2>Filter by status</h2>
   <ul>
-    {#each statusFilters as filter}
+    {#each statusFilters as filter (filter.label)}
       <li
-        class:active="{$filters.status === filter.value}"
-        on:click="{setStatusFilter.bind(null, filter.value)}"
+        class:active={$filters.status === filter.value}
+        on:click={setStatusFilter.bind(null, filter.value)}
       >
-        <Icon name="{filter.iconName}" />
+        <Icon name={filter.iconName} />
         {filter.label}
         <Badge>{filter.count || 0}</Badge>
       </li>
@@ -191,10 +191,10 @@
 
   <h2>Filter by priority</h2>
   <ul>
-    {#each priorityFilters as filter}
+    {#each priorityFilters as filter (filter.label)}
       <li
-        class:active="{$filters.priority === filter.value}"
-        on:click="{setPriorityFilter.bind(null, filter.value)}"
+        class:active={$filters.priority === filter.value}
+        on:click={setPriorityFilter.bind(null, filter.value)}
       >
         {filter.label}
         <Badge>{filter.count || 0}</Badge>
@@ -204,12 +204,12 @@
 
   <h2>Filter by label</h2>
   <ul>
-    {#each labelFilters as filter, index}
+    {#each labelFilters as filter, index (filter.label)}
       <li
-        class:active="{$filters.label === filter.value}"
-        on:click="{setLabelFilter.bind(null, filter.value)}"
-        in:slide="{getTransitionConfig('in', labelFilters.length, index)}"
-        out:slide="{getTransitionConfig('out', labelFilters.length, index)}"
+        class:active={$filters.label === filter.value}
+        on:click={setLabelFilter.bind(null, filter.value)}
+        in:slide={getTransitionConfig('in', labelFilters.length, index)}
+        out:slide={getTransitionConfig('out', labelFilters.length, index)}
       >
         {filter.label}
         <Badge>{filter.count || 0}</Badge>
@@ -217,9 +217,9 @@
     {/each}
     {#if labelFilters.length > limitedLabelsCount}
       <li
-        on:click="{() => {
+        on:click={() => {
           limitLabels = !limitLabels;
-        }}"
+        }}
       >
         {#if limitLabels}Show all...{:else}Hide some...{/if}
       </li>
@@ -228,12 +228,12 @@
 
   <h2>Filter by tracker</h2>
   <ul>
-    {#each trackerFilters as filter, index}
+    {#each trackerFilters as filter, index (filter.label)}
       <li
-        class:active="{$filters.tracker === filter.value}"
-        on:click="{setTrackerFilter.bind(null, filter.value)}"
-        in:slide="{getTransitionConfig('in', trackerFilters.length, index)}"
-        out:slide="{getTransitionConfig('out', trackerFilters.length, index)}"
+        class:active={$filters.tracker === filter.value}
+        on:click={setTrackerFilter.bind(null, filter.value)}
+        in:slide={getTransitionConfig('in', trackerFilters.length, index)}
+        out:slide={getTransitionConfig('out', trackerFilters.length, index)}
       >
         {filter.label}
         <Badge>{filter.count || 0}</Badge>
@@ -241,9 +241,9 @@
     {/each}
     {#if trackerFilters.length > limitedTrackersCount}
       <li
-        on:click="{() => {
+        on:click={() => {
           limitTrackers = !limitTrackers;
-        }}"
+        }}
       >
         {#if limitTrackers}Show all...{:else}Hide some...{/if}
       </li>

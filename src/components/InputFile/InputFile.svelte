@@ -78,10 +78,10 @@
   };
 </script>
 
-<label class="label-text" for="{id}">{label}</label>
+<label class="label-text" for={id}>{label}</label>
 {#if files && files.length}
   <ul class="file-list">
-    {#each files as file}
+    {#each files as file (file.name)}
       <li class="file-item">
         <span class="file-label">
           <Icon name="File" />
@@ -90,7 +90,7 @@
         <button
           class="remove-file-button"
           type="button"
-          on:click="{() => removeFile(file)}"
+          on:click={() => removeFile(file)}
         >
           <Icon name="Close" />
         </button>
@@ -99,15 +99,15 @@
   </ul>
 {/if}
 <label
-  for="{id}"
+  for={id}
   class="zone"
-  class:invalid="{invalid}"
-  class:file="{files}"
-  class:hovering="{hovering}"
-  on:dragenter|preventDefault="{handleDragOver}"
-  on:dragover|preventDefault="{handleDragOver}"
-  on:dragleave|preventDefault="{handleDragLeave}"
-  on:drop|preventDefault="{handleDrop}"
+  class:invalid={invalid}
+  class:file={files}
+  class:hovering={hovering}
+  on:dragenter|preventDefault={handleDragOver}
+  on:dragover|preventDefault={handleDragOver}
+  on:dragleave|preventDefault={handleDragLeave}
+  on:drop|preventDefault={handleDrop}
 >
   <Icon name="Files" />
   {#if invalid}
@@ -117,11 +117,11 @@
   {/if}
   <input
     type="file"
-    id="{id}"
-    on:input|preventDefault="{handleChange}"
-    bind:this="{input}"
-    required="{required && (!files || !files.length)}"
-    multiple="{multiple}"
+    id={id}
+    on:input|preventDefault={handleChange}
+    bind:this={input}
+    required={required && (!files || !files.length)}
+    multiple={multiple}
     {...$$restProps}
   />
 </label>

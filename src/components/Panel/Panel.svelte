@@ -14,7 +14,7 @@
   };
 </script>
 
-<div class="panel" use:clickOutside="{hidePanelOnMobile}">
+<div class="panel" use:clickOutside={hidePanelOnMobile}>
   <Actions />
   <Graph />
   <Search />

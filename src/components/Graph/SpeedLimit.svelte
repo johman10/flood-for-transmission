@@ -20,9 +20,9 @@
 
 <div
   class="limit"
-  class:upload="{direction === 'upload'}"
-  class:download="{direction === 'download'}"
-  class:hidden="{hidden}"
+  class:upload={direction === 'upload'}
+  class:download={direction === 'download'}
+  class:hidden={hidden}
 >
   {#if limit}
     {limit}

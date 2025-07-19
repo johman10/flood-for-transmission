@@ -106,10 +106,10 @@ function createTorrentDetailsStore() {
       });
       set({ ...newTorrent, loaded: true });
     },
-    setTrackers: (torrent, trackerUrls) => {
+    setTrackers: (torrent, trackerList) => {
       transmission
         .setTorrents([torrent[TRANSMISSION_COLUMN.ID]], {
-          [TRANSMISSION_COLUMN.TRACKER_URLS]: trackerUrls,
+          [TRANSMISSION_COLUMN.TRACKER_LIST]: trackerList,
         })
         .catch(() => set({ ...torrent, loaded: true }));
     },

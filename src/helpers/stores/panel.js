@@ -5,7 +5,7 @@ const PANEL_SHOWN_STORAGE_KEY = 'panel-shown';
 function createPanelStore() {
   const value = window.localStorage.getItem(PANEL_SHOWN_STORAGE_KEY);
   const { subscribe, update, set } = writable(
-    value === 'true' || value === null
+    value === 'true' || (value === null && window.outerWidth > 550)
   );
 
   return {

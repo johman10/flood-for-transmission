@@ -23,6 +23,10 @@
     panel.toggle();
   };
 
+  const handleSelectAll = () => {
+    selectedTorrents.set($torrents.map((t) => t.id));
+  };
+
   const handleStart = () => {
     torrents.start($selectedTorrents);
   };
@@ -45,6 +49,9 @@
     <div class="group">
       <button class="button" on:click={togglePanel}>
         <Icon name="MenuIcon" viewBox="0 0 60 60" />
+      </button>
+      <button class="button" on:click={handleSelectAll}>
+        <Icon name="CheckAllIcon" viewBox="0 0 16 16" />
       </button>
     </div>
   </div>

@@ -2,6 +2,7 @@
   import Active from './Active.svelte';
   import Add from './Add.svelte';
   import All from './All.svelte';
+  import CheckAllIcon from './CheckAllIcon.svelte';
   import CheckboxCheckmark from './CheckboxCheckmark.svelte';
   import Checkmark from './Checkmark.svelte';
   import Chevron from './Chevron.svelte';
@@ -36,6 +37,7 @@
     Active,
     Add,
     All,
+    CheckAllIcon,
     CheckboxCheckmark,
     Checkmark,
     Chevron,

@@ -4,6 +4,8 @@
   import { Add, Remove } from '~components/Modal';
   import { torrents, modals, selectedTorrents, panel } from '~helpers/stores';
 
+  const sortedTorrents = torrents.sorted;
+
   onMount(() => {
     const url = new URL(window.location.href);
     const magnet = url.searchParams.get('addtorrent');
@@ -24,7 +26,7 @@
   };
 
   const handleSelectAll = () => {
-    selectedTorrents.set($torrents.map((t) => t.id));
+    selectedTorrents.set($sortedTorrents.map((t) => t.id));
   };
 
   const handleStart = () => {

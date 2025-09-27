@@ -68,7 +68,7 @@
       {label}
     </label>
   {/if}
-  {#each values as value, index (value)}
+  {#each values as value, index}
     <Input
       id="input-multiple-{index}"
       type={type}

@@ -79,6 +79,7 @@
 
   .header.width-auto {
     width: auto;
+    position: relative;
   }
 
   .header.sorting {

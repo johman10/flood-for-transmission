@@ -196,5 +196,16 @@
 
   .table.full-width {
     width: 100vw;
+    height: 100%;
+    position: relative;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+
+    & tbody {
+      height: 100%;
+      overflow: auto;
+    }
   }
 </style>

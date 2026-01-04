@@ -365,6 +365,10 @@
       & td {
         padding-block: 2px;
       }
+
+      &:last-child {
+        margin-bottom: 100px;
+      }
     }
 
     .grid-span-2 {

@@ -203,112 +203,139 @@ export const SESSION_STATS_TOTAL_DOWNLOAD = 'downloadedBytes';
 
 export const UI_COLUMN_ADDED = {
   label: 'Added',
+  class: 'added',
   id: 1,
 };
 export const UI_COLUMN_BASE_PATH = {
   label: 'Base Path',
+  class: 'base-path',
   id: 2,
 };
 export const UI_COLUMN_COMMENT = {
   label: 'Comment',
+  class: 'comment',
   id: 3,
 };
 export const UI_COLUMN_CREATION_DATE = {
   label: 'Creation Date',
+  class: 'creation-date',
   id: 4,
 };
 export const UI_COLUMN_DONE = {
   label: 'Done',
+  class: 'done',
   id: 5,
 };
 export const UI_COLUMN_DOWNLOAD_SPEED = {
   label: 'Download Speed',
+  class: 'dl-speed',
   id: 6,
 };
 export const UI_COLUMN_DOWNLOADED = {
   label: 'Downloaded',
+  class: 'downloaded',
   id: 7,
 };
 export const UI_COLUMN_ERROR = {
   label: 'Error',
+  class: 'error',
   id: 8,
 };
 export const UI_COLUMN_ETA = {
   label: 'ETA',
+  class: 'eta',
   id: 9,
 };
 export const UI_COLUMN_FILE_SIZE = {
   label: 'File Size',
+  class: 'file-size',
   id: 10,
 };
 export const UI_COLUMN_HASH = {
   label: 'Hash',
+  class: 'hash',
   id: 11,
 };
 export const UI_COLUMN_LABELS = {
   label: 'Labels',
+  class: 'labels',
   id: 12,
 };
 export const UI_COLUMN_NAME = {
   label: 'Name',
+  class: 'name',
   id: 13,
 };
 export const UI_COLUMN_PEERS = {
   label: 'Downloading from',
+  class: 'peers',
   oldLabels: ['Peers'],
   id: 14,
 };
 export const UI_COLUMN_PROGRESS_BAR = {
   label: 'Progress',
+  class: 'progress',
   id: 15,
 };
 export const UI_COLUMN_PRIVATE = {
   label: 'Private',
+  class: 'private',
   id: 16,
 };
 export const UI_COLUMN_QUEUE_POSITION = {
   label: 'Queue Position',
+  class: 'queue-pos',
   id: 17,
 };
 export const UI_COLUMN_RATIO = {
   label: 'Ratio',
+  class: 'ratio',
   id: 18,
 };
 export const UI_COLUMN_SEEDS = {
   label: 'Seeding to',
+  class: 'seeds',
   oldLabels: ['Seeds'],
   id: 19,
 };
 export const UI_COLUMN_STATUS = {
   label: 'Status',
+  class: 'status',
   id: 20,
 };
 export const UI_COLUMN_TRACKERS = {
   label: 'Trackers',
+  class: 'trackers',
   id: 21,
 };
 export const UI_COLUMN_UPLOAD_SPEED = {
   label: 'Upload Speed',
+  class: 'upload-speed',
   id: 22,
 };
 export const UI_COLUMN_UPLOADED = {
   label: 'Uploaded',
+  class: 'uploaded',
   id: 23,
 };
 export const UI_COLUMN_TOTAL_LEECHERS = {
   label: 'Total Leechers',
+  class: 'leechers',
   id: 24,
 };
 export const UI_COLUMN_TOTAL_SEEDERS = {
   label: 'Total Seeders',
+  class: 'seeders',
   id: 25,
 };
 export const UI_COLUMN_ACTIVITY = {
   label: 'Activity',
+  class: 'activity',
   id: 26,
 };
 export const UI_COLUMN_PERCENT_COMPLETE = {
   label: 'Percent Complete',
+  class: 'complete-percent',
   id: 27,
 };
 

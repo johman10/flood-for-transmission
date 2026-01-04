@@ -1,10 +1,28 @@
 <script>
   import { resizeableTable } from '~helpers/actions';
-  import { uiColumns, sorting, tableHeaderConfig } from '~helpers/stores';
+  import {
+    uiColumns,
+    sorting,
+    tableHeaderConfig,
+    mobileView,
+  } from '~helpers/stores';
+  import { MediaQuery } from 'svelte/reactivity';
 
   export let id;
 
   const columnSizes = uiColumns.sizes;
+
+  const isSmallScreen = new MediaQuery('max-width: 600px');
+
+  let colSpanClass = 'grid-span-1';
+  $: {
+    let colSpan = 1;
+    const col = $uiColumns.find((column) => column.id === id);
+    if (col.gridColSpan) {
+      colSpan = col.gridColSpan;
+    }
+    colSpanClass = `grid-span-${colSpan}`;
+  }
 
   const handleResize = (newWidth) => {
     const columnIndex = $uiColumns.findIndex((column) => column.id === id);
@@ -21,12 +39,13 @@
 
 {#if id}
   <th
-    class="header"
+    class={`header ${uiColumns.getColumnClass(id)} ${colSpanClass}`}
     class:sorting={id === $sorting.id}
     class:asc={$sorting.id === id && $sorting.direction === 'asc'}
     class:desc={$sorting.id === id && $sorting.direction === 'desc'}
     class:wrap={$tableHeaderConfig}
-    style="width: {$columnSizes[id]}px"
+    class:width-auto={$mobileView.grid && isSmallScreen.current}
+    style="--header-width: {$columnSizes[id]}px"
     on:click={handleClick}
   >
     {uiColumns.getColumnLabel(id)}
@@ -55,6 +74,11 @@
     text-overflow: ellipsis;
     padding: 0 8px;
     transition: padding 200ms;
+    width: var(--header-width);
+  }
+
+  .header.width-auto {
+    width: auto;
   }
 
   .header.sorting {
@@ -98,5 +122,19 @@
     cursor: col-resize;
     user-select: none;
     height: 100%;
+  }
+
+  @media (max-width: 600px) {
+    .grid-span-2 {
+      grid-column-end: span 2;
+    }
+
+    .grid-span-3 {
+      grid-column-end: span 3;
+    }
+
+    .name.grid-span-3 {
+      grid-row: 1;
+    }
   }
 </style>

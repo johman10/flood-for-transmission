@@ -30,7 +30,7 @@
   export let torrent = {};
   export let selected = false;
 
-  const isSmallScreen = new MediaQuery('max-width: 600px');
+  const isSmallScreen = new MediaQuery('max-width: 550px');
 
   const activeColumns = uiColumns.active;
 
@@ -352,7 +352,7 @@
     -webkit-touch-callout: none;
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 550px) {
     .mobile-grid-view {
       display: grid;
       width: 100vw;

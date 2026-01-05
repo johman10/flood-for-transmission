@@ -12,7 +12,7 @@
 
   const columnSizes = uiColumns.sizes;
 
-  const isSmallScreen = new MediaQuery('max-width: 600px');
+  const isSmallScreen = new MediaQuery('max-width: 550px');
 
   let colSpanClass = 'grid-span-1';
   $: {
@@ -125,7 +125,7 @@
     height: 100%;
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 550px) {
     .grid-span-2 {
       grid-column-end: span 2;
     }

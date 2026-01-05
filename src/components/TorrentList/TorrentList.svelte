@@ -22,7 +22,7 @@
   const activeColumns = uiColumns.active;
   const { totalSize } = uiColumns;
 
-  const isSmallScreen = new MediaQuery('max-width: 600px');
+  const isSmallScreen = new MediaQuery('max-width: 550px');
 
   let prio = 0;
   $: {
@@ -177,7 +177,7 @@
     background-color: var(--color-torrent-list-background);
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 550px) {
     .mobile-grid-view {
       padding-top: 2px;
       display: grid;

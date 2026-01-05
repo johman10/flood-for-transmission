@@ -38,27 +38,35 @@
         <th>DL</th>
         <th>UL</th>
         <th>%</th>
-        <th>CLIENT</th>
+        <th>
+          <span class="client-text">CLIENT</span>
+        </th>
         <th>ENC</th>
       </tr>
     </thead>
     <tbody>
       {#each peers as peer (peer.address)}
         <tr>
-          <td>
-            {#if $ipAddress[peer.address]}
-              <img
-                class="flag"
-                src="images/flags/{$ipAddress[
-                  peer.address
-                ].country_code.toLowerCase()}.png"
-                alt={$ipAddress[peer.address].country_code}
-                title={$ipAddress[peer.address].country_name}
-              />
-            {:else}
-              <img class="flag" src="images/flags/_unknown.png" alt="Unknown" />
-            {/if}
-            {peer.address}
+          <td class="peer-container">
+            <div class="flex-container peer">
+              {#if $ipAddress[peer.address]}
+                <img
+                  class="flag"
+                  src="images/flags/{$ipAddress[
+                    peer.address
+                  ].country_code.toLowerCase()}.png"
+                  alt={$ipAddress[peer.address].country_code}
+                  title={$ipAddress[peer.address].country_name}
+                />
+              {:else}
+                <img
+                  class="flag"
+                  src="images/flags/_unknown.png"
+                  alt="Unknown"
+                />
+              {/if}
+              <span class="ip-addr">{peer.address}</span>
+            </div>
           </td>
           <td>
             {getDownloadSpeed(peer).value}<em class="unit"
@@ -71,7 +79,11 @@
             >
           </td>
           <td>{Math.round(peer.progress * 100)}%</td>
-          <td>{peer.clientName}</td>
+          <td>
+            <div class="client-container">
+              <span class="client-text">{peer.clientName}</span>
+            </div>
+          </td>
           <td>
             {#if peer.isEncrypted}
               <Icon name="Checkmark" />
@@ -123,6 +135,50 @@
   td > :global(.icon) {
     height: 12px;
     fill: var(--color-positive);
+  }
+
+  .peer {
+    max-width: 200px;
+  }
+
+  /* at this point the modal starts shrinking */
+  @media (max-width: 875px) {
+    .peer {
+      max-width: 23vw;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .peer,
+    .peer-container {
+      max-width: 35vw;
+    }
+  }
+
+  @media (max-width: 550px) {
+    .container {
+      padding: 15px 15px;
+    }
+
+    /* 
+     * minimize client column width so the
+     * ip address column has more space on mobile
+     */
+    .client-container {
+      display: flex;
+
+      & .client-text {
+        width: min-content;
+      }
+    }
+  }
+  .flex-container {
+    display: flex;
+    align-items: center;
+  }
+
+  .ip-addr {
+    overflow-wrap: anywhere;
   }
 
   .flag {

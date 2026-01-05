@@ -202,6 +202,7 @@
     left: 0;
     display: flex;
     flex-direction: column;
+    padding-bottom: env(safe-area-inset-bottom, 20px);
 
     & tbody {
       height: 100%;

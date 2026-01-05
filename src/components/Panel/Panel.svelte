@@ -27,7 +27,7 @@
     grid-area: panel;
     background: var(--color-background);
     overflow-y: auto;
-    height: 100vh;
+    height: 100dvh;
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
   }

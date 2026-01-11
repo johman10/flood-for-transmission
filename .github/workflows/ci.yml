@@ -2,10 +2,9 @@ name: CI
 
 # Run this workflow every time a new commit pushed to your repository
 on:
-  push:
-    branches-ignore: [master]
   pull_request:
-    branches: [master]
+    types: [opened, synchronize]
+  workflow_dispatch:
 
 jobs:
   # Set the job key. The key is displayed as the job name
@@ -21,8 +20,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
-          # Make sure the actual branch is checked out when running on pull requests
-          ref: ${{ github.head_ref }}
+          # Use head SHA for forked PRs, otherwise use head_ref for internal PRs
+          ref: ${{ github.event.pull_request.head.sha || github.head_ref }}
 
       - name: Cache node modules
         uses: actions/cache@v4

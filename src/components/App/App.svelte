@@ -36,7 +36,7 @@
   .content {
     grid-area: content;
     display: grid;
-    height: 100vh;
+    height: 100dvh;
     grid-template:
       'header' auto
       'torrentlist' 1fr / 1fr;

@@ -2,8 +2,9 @@ name: 'Release'
 
 on:
   push:
-    branches:
-      - 'master'
+    tags:
+      - 'v*'
+  workflow_dispatch:
 
 jobs:
   release:
@@ -11,10 +12,10 @@ jobs:
     runs-on: 'ubuntu-latest'
 
     steps:
-      - name: Set time var
+      - name: Set tag var
         run: |
-          echo "time=$(date +'%Y-%m-%dT%H:%M:%S')" >> $GITHUB_ENV
-          echo "ref=$(date +'%Y-%m-%dT%H-%M-%S')" >> $GITHUB_ENV
+          TAG_NAME=${GITHUB_REF#refs/tags/}
+          echo "tag_name=$TAG_NAME" >> $GITHUB_ENV
       # Checks out a copy of your repository on the ubuntu-latest machine
       - name: Checkout code
         uses: actions/checkout@v2
@@ -49,24 +50,13 @@ jobs:
       - name: Tar release
         run: tar -czvf flood-for-transmission.tar.gz flood-for-transmission
 
-      - name: Release time based version
+      - name: Release
         uses: 'marvinpinto/action-automatic-releases@latest'
         with:
           repo_token: '${{ secrets.GITHUB_TOKEN }}'
-          automatic_release_tag: '${{ env.ref }}'
+          automatic_release_tag: '${{ env.tag_name }}'
           prerelease: false
-          title: '${{ env.time }}'
-          files: |
-            flood-for-transmission.zip
-            flood-for-transmission.tar.gz
-
-      - name: Release latest
-        uses: 'marvinpinto/action-automatic-releases@latest'
-        with:
-          repo_token: '${{ secrets.GITHUB_TOKEN }}'
-          automatic_release_tag: 'latest'
-          prerelease: false
-          title: 'Latest'
+          title: '${{ env.tag_name }}'
           files: |
             flood-for-transmission.zip
             flood-for-transmission.tar.gz

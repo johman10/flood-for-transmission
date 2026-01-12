@@ -45,7 +45,7 @@
     <tbody>
       {#each peers as peer (peer.address)}
         <tr>
-          <td>
+          <td class="address-cell">
             {#if $ipAddress[peer.address]}
               <img
                 class="flag"
@@ -58,7 +58,7 @@
             {:else}
               <img class="flag" src="images/flags/_unknown.png" alt="Unknown" />
             {/if}
-            {peer.address}
+            <span class="address">{peer.address}</span>
           </td>
           <td>
             {getDownloadSpeed(peer).value}<em class="unit"
@@ -86,7 +86,7 @@
 <style>
   .container {
     padding: 20px 25px;
-    max-height: 100%;
+    height: 100%;
     overflow-y: auto;
   }
 
@@ -101,7 +101,7 @@
     font-size: 9px;
     text-align: left;
     font-weight: inherit;
-    padding: 0;
+    padding: 0 5px;
   }
 
   th.main {
@@ -116,8 +116,9 @@
   }
 
   td {
-    padding: 0;
-    line-height: 14px;
+    padding: 0 5px;
+    line-height: 16px;
+    white-space: nowrap;
   }
 
   td > :global(.icon) {
@@ -125,11 +126,20 @@
     fill: var(--color-positive);
   }
 
+  .address-cell {
+    position: relative;
+  }
+
+  .address {
+    margin-left: 23px;
+  }
+
   .flag {
     width: 16px;
     vertical-align: middle;
     display: inline-block;
-    margin-right: 5px;
+    position: absolute;
+    left: 5px;
   }
 
   .unit {

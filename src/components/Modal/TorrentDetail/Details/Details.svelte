@@ -347,6 +347,7 @@
     flex-wrap: wrap;
     column-gap: 10px;
     row-gap: 5px;
+    word-break: break-all;
   }
 
   .column.column--value > :global(.badge) {

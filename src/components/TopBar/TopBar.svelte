@@ -4,6 +4,8 @@
   import { Add, Remove } from '~components/Modal';
   import { torrents, modals, selectedTorrents, panel } from '~helpers/stores';
 
+  const sortedTorrents = torrents.sorted;
+
   onMount(() => {
     const url = new URL(window.location.href);
     const magnet = url.searchParams.get('addtorrent');
@@ -21,6 +23,10 @@
 
   const togglePanel = () => {
     panel.toggle();
+  };
+
+  const handleSelectAll = () => {
+    selectedTorrents.set($sortedTorrents.map((t) => t.id));
   };
 
   const handleStart = () => {
@@ -45,6 +51,9 @@
     <div class="group">
       <button class="button" on:click={togglePanel}>
         <Icon name="MenuIcon" viewBox="0 0 60 60" />
+      </button>
+      <button class="button" on:click={handleSelectAll}>
+        <Icon name="CheckAllIcon" viewBox="0 0 16 16" />
       </button>
     </div>
   </div>

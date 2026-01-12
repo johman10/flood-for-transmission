@@ -54,7 +54,6 @@ jobs:
         uses: 'marvinpinto/action-automatic-releases@latest'
         with:
           repo_token: '${{ secrets.GITHUB_TOKEN }}'
-          automatic_release_tag: '${{ env.tag_name }}'
           prerelease: false
           title: '${{ env.tag_name }}'
           files: |

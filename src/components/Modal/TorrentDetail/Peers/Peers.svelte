@@ -46,14 +46,14 @@
       {#each peers as peer (peer.address)}
         <tr>
           <td class="address-cell">
-            {#if $ipAddress[peer.address]}
+            {#if $ipAddress[peer.address]?.country_code}
               <img
                 class="flag"
                 src="images/flags/{$ipAddress[
                   peer.address
                 ].country_code.toLowerCase()}.png"
-                alt={$ipAddress[peer.address].country_code}
-                title={$ipAddress[peer.address].country_name}
+                alt="{$ipAddress[peer.address].country_code}"
+                title="{$ipAddress[peer.address].country_name}"
               />
             {:else}
               <img class="flag" src="images/flags/_unknown.png" alt="Unknown" />

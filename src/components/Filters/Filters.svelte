@@ -1,5 +1,6 @@
 <script>
   import { slide } from 'svelte/transition';
+  import { afterUpdate } from 'svelte';
   import { torrents, filters, selectedTorrents } from '~helpers/stores';
   import {
     labelFilter,
@@ -16,6 +17,8 @@
   const limitedTrackersCount = 4;
   let limitTrackers = true;
   let limitLabels = true;
+  let previousLabelFiltersLength = 0;
+  let previousTrackerFiltersLength = 0;
 
   $: statusFilters = [
     {
@@ -167,10 +170,33 @@
     $filters.priority = filter;
   };
 
-  const getTransitionConfig = (direction, listLength, index) => {
-    const duration = 250 / listLength;
-    const delayMultiplier = direction === 'in' ? index : listLength - index;
-    return { delay: delayMultiplier * duration, duration };
+  afterUpdate(() => {
+    previousLabelFiltersLength = labelFilters.length;
+    previousTrackerFiltersLength = trackerFilters.length;
+  });
+
+  const getTransitionConfig = (
+    direction,
+    previousListLength,
+    listLength,
+    index
+  ) => {
+    const totalDuration = 250;
+    let duration;
+    let delay;
+
+    if (direction === 'in') {
+      const items_to_transition = listLength - previousListLength;
+      duration = totalDuration / items_to_transition;
+      delay = index * duration - previousListLength * duration;
+    } else {
+      const items_to_transition = previousListLength - listLength;
+      duration = totalDuration / items_to_transition;
+      delay =
+        (items_to_transition - 1 - index) * duration + listLength * duration;
+    }
+
+    return { delay, duration };
   };
 </script>
 
@@ -179,10 +205,10 @@
   <ul>
     {#each statusFilters as filter (filter.label)}
       <li
-        class:active={$filters.status === filter.value}
-        on:click={setStatusFilter.bind(null, filter.value)}
+        class:active="{$filters.status === filter.value}"
+        on:click="{setStatusFilter.bind(null, filter.value)}"
       >
-        <Icon name={filter.iconName} />
+        <Icon name="{filter.iconName}" />
         {filter.label}
         <Badge>{filter.count || 0}</Badge>
       </li>
@@ -193,8 +219,8 @@
   <ul>
     {#each priorityFilters as filter (filter.label)}
       <li
-        class:active={$filters.priority === filter.value}
-        on:click={setPriorityFilter.bind(null, filter.value)}
+        class:active="{$filters.priority === filter.value}"
+        on:click="{setPriorityFilter.bind(null, filter.value)}"
       >
         {filter.label}
         <Badge>{filter.count || 0}</Badge>
@@ -206,10 +232,20 @@
   <ul>
     {#each labelFilters as filter, index (filter.label)}
       <li
-        class:active={$filters.label === filter.value}
-        on:click={setLabelFilter.bind(null, filter.value)}
-        in:slide={getTransitionConfig('in', labelFilters.length, index)}
-        out:slide={getTransitionConfig('out', labelFilters.length, index)}
+        class:active="{$filters.label === filter.value}"
+        on:click="{setLabelFilter.bind(null, filter.value)}"
+        in:slide="{getTransitionConfig(
+          'in',
+          previousLabelFiltersLength,
+          labelFilters.length,
+          index
+        )}"
+        out:slide="{getTransitionConfig(
+          'out',
+          previousLabelFiltersLength,
+          labelFilters.length,
+          index
+        )}"
       >
         {filter.label}
         <Badge>{filter.count || 0}</Badge>
@@ -217,9 +253,9 @@
     {/each}
     {#if labelFilters.length > limitedLabelsCount}
       <li
-        on:click={() => {
+        on:click="{() => {
           limitLabels = !limitLabels;
-        }}
+        }}"
       >
         {#if limitLabels}Show all...{:else}Hide some...{/if}
       </li>
@@ -230,10 +266,20 @@
   <ul>
     {#each trackerFilters as filter, index (filter.label)}
       <li
-        class:active={$filters.tracker === filter.value}
-        on:click={setTrackerFilter.bind(null, filter.value)}
-        in:slide={getTransitionConfig('in', trackerFilters.length, index)}
-        out:slide={getTransitionConfig('out', trackerFilters.length, index)}
+        class:active="{$filters.tracker === filter.value}"
+        on:click="{setTrackerFilter.bind(null, filter.value)}"
+        in:slide="{getTransitionConfig(
+          'in',
+          previousTrackerFiltersLength,
+          trackerFilters.length,
+          index
+        )}"
+        out:slide="{getTransitionConfig(
+          'out',
+          previousTrackerFiltersLength,
+          trackerFilters.length,
+          index
+        )}"
       >
         {filter.label}
         <Badge>{filter.count || 0}</Badge>
@@ -241,9 +287,9 @@
     {/each}
     {#if trackerFilters.length > limitedTrackersCount}
       <li
-        on:click={() => {
+        on:click="{() => {
           limitTrackers = !limitTrackers;
-        }}
+        }}"
       >
         {#if limitTrackers}Show all...{:else}Hide some...{/if}
       </li>

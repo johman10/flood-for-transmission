@@ -36,7 +36,7 @@ Curious what it looks like? Do check out the [screenshots folder](screenshots#re
 
 ### Installation
 
-1. Download the latest release with: `curl -OL https://github.com/johman10/flood-for-transmission/releases/download/latest/flood-for-transmission.zip`
+1. Download the latest release with: `curl -OL https://github.com/johman10/flood-for-transmission/releases/latest/download/flood-for-transmission.zip`
 1. Unpack with: `unzip flood-for-transmission.zip`. This should end up with a folder called `flood-for-transmission` in the current working directory.
 1. Remove the now redundant zip file: `rm flood-for-transmission.zip`
 1. Now tell Transmission to use Flood for Transmission, on Linux and Windows this can by done by using an environment variable, on Mac you will have to copy the extracted folder to the Tranmission app.
@@ -86,7 +86,7 @@ _Note:_ If you run Flood for Transmission behind SSL and in Chrome you can also 
 To update follow the following steps (feel free to write a cron job script for this):
 
 1. Remove the last version: `rm -r flood-for-transmission`
-1. Download the latest release with: `curl -OL https://github.com/johman10/flood-for-transmission/releases/download/latest/flood-for-transmission.zip`
+1. Download the latest release with: `curl -OL https://github.com/johman10/flood-for-transmission/releases/latest/download/flood-for-transmission.zip`
 1. Unpack with: `unzip flood-for-transmission.zip`. This should end up with a folder called `flood-for-transmission` in the current working directory.
 1. Remove the now redundant zip file: `rm flood-for-transmission.zip`
 1. Restart Transmission.

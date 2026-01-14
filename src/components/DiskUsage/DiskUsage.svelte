@@ -8,11 +8,13 @@
 
   let data = $derived(
     Promise.all(
-      $paths.map((path) => {
-        return transmission.getFreeSpace(path).then((result) => {
-          return result.arguments;
-        });
-      })
+      $paths
+        .filter((path) => !!path)
+        .map((path) => {
+          return transmission.getFreeSpace(path).then((result) => {
+            return result.arguments;
+          });
+        })
     ).then((results) => {
       return results.reduce((acc, curr) => {
         acc[curr.path] = getProgress(curr);

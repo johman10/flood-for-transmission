@@ -5,6 +5,7 @@
     torrents,
     modals,
     contextMenu,
+    mobileView,
   } from '~helpers/stores';
   import ColumnHeader from '~components/TorrentList/ColumnHeader.svelte';
   import Torrent from '~components/TorrentList/Torrent.svelte';
@@ -15,10 +16,13 @@
     TRANSMISSION_COLUMN_ID,
   } from '~helpers/constants/columns';
   import TorrentDropzone from './TorrentDropzone.svelte';
+  import { MediaQuery } from 'svelte/reactivity';
 
   const sortedTorrents = torrents.sorted;
   const activeColumns = uiColumns.active;
   const { totalSize } = uiColumns;
+
+  const isSmallScreen = new MediaQuery('max-width: 550px');
 
   let prio = 0;
   $: {
@@ -137,8 +141,15 @@
 />
 
 <div class="wrapper">
-  <table class="table" style="width: {$totalSize}px">
-    <thead class="table-header">
+  <table
+    class="table"
+    class:full-width={$mobileView.grid && isSmallScreen.current}
+    style="--table-width: {$totalSize}px"
+  >
+    <thead
+      class="table-header"
+      class:mobile-grid-view={$mobileView.grid && isSmallScreen.current}
+    >
       {#each $activeColumns as column (column.id)}
         <ColumnHeader id={column.id} />
       {/each}
@@ -166,9 +177,36 @@
     background-color: var(--color-torrent-list-background);
   }
 
+  @media (max-width: 550px) {
+    .mobile-grid-view {
+      padding-top: 2px;
+      display: grid;
+      width: 100vw;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 2px;
+    }
+  }
+
   .table {
     border-spacing: 0;
     table-layout: fixed;
     user-select: none;
+    width: var(--table-width);
+  }
+
+  .table.full-width {
+    width: 100vw;
+    height: 100%;
+    position: relative;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: env(safe-area-inset-bottom, 20px);
+
+    & tbody {
+      height: 100%;
+      overflow: auto;
+    }
   }
 </style>

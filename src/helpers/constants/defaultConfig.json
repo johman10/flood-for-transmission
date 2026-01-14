@@ -5,18 +5,21 @@
     "WRAP_HEADER": false,
     "COMMON_PATH": [],
     "COLUMNS": [
-        { "label": "Name", "width": 600, "enabled": true },
-        { "label": "Progress", "width": 300, "enabled": true },
-        { "label": "ETA", "width": 100, "enabled": true },
-        { "label": "Download Speed", "width": 100, "enabled": true },
-        { "label": "Upload Speed", "width": 100, "enabled": true },
-        { "label": "File Size", "width": 100, "enabled": true },
-        { "label": "Downloaded", "width": 100, "enabled": true },
-        { "label": "Uploaded", "width": 100, "enabled": true },
-        { "label": "Downloading from", "width": 100, "enabled": true },
-        { "label": "Seeding to", "width": 100, "enabled": true }
+        { "label": "Name", "gridColSpan": 3, "width": 600, "enabled": true },
+        { "label": "Progress", "gridColSpan": 1, "width": 300, "enabled": true },
+        { "label": "ETA", "gridColSpan": 1, "width": 100, "enabled": true },
+        { "label": "Download Speed", "gridColSpan": 1, "width": 100, "enabled": true },
+        { "label": "Upload Speed", "gridColSpan": 1, "width": 100, "enabled": true },
+        { "label": "File Size", "gridColSpan": 1, "width": 100, "enabled": true },
+        { "label": "Downloaded", "gridColSpan": 1, "width": 100, "enabled": true },
+        { "label": "Uploaded", "gridColSpan": 1, "width": 100, "enabled": true },
+        { "label": "Downloading from", "gridColSpan": 1, "width": 100, "enabled": true },
+        { "label": "Seeding to", "gridColSpan": 1, "width": 100, "enabled": true }
     ],
     "SORT_COLUMN": "Progress",
     "SORT_DIRECTION": "desc",
-    "SHOW_DISK_USAGE": true
+    "SHOW_DISK_USAGE": true,
+    "MOBILE_VIEW": {
+        "grid": false
+    }
 }

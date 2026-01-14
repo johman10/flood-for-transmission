@@ -92,6 +92,9 @@ function uiColumnStore() {
     getColumnLabel: (id) => {
       return UI_COLUMN_VALUES.find((column) => column.id === id)?.label;
     },
+    getColumnClass: (id) => {
+      return UI_COLUMN_VALUES.find((column) => column.id === id)?.class;
+    },
   };
 }
 export const uiColumns = uiColumnStore();

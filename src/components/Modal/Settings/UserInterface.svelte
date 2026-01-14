@@ -14,6 +14,7 @@
     timeConfig,
     tableHeaderConfig,
     diskUsage,
+    mobileView,
   } from '~helpers/stores';
   import { orderable } from '~helpers/actions';
   import { PATH_VALIDATION_REGEX } from '~helpers/constants/paths';
@@ -26,6 +27,7 @@
   const configuredDarkMode = darkMode.configuredValue;
   let newDarkMode = $configuredDarkMode;
   let newDiskUsage = $diskUsage;
+  let newMobileView = $mobileView;
 
   const darkModeOptions = [
     { label: 'Auto', value: 'auto' },
@@ -42,6 +44,7 @@
       tableHeaderConfig.set(newTableHeaderConfig);
       darkMode.set(newDarkMode);
       diskUsage.set(newDiskUsage);
+      mobileView.set(newMobileView);
       alerts.add('Succesfully saved user interface settings');
     } catch (e) {
       console.error(e);
@@ -55,6 +58,19 @@
   const handleColumnDrop = (sorting) => {
     newColumns.sort((a, b) => sorting.indexOf(a.id) - sorting.indexOf(b.id));
   };
+
+  function handleColSpanInput(event) {
+    let colspan = event.target.valueAsNumber;
+    if (Number.isNaN(colspan) || colspan > 3) {
+      event.target.value = '3';
+      colspan = 3;
+    }
+    const columnId = Number(event.target.dataset.columnId);
+    const column = newColumns.find((x) => x.id === columnId);
+    if (column) {
+      column.gridColSpan = colspan;
+    }
+  }
 </script>
 
 <form on:submit|preventDefault={handleSubmit}>
@@ -116,7 +132,7 @@
   <div class="list">
     {#each Object.values(newColumns) as column (column.id)}
       <div
-        class="column"
+        class="column draggable"
         draggable="true"
         use:orderable={handleColumnDrop}
         id={column.id}
@@ -125,6 +141,42 @@
         <Checkbox bind:checked={column.enabled} label="Enabled" />
       </div>
     {/each}
+  </div>
+
+  <Header text="Mobile Grid View" />
+  <div class="list">
+    <Checkbox
+      label="Use Mobile Grid View"
+      hint="Replaces the conventional table with a stacked 3-column wide grid view on mobile devices."
+      bind:checked={newMobileView.grid}
+    />
+  </div>
+  <div class="list">
+    {#if newMobileView.grid}
+      <p class="col-width-explainer">
+        Column span determines how wide each column is, up to 3 columns wide
+        (full width)
+      </p>
+      <div class="column grid-header">
+        <span>Column Name</span>
+        <span>Column Span</span>
+      </div>
+      {#each newColumns as column (column.id)}
+        <div class="column" class:hidden={!column.enabled}>
+          <span>{column.label}</span>
+          <input
+            class="col-span-input"
+            type="number"
+            data-column-id={column.id}
+            value={column.gridColSpan}
+            defaultValue="1"
+            on:input={handleColSpanInput}
+            min="1"
+            max="3"
+          />
+        </div>
+      {/each}
+    {/if}
   </div>
 
   <div class="buttons">
@@ -163,16 +215,38 @@
     overflow: hidden;
   }
 
+  .draggable {
+    cursor: move;
+  }
+
   .column {
     display: flex;
     justify-content: space-between;
     align-items: center;
     background: var(--color-modal-user-interface-column-background);
     border: 1px solid var(--color-modal-user-interface-column-border);
-    cursor: move;
     height: 30px;
     padding: 0 5px;
     font-size: 13px;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .col-width-explainer {
+    font-size: 13px;
+    margin-bottom: 1rem;
+  }
+
+  .grid-header {
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .col-span-input {
+    width: 6ch;
+    text-align: center;
   }
 
   .hint {

@@ -60,9 +60,9 @@ _Note:_ If you run Flood for Transmission behind SSL and in Chrome you can also 
 - `"DARK_MODE"`
   - Type: String e.g. `"auto"` or `"enabled"` or `"disabled"`
 - `"SWITCH_COLORS"`
-  - Type: Boolean e.g `true` or `false`
+  - Type: Boolean e.g. `true` or `false`
 - `"NOTATION_24H"`
-  - Type: Boolean e.g `true` or `false`
+  - Type: Boolean e.g. `true` or `false`
 - `"WRAP_HEADER"`
   - Type: Boolean e.g. `true` or `false`
 - `"COMMON_PATH"`
@@ -78,8 +78,11 @@ _Note:_ If you run Flood for Transmission behind SSL and in Chrome you can also 
 - `"SORT_DIRECTION"`
   - Type: String `"asc"` or `"desc"`
 - `"SHOW_DISK_USAGE"`
-  - Type: Boolean `true` or `false`
+  - Type: Boolean e.g. `true` or `false`
   - Will only show for Transmission 4 and higher
+- `"DELETE_LOCAL_DATA_BY_DEFAULT"`
+  - Type: Boolean e.g. `true` or `false`
+  - Whether the "Delete local data" checkbox is checked by default when removing torrents
 
 ### Updating
 

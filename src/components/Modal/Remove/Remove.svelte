@@ -2,9 +2,10 @@
   import Checkbox from '~components/Checkbox';
   import Button from '~components/Button';
   import { modals, torrents, alerts, selectedTorrents } from '~helpers/stores';
+  import config from '~helpers/configHelper';
 
   let loading = false;
-  let deleteData = false;
+  let deleteData = config.DELETE_LOCAL_DATA_BY_DEFAULT;
 
   const term = $selectedTorrents.length > 1 ? 'torrent' : 'torrents';
 

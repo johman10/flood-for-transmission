@@ -18,5 +18,6 @@
     ],
     "SORT_COLUMN": "Progress",
     "SORT_DIRECTION": "desc",
-    "SHOW_DISK_USAGE": true
+    "SHOW_DISK_USAGE": true,
+    "DELETE_LOCAL_DATA_BY_DEFAULT": false
 }

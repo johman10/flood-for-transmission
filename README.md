@@ -1,14 +1,14 @@
-# Flood for Transmission
+# Drought
 
-![Flood logo](flood.png)
+![Drought logo](public/images/drought.svg)
 
-Flood for Transmission is an alternative Web UI for [Transmission](https://transmissionbt.com/). It's a frontend web app that doesn't require any extra service running to communicate with Transmission. Even though it's a work-in-progress, it's definitely good enough to use.
+Drought is a fast, desktop-style web UI for [Transmission](https://transmissionbt.com/). It's a frontend web app that talks to Transmission directly, so it doesn't require any extra service running.
 
-Flood for Transmission is a clone of [Flood](https://github.com/Flood-UI/flood), which is originally build for rTorrent. All design and feature credit goes out to the creators of that. The code however is not a copy at all, it's been build from the ground up to make it work with Transmission.
+Drought is a fork of [Flood for Transmission](https://github.com/johman10/flood-for-transmission), which is based on the design of [Flood](https://github.com/Flood-UI/flood). Credit for the original design and features goes to their creators.
 
 #### Feedback
 
-If you have a specific issue or bug, please file a [Github issue](https://github.com/johman10/flood-for-transmission/issues/new). Also feel free to bring up feature requests that way.
+If you have a specific issue or bug, please file a [Github issue](https://github.com/kiesxoxo/drought/issues/new). Also feel free to bring up feature requests that way.
 
 #### Other P2P clients
 
@@ -20,42 +20,36 @@ How this project is different from jesec's version:
 1. It's dedicated to support Transmission as good as possible.
 1. It uses the recommended way from Transmission to load the UI, by setting an environment variable.
 
-#### Screenshots
-
-Curious what it looks like? Do check out the [screenshots folder](screenshots#readme) but here is also a small sneak peak:
-
-![Main](screenshots/Main.png)
-
 # Getting started
 
 ### Pre-Requisites
 
 1. [Transmission](https://transmissionbt.com/) needs to be installed and running. When on Linux the transmission-daemon is enough to get this to work.
-   - As of now it's not possible to run Flood for Transmission on a separate machine, and frankly there would be little need for it since this project doesn't require it's own process to be running.
+   - As of now it's not possible to run Drought on a separate machine, and frankly there would be little need for it since this project doesn't require it's own process to be running.
 1. Usage of an evergreen browser such as [Chrome](https://www.google.com/chrome/), [Firefox](https://www.mozilla.org/en-US/firefox/new/) or [Edge](https://www.microsoft.com/en-us/edge). This project does not aim to support older browsers.
 
 ### Installation
 
-1. Download the latest release with: `curl -OL https://github.com/johman10/flood-for-transmission/releases/latest/download/flood-for-transmission.zip`
-1. Unpack with: `unzip flood-for-transmission.zip`. This should end up with a folder called `flood-for-transmission` in the current working directory.
-1. Remove the now redundant zip file: `rm flood-for-transmission.zip`
-1. Now tell Transmission to use Flood for Transmission, on Linux and Windows this can by done by using an environment variable, on Mac you will have to copy the extracted folder to the Tranmission app.
+1. Download the latest release with: `curl -OL https://github.com/kiesxoxo/drought/releases/latest/download/drought.zip`
+1. Unpack with: `unzip drought.zip`. This should end up with a folder called `drought` in the current working directory.
+1. Remove the now redundant zip file: `rm drought.zip`
+1. Now tell Transmission to use Drought, on Linux and Windows this can by done by using an environment variable, on Mac you will have to copy the extracted folder to the Transmission app.
    - On **Linux** you can set the environment for systemd by running: `systemctl edit transmission-daemon.service`. In the opened file ensure it contains at least:
      ```
      [Service]
-     Environment=TRANSMISSION_WEB_HOME=/path/to/flood-for-transmission
+     Environment=TRANSMISSION_WEB_HOME=/path/to/drought
      ```
      Any other configuration can be added as you wish.
-   - On **Windows** (untested) you have to set an environment variable to do this, open the start menu and type "environment". Click on "Edit this system environment variables". In the newly opened window choose "new" and fill in the "Variable name" `TRANSMISSION_WEB_HOME` and the "Variable value" to `C:\path\to\flood-for-transmission`.
-   - On **Mac** create a backup of the folder at `/Applications/Transmission.app/Contents/Resources/public_html` with `cp /Applications/Transmission.app/Contents/Resources/public_html /Applications/Transmission.app/Contents/Resources/public_html.default`. Then copy the latest release folder to `/Applications/Transmission.app/Contents/Resources/public_html` like so `cp ~/Download/flood-for-transmission /Applications/Transmission.app/Contents/Resources/public_html`. Whenever you update Tranmission you will have to follow this procedure again. Note: there might be a way to do this with environment variables as well, [but as of now I don't know how to do it](https://github.com/johman10/flood-for-transmission/issues/330). If you know, please open an issue so that this can be updated.
+   - On **Windows** (untested) you have to set an environment variable to do this, open the start menu and type "environment". Click on "Edit this system environment variables". In the newly opened window choose "new" and fill in the "Variable name" `TRANSMISSION_WEB_HOME` and the "Variable value" to `C:\path\to\drought`.
+   - On **Mac** create a backup of the folder at `/Applications/Transmission.app/Contents/Resources/public_html` with `cp /Applications/Transmission.app/Contents/Resources/public_html /Applications/Transmission.app/Contents/Resources/public_html.default`. Then copy the latest release folder to `/Applications/Transmission.app/Contents/Resources/public_html` like so `cp -r ~/Download/drought /Applications/Transmission.app/Contents/Resources/public_html`. Whenever you update Transmission you will have to follow this procedure again. Note: there might be a way to do this with environment variables as well, [but as of now I don't know how to do it](https://github.com/johman10/flood-for-transmission/issues/330). If you know, please open an issue so that this can be updated.
 1. Restart Transmission
 1. Access transmission as you usually do, By default this would be by opening `http://localhost:9091`.
 
-_Note:_ If you run Flood for Transmission behind SSL and in Chrome you can also run this interface like any other app by installing it as a PWA. For more instructions on that see the [Chrome docs](https://support.google.com/chrome/answer/9658361).
+_Note:_ If you run Drought behind SSL and in Chrome you can also run this interface like any other app by installing it as a PWA. For more instructions on that see the [Chrome docs](https://support.google.com/chrome/answer/9658361).
 
 ### [BETA] Customization
 
-1. All user interface defaults can be customized in `/flood-for-transmission/public/config.json`, `cp config.json.defaults config.json` to get started. The `config.json.defaults` file also illustrates the default configuration.
+1. All user interface defaults can be customized in `config.json` inside the Drought folder, `cp config.json.defaults config.json` to get started. The `config.json.defaults` file also illustrates the default configuration.
 
 - `"DARK_MODE"`
   - Type: String e.g. `"auto"` or `"enabled"` or `"disabled"`
@@ -85,20 +79,21 @@ _Note:_ If you run Flood for Transmission behind SSL and in Chrome you can also 
 
 To update follow the following steps (feel free to write a cron job script for this):
 
-1. Remove the last version: `rm -r flood-for-transmission`
-1. Download the latest release with: `curl -OL https://github.com/johman10/flood-for-transmission/releases/latest/download/flood-for-transmission.zip`
-1. Unpack with: `unzip flood-for-transmission.zip`. This should end up with a folder called `flood-for-transmission` in the current working directory.
-1. Remove the now redundant zip file: `rm flood-for-transmission.zip`
+1. Remove the last version: `rm -r drought`
+1. Download the latest release with: `curl -OL https://github.com/kiesxoxo/drought/releases/latest/download/drought.zip`
+1. Unpack with: `unzip drought.zip`. This should end up with a folder called `drought` in the current working directory.
+1. Remove the now redundant zip file: `rm drought.zip`
 1. Restart Transmission.
 
 ### Local Development
 
 1. Run `npm install`.
-1. Copy `.env.template` to `.env` and edit the values to represent your Transmission configuration.
+1. Copy `.env.template` to `.env` and set `TRANSMISSION_PROXY` to the address of your Transmission instance (e.g. `http://localhost:9091`). The dev server forwards RPC calls there, so no CORS setup is needed.
 1. Run `npm start`.
-1. Access the UI in your browser. Defaults to `localhost:8080`.
+1. Access the UI in your browser at `localhost:8080/transmission/web/`.
+1. `npm run build` writes the production build to `dist/`.
 
-If you're running Transmission on a different machine behind Nginx or similar you may have to allow for CORS request. You can do this by adding the code below to your Transmission location block.
+If you'd rather call Transmission directly with the `TRANSMISSION_HOST` variables, and it's running on a different machine behind Nginx or similar you may have to allow for CORS request. You can do this by adding the code below to your Transmission location block.
 
 ```
 if ($request_method = 'OPTIONS') {

@@ -1,5 +1,6 @@
 import { derived, writable, get } from 'svelte/store';
 import Transmission from '~helpers/Transmission';
+import { scheduleWhenVisible, isSameData } from '~helpers/pollHelper';
 import {
   SESSION_COLUMN_ALT_SPEED_DOWN,
   SESSION_COLUMN_ALT_SPEED_ENABLED,
@@ -25,14 +26,12 @@ const SESSION_BASE_COLUMNS = [
   SESSION_COLUMN_UNITS,
   SESSION_COLUMN_RPC_VERSION,
 ];
-let updateSessionTimeout;
+let cancelUpdate;
 const store = writable({});
 const { set, subscribe, update } = store;
 
 function updateSession(setSession) {
-  if (updateSessionTimeout) {
-    clearTimeout(updateSessionTimeout);
-  }
+  cancelUpdate?.();
 
   transmission
     .getSession(SESSION_BASE_COLUMNS)
@@ -40,12 +39,14 @@ function updateSession(setSession) {
       if (!result) {
         return;
       }
+      // Avoid waking up every subscriber when nothing changed
+      if (isSameData(result, get(store))) return;
       setSession(result);
     })
     // TODO: Error handling
     .catch(console.error)
     .finally(() => {
-      updateSessionTimeout = setTimeout(
+      cancelUpdate = scheduleWhenVisible(
         updateSession.bind(null, setSession),
         SESSION_REQUEST_INTERVAL
       );

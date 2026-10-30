@@ -6,7 +6,7 @@
   let loading = false;
   let deleteData = false;
 
-  const term = $selectedTorrents.length > 1 ? 'torrent' : 'torrents';
+  const term = $selectedTorrents.length === 1 ? 'torrent' : 'torrents';
 
   const handleRemove = () => {
     if (loading) return;
@@ -23,7 +23,7 @@
         torrents.set(
           $torrents.filter((t) => !$selectedTorrents.includes(t.id))
         );
-        alerts.add(`Succesfully removed ${$selectedTorrents.length} ${term}`);
+        alerts.add(`Successfully removed ${$selectedTorrents.length} ${term}`);
         selectedTorrents.clear();
         modals.close();
       })
@@ -41,8 +41,8 @@
     <Checkbox label="Delete local data" bind:checked={deleteData} />
     <div class="button-group">
       <Button priority="tertiary" on:click={modals.close}>Cancel</Button>
-      <Button priority="primary" loading={loading} type="submit">
-        Remove torrents
+      <Button priority="destructive" loading={loading} type="submit">
+        Remove {term}
       </Button>
     </div>
   </form>
@@ -51,8 +51,8 @@
 <style>
   h1 {
     color: var(--color-modal-header);
-    font-size: 20px;
-    font-weight: 500;
+    font-size: 17px;
+    font-weight: 600;
     padding: 20px 25px 0;
   }
 

@@ -96,7 +96,7 @@
 
   <Header text="Common paths" />
   <p class="hint">
-    These paths will be shown behind the magnifier where you can select a path.
+    These paths are offered behind the folder icon of every path field.
   </p>
   <InputMultiple
     bind:values={newPaths}

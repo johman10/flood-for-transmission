@@ -4,7 +4,8 @@
   import { line, area, curveMonotoneX } from 'd3-shape';
   import { max } from 'd3-array';
   import { rateData, session, torrents } from '~helpers/stores';
-  import Icon from '~components/Icon';
+  import ArrowDownIcon from '@lucide/svelte/icons/arrow-down';
+  import ArrowUpIcon from '@lucide/svelte/icons/arrow-up';
   import Bytes from '~components/Graph/Bytes.svelte';
   import SpeedLimit from '~components/Graph/SpeedLimit.svelte';
   import { relativeTime } from '~helpers/timeHelper';
@@ -120,7 +121,7 @@
 
 <div class="rates">
   <div class="rate rate--download">
-    <Icon name="Download" />
+    <ArrowDownIcon class="icon" />
     <div class="data">
       <div class="speed speed--download">
         {displayDownloadSpeed}
@@ -131,7 +132,7 @@
     </div>
   </div>
   <div class="rate rate--upload">
-    <Icon name="Upload" />
+    <ArrowUpIcon class="icon" />
     <div class="data">
       <div class="speed speed--upload">
         {displayUploadSpeed}
@@ -194,8 +195,9 @@
       'rate-download rate-upload' auto
       'timestamp timestamp' auto / 1fr 1fr;
     font-size: 12px;
-    padding: 0 10px;
+    padding: 14px 12px 0;
     line-height: 1;
+    font-variant-numeric: tabular-nums;
   }
 
   .rate--download {
@@ -214,17 +216,18 @@
 
   .rate > :global(.icon) {
     display: block;
-    opacity: 0.375;
-    min-width: 20px;
-    height: 20px;
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    margin: 3px 2px 0 0;
   }
 
   .rate--download > :global(.icon) {
-    fill: var(--color-download);
+    color: var(--color-download);
   }
 
   .rate--upload > :global(.icon) {
-    fill: var(--color-upload);
+    color: var(--color-upload);
   }
 
   .data {
@@ -238,7 +241,8 @@
 
   .speed {
     grid-area: speed;
-    font-size: 24px;
+    font-size: 22px;
+    font-weight: 500;
     letter-spacing: -0.5px;
   }
 
@@ -271,6 +275,7 @@
 
   .graph {
     width: 100%;
+    border-bottom: 1px solid var(--sidebar-border);
   }
 
   stop.download {
@@ -282,7 +287,7 @@
   }
 
   stop.top {
-    stop-opacity: 0.2;
+    stop-opacity: 0.28;
   }
 
   stop.bottom {
@@ -290,8 +295,8 @@
   }
 
   .line {
-    stroke-opacity: 0.5;
-    stroke-width: 2px;
+    stroke-opacity: 0.9;
+    stroke-width: 1.5px;
     fill: transparent;
   }
 

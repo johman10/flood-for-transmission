@@ -38,11 +38,12 @@ const getConfigurationColumnsWithDefaults = (configColumns) => {
 
 export default await fetch('./config.json')
   .then((res) => {
-    if (res.ok) {
+    // Dev servers answer unknown paths with index.html, so check the type too
+    if (res.ok && res.headers.get('content-type')?.includes('json')) {
       return res.json();
     } else {
       console.info(
-        'No config.json found, using default values:\nSee https://github.com/johman10/flood-for-transmission#beta-customization'
+        'No config.json found, using default values:\nSee https://github.com/kiesxoxo/drought#beta-customization'
       );
     }
   })

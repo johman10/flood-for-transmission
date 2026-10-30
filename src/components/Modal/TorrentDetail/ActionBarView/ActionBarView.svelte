@@ -29,17 +29,18 @@
 <style>
   .content {
     flex-grow: 1;
-    padding: 20px 25px;
+    padding: 8px 16px;
     overflow-y: auto;
     transition: padding 0.25s;
   }
 
   .content.selected {
-    padding: 20px 25px 5px;
+    padding: 8px 16px 4px;
   }
 
   .bar-spacing {
-    padding: 9px 25px;
+    padding: 10px 16px;
+    border-top: 1px solid var(--border);
   }
 
   .action-bar {
@@ -49,8 +50,8 @@
   }
 
   .text {
-    color: var(--color-modal-text);
-    font-size: 14px;
+    color: var(--muted-foreground);
+    font-size: 13px;
     flex-grow: 1;
   }
 

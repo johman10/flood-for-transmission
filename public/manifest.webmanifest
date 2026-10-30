@@ -1,6 +1,6 @@
 {
-  "name": "Flood for Transmission",
-  "description": "Transmission with a Flood UI",
+  "name": "Drought",
+  "description": "A fast web UI for Transmission",
   "icons": [
     {
       "src": "images/favicon/android-chrome-192x192.png",
@@ -14,8 +14,9 @@
     }
   ],
   "start_url": "./",
-  "theme_color": "#293341",
-  "background_color": "#293341",
+  "theme_color": "#1c1916",
+  "background_color": "#1c1916",
   "scope": "./",
-  "display": "minimal-ui"
+  "display": "minimal-ui",
+  "short_name": "Drought"
 }

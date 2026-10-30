@@ -1,79 +1,48 @@
 <script>
+  import FilesIcon from '@lucide/svelte/icons/files';
+  import GaugeIcon from '@lucide/svelte/icons/gauge';
+  import UsersIcon from '@lucide/svelte/icons/users';
+  import NetworkIcon from '@lucide/svelte/icons/network';
+  import PaletteIcon from '@lucide/svelte/icons/palette';
+  import InfoIcon from '@lucide/svelte/icons/info';
+
   export let activePageId;
   export let pages;
+
+  const ICONS = {
+    'torrents': FilesIcon,
+    'speed': GaugeIcon,
+    'peers': UsersIcon,
+    'network': NetworkIcon,
+    'user-interface': PaletteIcon,
+    'about': InfoIcon,
+  };
 </script>
 
-<div class="menu">
-  <h1>Settings</h1>
-
-  <ul class="items">
+<nav
+  class="menu flex flex-col gap-3 border-r bg-sidebar p-3 max-md:border-r-0 max-md:border-b"
+>
+  <h1 class="px-2 pt-1 text-base font-semibold">Settings</h1>
+  <ul class="flex flex-col gap-0.5 max-md:flex-row max-md:flex-wrap">
     {#each pages as page (page.id)}
-      <li
-        class:active={page.id === activePageId}
-        on:click={() => {
-          activePageId = page.id;
-        }}
-      >
-        {page.name}
+      <li>
+        <button
+          class="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm text-sidebar-foreground transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground {page.id ===
+          activePageId
+            ? 'bg-sidebar-accent font-medium text-sidebar-accent-foreground'
+            : ''}"
+          aria-current={page.id === activePageId ? 'page' : undefined}
+          on:click={() => (activePageId = page.id)}
+        >
+          <svelte:component
+            this={ICONS[page.id]}
+            class="size-4 shrink-0 {page.id === activePageId
+              ? 'text-primary'
+              : 'text-muted-foreground'}"
+          />
+          {page.name}
+        </button>
       </li>
     {/each}
   </ul>
-</div>
-
-<style>
-  .menu {
-    overflow: hidden;
-    padding: 20px 0 0 20px;
-    display: flex;
-    flex-direction: column;
-    line-height: 1.25;
-    border-right: solid 1px var(--color-modal-menu-border);
-    grid-area: menu;
-  }
-
-  h1 {
-    color: var(--color-modal-header);
-    font-weight: 500;
-    font-size: 20px;
-    padding: 0 5px 5px;
-  }
-
-  ul {
-    font-weight: 500;
-    font-size: 13px;
-    color: var(--color-modal-tab-label);
-  }
-
-  li {
-    display: block;
-    margin-right: 0;
-    padding: 5px;
-    border-right: solid 1px transparent;
-    transition:
-      border-color 0.25s,
-      color 0.25s;
-    cursor: pointer;
-  }
-
-  li.active {
-    color: var(--color-modal-tab-label-active);
-    font-weight: 700;
-    border-color: var(--color-modal-tab-label-active);
-  }
-
-  @media (max-width: 700px) {
-    .menu {
-      padding: 20px 20px 0 20px;
-    }
-
-    ul {
-      display: flex;
-      flex-wrap: wrap;
-    }
-
-    li {
-      border-right: 0;
-      border-bottom: solid 1px transparent;
-    }
-  }
-</style>
+</nav>

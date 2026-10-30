@@ -1,7 +1,7 @@
 <script>
   import { session } from '~helpers/stores';
   import { getSize } from '~helpers/sizeHelper';
-  import Icon from '~components/Icon';
+  import InfinityIcon from '@lucide/svelte/icons/infinity';
   import {
     SESSION_COLUMN_UNITS,
     SESSION_COLUMN_UNITS_SPEED,
@@ -28,14 +28,14 @@
     {limit}
     <span class="speed__size">{limitSize}</span>
   {:else}
-    <Icon name="InfinityIcon" />
+    <InfinityIcon class="icon" />
   {/if}
 </div>
 
 <style>
   .limit {
     grid-area: limit;
-    color: var(--color-background);
+    color: var(--color-app-background);
     border-radius: 2px;
     font-size: 10px;
     font-style: normal;
@@ -57,7 +57,7 @@
 
   .limit > :global(.icon) {
     flex-grow: 1;
-    fill: currentColor;
+    color: currentColor;
     height: 12px;
   }
 

@@ -8,7 +8,25 @@
     trackerFilter,
     priorityFilter,
   } from '~helpers/filterHelper';
-  import Icon from '~components/Icon';
+  import LayersIcon from '@lucide/svelte/icons/layers';
+  import ActivityIcon from '@lucide/svelte/icons/activity';
+  import ArrowDownToLineIcon from '@lucide/svelte/icons/arrow-down-to-line';
+  import CircleCheckIcon from '@lucide/svelte/icons/circle-check';
+  import CirclePauseIcon from '@lucide/svelte/icons/circle-pause';
+  import ScanSearchIcon from '@lucide/svelte/icons/scan-search';
+  import SproutIcon from '@lucide/svelte/icons/sprout';
+  import TriangleAlertIcon from '@lucide/svelte/icons/triangle-alert';
+
+  const STATUS_ICONS = {
+    All: LayersIcon,
+    Active: ActivityIcon,
+    DownloadSmall: ArrowDownToLineIcon,
+    Completed: CircleCheckIcon,
+    StopIcon: CirclePauseIcon,
+    InformationIcon: ScanSearchIcon,
+    SeedsIcon: SproutIcon,
+    ErrorIcon: TriangleAlertIcon,
+  };
   import Badge from '~components/Badge';
 
   const { labels, trackers } = torrents;
@@ -205,10 +223,10 @@
   <ul>
     {#each statusFilters as filter (filter.label)}
       <li
-        class:active="{$filters.status === filter.value}"
-        on:click="{setStatusFilter.bind(null, filter.value)}"
+        class:active={$filters.status === filter.value}
+        on:click={setStatusFilter.bind(null, filter.value)}
       >
-        <Icon name="{filter.iconName}" />
+        <svelte:component this={STATUS_ICONS[filter.iconName]} class="icon" />
         {filter.label}
         <Badge>{filter.count || 0}</Badge>
       </li>
@@ -219,8 +237,8 @@
   <ul>
     {#each priorityFilters as filter (filter.label)}
       <li
-        class:active="{$filters.priority === filter.value}"
-        on:click="{setPriorityFilter.bind(null, filter.value)}"
+        class:active={$filters.priority === filter.value}
+        on:click={setPriorityFilter.bind(null, filter.value)}
       >
         {filter.label}
         <Badge>{filter.count || 0}</Badge>
@@ -232,20 +250,20 @@
   <ul>
     {#each labelFilters as filter, index (filter.label)}
       <li
-        class:active="{$filters.label === filter.value}"
-        on:click="{setLabelFilter.bind(null, filter.value)}"
-        in:slide="{getTransitionConfig(
+        class:active={$filters.label === filter.value}
+        on:click={setLabelFilter.bind(null, filter.value)}
+        in:slide={getTransitionConfig(
           'in',
           previousLabelFiltersLength,
           labelFilters.length,
           index
-        )}"
-        out:slide="{getTransitionConfig(
+        )}
+        out:slide={getTransitionConfig(
           'out',
           previousLabelFiltersLength,
           labelFilters.length,
           index
-        )}"
+        )}
       >
         {filter.label}
         <Badge>{filter.count || 0}</Badge>
@@ -253,9 +271,9 @@
     {/each}
     {#if labelFilters.length > limitedLabelsCount}
       <li
-        on:click="{() => {
+        on:click={() => {
           limitLabels = !limitLabels;
-        }}"
+        }}
       >
         {#if limitLabels}Show all...{:else}Hide some...{/if}
       </li>
@@ -266,20 +284,20 @@
   <ul>
     {#each trackerFilters as filter, index (filter.label)}
       <li
-        class:active="{$filters.tracker === filter.value}"
-        on:click="{setTrackerFilter.bind(null, filter.value)}"
-        in:slide="{getTransitionConfig(
+        class:active={$filters.tracker === filter.value}
+        on:click={setTrackerFilter.bind(null, filter.value)}
+        in:slide={getTransitionConfig(
           'in',
           previousTrackerFiltersLength,
           trackerFilters.length,
           index
-        )}"
-        out:slide="{getTransitionConfig(
+        )}
+        out:slide={getTransitionConfig(
           'out',
           previousTrackerFiltersLength,
           trackerFilters.length,
           index
-        )}"
+        )}
       >
         {filter.label}
         <Badge>{filter.count || 0}</Badge>
@@ -287,9 +305,9 @@
     {/each}
     {#if trackerFilters.length > limitedTrackersCount}
       <li
-        on:click="{() => {
+        on:click={() => {
           limitTrackers = !limitTrackers;
-        }}"
+        }}
       >
         {#if limitTrackers}Show all...{:else}Hide some...{/if}
       </li>
@@ -299,54 +317,68 @@
 
 <style>
   .wrapper {
-    margin: 30px 20px 0;
-    color: var(--color-panel-text);
-    fill: currentColor;
+    padding: 8px 8px 0;
+    color: var(--sidebar-foreground);
   }
 
   h2 {
+    padding: 0 8px;
+    margin: 12px 0 4px;
     font-size: 11px;
     font-weight: 500;
+    letter-spacing: 0.04em;
     text-transform: uppercase;
-    color: var(--color-panel-header);
+    color: var(--muted-foreground);
   }
 
   ul {
     list-style: none;
-    margin-bottom: 30px;
+    margin-bottom: 8px;
   }
 
   li {
     cursor: pointer;
-    font-weight: 400;
-    padding: 3px 0;
     display: flex;
     align-items: center;
-    transition:
-      fill 0.25s,
-      color 0.25s;
+    gap: 8px;
+    height: 28px;
+    padding: 0 8px;
+    border-radius: 6px;
     font-size: 13px;
+    transition:
+      background-color 0.15s,
+      color 0.15s;
   }
 
   li:hover {
-    color: var(--color-panel-hover);
-  }
-
-  li:hover > :global(.badge) {
-    background-color: var(--color-panel-hover);
+    background-color: var(--sidebar-accent);
+    color: var(--sidebar-accent-foreground);
   }
 
   li.active {
-    color: var(--color-panel-active);
-    font-weight: 700;
+    background-color: var(--sidebar-accent);
+    color: var(--sidebar-accent-foreground);
+    font-weight: 500;
   }
 
   li > :global(.icon) {
-    height: 14px;
-    margin-right: 7px;
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+    color: var(--muted-foreground);
+  }
+
+  li.active > :global(.icon) {
+    color: var(--primary);
+  }
+
+  li > :global(.badge) {
+    margin-left: auto;
+    background: transparent;
   }
 
   li.active > :global(.badge) {
-    background-color: var(--color-panel-active);
+    background-color: var(--primary);
+    color: var(--primary-foreground);
   }
 </style>

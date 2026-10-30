@@ -1,0 +1,128 @@
+/*
+ * Maps the original Flood color variables onto the shadcn theme tokens, so
+ * components that haven't been migrated yet follow light/dark mode and match
+ * the new look. Remove entries as components move to Tailwind classes.
+ */
+:root {
+  --color-text: var(--muted-foreground);
+  --color-header: var(--muted-foreground);
+  --color-app-background: var(--sidebar);
+  --color-app-border: var(--border);
+  --color-negative: var(--destructive);
+  --color-active: var(--primary);
+  --color-label-background-selected: var(--primary);
+  --color-label-text-selected: var(--primary-foreground);
+
+  --color-panel-header: var(--muted-foreground);
+  --color-panel-text: var(--sidebar-foreground);
+  --color-panel-hover: var(--sidebar-accent-foreground);
+  --color-panel-active: var(--primary);
+  --color-panel-border: var(--sidebar-border);
+
+  --color-alert-text: var(--popover-foreground);
+  --color-alert-background: var(--popover);
+
+  --color-badge-text: var(--muted-foreground);
+  --color-badge-background: var(--muted);
+
+  --color-button-quaternary-background: var(--background);
+  --color-button-quaternary-border: var(--input);
+  --color-button-quaternary-text: var(--foreground);
+
+  --color-checkbox-background: var(--background);
+  --color-checkbox-background-dark: var(--background);
+  --color-checkbox-border: var(--input);
+  --color-checkbox-border-dark: var(--input);
+  --color-checkbox-mark: var(--muted-foreground);
+
+  --color-context-menu-text: var(--popover-foreground);
+  --color-context-menu-background: var(--popover);
+  --color-context-menu-background-hover: var(--accent);
+  --color-context-menu-text-hover: var(--accent-foreground);
+  --color-context-menu-separator: var(--border);
+
+  --color-graph-text: var(--muted-foreground);
+
+  --color-input-background: var(--background);
+  --color-input-border: var(--input);
+  --color-input-text: var(--foreground);
+  --color-input-placeholder: var(--muted-foreground);
+  --color-input-border-hover: var(--ring);
+  --color-input-text-hover: var(--foreground);
+  --color-input-background-active: var(--background);
+  --color-input-border-active: var(--ring);
+  --color-input-text-active: var(--foreground);
+  --color-input-background-disabled: var(--muted);
+  --color-input-border-disabled: var(--border);
+  --color-input-text-disabled: var(--muted-foreground);
+  --color-input-addon-icon: var(--muted-foreground);
+  --color-input-addon-border: var(--input);
+
+  --color-input-file-background: var(--background);
+  --color-input-file-border: var(--input);
+  --color-input-file-border-active: var(--ring);
+  --color-input-file-text: var(--foreground);
+  --color-input-file-icon: var(--muted-foreground);
+
+  --color-modal-backdrop: oklch(0 0 0 / 45%);
+  --color-modal-background: var(--background);
+  --color-modal-header: var(--foreground);
+  --color-modal-text: var(--muted-foreground);
+  --color-modal-text-light: var(--muted-foreground);
+  --color-modal-tab-label: var(--muted-foreground);
+  --color-modal-badge-background: var(--muted);
+  --color-modal-menu-border: var(--border);
+  --color-modal-add-tab-bar-shadow: var(--border);
+  --color-modal-user-interface-column-background: var(--muted);
+  --color-modal-user-interface-column-border: var(--border);
+  --color-modal-details-header: var(--foreground);
+  --color-modal-files-icon: var(--muted-foreground);
+  --color-modal-files-folder: var(--muted-foreground);
+  --color-modal-torrent-details-shadow: var(--border);
+  --color-modal-torrent-details-header-icon: var(--muted-foreground);
+
+  --color-select-icon: var(--muted-foreground);
+  --color-select-border: var(--input);
+  --color-select-option-background: var(--popover);
+  --color-select-option-background-hover: var(--accent);
+
+  --color-column-header-background: var(--background);
+  --color-column-header-border: var(--border);
+  --color-column-header-shadow: var(--border);
+  --color-column-header-text: var(--muted-foreground);
+  --color-column-header-text-active: var(--foreground);
+
+  --color-torrent-text: var(--foreground);
+  --color-torrent-text-inactive: var(--muted-foreground);
+  --color-torrent-text-selected: var(--foreground);
+  --color-torrent-background-selected: color-mix(
+    in oklch,
+    var(--primary) 16%,
+    transparent
+  );
+  --color-torrent-background-selected-error: color-mix(
+    in oklch,
+    var(--destructive) 16%,
+    transparent
+  );
+  --color-size-text-selected: var(--foreground);
+  --color-torrent-list-background: var(--background);
+
+  --color-label-background: var(--muted);
+  --color-label-text: var(--muted-foreground);
+
+  --color-priority-off: var(--muted-foreground);
+
+  --color-progress-bar-stopped: var(--muted-foreground);
+  --color-progress-bar-stopped-background: color-mix(
+    in oklch,
+    var(--muted-foreground) 18%,
+    transparent
+  );
+
+  --color-dropzone-background: color-mix(
+    in oklch,
+    var(--background) 90%,
+    transparent
+  );
+}

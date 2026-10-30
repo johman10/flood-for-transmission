@@ -54,42 +54,52 @@
 
 <style>
   .wrapper {
-    margin: 30px 20px 0;
-    color: var(--color-panel-text);
-    fill: currentColor;
+    padding: 4px 16px 16px;
+    color: var(--sidebar-foreground);
   }
 
   h2 {
+    margin: 12px 0 6px;
     font-size: 11px;
     font-weight: 500;
+    letter-spacing: 0.04em;
     text-transform: uppercase;
-    color: var(--color-panel-header);
+    color: var(--muted-foreground);
   }
 
   ul {
     list-style: none;
-    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
 
   .path-item {
-    --progess-color: var(--color-progress-bar-stopped);
-    --background-color: var(--color-progress-bar-stopped-background);
+    --progess-color: var(--primary);
+    --background-color: color-mix(in oklch, var(--primary) 18%, transparent);
 
-    font-weight: 400;
-    padding: 3px 0;
     display: flex;
     flex-direction: column;
-    gap: 2px;
-    transition:
-      fill 0.25s,
-      color 0.25s;
-    font-size: 13px;
+    gap: 4px;
+    font-size: 12px;
   }
 
   .path-details {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 8px;
     width: 100%;
+  }
+
+  .path-details span:first-child {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .path-details span:last-child {
+    color: var(--muted-foreground);
+    font-variant-numeric: tabular-nums;
   }
 </style>

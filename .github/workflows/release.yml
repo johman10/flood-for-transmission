@@ -41,14 +41,14 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Copy public
-        run: cp -r public flood-for-transmission
+      - name: Copy build
+        run: cp -r dist drought
 
       - name: Zip release
-        run: zip -r flood-for-transmission.zip flood-for-transmission
+        run: zip -r drought.zip drought
 
       - name: Tar release
-        run: tar -czvf flood-for-transmission.tar.gz flood-for-transmission
+        run: tar -czvf drought.tar.gz drought
 
       - name: Release
         uses: 'marvinpinto/action-automatic-releases@latest'
@@ -57,5 +57,5 @@ jobs:
           prerelease: false
           title: '${{ env.tag_name }}'
           files: |
-            flood-for-transmission.zip
-            flood-for-transmission.tar.gz
+            drought.zip
+            drought.tar.gz

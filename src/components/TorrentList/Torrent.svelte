@@ -10,8 +10,8 @@
     BooleanRenderer,
     LabelRenderer,
   } from '~components/TorrentList/Renderers';
-  import { TorrentDetail } from '~components/Modal';
-  import { session, uiColumns, modals } from '~helpers/stores';
+  import { openTorrentDetails } from '~helpers/torrentDetailHelper';
+  import { session, uiColumns } from '~helpers/stores';
   import { STATUSES } from '~helpers/constants/statuses';
   import {
     UI_COLUMN,
@@ -22,7 +22,6 @@
   } from '~helpers/constants/columns';
   import { generateTorrentStatusClass } from '~helpers/classHelper';
   import { trackerStripper } from '~helpers/trackerHelper';
-  import { contextmenu } from '~helpers/actions';
 
   const dispatch = createEventDispatcher();
 
@@ -45,30 +44,17 @@
     dispatch('click', { torrent, modifierKey: getModifierKey(event) });
   };
 
-  const dispatchContextmenu = (event) => {
-    event.preventDefault();
-    dispatch('contextmenu', {
-      torrent,
-      pageX: event.pageX,
-      pageY: event.pageY,
-      element: event.target,
-      modifierKey: getModifierKey(event),
-    });
-  };
-
   let lastClick = 0;
   const handleClick = () => {
     const currentTime = new Date().getTime();
     const clickLength = currentTime - lastClick;
     if (clickLength > 0 && clickLength < 500) {
-      modals.open({
-        component: TorrentDetail,
-        large: true,
-        props: { torrentId: torrent.id },
-      });
+      openTorrentDetails(torrent.id);
     }
     lastClick = currentTime;
   };
+
+  $: statusClass = generateTorrentStatusClass(torrent, selected);
 
   // TODO: Move to constants/columns, pass torrent and session as arg to props;
   $: rendererMap = {
@@ -290,9 +276,8 @@
 </script>
 
 <tr
-  class={generateTorrentStatusClass(torrent, selected)}
-  use:contextmenu
-  on:contextmenu={dispatchContextmenu}
+  class={statusClass}
+  data-torrent-id={torrent.id}
   on:click={dispatchClick}
   on:click={handleClick}
 >
@@ -302,7 +287,7 @@
     <td>
       <svelte:component
         this={component}
-        torrentStatusClass={generateTorrentStatusClass(torrent, selected)}
+        torrentStatusClass={statusClass}
         {...props()}
       />
     </td>
@@ -313,15 +298,23 @@
   tr {
     color: var(--color-torrent-text);
     font-size: 13px;
-    height: 30px;
-    cursor: pointer;
+    height: 28px;
+    cursor: default;
     -webkit-user-select: none;
     -webkit-touch-callout: none;
+  }
+
+  tr:hover {
+    background-color: var(--accent);
   }
 
   tr.stopped,
   tr.error {
     color: var(--color-torrent-text-inactive);
+  }
+
+  tr.error {
+    color: var(--destructive);
   }
 
   tr.selected {
@@ -338,5 +331,6 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    border-bottom: 1px solid color-mix(in oklch, var(--border) 50%, transparent);
   }
 </style>

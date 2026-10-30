@@ -1,5 +1,10 @@
 <script>
-  import Icon from '~components/Icon';
+  import ArrowDownIcon from '@lucide/svelte/icons/arrow-down';
+  import ArrowUpIcon from '@lucide/svelte/icons/arrow-up';
+  import ClockIcon from '@lucide/svelte/icons/clock';
+  import PauseIcon from '@lucide/svelte/icons/pause';
+  import PlayIcon from '@lucide/svelte/icons/play';
+  import ScaleIcon from '@lucide/svelte/icons/scale';
   import { torrentDetails, session, torrents } from '~helpers/stores';
   import {
     STATUSES,
@@ -103,7 +108,7 @@
       torrent[TRANSMISSION_COLUMN.NAME] = newName;
       torrent[TRANSMISSION_COLUMN.FILES] = torrent[
         TRANSMISSION_COLUMN.FILES
-      ].map((file) => {
+      ]?.map((file) => {
         const parts = file.name.split('/');
         parts[0] = newName;
         return { ...file, name: parts.join('/') };
@@ -143,7 +148,7 @@
         title="Download speed"
         class="downloading"
       >
-        <Icon name="Download" />
+        <ArrowDownIcon class="icon" />
         <span>
           {downloadSpeed.value}<em>{downloadSpeed.size}</em>
           —
@@ -151,7 +156,7 @@
         </span>
       </li>
       <li class:active={!!uploadSpeed.value} title="Upload speed">
-        <Icon name="Upload" />
+        <ArrowUpIcon class="icon" />
         <span>
           {uploadSpeed.value}<em>{uploadSpeed.size}</em>
           —
@@ -159,11 +164,11 @@
         </span>
       </li>
       <li title="Ratio">
-        <Icon name="RatioIcon" />
+        <ScaleIcon class="icon" />
         {($torrentDetails[TRANSMISSION_COLUMN.RATIO] || 0).toFixed(2)}
       </li>
       <li title="ETA">
-        <Icon name="ETA" />
+        <ClockIcon class="icon" />
         <ArrivalRenderer value={$torrentDetails[TRANSMISSION_COLUMN.ETA]} />
       </li>
     </ul>
@@ -181,7 +186,7 @@
         on:click={startTorrent}
         class="button"
       >
-        <Icon name="StartIcon" />
+        <PlayIcon class="icon" />
         Start
       </li>
       <li
@@ -189,7 +194,7 @@
         on:click={stopTorrent}
         class="button"
       >
-        <Icon name="StopIcon" />
+        <PauseIcon class="icon" />
         Stop
       </li>
     </ul>
@@ -231,7 +236,10 @@
     row-gap: 4px;
     justify-content: space-between;
     color: var(--color-modal-text);
-    fill: var(--color-modal-torrent-details-header-icon);
+  }
+
+  .subheading :global(.icon) {
+    color: var(--color-modal-torrent-details-header-icon);
   }
 
   ul {
@@ -246,14 +254,14 @@
     font-size: 13.6px;
   }
 
-  li.active {
+  li.active,
+  li.active > :global(.icon) {
     color: var(--color-upload);
-    fill: var(--color-upload);
   }
 
-  li.active.downloading {
+  li.active.downloading,
+  li.active.downloading > :global(.icon) {
     color: var(--color-download);
-    fill: var(--color-download);
   }
 
   li > :global(.icon) {

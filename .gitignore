@@ -1,9 +1,6 @@
 /node_modules/
-/public/build/
-/public/sw.js*
-/public/workbox-*.js*
+/dist/
 /public/config.json
-/public/config.json.defaults
 
 .DS_Store
 

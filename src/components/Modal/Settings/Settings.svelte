@@ -92,13 +92,13 @@
 <style>
   .wrapper {
     display: grid;
-    grid-template: 'menu content' 100% / 175px 1fr;
+    grid-template: 'menu content' 100% / 200px 1fr;
     overflow: hidden;
     height: 100%;
   }
 
   .content {
-    padding: 20px 25px;
+    padding: 24px 28px;
     overflow-y: auto;
     flex-grow: 1;
     position: relative;

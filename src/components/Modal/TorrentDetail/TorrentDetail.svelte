@@ -1,11 +1,12 @@
 <script>
-  import Icon from '~components/Icon';
+  import LoaderIcon from '@lucide/svelte/icons/loader-circle';
   import Header from '~components/Modal/TorrentDetail/Header';
   import Details from '~components/Modal/TorrentDetail/Details';
   import Files from '~components/Modal/TorrentDetail/Files';
   import Peers from '~components/Modal/TorrentDetail/Peers';
   import Trackers from '~components/Modal/TorrentDetail/Trackers';
   import { torrentDetails } from '~helpers/stores';
+  import { TRANSMISSION_COLUMN } from '~helpers/constants/columns';
   import { onMount, onDestroy } from 'svelte';
 
   export let torrentId;
@@ -18,10 +19,12 @@
     {
       name: 'Files',
       component: Files,
+      columns: [TRANSMISSION_COLUMN.FILE_STATS],
     },
     {
       name: 'Peers',
       component: Peers,
+      columns: [TRANSMISSION_COLUMN.PEERS],
     },
     {
       name: 'Trackers',
@@ -38,19 +41,22 @@
     torrentDetails.clearTorrentId();
   });
 
+  $: torrentDetails.setExtraColumns(page.columns || []);
+
   $: loadingInitial = !Object.keys($torrentDetails).length;
 </script>
 
 <div class="container" class:loading-initial={loadingInitial}>
-  <Icon name="SpinnerIcon" />
+  <LoaderIcon class="icon animate-spin" />
   <Header torrentId={torrentId} />
   <div class="content">
     <nav>
-      {#each pages as { name, component } (name)}
+      {#each pages as { name } (name)}
         <a
           href="/{name.toLowerCase()}"
           class:active={page.name === name}
-          on:click|preventDefault={() => (page = { name, component })}
+          on:click|preventDefault={() =>
+            (page = pages.find((p) => p.name === name))}
         >
           {name}
         </a>
@@ -72,7 +78,7 @@
   .container.loading-initial {
     align-items: center;
     justify-content: center;
-    fill: var(--color-modal-loading);
+    color: var(--color-modal-loading);
     height: 100%;
   }
 

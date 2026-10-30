@@ -1,5 +1,4 @@
 import globals from 'globals';
-import babelParser from '@babel/eslint-parser';
 import svelte from 'eslint-plugin-svelte';
 import parser from 'svelte-eslint-parser';
 import js from '@eslint/js';
@@ -19,8 +18,7 @@ export default [
         __TRANSMISSION_SSL__: 'readonly',
         __ENV__: 'readonly',
       },
-      parser: babelParser,
-      ecmaVersion: 2021,
+      ecmaVersion: 2022,
       sourceType: 'module',
     },
 

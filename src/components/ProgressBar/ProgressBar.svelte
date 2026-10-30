@@ -9,8 +9,9 @@
 <style>
   .fill {
     background: var(--progess-color);
+    border-radius: 999px;
     display: block;
-    height: 3px;
+    height: 4px;
     width: 100%;
     transition: width 100ms;
   }
@@ -19,6 +20,8 @@
     background: var(--background-color);
     flex: 1 1 auto;
     position: relative;
-    height: 3px;
+    height: 4px;
+    border-radius: 999px;
+    overflow: hidden;
   }
 </style>

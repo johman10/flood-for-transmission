@@ -20,12 +20,7 @@ import {
   TRANSMISSION_COLUMN_MAGNET_LINK,
 } from '~helpers/constants/columns';
 import { sorting } from '~helpers/stores/sorting';
-import {
-  transmissionColumns,
-  uiColumns,
-  filters,
-  alerts,
-} from '~helpers/stores';
+import { transmissionColumns, filters, alerts } from '~helpers/stores';
 import {
   searchFilter,
   statusFilter,
@@ -35,13 +30,35 @@ import {
 } from '~helpers/filterHelper';
 import { trackerStripper } from '~helpers/trackerHelper';
 import { copyToClipboard } from '../copyHelper';
+import { scheduleWhenVisible } from '~helpers/pollHelper';
 
 const TORRENT_FETCHING_TIMEOUT = 1000;
+// "recently-active" only reports changes from the last minute, so after a
+// longer gap (hidden tab, sleeping laptop) everything is fetched again.
+const MAX_RECENTLY_ACTIVE_GAP = 30000;
 
 const transmission = new Transmission();
-let updateTorrentTimeout;
+let cancelUpdate;
+let lastFetch = 0;
 const store = writable([]);
-let previousActiveColumns = null;
+// Updated after every poll, even when nothing changed, so the speed graph keeps moving
+const totalRate = writable({ upload: 0, download: 0 });
+// Columns of the last full fetch; a newly enabled column needs a full fetch to fill it
+let fetchedColumns = [];
+
+function scheduleUpdate(fetchTorrents) {
+  cancelUpdate?.();
+  cancelUpdate = scheduleWhenVisible(fetchTorrents, TORRENT_FETCHING_TIMEOUT);
+}
+
+function updateTotalRate() {
+  const data = { upload: 0, download: 0 };
+  get(store).forEach((torrent) => {
+    data.upload += torrent[TRANSMISSION_COLUMN_UPLOAD_RATE];
+    data.download += torrent[TRANSMISSION_COLUMN_DOWNLOAD_RATE];
+  });
+  totalRate.set(data);
+}
 
 const sorted = derived(
   [store, filters, sorting],
@@ -68,128 +85,120 @@ const sorted = derived(
     }
 
     return filteredTorrents.sort((torrentA, torrentB) => {
-      const sortingValues = transmissionSortingColumns
-        .map((transmissionColumn) => {
-          let aValue = torrentA[transmissionColumn];
-          let bValue = torrentB[transmissionColumn];
-          if (typeof aValue === 'string') {
-            aValue = aValue.toLowerCase();
-            bValue = bValue.toLowerCase();
-          }
+      for (const transmissionColumn of transmissionSortingColumns) {
+        let aValue = torrentA[transmissionColumn];
+        let bValue = torrentB[transmissionColumn];
+        if (typeof aValue === 'string') {
+          aValue = aValue.toLowerCase();
+          bValue = bValue.toLowerCase();
+        }
 
-          // Transmission ETA less than 0 is unknown/infinity so mimic that behaviour.
-          // Reference: https://github.com/transmission/transmission/blob/3.00/libtransmission/transmission.h#L1748-L1749
-          if (transmissionColumn === TRANSMISSION_COLUMN_ETA) {
-            if (aValue < 0) aValue = Number.MAX_SAFE_INTEGER;
-            if (bValue < 0) bValue = Number.MAX_SAFE_INTEGER;
-          }
+        // Transmission ETA less than 0 is unknown/infinity so mimic that behaviour.
+        // Reference: https://github.com/transmission/transmission/blob/3.00/libtransmission/transmission.h#L1748-L1749
+        if (transmissionColumn === TRANSMISSION_COLUMN_ETA) {
+          if (aValue < 0) aValue = Number.MAX_SAFE_INTEGER;
+          if (bValue < 0) bValue = Number.MAX_SAFE_INTEGER;
+        }
 
-          // TODO: consider some way of setting a sorting value/key per column so that this can be abstracted
-          if ($sorting.id === UI_COLUMN_TOTAL_SEEDERS.id) {
-            aValue = Math.max(...aValue.map((a) => a.seederCount));
-            bValue = Math.max(...bValue.map((b) => b.seederCount));
-          }
+        // TODO: consider some way of setting a sorting value/key per column so that this can be abstracted
+        if ($sorting.id === UI_COLUMN_TOTAL_SEEDERS.id) {
+          aValue = Math.max(...aValue.map((a) => a.seederCount));
+          bValue = Math.max(...bValue.map((b) => b.seederCount));
+        }
 
-          if ($sorting.id === UI_COLUMN_TOTAL_LEECHERS.id) {
-            aValue = Math.max(...aValue.map((a) => a.leecherCount));
-            bValue = Math.max(...bValue.map((b) => b.leecherCount));
-          }
+        if ($sorting.id === UI_COLUMN_TOTAL_LEECHERS.id) {
+          aValue = Math.max(...aValue.map((a) => a.leecherCount));
+          bValue = Math.max(...bValue.map((b) => b.leecherCount));
+        }
 
-          let returnValue = 0;
-          if (aValue < bValue) returnValue = -1;
-          if (aValue > bValue) returnValue = 1;
-          if ($sorting.direction === 'desc') returnValue *= -1;
-          return returnValue;
-        })
-        .filter(Boolean);
-      return sortingValues[0] || 0;
+        let returnValue = 0;
+        if (aValue < bValue) returnValue = -1;
+        if (aValue > bValue) returnValue = 1;
+        if ($sorting.direction === 'desc') returnValue *= -1;
+        if (returnValue) return returnValue;
+      }
+      return 0;
     });
   }
 );
 
 function getRecentlyActiveTorrents() {
-  if (updateTorrentTimeout) {
-    clearTimeout(updateTorrentTimeout);
+  const columns = get(transmissionColumns);
+  if (
+    Date.now() - lastFetch > MAX_RECENTLY_ACTIVE_GAP ||
+    columns.some((column) => !fetchedColumns.includes(column))
+  ) {
+    getAllTorrents();
+    return;
   }
 
-  transmission
-    .getTorrents('recently-active', get(transmissionColumns))
-    .then((result) => {
-      const activeColumns = get(uiColumns.active);
-      previousActiveColumns = activeColumns;
+  let nextFetch = getRecentlyActiveTorrents;
 
+  transmission
+    .getTorrents('recently-active', columns)
+    .then((result) => {
       if (!result) {
         return;
       }
+      lastFetch = Date.now();
 
       const { torrents, removed } = result;
-      store.update((currentTorrents) => {
-        const updatedTorrents = currentTorrents.map((torrent) => {
-          const activeTorrent = torrents.find((t) => t.id === torrent.id);
-          if (!activeTorrent) return torrent;
+      // Nothing changed, so keep the same array and skip re-sorting and re-rendering
+      if (torrents.length || removed.length) {
+        store.update((currentTorrents) => {
+          const activeTorrents = new Map(
+            torrents.map((torrent) => [torrent.id, torrent])
+          );
+          const removedIds = new Set(removed);
+          const updatedTorrents = currentTorrents
+            .filter((torrent) => !removedIds.has(torrent.id))
+            .map((torrent) => {
+              const activeTorrent = activeTorrents.get(torrent.id);
+              activeTorrents.delete(torrent.id);
+              if (!activeTorrent) return torrent;
 
-          return {
-            ...torrent,
-            ...activeTorrent,
-          };
+              return {
+                ...torrent,
+                ...activeTorrent,
+              };
+            });
+
+          // Whatever wasn't matched to an existing torrent was just added
+          const addedTorrents = [...activeTorrents.values()].filter(
+            (torrent) => !removedIds.has(torrent.id)
+          );
+
+          return [...updatedTorrents, ...addedTorrents];
         });
-
-        const addedTorrents = torrents.filter(
-          (at) => !currentTorrents.find((ct) => ct.id === at.id)
-        );
-
-        let newTorrents = [...updatedTorrents, ...addedTorrents];
-        newTorrents = newTorrents.filter(
-          (torrent) => !removed.includes(torrent.id)
-        );
-        return newTorrents;
-      });
+      }
+      updateTotalRate();
     })
     // TODO: Error handling
     .catch((e) => {
       console.error(e);
-      updateTorrentTimeout = setTimeout(
-        getAllTorrents,
-        TORRENT_FETCHING_TIMEOUT
-      );
+      nextFetch = getAllTorrents;
     })
     .finally(() => {
-      const activeColumns = get(uiColumns.active);
-      // If no column was added, just keep fetching the recently active
-      if (
-        previousActiveColumns &&
-        activeColumns.every((column) => previousActiveColumns.includes(column))
-      ) {
-        updateTorrentTimeout = setTimeout(
-          getRecentlyActiveTorrents,
-          TORRENT_FETCHING_TIMEOUT
-        );
-      } else {
-        // If an ui column was added, fetch all to fill the column correctly.
-        updateTorrentTimeout = setTimeout(
-          getAllTorrents,
-          TORRENT_FETCHING_TIMEOUT
-        );
-      }
+      scheduleUpdate(nextFetch);
     });
 }
 
 function getAllTorrents() {
-  if (updateTorrentTimeout) {
-    clearTimeout(updateTorrentTimeout);
-  }
-
   let hasError = false;
+  const columns = get(transmissionColumns);
 
   transmission
-    .getTorrents(undefined, get(transmissionColumns))
+    .getTorrents(undefined, columns)
     .then((value) => {
       if (!value) {
         hasError = true;
         return;
       }
       hasError = false;
+      lastFetch = Date.now();
+      fetchedColumns = columns;
       store.set(value);
+      updateTotalRate();
     })
     // TODO: Error handling
     .catch((e) => {
@@ -197,52 +206,36 @@ function getAllTorrents() {
       hasError = true;
     })
     .finally(() => {
-      if (hasError) {
-        updateTorrentTimeout = setTimeout(
-          getAllTorrents,
-          TORRENT_FETCHING_TIMEOUT
-        );
-        return;
-      }
-
-      updateTorrentTimeout = setTimeout(
-        getRecentlyActiveTorrents,
-        TORRENT_FETCHING_TIMEOUT
-      );
+      scheduleUpdate(hasError ? getAllTorrents : getRecentlyActiveTorrents);
     });
 }
 
 function createTorrentsStore() {
-  getAllTorrents(store.set);
+  getAllTorrents();
 
   return {
     subscribe: store.subscribe,
     set: store.set,
     update: store.update,
-    totalRate: derived(store, ($torrents) => {
-      const data = { upload: 0, download: 0 };
-      $torrents.forEach((torrent) => {
-        data.upload += torrent[TRANSMISSION_COLUMN_UPLOAD_RATE];
-        data.download += torrent[TRANSMISSION_COLUMN_DOWNLOAD_RATE];
-      });
-      return data;
-    }),
+    totalRate: { subscribe: totalRate.subscribe },
     sorted,
     labels: derived(store, ($torrents) =>
-      $torrents
-        .flatMap((torrent) => torrent[TRANSMISSION_COLUMN_LABELS])
-        .filter((item, index, list) => list.indexOf(item) === index)
-        .sort()
+      [
+        ...new Set(
+          $torrents.flatMap((torrent) => torrent[TRANSMISSION_COLUMN_LABELS])
+        ),
+      ].sort()
     ),
     trackers: derived(store, ($torrents) =>
-      $torrents
-        .flatMap((torrent) =>
-          torrent[TRANSMISSION_COLUMN_TRACKERS].flatMap((tracker) =>
-            trackerStripper(tracker.announce)
+      [
+        ...new Set(
+          $torrents.flatMap((torrent) =>
+            torrent[TRANSMISSION_COLUMN_TRACKERS].flatMap((tracker) =>
+              trackerStripper(tracker.announce)
+            )
           )
-        )
-        .filter((item, index, list) => list.indexOf(item) === index)
-        .sort()
+        ),
+      ].sort()
     ),
     rename: (ids, path, name) =>
       store.update((state) => {

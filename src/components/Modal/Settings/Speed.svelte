@@ -3,7 +3,7 @@
   import Checkbox from '~components/Checkbox';
   import Input from '~components/Input';
   import Button from '~components/Button';
-  import Icon from '~components/Icon';
+  import LoaderIcon from '@lucide/svelte/icons/loader-circle';
   import { session, modals, alerts } from '~helpers/stores';
   import { minutesToTime, timeToMinutes } from '~helpers/timeHelper';
   import {
@@ -103,7 +103,7 @@
 </script>
 
 <div class="wrapper" class:loading-initial={loadingInitial}>
-  <Icon name="SpinnerIcon" />
+  <LoaderIcon class="icon animate-spin" />
   <form on:submit|preventDefault={handleSubmit}>
     <Header text="Speed Limits" />
     <Checkbox bind:checked={uploadLimitEnabled} label="Upload (kB/s)" />
@@ -151,7 +151,7 @@
   .wrapper.loading-initial {
     align-items: center;
     justify-content: center;
-    fill: var(--color-modal-loading);
+    color: var(--color-modal-loading);
   }
 
   .wrapper > :global(.icon) {

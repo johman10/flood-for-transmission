@@ -7,7 +7,7 @@
   } from '~helpers/constants/columns';
   import { getSize } from '~helpers/sizeHelper';
   import Badge from '~components/Badge';
-  import Icon from '~components/Icon';
+  import CheckIcon from '@lucide/svelte/icons/check';
 
   $: peers = $torrentDetails[TRANSMISSION_COLUMN_PEERS];
   $: ipAddress.add(peers.map((peer) => peer.address));
@@ -52,8 +52,8 @@
                 src="images/flags/{$ipAddress[
                   peer.address
                 ].country_code.toLowerCase()}.png"
-                alt="{$ipAddress[peer.address].country_code}"
-                title="{$ipAddress[peer.address].country_name}"
+                alt={$ipAddress[peer.address].country_code}
+                title={$ipAddress[peer.address].country_name}
               />
             {:else}
               <img class="flag" src="images/flags/_unknown.png" alt="Unknown" />
@@ -74,7 +74,7 @@
           <td>{peer.clientName}</td>
           <td>
             {#if peer.isEncrypted}
-              <Icon name="Checkmark" />
+              <CheckIcon class="icon" />
             {/if}
           </td>
         </tr>
@@ -85,45 +85,53 @@
 
 <style>
   .container {
-    padding: 20px 25px;
+    padding: 8px 16px 16px;
     height: 100%;
     overflow-y: auto;
   }
 
   table {
-    color: var(--color-modal-text);
+    color: var(--foreground);
     font-size: 13px;
     width: 100%;
+    border-collapse: collapse;
   }
 
   th {
-    color: var(--color-modal-text-light);
-    font-size: 9px;
+    height: 30px;
+    padding: 0 8px;
+    color: var(--muted-foreground);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
     text-align: left;
-    font-weight: inherit;
-    padding: 0 5px;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
   }
 
   th.main {
-    font-size: 14px;
     display: flex;
     align-items: center;
-  }
-
-  th > :global(.badge) {
-    background: var(--color-modal-badge-background);
-    color: var(--color-modal-text);
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 13px;
+    color: var(--foreground);
   }
 
   td {
-    padding: 0 5px;
-    line-height: 16px;
+    height: 28px;
+    padding: 0 8px;
     white-space: nowrap;
+    border-bottom: 1px solid color-mix(in oklch, var(--border) 50%, transparent);
+  }
+
+  tbody tr:hover {
+    background: var(--accent);
   }
 
   td > :global(.icon) {
     height: 12px;
-    fill: var(--color-positive);
+    color: var(--color-positive);
   }
 
   .address-cell {
@@ -131,7 +139,7 @@
   }
 
   .address {
-    margin-left: 23px;
+    margin-left: 24px;
   }
 
   .flag {
@@ -139,12 +147,14 @@
     vertical-align: middle;
     display: inline-block;
     position: absolute;
-    left: 5px;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
   }
 
   .unit {
     font-size: 11px;
     font-style: normal;
-    opacity: 0.8;
+    color: var(--muted-foreground);
   }
 </style>

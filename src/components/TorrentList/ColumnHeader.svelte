@@ -36,31 +36,34 @@
 
 <style>
   .header {
-    font-size: 13px;
+    font-size: 12px;
     white-space: nowrap;
-    border-right: 1px solid var(--color-column-header-border);
+    border-bottom: 1px solid var(--border);
     cursor: pointer;
     flex: 0 0 auto;
-    transition: color 0.15s;
-    font-weight: 400;
+    font-weight: 500;
     text-align: left;
-    height: 24px;
-    background-color: var(--color-column-header-background);
-    box-shadow: 0 1px 0 var(--color-column-header-shadow);
-    color: var(--color-column-header-text);
+    height: 30px;
+    background-color: var(--background);
+    color: var(--muted-foreground);
     position: sticky;
     top: 0;
     z-index: 1;
     overflow: hidden;
     text-overflow: ellipsis;
-    padding: 0 8px;
-    transition: padding 200ms;
+    padding: 0 10px;
+    transition:
+      color 0.15s,
+      padding 200ms;
+  }
+
+  .header:hover {
+    color: var(--foreground);
   }
 
   .header.sorting {
-    color: var(--color-column-header-text-active);
-    font-weight: 700;
-    padding: 0 16px 0 8px;
+    color: var(--foreground);
+    padding: 0 18px 0 10px;
   }
 
   .header.wrap {
@@ -83,7 +86,7 @@
   }
 
   .header.sorting:after {
-    opacity: 0.5;
+    opacity: 0.6;
   }
 
   .header.asc:after {
@@ -91,12 +94,13 @@
   }
 
   .handle {
-    top: 0;
+    top: 6px;
     right: 0;
     width: 5px;
     position: absolute;
     cursor: col-resize;
     user-select: none;
-    height: 100%;
+    height: calc(100% - 12px);
+    border-right: 1px solid var(--border);
   }
 </style>

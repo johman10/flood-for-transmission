@@ -2,7 +2,7 @@
   import InputMultiple from '~components/InputMultiple';
   import InputPath from '~components/InputPath';
   import InputFile from '~components/InputFile';
-  import Icon from '~components/Icon';
+  import LoaderIcon from '@lucide/svelte/icons/loader-circle';
   import Checkbox from '~components/Checkbox';
   import Button from '~components/Button';
   import { modals, torrents, alerts, session } from '~helpers/stores';
@@ -124,7 +124,7 @@
 </ul>
 
 <div class="content" class:loading-initial={loadingInitial}>
-  <Icon name="SpinnerIcon" />
+  <LoaderIcon class="icon animate-spin" />
   <form on:submit|preventDefault={handleSubmit}>
     {#if tab === 'url'}
       <InputMultiple
@@ -164,8 +164,8 @@
 <style>
   h1 {
     color: var(--color-modal-header);
-    font-size: 20px;
-    font-weight: 500;
+    font-size: 17px;
+    font-weight: 600;
     padding: 20px 25px 0;
   }
 
@@ -212,7 +212,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    fill: var(--color-modal-loading);
+    color: var(--color-modal-loading);
   }
 
   .content > :global(.icon) {

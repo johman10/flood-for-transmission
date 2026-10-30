@@ -107,8 +107,8 @@
 </script>
 
 <form on:submit|preventDefault={handleSubmit} class="content">
-  <div class="info">
-    <h1 class="header no-padding-top">General</h1>
+  <section class="info">
+    <h1 class="header">General</h1>
 
     <div class="column column--label">Added</div>
     <div class="column column--value">
@@ -128,15 +128,13 @@
         {/each}
       {/if}
     </div>
-  </div>
 
-  <div class="inputs">
-    <div class="input-group">
+    <div class="location">
       <InputPath bind:value={location} label="Download location" />
     </div>
-  </div>
+  </section>
 
-  <div class="info">
+  <section class="info">
     <h1 class="header">Transfer</h1>
 
     <div class="column column--label">Download progress</div>
@@ -165,9 +163,42 @@
       of
       {$torrentDetails[TRANSMISSION_COLUMN.PEERS_CONNECTED]}
     </div>
-  </div>
+  </section>
 
-  <div class="inputs">
+  <section class="info">
+    <h1 class="header">Torrent</h1>
+
+    <div class="column column--label">Comment</div>
+    <div class="column column--value">
+      {$torrentDetails[TRANSMISSION_COLUMN.COMMENT]}
+    </div>
+
+    <div class="column column--label">Creation Date</div>
+    <div class="column column--value">
+      <DateRenderer value={$torrentDetails[TRANSMISSION_COLUMN.CREATED]} />
+    </div>
+
+    <div class="column column--label">Hash</div>
+    <div class="column column--value">
+      {$torrentDetails[TRANSMISSION_COLUMN.HASH]}
+    </div>
+
+    <div class="column column--label">Size</div>
+    <div class="column column--value">{size.value}{size.size}</div>
+
+    <div class="column column--label">Private</div>
+    <div class="column column--value">
+      <BooleanRenderer value={$torrentDetails[TRANSMISSION_COLUMN.PRIVATE]} />
+    </div>
+
+    <div class="column column--label">Error text</div>
+    <div class="column column--value">
+      {$torrentDetails[TRANSMISSION_COLUMN.ERROR_STRING]}
+    </div>
+  </section>
+
+  <section class="inputs">
+    <h1 class="header">Limits &amp; seeding</h1>
     <div class="input-group">
       <Checkbox
         bind:checked={downloadLimitEnabled}
@@ -241,39 +272,7 @@
         disabled={seedRatioMode !== 1}
       />
     </div>
-  </div>
-
-  <div class="info">
-    <h1 class="header">Torrent</h1>
-
-    <div class="column column--label">Comment</div>
-    <div class="column column--value">
-      {$torrentDetails[TRANSMISSION_COLUMN.COMMENT]}
-    </div>
-
-    <div class="column column--label">Creation Date</div>
-    <div class="column column--value">
-      <DateRenderer value={$torrentDetails[TRANSMISSION_COLUMN.CREATED]} />
-    </div>
-
-    <div class="column column--label">Hash</div>
-    <div class="column column--value">
-      {$torrentDetails[TRANSMISSION_COLUMN.HASH]}
-    </div>
-
-    <div class="column column--label">Size</div>
-    <div class="column column--value">{size.value}{size.size}</div>
-
-    <div class="column column--label">Private</div>
-    <div class="column column--value">
-      <BooleanRenderer value={$torrentDetails[TRANSMISSION_COLUMN.PRIVATE]} />
-    </div>
-
-    <div class="column column--label">Error text</div>
-    <div class="column column--value">
-      {$torrentDetails[TRANSMISSION_COLUMN.ERROR_STRING]}
-    </div>
-  </div>
+  </section>
 
   <div class="buttons">
     <Button type="button" priority="tertiary" on:click={setServerValues}>
@@ -287,56 +286,70 @@
 
 <style>
   .content {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    align-content: start;
+    gap: 12px;
     overflow-y: auto;
     font-size: 13px;
-    color: var(--color-modal-text);
-    line-height: 16px;
-    padding: 20px 25px;
+    line-height: 18px;
+    color: var(--muted-foreground);
+    padding: 14px 16px 20px;
     height: 100%;
   }
 
-  /* To add empty space in the bottom when scrolling */
-  .content::after {
-    content: '';
-    height: 25px;
+  .info,
+  .inputs {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--card);
+    padding: 12px 14px;
   }
 
   .info {
     display: grid;
-    grid-gap: 1px 0;
+    gap: 4px 0;
     grid-auto-rows: min-content;
-    grid-template-columns: repeat(2, minmax(136px, max-content));
-  }
-
-  .header {
-    font-size: inherit;
-    color: var(--color-modal-details-header);
-    font-weight: 700;
-    grid-column: 1 / 3;
-  }
-
-  .header.no-padding-top {
-    padding-top: 0;
+    grid-template-columns: minmax(110px, max-content) 1fr;
   }
 
   .inputs {
-    padding-top: 10px;
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 4px 16px;
   }
 
-  .input-group {
-    padding-bottom: 15px;
-    display: flex;
-    gap: 5px;
-    flex-direction: column;
+  .header {
+    grid-column: 1 / -1;
+    margin-bottom: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--muted-foreground);
   }
 
-  .inputs :global(.input-container) {
+  .location {
+    grid-column: 1 / -1;
+    margin-top: 8px;
+  }
+
+  .location :global(.input-container),
+  .inputs :global(.input-container),
+  .inputs :global(.select) {
     margin-bottom: 0;
   }
 
+  .input-group {
+    padding-bottom: 10px;
+    display: flex;
+    gap: 6px;
+    flex-direction: column;
+  }
+
   .column.column--label {
-    padding-right: 15px;
-    font-weight: 500;
+    padding-right: 12px;
     white-space: nowrap;
     grid-column: 1;
   }
@@ -345,8 +358,10 @@
     grid-column: 2;
     display: flex;
     flex-wrap: wrap;
-    column-gap: 10px;
-    row-gap: 5px;
+    column-gap: 6px;
+    row-gap: 4px;
+    min-width: 0;
+    color: var(--foreground);
     word-break: break-all;
   }
 
@@ -355,11 +370,9 @@
   }
 
   .buttons {
-    flex-grow: 1;
-    align-items: flex-end;
+    grid-column: 1 / -1;
     display: flex;
     justify-content: flex-end;
-    gap: 10px;
-    margin-top: 10px;
+    gap: 8px;
   }
 </style>

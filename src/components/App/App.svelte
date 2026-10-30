@@ -1,59 +1,73 @@
 <script>
-  import TopBar from '~components/TopBar';
+  import * as Resizable from '$lib/components/ui/resizable/index.js';
+  import * as Tooltip from '$lib/components/ui/tooltip/index.js';
+  import Toolbar from '~components/Toolbar/Toolbar.svelte';
+  import StatusBar from '~components/StatusBar/StatusBar.svelte';
+  import DetailsPane from '~components/DetailsPane/DetailsPane.svelte';
   import Panel from '~components/Panel';
   import TorrentList from '~components/TorrentList';
   import Modal from '~components/Modal';
-  import ContextMenu from '~components/ContextMenu';
   import Alerts from '~components/Alerts';
-  import { panel, darkMode, switchSpeedColors } from '~helpers/stores';
+  import {
+    panel,
+    darkMode,
+    switchSpeedColors,
+    isMobile,
+    detailsPaneRequest,
+  } from '~helpers/stores';
+
+  const DEFAULT_DETAILS_SIZE = 40;
+
+  let detailsPane = $state(null);
+
+  $effect(() => {
+    document.documentElement.classList.toggle('dark', $darkMode);
+  });
+
+  // Something asked to show details (double-click, Enter), so un-collapse
+  $effect(() => {
+    if ($detailsPaneRequest && detailsPane?.isCollapsed()) {
+      detailsPane.resize(DEFAULT_DETAILS_SIZE);
+    }
+  });
 </script>
 
-<main
-  class:panel={$panel}
-  class:dark-mode={$darkMode}
-  class:switch-speed-colors={$switchSpeedColors}
->
-  <Panel />
-  <div class="content">
-    <TopBar />
-    <TorrentList />
+<Tooltip.Provider delayDuration={500}>
+  <main
+    class="flex h-dvh overflow-hidden"
+    class:switch-speed-colors={$switchSpeedColors}
+  >
+    {#if $panel}
+      <Panel />
+    {/if}
+    <div class="flex min-w-0 flex-1 flex-col">
+      <Toolbar />
+      {#if $isMobile}
+        <div class="min-h-0 flex-1"><TorrentList /></div>
+      {:else}
+        <Resizable.PaneGroup
+          direction="vertical"
+          autoSaveId="drought-main-split"
+          class="min-h-0 flex-1"
+        >
+          <Resizable.Pane defaultSize={60} minSize={20}>
+            <TorrentList />
+          </Resizable.Pane>
+          <Resizable.Handle />
+          <Resizable.Pane
+            bind:this={detailsPane}
+            defaultSize={DEFAULT_DETAILS_SIZE}
+            minSize={15}
+            collapsible
+            collapsedSize={0}
+          >
+            <DetailsPane />
+          </Resizable.Pane>
+        </Resizable.PaneGroup>
+      {/if}
+      <StatusBar />
+    </div>
     <Modal />
-    <ContextMenu />
     <Alerts />
-  </div>
-</main>
-
-<style>
-  main {
-    display: grid;
-    grid-template: 'panel content' 1fr / 0 1fr;
-  }
-
-  main.panel {
-    grid-template: 'panel content' 1fr / 240px 1fr;
-  }
-
-  .content {
-    grid-area: content;
-    display: grid;
-    height: 100dvh;
-    grid-template:
-      'header' auto
-      'torrentlist' 1fr / 1fr;
-  }
-
-  @media (max-width: 550px) {
-    main,
-    main.panel {
-      grid-template: 'content' 1fr / 100vw;
-    }
-
-    main.panel > :global(.panel) {
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 240px;
-      z-index: 2;
-    }
-  }
-</style>
+  </main>
+</Tooltip.Provider>

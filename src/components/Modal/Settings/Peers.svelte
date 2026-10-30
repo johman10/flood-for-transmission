@@ -2,7 +2,7 @@
   import Header from './Header.svelte';
   import Checkbox from '~components/Checkbox';
   import Input from '~components/Input';
-  import Icon from '~components/Icon';
+  import LoaderIcon from '@lucide/svelte/icons/loader-circle';
   import Button from '~components/Button';
   import Select from '~components/Select';
   import { session, modals, alerts } from '~helpers/stores';
@@ -123,7 +123,7 @@
 </script>
 
 <div class="wrapper" class:loading-initial={loadingInitial}>
-  <Icon name="SpinnerIcon" />
+  <LoaderIcon class="icon animate-spin" />
   <form on:submit|preventDefault={handleSubmit}>
     <Header text="Connections" />
     <Input
@@ -187,7 +187,7 @@
   .wrapper.loading-initial {
     align-items: center;
     justify-content: center;
-    fill: var(--color-modal-loading);
+    color: var(--color-modal-loading);
   }
 
   .wrapper > :global(.icon) {

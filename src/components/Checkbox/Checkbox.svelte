@@ -3,7 +3,7 @@
 </script>
 
 <script>
-  import Icon from '~components/Icon';
+  import CheckIcon from '@lucide/svelte/icons/check';
 
   export let label = null;
   export let checked = false;
@@ -15,91 +15,36 @@
   const id = `input-checkbox-${num}`;
 </script>
 
-<div class="checkbox">
-  <label for={id} tabindex="0">
+<div class="checkbox flex flex-col gap-1">
+  <label
+    for={id}
+    class="inline-flex w-fit cursor-pointer items-center gap-2 text-sm text-foreground select-none"
+  >
     {#if group && value}
       <input
         type="checkbox"
+        class="peer sr-only"
         bind:group={group}
         value={value}
         id={id}
         on:change
       />
-      <div class="indicator" class:checked={group.includes(value)}>
-        <Icon name="CheckboxCheckmark" viewBox="0 0 18 18" />
-      </div>
     {:else}
-      <input type="checkbox" bind:checked={checked} id={id} on:change />
-      <div class="indicator" class:checked={checked}>
-        <Icon name="CheckboxCheckmark" viewBox="0 0 18 18" />
-      </div>
+      <input
+        type="checkbox"
+        class="peer sr-only"
+        bind:checked={checked}
+        id={id}
+        on:change
+      />
     {/if}
-    {#if label}<div class="label">{label}</div>{/if}
+    <span
+      class="flex size-4 shrink-0 items-center justify-center rounded-[4px] border border-input bg-background text-primary-foreground shadow-xs transition-colors peer-checked:border-primary peer-checked:bg-primary peer-focus-visible:ring-3 peer-focus-visible:ring-ring/50 dark:bg-input/30 dark:peer-checked:bg-primary [&>svg]:invisible peer-checked:[&>svg]:visible"
+      aria-hidden="true"
+    >
+      <CheckIcon class="size-3.5" strokeWidth={3} />
+    </span>
+    {#if label}<span>{label}</span>{/if}
   </label>
-  {#if hint}<div class="hint">{hint}</div>{/if}
+  {#if hint}<div class="pl-6 text-xs text-muted-foreground">{hint}</div>{/if}
 </div>
-
-<style>
-  label {
-    align-items: center;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    outline: none;
-    position: relative;
-    font-size: 14px;
-    transition: color 0.25s ease-in-out;
-  }
-
-  input {
-    visibility: hidden;
-    position: absolute;
-  }
-
-  .indicator {
-    border-radius: 4px;
-    background: var(--color-checkbox-background);
-    border: 1px solid var(--color-checkbox-border);
-    height: 18px;
-    width: 18px;
-    fill: var(--color-checkbox-mark);
-    transition-property: color, background-color, border-color, fill;
-    transition-duration: 0.25s;
-    transition-timing-function: ease-in-out;
-  }
-
-  .indicator > :global(.icon) {
-    opacity: 0;
-    transition: opacity 0.25s ease-in-out;
-  }
-
-  .label {
-    margin-left: 6px;
-  }
-
-  .checkbox:active .indicator > :global(.icon) {
-    opacity: 0.25;
-  }
-
-  .checkbox .indicator.checked > :global(.icon) {
-    opacity: 1;
-  }
-
-  .checkbox:focus,
-  .checkbox:active {
-    color: var(--color-checkbox-text-active);
-  }
-
-  .checkbox:active .indicator,
-  .checkbox:focus .indicator {
-    background-color: var(--color-checkbox-background-active);
-    border-color: var(--color-checkbox-border-active);
-    fill: var(--color-checkbox-mark-active);
-  }
-
-  .hint {
-    font-size: 12px;
-    display: block;
-    margin-top: 5px;
-  }
-</style>

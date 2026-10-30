@@ -1,9 +1,9 @@
 export { alerts } from './alerts';
 export { columns, uiColumns, transmissionColumns } from './columns';
-export { contextMenu } from './contextMenu';
 export { darkMode } from './darkMode';
 export { filters } from './filters';
 export { ipAddress } from './ipAddress';
+export { isMobile, detailsPaneRequest } from './layout';
 export { modals } from './modals';
 export { panel } from './panel';
 export { paths } from './paths';

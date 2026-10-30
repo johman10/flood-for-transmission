@@ -1,10 +1,11 @@
 <script>
   import { scale, fade } from 'svelte/transition';
-  import { cubicInOut } from 'svelte/easing';
+  import { cubicOut } from 'svelte/easing';
+  import XIcon from '@lucide/svelte/icons/x';
   import { modals } from '~helpers/stores';
 
   const handleKeydown = (event) => {
-    if (event.keyCode !== 27) return;
+    if (event.key !== 'Escape') return;
     modals.close();
   };
 </script>
@@ -12,56 +13,42 @@
 <svelte:window on:keydown={handleKeydown} />
 
 {#if $modals && $modals.component}
-  <div class="modal">
+  <div class="modal fixed inset-0 z-40" role="dialog" aria-modal="true">
     <div
-      class="backdrop"
+      class="absolute inset-0 bg-black/40 backdrop-blur-[2px]"
       on:click={modals.close}
-      transition:fade={{ duration: 250, easing: cubicInOut }}
+      transition:fade={{ duration: 150 }}
     ></div>
     <div
-      class="content"
+      class="content absolute flex flex-col overflow-hidden rounded-xl border bg-background text-foreground shadow-2xl"
       class:large={$modals.large}
-      transition:scale={{ duration: 250, easing: cubicInOut }}
+      transition:scale={{ duration: 150, start: 0.97, easing: cubicOut }}
     >
+      <button
+        class="absolute top-3 right-3 z-10 flex size-7 items-center justify-center rounded-md text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+        aria-label="Close"
+        on:click={modals.close}
+      >
+        <XIcon class="size-4" />
+      </button>
       <svelte:component this={$modals.component} {...$modals.props || {}} />
     </div>
   </div>
 {/if}
 
 <style>
-  .modal {
-    height: 100%;
-    left: 0;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 10;
-  }
-
-  .backdrop {
-    background: var(--color-modal-backdrop);
-    height: 100%;
-    width: 100%;
-  }
-
   .content {
-    background: var(--color-modal-background);
-    border-radius: 3px;
-    max-height: 80%;
-    max-width: 80%;
-    width: 500px;
-    position: absolute;
+    max-height: 85%;
+    max-width: 90%;
+    width: 520px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    flex-direction: column;
-    display: flex;
-    overflow: hidden;
   }
 
   .content.large {
-    width: 700px;
-    height: 80%;
+    width: 960px;
+    height: 85%;
   }
 
   @media (max-width: 700px) {
@@ -72,6 +59,8 @@
       transform: translate(-50%, 0);
       bottom: 0;
       top: auto;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
     }
   }
 </style>

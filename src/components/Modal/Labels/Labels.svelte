@@ -60,8 +60,8 @@
 <style>
   h1 {
     color: var(--color-modal-header);
-    font-size: 20px;
-    font-weight: 500;
+    font-size: 17px;
+    font-weight: 600;
     padding: 20px 25px 0;
   }
 

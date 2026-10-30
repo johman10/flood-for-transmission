@@ -1,5 +1,5 @@
 <script>
-  import Icon from '~components/Icon';
+  import CheckIcon from '@lucide/svelte/icons/check';
 
   export let value = false;
   export let torrentStatusClass = null;
@@ -7,13 +7,13 @@
 
 <div>
   {#if value}
-    <Icon name="Checkmark" />
+    <CheckIcon class="icon" />
   {/if}
 </div>
 
 <style>
   div > :global(.icon) {
-    fill: currentColor;
+    color: currentColor;
     height: 12px;
     margin-right: 5px;
     width: 12px;

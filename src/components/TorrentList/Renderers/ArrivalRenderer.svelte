@@ -1,5 +1,5 @@
 <script>
-  import Icon from '~components/Icon';
+  import InfinityIcon from '@lucide/svelte/icons/infinity';
 
   export let value;
   export let torrentStatusClass = null;
@@ -21,7 +21,7 @@
 
 <span>
   {#if value <= 0}
-    <Icon name="InfinityIcon" />
+    <InfinityIcon class="icon" />
   {:else if days}
     {days}
     <em>d</em>
@@ -47,7 +47,7 @@
   }
 
   span > :global(.icon) {
-    fill: currentColor;
+    color: currentColor;
     height: 13px;
     vertical-align: middle;
   }

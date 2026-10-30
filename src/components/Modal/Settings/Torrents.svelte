@@ -1,6 +1,6 @@
 <script>
   import Header from './Header.svelte';
-  import Icon from '~components/Icon';
+  import LoaderIcon from '@lucide/svelte/icons/loader-circle';
   import Input from '~components/Input';
   import InputPath from '~components/InputPath';
   import Checkbox from '~components/Checkbox';
@@ -137,7 +137,7 @@
 </script>
 
 <div class="wrapper" class:loading-initial={loadingInitial}>
-  <Icon name="SpinnerIcon" />
+  <LoaderIcon class="icon animate-spin" />
   <form on:submit|preventDefault={handleSubmit}>
     <Header text="Downloading" />
     <InputPath
@@ -218,7 +218,7 @@
   .wrapper.loading-initial {
     align-items: center;
     justify-content: center;
-    fill: var(--color-modal-loading);
+    color: var(--color-modal-loading);
   }
 
   .wrapper > :global(.icon) {

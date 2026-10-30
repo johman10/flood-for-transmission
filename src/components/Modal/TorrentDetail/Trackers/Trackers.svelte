@@ -105,42 +105,48 @@
   }
 
   table {
-    color: var(--color-modal-text);
+    color: var(--foreground);
     font-size: 13px;
     width: 100%;
+    border-collapse: collapse;
   }
 
   th {
-    color: var(--color-modal-text-light);
-    font-size: 9px;
+    height: 30px;
+    padding: 0 8px;
+    color: var(--muted-foreground);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
     text-align: left;
-    font-weight: inherit;
-    padding: 0;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
   }
 
   th.main {
-    font-size: 14px;
     display: flex;
     align-items: center;
-  }
-
-  th > :global(.badge) {
-    background: var(--color-modal-badge-background);
-    color: var(--color-modal-text);
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 13px;
+    color: var(--foreground);
   }
 
   td {
-    padding: 0;
-    line-height: 16px;
+    height: 28px;
+    padding: 0 8px;
+    white-space: nowrap;
+    border-bottom: 1px solid color-mix(in oklch, var(--border) 50%, transparent);
+  }
+
+  tbody tr:hover {
+    background: var(--accent);
   }
 
   td.tracker-name {
     display: flex;
+    align-items: center;
     gap: 8px;
-  }
-
-  td > :global(.checkbox.label) {
-    margin-left: 0;
   }
 
   .new-tracker-form {

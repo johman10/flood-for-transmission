@@ -3,7 +3,10 @@
 </script>
 
 <script>
-  import Icon from '~components/Icon';
+  import PlusIcon from '@lucide/svelte/icons/plus';
+  import MinusIcon from '@lucide/svelte/icons/minus';
+  import SearchIcon from '@lucide/svelte/icons/search';
+  import { cn } from '$lib/utils.js';
 
   num += 1;
 
@@ -12,10 +15,23 @@
   export let type = 'text';
   export let hint = null;
   export let validationMessage = '';
+  // [{ iconName: 'Add' | 'Remove' | 'Search', onClick, label? }]
   export let addons = [];
   export let input = null;
   export let id = `input-text-${num}`;
   export let disabled = false;
+
+  const ADDON_ICONS = { Add: PlusIcon, Remove: MinusIcon, Search: SearchIcon };
+  const ADDON_LABELS = { Add: 'Add', Remove: 'Remove', Search: 'Browse' };
+
+  const SUPPORTED_TYPES = ['text', 'number', 'time', 'url'];
+  $: if (!SUPPORTED_TYPES.includes(type)) {
+    console.error(`Invalid type received, ${type}`);
+  }
+
+  $: addonCount = addons.length + ($$slots.addon ? 1 : 0);
+  // A class passed by the parent is merged instead of replacing the styling
+  $: ({ class: extraClass, ...inputProps } = $$restProps);
 
   const handleInvalid = (e) => {
     if (!validationMessage) return;
@@ -23,205 +39,49 @@
   };
 </script>
 
-<div class="input-container">
-  {#if label}<label class="label" for={id}>{label}</label>{/if}
-  <div class="input-wrapper" style="--addon-count: {addons.length};">
-    {#if type === 'text'}
-      <input
-        class="input"
-        id={id}
-        type="text"
-        bind:this={input}
-        on:invalid={handleInvalid}
-        on:input={(e) => e.target.setCustomValidity('')}
-        on:paste
-        bind:value={value}
-        disabled={disabled}
-        {...$$restProps}
-      />
-    {:else if type === 'number'}
-      <input
-        class="input"
-        id={id}
-        type="number"
-        bind:this={input}
-        on:invalid={handleInvalid}
-        on:input={(e) => e.target.setCustomValidity('')}
-        on:paste
-        bind:value={value}
-        disabled={disabled}
-        {...$$restProps}
-      />
-    {:else if type === 'time'}
-      <input
-        class="input"
-        id={id}
-        type="time"
-        bind:this={input}
-        on:invalid={handleInvalid}
-        on:input={(e) => e.target.setCustomValidity('')}
-        on:paste
-        bind:value={value}
-        disabled={disabled}
-        {...$$restProps}
-      />
-    {:else if type === 'url'}
-      <input
-        class="input"
-        id={id}
-        type="url"
-        bind:this={input}
-        on:invalid={handleInvalid}
-        on:input={(e) => e.target.setCustomValidity('')}
-        on:paste
-        bind:value={value}
-        disabled={disabled}
-        {...$$restProps}
-      />
-    {:else}{console.error(`Invalid type received, ${type}`)}{/if}
-    {#each addons as addon, index (addon.iconName)}
-      <div
-        class="addon"
-        on:click={!disabled ? addon.onClick : undefined}
-        style="--index: {index}; --icon-size: {addon.iconSize};"
-      >
-        <Icon name={addon.iconName} />
+<div class="input-container mb-3 flex flex-col gap-1.5">
+  {#if label}
+    <label class="truncate text-xs font-medium text-muted-foreground" for={id}>
+      {label}
+    </label>
+  {/if}
+  <div class="relative">
+    <input
+      class={cn(
+        'input h-8 w-full min-w-0 rounded-md border border-input bg-background px-2.5 text-sm text-foreground shadow-xs transition-[color,box-shadow] outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/30 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive dark:bg-input/30 [&:user-invalid]:border-destructive',
+        extraClass
+      )}
+      style:padding-right={addonCount ? `${addonCount * 28 + 6}px` : null}
+      id={id}
+      {...{ type }}
+      bind:this={input}
+      on:invalid={handleInvalid}
+      on:input={(e) => e.target.setCustomValidity('')}
+      on:paste
+      bind:value={value}
+      disabled={disabled}
+      {...inputProps}
+    />
+    {#if addonCount}
+      <div class="absolute inset-y-0 right-1 flex items-center gap-0.5">
+        {#each addons as addon (addon.iconName)}
+          <button
+            type="button"
+            class="flex size-6 items-center justify-center rounded text-muted-foreground hover:bg-accent hover:text-accent-foreground disabled:pointer-events-none disabled:opacity-50"
+            aria-label={addon.label ?? ADDON_LABELS[addon.iconName]}
+            title={addon.label ?? ADDON_LABELS[addon.iconName]}
+            disabled={disabled}
+            on:click={addon.onClick}
+          >
+            <svelte:component
+              this={ADDON_ICONS[addon.iconName]}
+              class="size-3.5"
+            />
+          </button>
+        {/each}
+        <slot name="addon" />
       </div>
-    {/each}
+    {/if}
   </div>
-  {#if hint}<span class="hint">{hint}</span>{/if}
+  {#if hint}<span class="hint text-xs text-muted-foreground">{hint}</span>{/if}
 </div>
-
-<style>
-  .input-container {
-    margin-bottom: 15px;
-  }
-
-  label {
-    display: block;
-    font-size: 13px;
-    margin-bottom: 3px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .input-wrapper {
-    position: relative;
-  }
-
-  .input-wrapper:focus-within .addon {
-    fill: var(--color-input-addon-icon-active);
-    border-left-color: var(--color-input-addon-border-active);
-  }
-
-  .input-wrapper .addon {
-    position: absolute;
-    right: calc(var(--index) * 34px);
-    top: 0;
-    height: 34px;
-    width: 34px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-left: solid 1px var(--color-input-addon-border);
-    transition:
-      fill 125ms,
-      border 125ms;
-    cursor: pointer;
-    fill: var(--color-input-addon-icon);
-  }
-
-  .input-wrapper .addon:hover {
-    fill: var(--color-input-addon-icon-active);
-  }
-
-  .input-wrapper .addon > :global(.icon) {
-    height: var(--icon-size);
-  }
-
-  input {
-    background: var(--color-input-background);
-    border: 1px solid var(--color-input-border);
-    color: var(--color-input-text);
-    width: 100%;
-    font-size: 14px;
-    height: 34px;
-    outline: none;
-    padding: 0 calc(var(--addon-count) * 32px + 12px) 0 12px;
-    border-radius: 4px;
-    transition-property: background-color, border-color, color;
-    transition-duration: 0.25s;
-    transition-timing-function: ease-in-out;
-  }
-
-  input::placeholder {
-    color: var(--color-input-placeholder);
-  }
-
-  input:hover {
-    border-color: var(--color-input-border-hover);
-    color: var(--color-input-text-hover);
-  }
-
-  input:active,
-  input:focus {
-    background-color: var(--color-input-background-active);
-    border-color: var(--color-input-border-active);
-    color: var(--color-input-text-active);
-  }
-
-  input:disabled {
-    background-color: var(--color-input-background-disabled);
-    border-color: var(--color-input-border-disabled);
-    color: var(--color-input-text-disabled);
-  }
-
-  input::-webkit-outer-spin-button,
-  input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-
-  input::-webkit-calendar-picker-indicator {
-    background: -webkit-image-set(
-      url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSIjODg5OUE4IiBkPSJNMTEuOTkgMkM2LjQ3IDIgMiA2LjQ4IDIgMTJzNC40NyAxMCA5Ljk5IDEwQzE3LjUyIDIyIDIyIDE3LjUyIDIyIDEyUzE3LjUyIDIgMTEuOTkgMnpNMTIgMjBjLTQuNDIgMC04LTMuNTgtOC04czMuNTgtOCA4LTggOCAzLjU4IDggOC0zLjU4IDgtOCA4eiIvPjxwYXRoIGQ9Ik0wIDBoMjR2MjRIMHoiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNMTIuNSA3SDExdjZsNS4yNSAzLjE1Ljc1LTEuMjMtNC41LTIuNjd6IiBmaWxsPSIjODg5OUE4IiAvPjwvc3ZnPg==')
-        1x
-    );
-    background-origin: content-box;
-    background-size: contain;
-    background-repeat: no-repeat;
-    cursor: pointer;
-  }
-
-  input:hover::-webkit-calendar-picker-indicator {
-    background: -webkit-image-set(
-      url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSIjZDJkOGRlIiBkPSJNMTEuOTkgMkM2LjQ3IDIgMiA2LjQ4IDIgMTJzNC40NyAxMCA5Ljk5IDEwQzE3LjUyIDIyIDIyIDE3LjUyIDIyIDEyUzE3LjUyIDIgMTEuOTkgMnpNMTIgMjBjLTQuNDIgMC04LTMuNTgtOC04czMuNTgtOCA4LTggOCAzLjU4IDggOC0zLjU4IDgtOCA4eiIvPjxwYXRoIGQ9Ik0wIDBoMjR2MjRIMHoiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNMTIuNSA3SDExdjZsNS4yNSAzLjE1Ljc1LTEuMjMtNC41LTIuNjd6IiBmaWxsPSIjZDJkOGRlIiAvPjwvc3ZnPg==')
-        1x
-    );
-    background-origin: content-box;
-    background-size: contain;
-    background-repeat: no-repeat;
-  }
-
-  input:active::-webkit-calendar-picker-indicator,
-  input:focus::-webkit-calendar-picker-indicator {
-    background: -webkit-image-set(
-      url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNCIgaGVpZ2h0PSIxNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSIjZjZmYWZlIiBkPSJNMTEuOTkgMkM2LjQ3IDIgMiA2LjQ4IDIgMTJzNC40NyAxMCA5Ljk5IDEwQzE3LjUyIDIyIDIyIDE3LjUyIDIyIDEyUzE3LjUyIDIgMTEuOTkgMnpNMTIgMjBjLTQuNDIgMC04LTMuNTgtOC04czMuNTgtOCA4LTggOCAzLjU4IDggOC0zLjU4IDgtOCA4eiIvPjxwYXRoIGQ9Ik0wIDBoMjR2MjRIMHoiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNMTIuNSA3SDExdjZsNS4yNSAzLjE1Ljc1LTEuMjMtNC41LTIuNjd6IiBmaWxsPSIjZjZmYWZlIiAvPjwvc3ZnPg==')
-        1x
-    );
-    background-origin: content-box;
-    background-size: contain;
-    background-repeat: no-repeat;
-  }
-
-  input[type='number'] {
-    -moz-appearance: textfield;
-  }
-
-  .hint {
-    font-size: 12px;
-    display: block;
-    margin-top: 5px;
-  }
-</style>

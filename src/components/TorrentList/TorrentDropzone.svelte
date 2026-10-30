@@ -13,7 +13,7 @@
     getFileAddBody,
     areAllFilesValid,
   } from '~helpers/fileHelper';
-  import Icon from '~components/Icon';
+  import FilesIcon from '@lucide/svelte/icons/files';
 
   let hovering = false;
   let counter = 0;
@@ -100,7 +100,7 @@
   on:drop|preventDefault={handleDrop}
 >
   <div class="dropzone-content">
-    <Icon name="Files" />
+    <FilesIcon class="icon" />
     Drop here to add them to Transmission.
   </div>
   <input type="file" id={id} bind:this={input} multiple />
@@ -125,12 +125,11 @@
 
   .dropzone:before {
     content: '';
-    inset: 20px;
-    width: calc(100% - 40px);
-    height: calc(100% - 40px);
     position: absolute;
-    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='30' ry='30' stroke='rgb(112, 133, 158)' stroke-width='15' stroke-dasharray='25' stroke-dashoffset='0' stroke-linecap='butt'/%3e%3c/svg%3e");
-    border-radius: 30px;
+    inset: 16px;
+    border: 2px dashed var(--primary);
+    border-radius: 16px;
+    background: color-mix(in oklch, var(--primary) 6%, transparent);
   }
 
   .dropzone-content {
@@ -144,7 +143,7 @@
   .dropzone-content > :global(.icon) {
     height: 56px;
     width: 56px;
-    fill: var(--color-input-file-icon-active);
+    color: var(--primary);
   }
 
   input {

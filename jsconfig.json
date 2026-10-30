@@ -3,7 +3,9 @@
     "baseUrl": "./src",
     "paths": {
       "~components/*": ["./components/*"],
-      "~helpers/*": ["./helpers/*"]
+      "~helpers/*": ["./helpers/*"],
+      "$lib": ["./lib"],
+      "$lib/*": ["./lib/*"]
     }
   }
 }

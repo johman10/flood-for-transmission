@@ -1,9 +1,12 @@
+<script context="module">
+  let num = 0;
+</script>
+
 <script>
   import { createEventDispatcher } from 'svelte';
-  import { clickOutside } from '~helpers/actions';
-  import Icon from '~components/Icon';
-  import Button from '~components/Button';
-  import { fly } from 'svelte/transition';
+  import ChevronDownIcon from '@lucide/svelte/icons/chevron-down';
+  import CheckIcon from '@lucide/svelte/icons/check';
+  import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
 
   export let options;
   export let placeholder = '';
@@ -11,141 +14,40 @@
   export let value = null;
   export let label = null;
 
-  let open = false;
-  let optionsStyle;
-  let optionsElement;
-  let selectElement;
-
+  num += 1;
+  const id = `select-${num}`;
   const dispatch = createEventDispatcher();
 
-  const handleChange = (newValue) => {
-    open = false;
-    dispatch('change', newValue);
-  };
-
-  $: {
-    if (open && selectElement) {
-      const { x, y, width, height } = selectElement.getBoundingClientRect();
-      if (direction === 'above') {
-        optionsStyle = `left: ${x}px; top: ${y}px; width: ${width}px; transform: translateY(calc(-100% - 5px));`;
-      } else if (direction === 'below') {
-        optionsStyle = `left: ${x}px; top: ${y + height}px; width: ${width}px;`;
-      }
-    }
-  }
-
-  $: {
-    if (optionsElement) {
-      document.body.appendChild(optionsElement);
-    }
-  }
+  $: selectedLabel = options.find((option) => option.value === value)?.label;
 </script>
 
-<div
-  class="select"
-  bind:this={selectElement}
-  use:clickOutside={() => {
-    open = false;
-  }}
->
+<div class="select mb-3 flex flex-col gap-1.5">
   {#if label}
-    <div class="label" on:click={() => (open = !open)}>{label}</div>
+    <label class="truncate text-xs font-medium text-muted-foreground" for={id}>
+      {label}
+    </label>
   {/if}
-
-  <Button on:click={() => (open = !open)} priority="quaternary">
-    <div class="content">
-      {options.find((option) => option.value === value)?.label || placeholder}
-    </div>
-    <div class="arrow" class:open={open}>
-      <Icon name="Chevron" />
-    </div>
-  </Button>
-
-  {#if open}
-    <div
-      bind:this={optionsElement}
-      class="options"
-      class:above={direction === 'above'}
-      class:below={direction === 'below'}
-      style={optionsStyle}
-      transition:fly={{ duration: 125, y: -20 }}
+  <DropdownMenu.Root>
+    <DropdownMenu.Trigger
+      id={id}
+      class="flex h-8 w-full items-center justify-between gap-2 rounded-md border border-input bg-background px-2.5 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/30 data-[state=open]:border-ring dark:bg-input/30"
+    >
+      <span class="truncate {selectedLabel ? '' : 'text-muted-foreground'}">
+        {selectedLabel || placeholder}
+      </span>
+      <ChevronDownIcon class="size-4 shrink-0 text-muted-foreground" />
+    </DropdownMenu.Trigger>
+    <DropdownMenu.Content
+      side={direction === 'above' ? 'top' : 'bottom'}
+      align="start"
+      class="w-(--bits-dropdown-menu-anchor-width) min-w-32"
     >
       {#each options as option (option.label)}
-        <div class="option" on:click={handleChange(option.value)}>
-          {option.label}
-        </div>
+        <DropdownMenu.Item onSelect={() => dispatch('change', option.value)}>
+          <span class="flex-1">{option.label}</span>
+          {#if option.value === value}<CheckIcon />{/if}
+        </DropdownMenu.Item>
       {/each}
-    </div>
-  {/if}
+    </DropdownMenu.Content>
+  </DropdownMenu.Root>
 </div>
-
-<style>
-  .select {
-    position: relative;
-  }
-
-  .select > :global(.button) {
-    fill: var(--color-select-icon);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0;
-    width: 100%;
-  }
-
-  .label {
-    display: block;
-    font-size: 13px;
-    margin-bottom: 3px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    cursor: pointer;
-  }
-
-  .content {
-    padding: 5px 12px;
-  }
-
-  .arrow {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 34px;
-    height: 100%;
-    border-left: solid 1px var(--color-select-border);
-    transition: transform 250ms;
-  }
-
-  .arrow.open {
-    transform: rotate(180deg);
-  }
-
-  .options {
-    position: absolute;
-    z-index: 10;
-    background-color: var(--color-select-option-background);
-    color: #fff;
-    padding: 9px 0;
-    border-radius: 5px;
-  }
-
-  .options.above {
-    transform: translateY(calc(-100% - 5px));
-  }
-
-  .options.below {
-    transform: translateY(5px);
-  }
-
-  .option {
-    cursor: pointer;
-    padding: 6px 12px;
-    transition: background-color 0.125s;
-    font-size: 14px;
-  }
-
-  .option:hover {
-    background-color: var(--color-select-option-background-hover);
-  }
-</style>

@@ -23,6 +23,9 @@
       case -2:
         label = "Don't download";
         break;
+      case null:
+        label = 'Mixed';
+        break;
       default:
         label = 'Invalid';
         break;
@@ -37,7 +40,9 @@
 
   const handleClick = () => {
     let newPriority = value + 1;
-    if (newPriority > 1 && allowDisabled) {
+    if (value === null) {
+      newPriority = 0;
+    } else if (newPriority > 1 && allowDisabled) {
       newPriority = -2;
     } else if (newPriority > 1) {
       newPriority = -1;
@@ -52,7 +57,7 @@
   bind:this={element}
   title={showLabel ? undefined : label}
 >
-  <div class="slider level-{value}"></div>
+  <div class="slider level-{value ?? 'mixed'}"></div>
   {#if showLabel}<span class="label">{label}</span>{/if}
 </div>
 
@@ -112,6 +117,14 @@
 
   .slider.level--2 {
     --color: var(--color-priority-off);
+  }
+
+  .slider.level-mixed {
+    --color: var(--color-priority-normal);
+  }
+
+  .slider.level-mixed::after {
+    display: none;
   }
 
   .slider.level-1::after {
